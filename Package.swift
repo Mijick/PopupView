@@ -5,6 +5,9 @@ import PackageDescription
 
 let package = Package(
     name: "PopupView",
+    platforms: [
+        .iOS(.v15)
+    ],
     products: [
         .library(name: "PopupView", targets: ["PopupView"])
     ],
