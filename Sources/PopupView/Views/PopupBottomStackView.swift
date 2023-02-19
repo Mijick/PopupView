@@ -11,7 +11,7 @@
 import SwiftUI
 
 extension PopupBottomStackView {
-    struct Config {
+    public struct Config {
         var contentIgnoresSafeArea: Bool = false
 
         var horizontalPadding: CGFloat = 0
@@ -31,7 +31,7 @@ extension PopupBottomStackView {
     }
 }
 
-struct PopupBottomStackView: View {
+public struct PopupBottomStackView: View {
     let items: [AnyPopup]
     let closingAction: () -> ()
     var config: Config = .init()
@@ -39,12 +39,12 @@ struct PopupBottomStackView: View {
     @State private var gestureTranslation: CGFloat = 0
 
 
-    init(items: [AnyPopup], closingAction: @escaping () -> (), configBuilder: (inout Config) -> ()) {
+    public init(items: [AnyPopup], closingAction: @escaping () -> (), configBuilder: (inout Config) -> ()) {
         self.items = items
         self.closingAction = closingAction
         configBuilder(&config)
     }
-    var body: some View {
+    public var body: some View {
         ZStack(alignment: .top, content: createPopupStack)
             .frame(width: UIScreen.width, height: UIScreen.height)
             .ignoresSafeArea()

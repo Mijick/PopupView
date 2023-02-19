@@ -10,19 +10,19 @@
 
 import SwiftUI
 
-protocol PopupProtocol: Identifiable, Hashable, Equatable {
+public protocol PopupProtocol: Identifiable, Hashable, Equatable {
     var id: String { get }
     var view: AnyView { get }
 }
-extension PopupProtocol {
+public extension PopupProtocol {
     static func ==(lhs: Self, rhs: Self) -> Bool { lhs.id == rhs.id }
     func hash(into hasher: inout Hasher) { hasher.combine(id) }
 }
 
 // MARK: -Any Implementation
-struct AnyPopup: PopupProtocol {
-    let id: String
-    let view: AnyView
+public struct AnyPopup: PopupProtocol {
+    public let id: String
+    public let view: AnyView
 
     init(id: String, @ViewBuilder _ builder: () -> some View) {
         self.id = id
