@@ -50,7 +50,7 @@ public struct PopupBottomStackView: View {
             .frame(width: UIScreen.width, height: UIScreen.height)
             .ignoresSafeArea()
             .background(createViewOverlay())
-            .animation(transitionAnimation, value: items.count)
+            .animation(transitionAnimation, value: items)
             .animation(transitionAnimation, value: heights)
             .animation(dragGestureAnimation, value: gestureTranslation)
             .simultaneousGesture(popupDragGesture)
