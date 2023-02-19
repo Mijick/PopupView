@@ -11,27 +11,27 @@
 import SwiftUI
 
 extension PopupBottomStackView {
-    struct Config {
-        var contentIgnoresSafeArea: Bool = false
+    public struct Config {
+        public var contentIgnoresSafeArea: Bool = false
 
-        var horizontalPadding: CGFloat = 0
-        var bottomPadding: CGFloat = 0
-        var stackedViewsOffset: CGFloat = 12
-        var stackedViewsScale: CGFloat = 0.09
-        var stackedViewsCornerRadius: CGFloat = 10
-        var activeViewCornerRadius: CGFloat = 32
-        var maxStackedElements: Int = 4
-        var dragGestureProgressToClose: CGFloat = 1/3
+        public var horizontalPadding: CGFloat = 0
+        public var bottomPadding: CGFloat = 0
+        public var stackedViewsOffset: CGFloat = 12
+        public var stackedViewsScale: CGFloat = 0.09
+        public var stackedViewsCornerRadius: CGFloat = 10
+        public var activeViewCornerRadius: CGFloat = 32
+        public var maxStackedElements: Int = 4
+        public var dragGestureProgressToClose: CGFloat = 1/3
 
-        var viewOverlayColour: Color = .black.opacity(0.6)
-        var backgroundColour: Color = .white
+        public var viewOverlayColour: Color = .black.opacity(0.6)
+        public var backgroundColour: Color = .white
 
         var transitionAnimation: Animation { .spring(response: 0.44, dampingFraction: 1, blendDuration: 0.4) }
         var dragGestureAnimation: Animation { .interactiveSpring() }
     }
 }
 
-struct PopupBottomStackView: View {
+public struct PopupBottomStackView: PopUpViewProtocol {
     let items: [AnyPopup]
     let closingAction: () -> ()
     var config: Config = .init()
@@ -44,7 +44,7 @@ struct PopupBottomStackView: View {
         self.closingAction = closingAction
         configBuilder(&config)
     }
-    var body: some View {
+    public var body: some View {
         ZStack(alignment: .top, content: createPopupStack)
             .frame(width: UIScreen.width, height: UIScreen.height)
             .ignoresSafeArea()

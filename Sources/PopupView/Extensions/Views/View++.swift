@@ -10,6 +10,19 @@
 
 import SwiftUI
 
+public extension View {
+    func openFromBottom(configBuilder: (inout PopupBottomStackView.Config) -> ()) {
+        let popUp = AnyPopup(id: String(describing: self)) { self }
+        PopupManager.shared.openFromBottom(view: popUp, configBuilder: configBuilder)
+    }
+   func setupPopUpPresenting() -> some View {
+        return ZStack {
+            self
+            if let item = PopupManager.shared.popUpStack?.content() { item }
+        }
+    }
+}
+
 // MARK: -Alignments
 extension View {
     func alignToBottom(_ value: CGFloat = 0) -> some View {

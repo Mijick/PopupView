@@ -10,8 +10,7 @@
 import SwiftUI
 
 public class PopupManager: ObservableObject {
-    private let viewsManager = ViewsManager()
-    //internal var activeView: CustomPopupView? { viewsManager.activeView }
+    @Published var popUpStack: (any PopUpViewProtocol)? = nil 
     public static let shared = PopupManager()
     
     
@@ -19,10 +18,33 @@ public class PopupManager: ObservableObject {
 }
 
 public extension PopupManager {
-    //func close() { viewsManager.delete() }
-    //func closeAll() { viewsManager.clear() }
+    func close() { popUpStack = popUpStack?.close() }
+    func closAll() { popUpStack = nil }
 }
 
 extension PopupManager {
-    //func open(_ view: AnyView, id: String, completion: Modification? = nil) { viewsManager.add(view, id: id, with: completion?(.init())) }
+    func openFromBottom(view: AnyPopup, configBuilder: (inout PopupBottomStackView.Config) -> ()) {
+        guard let items = try? getItems(view) else { return }
+        popUpStack = PopupBottomStackView(items: items, closingAction: { [weak self] in self?.close() }, configBuilder: configBuilder)
+    }
+}
+
+private extension PopupManager {
+    func getItems(_ view: AnyPopup? = nil) throws -> [AnyPopup] {
+        switch view {
+            case .some(let view):
+            guard popUpStack == nil || popUpStack?.items.contains(view) == false else { throw ErrorType.repetitiveElement }
+                return (popUpStack?.items ?? []) + [view]
+                
+            case .none:
+                var items = popUpStack?.items ?? []
+                items.removeLast()
+                return items
+            }
+    }
+}
+
+
+private extension PopupManager {
+    enum ErrorType: Error { case repetitiveElement }
 }
