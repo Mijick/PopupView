@@ -63,6 +63,7 @@ private extension PopupCentreStackView {
     }
 }
 
+// MARK: -Logic Handlers
 private extension PopupCentreStackView {
     func onDisappear() {
         height = 0
@@ -72,6 +73,7 @@ private extension PopupCentreStackView {
     }
 }
 
+// MARK: -View Handlers
 private extension PopupCentreStackView {
     func getHeight(_ value: CGFloat) { height = value }
 }
