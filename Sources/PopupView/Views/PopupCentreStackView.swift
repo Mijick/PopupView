@@ -39,7 +39,6 @@ public struct PopupCentreStackView: View {
     public var body: some View {
         ZStack(content: createPopup)
             .frame(width: UIScreen.width, height: UIScreen.height)
-            .ignoresSafeArea()
             .background(createViewOverlay())
             .animation(transitionAnimation, value: item)
     }
