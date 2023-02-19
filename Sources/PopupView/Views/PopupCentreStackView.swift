@@ -68,5 +68,5 @@ private extension PopupCentreStackView {
     var viewOverlayColour: Color { config.viewOverlayColour }
     var backgroundColour: Color { config.backgroundColour }
     var transitionAnimation: Animation { config.transitionAnimation }
-    var transition: AnyTransition { .move(edge: .bottom) }
+    var transition: AnyTransition { .scale(scale: 0.6).combined(with: .opacity) }
 }
