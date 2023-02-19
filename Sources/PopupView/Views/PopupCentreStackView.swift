@@ -37,7 +37,12 @@ public struct PopupCentreStackView: View {
         configBuilder(&config)
     }
     public var body: some View {
-        EmptyView()
+        item.view
+            .frame(width: width)
+            .background(backgroundColour)
+            .cornerRadius(cornerRadius)
+            .transition(transition)
+            .zIndex(1)
     }
 }
 
