@@ -12,15 +12,15 @@ import SwiftUI
 
 public extension PopupCentreStackView {
     struct Config {
-        var tapOutsideClosesView: Bool = false
+        public var tapOutsideClosesView: Bool = false
         
-        var horizontalPadding: CGFloat = 0
-        var cornerRadius: CGFloat = 32
+        public var horizontalPadding: CGFloat = 0
+        public var cornerRadius: CGFloat = 32
         
-        var viewOverlayColour: Color = .black.opacity(0.6)
-        var backgroundColour: Color = .white
+        public var viewOverlayColour: Color = .black.opacity(0.6)
+        public var backgroundColour: Color = .white
         
-        var transitionAnimation: Animation { .spring(response: 0.44, dampingFraction: 1, blendDuration: 0.4) }
+        public var transitionAnimation: Animation { .spring(response: 0.44, dampingFraction: 1, blendDuration: 0.4) }
     }
 }
 
