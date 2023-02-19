@@ -12,4 +12,5 @@ import Foundation
 
 extension Bool {
     var doubleValue: Double { self ? 1 : 0 }
+    var floatValue: CGFloat { self ? 1 : 0 }
 }

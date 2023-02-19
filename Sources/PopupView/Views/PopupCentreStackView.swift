@@ -12,59 +12,77 @@ import SwiftUI
 
 public extension PopupCentreStackView {
     struct Config {
-        public var tapOutsideClosesView: Bool = false
-        
-        public var horizontalPadding: CGFloat = 0
+        public var tapOutsideClosesView: Bool = true
+
+        public var horizontalPadding: CGFloat = 12
         public var cornerRadius: CGFloat = 32
-        
+
         public var viewOverlayColour: Color = .black.opacity(0.6)
         public var backgroundColour: Color = .white
-        
-        public var transitionAnimation: Animation { .spring(response: 0.44, dampingFraction: 1, blendDuration: 0.4) }
+
+        public var transitionAnimation: Animation { .spring(response: 0.34, dampingFraction: 1, blendDuration: 0.28) }
     }
 }
 
 
 public struct PopupCentreStackView: View {
-    let item: AnyPopup
+    let items: [AnyPopup]
     let closingAction: () -> ()
     var config: Config = .init()
-    
+    @State private var height: CGFloat = 0
 
-    public init(item: AnyPopup, closingAction: @escaping () -> (), configBuilder: (inout Config) -> ()) {
-        self.item = item
+
+    public init(items: [AnyPopup], closingAction: @escaping () -> (), configBuilder: (inout Config) -> ()) {
+        self.items = items
         self.closingAction = closingAction
         configBuilder(&config)
     }
     public var body: some View {
-        ZStack(content: createPopup)
+        createPopup()
             .frame(width: UIScreen.width, height: UIScreen.height)
-            .ignoresSafeArea()
             .background(createViewOverlay())
-            .animation(transitionAnimation, value: item)
+            .animation(transitionAnimation, value: height)
+            .onDisappear(perform: onDisappear)
     }
 }
 
 private extension PopupCentreStackView {
     func createPopup() -> some View {
-        item.view
-            .frame(width: width)
+        items.last?.view
+            .readHeight(onChange: getHeight)
+            .frame(width: width, height: height)
             .background(backgroundColour)
             .cornerRadius(cornerRadius)
-            .transition(transition)
-            .zIndex(1)
+            .opacity(opacity)
     }
     func createViewOverlay() -> some View {
         viewOverlayColour
+            .transition(.opacity)
+            .ignoresSafeArea()
+            .onTapGesture(perform: onOverlayTap)
     }
-
 }
 
 private extension PopupCentreStackView {
-    var width: CGFloat { UIScreen.width - config.horizontalPadding * 2 }
+    func onDisappear() {
+        height = 0
+    }
+    func onOverlayTap() {
+        if config.tapOutsideClosesView { closingAction() }
+    }
+}
+
+private extension PopupCentreStackView {
+    func getHeight(_ value: CGFloat) { height = value }
+}
+
+private extension PopupCentreStackView {
+    var width: CGFloat { max(0, UIScreen.width - config.horizontalPadding * 2 - widthAnimationStartValue * 2 * height.isZero.floatValue) }
+    var widthAnimationStartValue: CGFloat { 66 }
+    var opacity: Double { (!height.isZero).doubleValue }
     var cornerRadius: CGFloat { config.cornerRadius }
     var viewOverlayColour: Color { config.viewOverlayColour }
     var backgroundColour: Color { config.backgroundColour }
     var transitionAnimation: Animation { config.transitionAnimation }
-    var transition: AnyTransition { .scale(scale: 0.6).combined(with: .opacity) }
+    var transition: AnyTransition { .asymmetric(insertion: .identity, removal: .scale) }
 }
