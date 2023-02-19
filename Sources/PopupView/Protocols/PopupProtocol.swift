@@ -24,7 +24,7 @@ public struct AnyPopup: PopupProtocol {
     public let id: String
     public let view: AnyView
 
-    init(id: String, @ViewBuilder _ builder: () -> some View) {
+    public init(id: String, @ViewBuilder _ builder: () -> some View) {
         self.id = id
         self.view = AnyView(builder())
     }

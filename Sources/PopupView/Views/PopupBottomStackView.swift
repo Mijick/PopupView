@@ -12,22 +12,22 @@ import SwiftUI
 
 extension PopupBottomStackView {
     public struct Config {
-        var contentIgnoresSafeArea: Bool = false
+        public var contentIgnoresSafeArea: Bool = false
 
-        var horizontalPadding: CGFloat = 0
-        var bottomPadding: CGFloat = 0
-        var stackedViewsOffset: CGFloat = 12
-        var stackedViewsScale: CGFloat = 0.09
-        var stackedViewsCornerRadius: CGFloat = 10
-        var activeViewCornerRadius: CGFloat = 32
-        var maxStackedElements: Int = 4
-        var dragGestureProgressToClose: CGFloat = 1/3
+        public var horizontalPadding: CGFloat = 0
+        public var bottomPadding: CGFloat = 0
+        public var stackedViewsOffset: CGFloat = 12
+        public var stackedViewsScale: CGFloat = 0.09
+        public var stackedViewsCornerRadius: CGFloat = 10
+        public var activeViewCornerRadius: CGFloat = 32
+        public var maxStackedElements: Int = 4
+        public var dragGestureProgressToClose: CGFloat = 1/3
 
-        var viewOverlayColour: Color = .black.opacity(0.6)
-        var backgroundColour: Color = .white
+        public var viewOverlayColour: Color = .black.opacity(0.6)
+        public var backgroundColour: Color = .white
 
-        var transitionAnimation: Animation { .spring(response: 0.44, dampingFraction: 1, blendDuration: 0.4) }
-        var dragGestureAnimation: Animation { .interactiveSpring() }
+        public var transitionAnimation: Animation { .spring(response: 0.44, dampingFraction: 1, blendDuration: 0.4) }
+        public var dragGestureAnimation: Animation { .interactiveSpring() }
     }
 }
 
