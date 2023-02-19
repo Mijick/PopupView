@@ -40,7 +40,7 @@ public struct PopupCentreStackView: View {
         ZStack(content: createPopup)
             .frame(width: UIScreen.width, height: UIScreen.height)
             .background(createViewOverlay())
-            .animation(transitionAnimation, value: item)
+            .animation(transitionAnimation, value: item.id)
     }
 }
 
