@@ -42,6 +42,7 @@ public struct PopupCentreStackView: View {
             .background(backgroundColour)
             .cornerRadius(cornerRadius)
             .transition(transition)
+            .overlay(createViewOverlay())
             .zIndex(1)
     }
 }
@@ -54,6 +55,9 @@ private extension PopupCentreStackView {
             .cornerRadius(cornerRadius)
             .transition(transition)
             .zIndex(1)
+    }
+    func createViewOverlay() -> some View {
+        viewOverlayColour
     }
 
 }
