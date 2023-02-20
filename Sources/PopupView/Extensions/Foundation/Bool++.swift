@@ -3,7 +3,7 @@
 //
 //  Created by Tomasz Kurylik
 //    - Twitter: https://twitter.com/tkurylik
-//    - Mail: fulcrumone@icloud.com
+//    - Mail: tomasz.kurylik@mijick.com
 //
 //  Copyright ©2023 Mijick. Licensed under MIT License.
 
@@ -12,4 +12,5 @@ import Foundation
 
 extension Bool {
     var doubleValue: Double { self ? 1 : 0 }
+    var floatValue: CGFloat { self ? 1 : 0 }
 }

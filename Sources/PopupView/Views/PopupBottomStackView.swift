@@ -3,35 +3,36 @@
 //
 //  Created by Tomasz Kurylik
 //    - Twitter: https://twitter.com/tkurylik
-//    - Mail: fulcrumone@icloud.com
+//    - Mail: tomasz.kurylik@mijick.com
 //
 //  Copyright ©2023 Mijick. Licensed under MIT License.
 
 
 import SwiftUI
 
-extension PopupBottomStackView {
+public extension PopupBottomStackView {
     struct Config {
-        var contentIgnoresSafeArea: Bool = false
+        public var contentIgnoresSafeArea: Bool = false
 
-        var horizontalPadding: CGFloat = 0
-        var bottomPadding: CGFloat = 0
-        var stackedViewsOffset: CGFloat = 12
-        var stackedViewsScale: CGFloat = 0.09
-        var stackedViewsCornerRadius: CGFloat = 10
-        var activeViewCornerRadius: CGFloat = 32
-        var maxStackedElements: Int = 4
-        var dragGestureProgressToClose: CGFloat = 1/3
+        public var horizontalPadding: CGFloat = 0
+        public var bottomPadding: CGFloat = 0
+        public var stackedViewsOffset: CGFloat = 12
+        public var stackedViewsScale: CGFloat = 0.09
+        public var stackedViewsCornerRadius: CGFloat = 10
+        public var activeViewCornerRadius: CGFloat = 32
+        public var maxStackedElements: Int = 4
+        public var dragGestureProgressToClose: CGFloat = 1/3
 
-        var viewOverlayColour: Color = .black.opacity(0.6)
-        var backgroundColour: Color = .white
+        public var viewOverlayColour: Color = .black.opacity(0.6)
+        public var backgroundColour: Color = .white
 
-        var transitionAnimation: Animation { .spring(response: 0.44, dampingFraction: 1, blendDuration: 0.4) }
-        var dragGestureAnimation: Animation { .interactiveSpring() }
+        public var transitionAnimation: Animation { .spring(response: 0.44, dampingFraction: 1, blendDuration: 0.4) }
+        public var dragGestureAnimation: Animation { .interactiveSpring() }
     }
 }
 
-struct PopupBottomStackView: View {
+
+public struct PopupBottomStackView: View {
     let items: [AnyPopup]
     let closingAction: () -> ()
     var config: Config = .init()
@@ -39,17 +40,17 @@ struct PopupBottomStackView: View {
     @State private var gestureTranslation: CGFloat = 0
 
 
-    init(items: [AnyPopup], closingAction: @escaping () -> (), configBuilder: (inout Config) -> ()) {
+    public init(items: [AnyPopup], closingAction: @escaping () -> (), configBuilder: (inout Config) -> ()) {
         self.items = items
         self.closingAction = closingAction
         configBuilder(&config)
     }
-    var body: some View {
+    public var body: some View {
         ZStack(alignment: .top, content: createPopupStack)
             .frame(width: UIScreen.width, height: UIScreen.height)
             .ignoresSafeArea()
             .background(createViewOverlay())
-            .animation(transitionAnimation, value: items.count)
+            .animation(transitionAnimation, value: items)
             .animation(transitionAnimation, value: heights)
             .animation(dragGestureAnimation, value: gestureTranslation)
             .simultaneousGesture(popupDragGesture)
