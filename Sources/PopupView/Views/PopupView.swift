@@ -15,6 +15,7 @@ public struct PopupView: View {
     @StateObject private var stack: PopupStackManager = .shared
 
 
+    public init(@ViewBuilder _ builder: () -> some View) { self.sourceView = builder() }
     public var body: some View {
         ZStack {
             createSourceView()
