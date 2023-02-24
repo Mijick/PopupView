@@ -75,22 +75,24 @@ private extension PopupView {
 
 
 
-protocol PopupProtocolMain: View, Identifiable, Hashable, Equatable {
+public protocol PopupProtocolMain: View, Identifiable, Hashable, Equatable {
     var id: String { get }
 }
-extension PopupProtocolMain {
+public extension PopupProtocolMain {
     static func ==(lhs: Self, rhs: Self) -> Bool { lhs.id == rhs.id }
     func hash(into hasher: inout Hasher) { hasher.combine(id) }
 
-    func present() { PopupStackManager.shared.present(self) }
+
 }
 
 
 
 
-protocol BottomPopup: PopupProtocolMain {}
-extension BottomPopup {
+public protocol BottomPopup: PopupProtocolMain {}
+public extension BottomPopup {
     var config: PopupBottomStackView.Config { .init() }
+
+    func present() { PopupStackManager.shared.present(AnyBottomPopup(self)) }
 }
 
 
@@ -125,8 +127,8 @@ extension PopupStackManager {
     var centre: [any CentrePopup] {
         views.compactMap { $0 as? (any CentrePopup) }
     }
-    var bottom: [any BottomPopup] {
-        views.compactMap { $0 as? (any BottomPopup) }
+    var bottom: [AnyBottomPopup] {
+        views.compactMap { $0 as? AnyBottomPopup }
     }
 }
 
@@ -154,7 +156,7 @@ extension Array {
     @inlinable mutating func append(_ newElement: Element, if prerequisite: Bool) {
         if prerequisite { append(newElement) }
     }
-    @inlinable @discardableResult mutating func removeLast() -> Element? {
+    @inlinable mutating func removeLast() {
         if !isEmpty { removeLast(1) }
     }
 }
