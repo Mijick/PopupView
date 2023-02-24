@@ -19,8 +19,8 @@ public struct PopupView: View {
     public var body: some View {
         ZStack {
             createSourceView()
-            createPopupStackView()
             createOverlay()
+            createPopupStackView()
         }
     }
 }
