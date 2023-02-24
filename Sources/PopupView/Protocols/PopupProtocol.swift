@@ -29,3 +29,31 @@ public struct AnyPopup: PopupProtocol {
         self.view = AnyView(builder())
     }
 }
+
+
+
+
+
+struct A: BottomPopup {
+    var id: String { "dupa" }
+
+    var body: some View {
+        EmptyView()
+    }
+
+    
+}
+
+
+
+public struct AnyBottomPopup: BottomPopup {
+    public let id: String
+    public var body: some View { _body }
+
+    private var _body: AnyView
+
+    public init(_ popup: some BottomPopup) {
+        self.id = popup.id
+        self._body = AnyView(popup.body)
+    }
+}
