@@ -10,6 +10,12 @@
 
 import SwiftUI
 
+// PROBLEMY:
+// 1. BRAK ANIMACJI OVERLAY
+// 2. DISMISS NA PRZYKŁAD TOP POWODUJE DISMISS OSTATNIEGO ELEMENTU JAKO TAKIEGO A NIE TOP
+
+
+
 public struct PopupView: View {
     let sourceView: any View
     @StateObject private var stack: PopupStackManager = .shared
@@ -22,6 +28,7 @@ public struct PopupView: View {
             createOverlay()
             createPopupStackView()
         }
+        .animation(.default, value: stack.isEmpty)
     }
 }
 
@@ -40,6 +47,8 @@ private extension PopupView {
     func createOverlay() -> some View {
         Color.black.opacity(0.44)
             .ignoresSafeArea()
+            .transition(.opacity)
+
             .active(if: !stack.isEmpty)
     }
 }
