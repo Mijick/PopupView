@@ -87,12 +87,12 @@ public extension PopupProtocolMain {
 
 
 
-public protocol BottomPopup: PopupProtocolMain {}
+public protocol BottomPopup: PopupProtocolMain {
+    func configurePopup(content: PopupBottomStackView.Config) -> PopupBottomStackView.Config
+}
 public extension BottomPopup {
     // inna nazwa na config
-    func configurePopup(content: PopupBottomStackView.Config) -> PopupBottomStackView.Config {
-        content
-    }
+
 
 
     //var config: PopupBottomStackView.Config { .init() }

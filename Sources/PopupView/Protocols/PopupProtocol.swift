@@ -37,6 +37,10 @@ public struct AnyPopup: PopupProtocol {
 
 
 public struct AnyBottomPopup: BottomPopup {
+    public func configurePopup(content: PopupBottomStackView.Config) -> PopupBottomStackView.Config {
+        configBuilder(content)
+    }
+
     public let id: String
     public var body: some View { _body }
     let configBuilder: (PopupBottomStackView.Config) -> PopupBottomStackView.Config
