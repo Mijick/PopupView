@@ -10,44 +10,27 @@
 
 import SwiftUI
 
-
-
-
-
-public struct AnyCentrePopup: CentrePopup {
-    public func configurePopup(content: CentrePopupConfig) -> CentrePopupConfig {
-        configBuilder(content)
-    }
-
-
-    public let id: String
-    public var body: some View { _body }
-
-    private var _body: AnyView
-    let configBuilder: (CentrePopupConfig) -> CentrePopupConfig
-
-    public init(_ popup: some CentrePopup) {
-        self.id = popup.id
-        self._body = AnyView(popup.body)
-        self.configBuilder = popup.configurePopup
-    }
+public protocol TopPopup: Popup {
+    func configurePopup(content: TopPopupConfig) -> TopPopupConfig
+}
+public extension TopPopup {
+    func present() { PopupStackManager.shared.present(AnyTopPopup(self)) }
 }
 
-public struct AnyTopPopup: TopPopup {
-    public func configurePopup(content: TopPopupConfig) -> TopPopupConfig {
-        configBuilder(content)
-    }
+// MARK: -Type Eraser
+struct AnyTopPopup: TopPopup {
+    let id: String
+    var body: some View { _body }
 
+    private let _configBuilder: (TopPopupConfig) -> TopPopupConfig
+    private let _body: AnyView
 
-    public let id: String
-    public var body: some View { _body }
-
-    private var _body: AnyView
-    let configBuilder: (TopPopupConfig) -> TopPopupConfig
-
-    public init(_ popup: some TopPopup) {
+    init(_ popup: some TopPopup) {
         self.id = popup.id
         self._body = AnyView(popup.body)
-        self.configBuilder = popup.configurePopup
+        self._configBuilder = popup.configurePopup
     }
+}
+extension AnyTopPopup {
+    func configurePopup(content: TopPopupConfig) -> TopPopupConfig { _configBuilder(content) }
 }

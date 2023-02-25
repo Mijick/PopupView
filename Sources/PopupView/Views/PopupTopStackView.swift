@@ -118,5 +118,5 @@ private extension PopupTopStackView {
     var dragGestureAnimation: Animation { config.dragGestureAnimation }
     var gestureClosingThresholdFactor: CGFloat { config.dragGestureProgressToClose }
     var transition: AnyTransition { .move(edge: .top) }
-    var config: TopPopupConfig { items.last?.configBuilder(.init()) ?? .init() }
+    var config: TopPopupConfig { items.last?.configurePopup(content: .init()) ?? .init() }
 }

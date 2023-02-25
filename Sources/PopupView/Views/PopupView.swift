@@ -83,32 +83,6 @@ private extension PopupView {
 
 
 
-
-
-
-
-
-
-public protocol CentrePopup: Popup {
-    func configurePopup(content: CentrePopupConfig) -> CentrePopupConfig
-}
-public extension CentrePopup {
-    func present() { PopupStackManager.shared.present(AnyCentrePopup(self)) }
-}
-
-
-
-public protocol TopPopup: Popup {
-    func configurePopup(content: TopPopupConfig) -> TopPopupConfig
-}
-public extension TopPopup {
-    func present() { PopupStackManager.shared.present(AnyTopPopup(self)) }
-}
-
-
-
-
-
 class PopupStackManager: ObservableObject {
     @Published private var views: [any Popup] = []
 
@@ -135,19 +109,4 @@ extension PopupStackManager {
 extension PopupStackManager {
     func canBeInserted(_ popup: some Popup) -> Bool { !views.contains(where: { $0.id == popup.id }) }
     func canBeDismissed() -> Bool { !views.isEmpty }
-}
-
-
-
-
-
-
-
-extension Array {
-    @inlinable mutating func append(_ newElement: Element, if prerequisite: Bool) {
-        if prerequisite { append(newElement) }
-    }
-    @inlinable mutating func removeLast() {
-        if !isEmpty { removeLast(1) }
-    }
 }
