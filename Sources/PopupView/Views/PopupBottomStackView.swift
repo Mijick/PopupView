@@ -13,7 +13,7 @@ import SwiftUI
 struct PopupBottomStackView: View {
     let items: [AnyBottomPopup]
     let closingAction: () -> ()
-    @State private var heights: [String: CGFloat] = [:]
+    @State private var heights: [AnyBottomPopup: CGFloat] = [:]
     @State private var gestureTranslation: CGFloat = 0
 
 
@@ -29,24 +29,24 @@ struct PopupBottomStackView: View {
 
 private extension PopupBottomStackView {
     func createPopupStack() -> some View {
-        ForEach(0..<items.count, id: \.self, content: createPopup)
+        ForEach(items, id: \.self, content: createPopup)
     }
 }
 
 private extension PopupBottomStackView {
-    func createPopup(_ index: Int) -> some View {
-        items[index]
+    func createPopup(_ item: AnyBottomPopup) -> some View {
+        item
             .padding(.bottom, contentBottomPadding)
-            .readHeight { saveHeight($0, for: index) }
+            .readHeight { saveHeight($0, for: item) }
             .frame(width: width, height: height)
             .background(backgroundColour)
-            .cornerRadius(getCornerRadius(for: index))
-            .opacity(getOpacity(for: index))
-            .offset(y: getOffset(for: index))
-            .scaleEffect(getScale(for: index), anchor: .top)
+            .cornerRadius(getCornerRadius(for: item))
+            .opacity(getOpacity(for: item))
+            .offset(y: getOffset(for: item))
+            .scaleEffect(getScale(for: item), anchor: .top)
             .alignToBottom(bottomPadding)
             .transition(transition)
-            .zIndex(isLast(index).doubleValue)
+            .zIndex(isLast(item).doubleValue)
     }
 }
 
@@ -68,46 +68,47 @@ private extension PopupBottomStackView {
 
 // MARK: -View Handlers
 private extension PopupBottomStackView {
-    func getCornerRadius(for index: Int) -> CGFloat {
-        if isLast(index) { return cornerRadius.active }
-        if gestureTranslation.isZero || !isNextToLast(index) { return cornerRadius.inactive }
+    func getCornerRadius(for item: AnyBottomPopup) -> CGFloat {
+        if isLast(item) { return cornerRadius.active }
+        if gestureTranslation.isZero || !isNextToLast(item) { return cornerRadius.inactive }
 
         let difference = cornerRadius.active - cornerRadius.inactive
         let differenceProgress = difference * translationProgress()
         return cornerRadius.inactive + differenceProgress
     }
-    func getOpacity(for index: Int) -> Double {
-        if isLast(index) { return 1 }
-        if gestureTranslation.isZero { return  1 - inverted(index: index).doubleValue * opacityFactor }
+    func getOpacity(for item: AnyBottomPopup) -> Double {
+        if isLast(item) { return 1 }
+        if gestureTranslation.isZero { return  1 - invertedIndex(of: item).doubleValue * opacityFactor }
 
-        let scaleValue = inverted(index: index).doubleValue * opacityFactor
-        let progressDifference = isNextToLast(index) ? 1 - translationProgress() : max(0.6, 1 - translationProgress())
+        let scaleValue = invertedIndex(of: item).doubleValue * opacityFactor
+        let progressDifference = isNextToLast(item) ? 1 - translationProgress() : max(0.6, 1 - translationProgress())
         return 1 - scaleValue * progressDifference
     }
-    func getScale(for index: Int) -> CGFloat {
-        if isLast(index) { return 1 }
-        if gestureTranslation.isZero { return  1 - inverted(index: index).floatValue * scaleFactor }
+    func getScale(for item: AnyBottomPopup) -> CGFloat {
+        if isLast(item) { return 1 }
+        if gestureTranslation.isZero { return  1 - invertedIndex(of: item).floatValue * scaleFactor }
 
-        let scaleValue = inverted(index: index).floatValue * scaleFactor
-        let progressDifference = isNextToLast(index) ? 1 - translationProgress() : max(0.7, 1 - translationProgress())
+        let scaleValue = invertedIndex(of: item).floatValue * scaleFactor
+        let progressDifference = isNextToLast(item) ? 1 - translationProgress() : max(0.7, 1 - translationProgress())
         return 1 - scaleValue * progressDifference
     }
-    func getOffset(for index: Int) -> CGFloat { isLast(index) ? gestureTranslation : inverted(index: index).floatValue * offsetFactor }
-    func saveHeight(_ height: CGFloat, for index: Int) { heights[items[index].id] = height }
+    func getOffset(for item: AnyBottomPopup) -> CGFloat { isLast(item) ? gestureTranslation : invertedIndex(of: item).floatValue * offsetFactor }
+    func saveHeight(_ height: CGFloat, for item: AnyBottomPopup) { heights[item] = height }
 }
 
 private extension PopupBottomStackView {
     func translationProgress() -> CGFloat { abs(gestureTranslation) / height }
-    func isLast(_ index: Int) -> Bool { index == items.count - 1 }
-    func isNextToLast(_ index: Int) -> Bool { index == items.count - 2 }
-    func inverted(index: Int) -> Int { items.count - 1 - index }
+    func isLast(_ item: AnyBottomPopup) -> Bool { items.last == item }
+    func isNextToLast(_ item: AnyBottomPopup) -> Bool { index(of: item) == items.count - 2 }
+    func invertedIndex(of item: AnyBottomPopup) -> Int { items.count - 1 - index(of: item) }
+    func index(of item: AnyBottomPopup) -> Int { items.firstIndex(of: item) ?? 0 }
 }
 
 private extension PopupBottomStackView {
     var contentBottomPadding: CGFloat { config.contentIgnoresSafeArea ? 0 : max(UIScreen.safeArea.bottom - config.bottomPadding, 0) }
     var bottomPadding: CGFloat { config.bottomPadding }
     var width: CGFloat { UIScreen.width - config.horizontalPadding * 2 }
-    var height: CGFloat { heights.first { $0.key == items.last?.id }?.value ?? 0 }
+    var height: CGFloat { heights.first { $0.key == items.last }?.value ?? 0 }
     var opacityFactor: Double { 1 / config.maxStackedElements.doubleValue }
     var offsetFactor: CGFloat { -config.stackedViewsOffset }
     var scaleFactor: CGFloat { config.stackedViewsScale }
