@@ -57,7 +57,7 @@ private extension PopupView {
         PopupTopStackView(items: stack.top, closingAction: stack.dismiss)
     }
     func createCentrePopupStackView() -> some View {
-        EmptyView()
+        PopupCentreStackView(items: stack.centre, closingAction: stack.dismiss)
     }
     func createBottomPopupStackView() -> some View {
         PopupBottomStackView(items: stack.bottom, closingAction: stack.dismiss)
@@ -103,7 +103,7 @@ public extension BottomPopup {
 
 
 public protocol CentrePopup: PopupProtocolMain {
-    func configurePopup(content: PopupCentreStackView.Config) -> PopupCentreStackView.Config
+    func configurePopup(content: CentrePopupConfig) -> CentrePopupConfig
 }
 public extension CentrePopup {
     func present() { PopupStackManager.shared.present(AnyCentrePopup(self)) }

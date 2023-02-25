@@ -50,6 +50,7 @@ private extension PopupTopStackView {
     }
 }
 
+// MARK: -Gesture Handler
 private extension PopupTopStackView {
     var popupDragGesture: some Gesture {
         DragGesture()
@@ -65,6 +66,7 @@ private extension PopupTopStackView {
     }
 }
 
+// MARK: -View Handlers
 private extension PopupTopStackView {
     func getCornerRadius(for item: AnyTopPopup) -> CGFloat {
         if isLast(item) { return cornerRadius.active }
