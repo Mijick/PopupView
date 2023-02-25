@@ -29,7 +29,7 @@ private extension PopupCentreStackView {
     func createPopup() -> some View {
         items.last?
             .readHeight(onChange: getHeight)
-            .frame(width: width)
+            .frame(width: width, height: height == 0 ? nil : height)
             .background(backgroundColour)
             .cornerRadius(cornerRadius)
             .scaleEffect(height.isZero ? 1.3 : 1)
