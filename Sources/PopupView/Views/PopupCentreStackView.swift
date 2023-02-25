@@ -21,10 +21,8 @@ struct PopupCentreStackView: View {
             createTapArea()
             createPopup()
         }
-            //.frame(width: UIScreen.width, height: UIScreen.height)
-            //.background(createTapArea())
-            .animation(transitionAnimation, value: height)
-            .onDisappear(perform: onDisappear)
+        .animation(transitionAnimation, value: height)
+        .onChange(of: items, perform: onItemsChange)
     }
 }
 
@@ -48,8 +46,8 @@ private extension PopupCentreStackView {
 
 // MARK: -Logic Handlers
 private extension PopupCentreStackView {
-    func onDisappear() {
-        height = 0
+    func onItemsChange(_ items: [AnyCentrePopup]) {
+        if items.isEmpty { height = 0 }
     }
 }
 
