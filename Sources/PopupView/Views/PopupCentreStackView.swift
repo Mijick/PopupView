@@ -13,7 +13,7 @@ import SwiftUI
 struct PopupCentreStackView: View {
     let items: [AnyCentrePopup]
     let closingAction: () -> ()
-    @State private var height: CGFloat = 0
+    @State private var height: CGFloat?
 
     
     var body: some View {
@@ -30,10 +30,10 @@ private extension PopupCentreStackView {
     func createPopup() -> some View {
         items.last?
             .readHeight(onChange: getHeight)
-            .frame(width: width, height: height == 0 ? nil : height)
+            .frame(width: width, height: height)
             .background(backgroundColour)
             .cornerRadius(cornerRadius)
-            .scaleEffect(height.isZero ? 1.3 : 1)
+            .scaleEffect(height == nil ? 1.4 : 1)
             .opacity(opacity)
     }
     func createTapArea() -> some View {
@@ -47,7 +47,7 @@ private extension PopupCentreStackView {
 // MARK: -Logic Handlers
 private extension PopupCentreStackView {
     func onItemsChange(_ items: [AnyCentrePopup]) {
-        if items.isEmpty { height = 0 }
+        if items.isEmpty { height = nil }
     }
 }
 
@@ -59,7 +59,7 @@ private extension PopupCentreStackView {
 private extension PopupCentreStackView {
     var width: CGFloat { max(0, UIScreen.width - config.horizontalPadding * 2) }
     //var widthAnimationStartValue: CGFloat { 66 }
-    var opacity: Double { (!height.isZero).doubleValue }
+    var opacity: Double { (height != nil).doubleValue }
     var cornerRadius: CGFloat { config.cornerRadius }
     var backgroundColour: Color { config.backgroundColour }
     var transitionAnimation: Animation { config.transitionAnimation }
