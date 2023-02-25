@@ -1,5 +1,5 @@
 //
-//  Configurable.swift of PopupView
+//  ConfigurableProtocol.swift of PopupView
 //
 //  Created by Tomasz Kurylik
 //    - Twitter: https://twitter.com/tkurylik

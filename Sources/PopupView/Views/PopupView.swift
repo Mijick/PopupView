@@ -80,29 +80,16 @@ private extension PopupView {
 
 
 
-public protocol PopupProtocolMain: View, Identifiable, Hashable, Equatable {
-    var id: String { get }
-}
-public extension PopupProtocolMain {
-    static func ==(lhs: Self, rhs: Self) -> Bool { lhs.id == rhs.id }
-    func hash(into hasher: inout Hasher) { hasher.combine(id) }
-
-
-}
 
 
 
 
-public protocol BottomPopup: PopupProtocolMain {
-    func configurePopup(content: BottomPopupConfig) -> BottomPopupConfig
-}
-public extension BottomPopup {
-    func present() { PopupStackManager.shared.present(AnyBottomPopup(self)) }
-}
 
 
 
-public protocol CentrePopup: PopupProtocolMain {
+
+
+public protocol CentrePopup: Popup {
     func configurePopup(content: CentrePopupConfig) -> CentrePopupConfig
 }
 public extension CentrePopup {
@@ -111,7 +98,7 @@ public extension CentrePopup {
 
 
 
-public protocol TopPopup: PopupProtocolMain {
+public protocol TopPopup: Popup {
     func configurePopup(content: TopPopupConfig) -> TopPopupConfig
 }
 public extension TopPopup {
@@ -123,7 +110,7 @@ public extension TopPopup {
 
 
 class PopupStackManager: ObservableObject {
-    @Published private var views: [any PopupProtocolMain] = []
+    @Published private var views: [any Popup] = []
 
     static let shared: PopupStackManager = .init()
     private init() {}
@@ -137,7 +124,7 @@ extension PopupStackManager {
 }
 
 extension PopupStackManager {
-    func present(_ popup: some PopupProtocolMain) {
+    func present(_ popup: some Popup) {
         views.append(popup, if: canBeInserted(popup))
     }
     func dismiss() {
@@ -146,7 +133,7 @@ extension PopupStackManager {
 }
 
 extension PopupStackManager {
-    func canBeInserted(_ popup: some PopupProtocolMain) -> Bool { !views.contains(where: { $0.id == popup.id }) }
+    func canBeInserted(_ popup: some Popup) -> Bool { !views.contains(where: { $0.id == popup.id }) }
     func canBeDismissed() -> Bool { !views.isEmpty }
 }
 
