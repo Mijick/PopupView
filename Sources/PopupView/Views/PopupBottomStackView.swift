@@ -10,52 +10,14 @@
 
 import SwiftUI
 
-public extension PopupBottomStackView {
-    struct Config: Changeable {
-        var contentIgnoresSafeArea: Bool = false
-
-        var horizontalPadding: CGFloat = 0
-        var bottomPadding: CGFloat = 0
-        public var stackedViewsOffset: CGFloat = 12
-        public var stackedViewsScale: CGFloat = 0.09
-        public var stackedViewsCornerRadius: CGFloat = 10
-        public var activeViewCornerRadius: CGFloat = 32
-        public var maxStackedElements: Int = 4
-        public var dragGestureProgressToClose: CGFloat = 1/3
-
-        public var viewOverlayColour: Color = .black.opacity(0.6)
-        public var backgroundColour: Color = .white
-
-        public var transitionAnimation: Animation { .spring(response: 0.44, dampingFraction: 1, blendDuration: 0.4) }
-        public var dragGestureAnimation: Animation { .interactiveSpring() }
-
-
-
-        
-        public func ignoreSafeArea() -> Self { changing(path: \.contentIgnoresSafeArea, to: true) }
-        public func horizontalPadding(_ value: CGFloat) -> Self { changing(path: \.horizontalPadding, to: value) }
-        public func bottomPadding(_ value: CGFloat) -> Self { changing(path: \.bottomPadding, to: value) }
-    }
-}
-
-
-protocol Changeable {}
-extension Changeable {
-    func changing<T>(path: WritableKeyPath<Self, T>, to value: T) -> Self {
-        var clone = self
-        clone[keyPath: path] = value
-        return clone
-    }
-}
-
-public struct PopupBottomStackView: View {
+struct PopupBottomStackView: View {
     let items: [AnyBottomPopup]
     let closingAction: () -> ()
     @State private var heights: [String: CGFloat] = [:]
     @State private var gestureTranslation: CGFloat = 0
 
 
-    public var body: some View {
+    var body: some View {
         ZStack(alignment: .top, content: createPopupStack)
             .ignoresSafeArea()
             .animation(transitionAnimation, value: items)
@@ -155,5 +117,5 @@ private extension PopupBottomStackView {
     var dragGestureAnimation: Animation { config.dragGestureAnimation }
     var gestureClosingThresholdFactor: CGFloat { config.dragGestureProgressToClose }
     var transition: AnyTransition { .move(edge: .bottom) }
-    var config: Config { items.last?.configBuilder(.init()) ?? .init() }
+    var config: BottomPopupConfig { items.last?.configBuilder(.init()) ?? .init() }
 }

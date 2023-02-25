@@ -11,7 +11,6 @@
 import SwiftUI
 
 // PROBLEMY:
-// 1. BRAK ANIMACJI OVERLAY
 // 2. DISMISS NA PRZYKŁAD TOP POWODUJE DISMISS OSTATNIEGO ELEMENTU JAKO TAKIEGO A NIE TOP
 
 
@@ -95,7 +94,7 @@ public extension PopupProtocolMain {
 
 
 public protocol BottomPopup: PopupProtocolMain {
-    func configurePopup(content: PopupBottomStackView.Config) -> PopupBottomStackView.Config
+    func configurePopup(content: BottomPopupConfig) -> BottomPopupConfig
 }
 public extension BottomPopup {
     func present() { PopupStackManager.shared.present(AnyBottomPopup(self)) }
