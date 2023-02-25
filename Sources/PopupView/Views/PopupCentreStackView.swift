@@ -13,15 +13,16 @@ import SwiftUI
 struct PopupCentreStackView: View {
     let items: [AnyCentrePopup]
     let closingAction: () -> ()
-    @State private var height: CGFloat = 0
+    @State private var height: CGFloat?
 
     
     var body: some View {
-        createPopup()
-            //.frame(width: UIScreen.width, height: UIScreen.height)
-            //.background(createTapArea())
-            .animation(transitionAnimation, value: height)
-            .onDisappear(perform: onDisappear)
+        ZStack {
+            createTapArea()
+            createPopup()
+        }
+        .animation(transitionAnimation, value: height)
+        .onDisappear(perform: onDisappear)
     }
 }
 
@@ -29,24 +30,23 @@ private extension PopupCentreStackView {
     func createPopup() -> some View {
         items.last?
             .readHeight(onChange: getHeight)
-            .frame(width: width, height: height == 0 ? nil : height)
+            .frame(width: width, height: height)
             .background(backgroundColour)
             .cornerRadius(cornerRadius)
-            .scaleEffect(height.isZero ? 1.3 : 1)
+            .scaleEffect(height == nil ? 1.3 : 1)
             .opacity(opacity)
     }
     func createTapArea() -> some View {
-        Color.black.opacity(0.00000000001).onTapGesture(perform: onOverlayTap)
+        Color.black.opacity(0.00000000001)
+            .onTapGesture(perform: closingAction)
+            .active(if: config.tapOutsideClosesView)
     }
 }
 
 // MARK: -Logic Handlers
 private extension PopupCentreStackView {
     func onDisappear() {
-        height = 0
-    }
-    func onOverlayTap() {
-        if config.tapOutsideClosesView { closingAction() }
+        height = nil
     }
 }
 
@@ -57,8 +57,8 @@ private extension PopupCentreStackView {
 
 private extension PopupCentreStackView {
     var width: CGFloat { max(0, UIScreen.width - config.horizontalPadding * 2) }
-    //var widthAnimationStartValue: CGFloat { 66 }
-    var opacity: Double { (!height.isZero).doubleValue }
+    //var height: CGFloat? { height.isZero ? nil : height }
+    var opacity: Double { (height != nil).doubleValue }
     var cornerRadius: CGFloat { config.cornerRadius }
     var backgroundColour: Color { config.backgroundColour }
     var transitionAnimation: Animation { config.transitionAnimation }
