@@ -32,10 +32,11 @@ private extension PopupCentreStackView {
             .frame(width: width, height: height)
             .background(backgroundColour)
             .cornerRadius(cornerRadius)
+            .scaleEffect(height.isZero ? 1.3 : 1)
             .opacity(opacity)
     }
     func createTapArea() -> some View {
-        Color.black.opacity(0.000000001).onTapGesture(perform: onOverlayTap)
+        Color.black.opacity(0.00000000001).onTapGesture(perform: onOverlayTap)
     }
 }
 
@@ -55,8 +56,8 @@ private extension PopupCentreStackView {
 }
 
 private extension PopupCentreStackView {
-    var width: CGFloat { max(0, UIScreen.width - config.horizontalPadding * 2 - widthAnimationStartValue * 2 * height.isZero.floatValue) }
-    var widthAnimationStartValue: CGFloat { 66 }
+    var width: CGFloat { max(0, UIScreen.width - config.horizontalPadding * 2) }
+    //var widthAnimationStartValue: CGFloat { 66 }
     var opacity: Double { (!height.isZero).doubleValue }
     var cornerRadius: CGFloat { config.cornerRadius }
     var backgroundColour: Color { config.backgroundColour }
