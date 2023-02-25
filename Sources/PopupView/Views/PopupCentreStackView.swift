@@ -13,7 +13,7 @@ import SwiftUI
 struct PopupCentreStackView: View {
     let items: [AnyCentrePopup]
     let closingAction: () -> ()
-    @State private var height: CGFloat?
+    @State private var height: CGFloat? = 0
 
     
     var body: some View {
