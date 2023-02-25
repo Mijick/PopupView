@@ -55,25 +55,39 @@ public struct AnyBottomPopup: BottomPopup {
 }
 
 public struct AnyCentrePopup: CentrePopup {
+    public func configurePopup(content: PopupCentreStackView.Config) -> PopupCentreStackView.Config {
+        configBuilder(content)
+    }
+
+
     public let id: String
     public var body: some View { _body }
 
     private var _body: AnyView
+    let configBuilder: (PopupCentreStackView.Config) -> PopupCentreStackView.Config
 
     public init(_ popup: some CentrePopup) {
         self.id = popup.id
         self._body = AnyView(popup.body)
+        self.configBuilder = popup.configurePopup
     }
 }
 
 public struct AnyTopPopup: TopPopup {
+    public func configurePopup(content: PopupTopStackView.Config) -> PopupTopStackView.Config {
+        configBuilder(content)
+    }
+
+
     public let id: String
     public var body: some View { _body }
 
     private var _body: AnyView
+    let configBuilder: (PopupTopStackView.Config) -> PopupTopStackView.Config
 
     public init(_ popup: some TopPopup) {
         self.id = popup.id
         self._body = AnyView(popup.body)
+        self.configBuilder = popup.configurePopup
     }
 }

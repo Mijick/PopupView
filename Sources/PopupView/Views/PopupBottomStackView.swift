@@ -58,7 +58,7 @@ public struct PopupBottomStackView: View {
     public var body: some View {
         ZStack(alignment: .top, content: createPopupStack)
             .ignoresSafeArea()
-            .animation(transitionAnimation, value: items.map(\.id))
+            .animation(transitionAnimation, value: items)
             .animation(transitionAnimation, value: heights)
             .animation(dragGestureAnimation, value: gestureTranslation)
             .simultaneousGesture(popupDragGesture)
@@ -85,9 +85,6 @@ private extension PopupBottomStackView {
             .alignToBottom(bottomPadding)
             .transition(transition)
             .zIndex(isLast(index).doubleValue)
-    }
-    func createViewOverlay() -> some View {
-        viewOverlayColour.active(if: !items.isEmpty)
     }
 }
 
@@ -153,7 +150,6 @@ private extension PopupBottomStackView {
     var offsetFactor: CGFloat { -config.stackedViewsOffset }
     var scaleFactor: CGFloat { config.stackedViewsScale }
     var cornerRadius: (active: CGFloat, inactive: CGFloat) { (config.activeViewCornerRadius, config.stackedViewsCornerRadius) }
-    var viewOverlayColour: Color { config.viewOverlayColour }
     var backgroundColour: Color { config.backgroundColour }
     var transitionAnimation: Animation { config.transitionAnimation }
     var dragGestureAnimation: Animation { config.dragGestureAnimation }

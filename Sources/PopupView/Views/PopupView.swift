@@ -36,19 +36,17 @@ private extension PopupView {
             createBottomPopupStackView()
         }
         .frame(width: UIScreen.width, height: UIScreen.height)
-        // frame
     }
     func createOverlay() -> some View {
         Color.black.opacity(0.44)
             .ignoresSafeArea()
-
-        // ignore
+            .active(if: !stack.isEmpty)
     }
 }
 
 private extension PopupView {
     func createTopPopupStackView() -> some View {
-        EmptyView()
+        PopupTopStackView(items: stack.top, closingAction: stack.dismiss)
     }
     func createCentrePopupStackView() -> some View {
         EmptyView()
@@ -91,30 +89,24 @@ public protocol BottomPopup: PopupProtocolMain {
     func configurePopup(content: PopupBottomStackView.Config) -> PopupBottomStackView.Config
 }
 public extension BottomPopup {
-    // inna nazwa na config
-
-
-
-    //var config: PopupBottomStackView.Config { .init() }
-
     func present() { PopupStackManager.shared.present(AnyBottomPopup(self)) }
 }
 
 
 
-public protocol CentrePopup: PopupProtocolMain {}
+public protocol CentrePopup: PopupProtocolMain {
+    func configurePopup(content: PopupCentreStackView.Config) -> PopupCentreStackView.Config
+}
 public extension CentrePopup {
-    var config: PopupCentreStackView.Config { .init() }
-
     func present() { PopupStackManager.shared.present(AnyCentrePopup(self)) }
 }
 
 
 
-public protocol TopPopup: PopupProtocolMain{}
+public protocol TopPopup: PopupProtocolMain {
+    func configurePopup(content: PopupTopStackView.Config) -> PopupTopStackView.Config
+}
 public extension TopPopup {
-    var config: PopupTopStackView.Config { .init() }
-
     func present() { PopupStackManager.shared.present(AnyTopPopup(self)) }
 }
 
@@ -130,15 +122,10 @@ class PopupStackManager: ObservableObject {
 }
 
 extension PopupStackManager {
-    var top: [AnyTopPopup] {
-        views.compactMap { $0 as? AnyTopPopup }
-    }
-    var centre: [AnyCentrePopup] {
-        views.compactMap { $0 as? AnyCentrePopup }
-    }
-    var bottom: [AnyBottomPopup] {
-        views.compactMap { $0 as? AnyBottomPopup }
-    }
+    var top: [AnyTopPopup] { views.compactMap { $0 as? AnyTopPopup } }
+    var centre: [AnyCentrePopup] { views.compactMap { $0 as? AnyCentrePopup } }
+    var bottom: [AnyBottomPopup] { views.compactMap { $0 as? AnyBottomPopup } }
+    var isEmpty: Bool { views.isEmpty }
 }
 
 extension PopupStackManager {
