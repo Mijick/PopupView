@@ -11,11 +11,11 @@
 import SwiftUI
 
 public extension PopupBottomStackView {
-    struct Config {
-        public var contentIgnoresSafeArea: Bool = false
+    struct Config: Changeable {
+        var contentIgnoresSafeArea: Bool = false
 
-        public var horizontalPadding: CGFloat = 0
-        public var bottomPadding: CGFloat = 0
+        var horizontalPadding: CGFloat = 0
+        var bottomPadding: CGFloat = 0
         public var stackedViewsOffset: CGFloat = 12
         public var stackedViewsScale: CGFloat = 0.09
         public var stackedViewsCornerRadius: CGFloat = 10
@@ -28,9 +28,25 @@ public extension PopupBottomStackView {
 
         public var transitionAnimation: Animation { .spring(response: 0.44, dampingFraction: 1, blendDuration: 0.4) }
         public var dragGestureAnimation: Animation { .interactiveSpring() }
+
+
+
+        
+        public func ignoreSafeArea() -> Self { changing(path: \.contentIgnoresSafeArea, to: true) }
+        public func horizontalPadding(_ value: CGFloat) -> Self { changing(path: \.horizontalPadding, to: value) }
+        public func bottomPadding(_ value: CGFloat) -> Self { changing(path: \.bottomPadding, to: value) }
     }
 }
 
+
+protocol Changeable {}
+extension Changeable {
+    func changing<T>(path: WritableKeyPath<Self, T>, to value: T) -> Self {
+        var clone = self
+        clone[keyPath: path] = value
+        return clone
+    }
+}
 
 public struct PopupBottomStackView: View {
     let items: [AnyBottomPopup]
@@ -143,5 +159,5 @@ private extension PopupBottomStackView {
     var dragGestureAnimation: Animation { config.dragGestureAnimation }
     var gestureClosingThresholdFactor: CGFloat { config.dragGestureProgressToClose }
     var transition: AnyTransition { .move(edge: .bottom) }
-    var config: Config { items.last?.config ?? .init() }
+    var config: Config { items.last?.configBuilder(.init()) ?? .init() }
 }

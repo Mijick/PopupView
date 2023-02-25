@@ -89,7 +89,13 @@ public extension PopupProtocolMain {
 
 public protocol BottomPopup: PopupProtocolMain {}
 public extension BottomPopup {
-    var config: PopupBottomStackView.Config { .init() }
+    // inna nazwa na config
+    func configurePopup(content: PopupBottomStackView.Config) -> PopupBottomStackView.Config {
+        content
+    }
+
+
+    //var config: PopupBottomStackView.Config { .init() }
 
     func present() { PopupStackManager.shared.present(AnyBottomPopup(self)) }
 }

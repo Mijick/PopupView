@@ -39,14 +39,14 @@ public struct AnyPopup: PopupProtocol {
 public struct AnyBottomPopup: BottomPopup {
     public let id: String
     public var body: some View { _body }
-    var config: PopupBottomStackView.Config
+    let configBuilder: (PopupBottomStackView.Config) -> PopupBottomStackView.Config
 
     private var _body: AnyView
 
     public init(_ popup: some BottomPopup) {
         self.id = popup.id
         self._body = AnyView(popup.body)
-        self.config = popup.config
+        self.configBuilder = popup.configurePopup
     }
 }
 
