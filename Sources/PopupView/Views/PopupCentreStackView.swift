@@ -17,13 +17,9 @@ struct PopupCentreStackView: View {
 
     
     var body: some View {
-        ZStack {
-            createTapArea()
-            createPopup()
-        }
-
-
-        //createPopup()
+        createPopup()
+            //.frame(width: UIScreen.width, height: UIScreen.height)
+            //.background(createTapArea())
             .animation(transitionAnimation, value: height)
             .onDisappear(perform: onDisappear)
     }
@@ -60,7 +56,7 @@ private extension PopupCentreStackView {
 
 private extension PopupCentreStackView {
     var width: CGFloat { max(0, UIScreen.width - config.horizontalPadding * 2) }
-    //var height: CGFloat? { height.isZero ? nil : height }
+    //var widthAnimationStartValue: CGFloat { 66 }
     var opacity: Double { (!height.isZero).doubleValue }
     var cornerRadius: CGFloat { config.cornerRadius }
     var backgroundColour: Color { config.backgroundColour }
