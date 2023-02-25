@@ -42,7 +42,7 @@ private extension PopupCentreStackView {
         Color.black.opacity(0.00000000001)
             .frame(width: UIScreen.width, height: UIScreen.height)
             .onTapGesture(perform: closingAction)
-            .active(if: config.tapOutsideClosesView)
+            .active(if: config.tapOutsideClosesView && !items.isEmpty)
     }
 }
 
