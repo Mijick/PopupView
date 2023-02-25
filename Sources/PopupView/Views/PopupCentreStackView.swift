@@ -17,7 +17,10 @@ struct PopupCentreStackView: View {
 
     
     var body: some View {
-        createPopup()
+        ZStack {
+            createTapArea()
+            createPopup()
+        }
             //.frame(width: UIScreen.width, height: UIScreen.height)
             //.background(createTapArea())
             .animation(transitionAnimation, value: height)
@@ -37,6 +40,7 @@ private extension PopupCentreStackView {
     }
     func createTapArea() -> some View {
         Color.black.opacity(0.00000000001)
+            .frame(width: UIScreen.width, height: UIScreen.height)
             .onTapGesture(perform: closingAction)
             .active(if: config.tapOutsideClosesView)
     }
