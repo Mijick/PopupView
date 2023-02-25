@@ -20,7 +20,7 @@ struct PopupCentreStackView: View {
         createPopup()
             .frame(width: UIScreen.width, height: UIScreen.height)
             .background(createTapArea())
-            .animation(transitionAnimation, value: height)
+            .animation(height.isZero ? nil : transitionAnimation, value: height)
             .onDisappear(perform: onDisappear)
     }
 }
@@ -32,7 +32,7 @@ private extension PopupCentreStackView {
             .frame(width: width, height: height)
             .background(backgroundColour)
             .cornerRadius(cornerRadius)
-            .scaleEffect(height.isZero ? 1.3 : 1)
+            .scaleEffect(height.isZero ? 1.4 : 1)
             .opacity(opacity)
     }
     func createTapArea() -> some View {
