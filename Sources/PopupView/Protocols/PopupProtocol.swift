@@ -74,7 +74,7 @@ public struct AnyCentrePopup: CentrePopup {
 }
 
 public struct AnyTopPopup: TopPopup {
-    public func configurePopup(content: PopupTopStackView.Config) -> PopupTopStackView.Config {
+    public func configurePopup(content: TopPopupConfig) -> TopPopupConfig {
         configBuilder(content)
     }
 
@@ -83,7 +83,7 @@ public struct AnyTopPopup: TopPopup {
     public var body: some View { _body }
 
     private var _body: AnyView
-    let configBuilder: (PopupTopStackView.Config) -> PopupTopStackView.Config
+    let configBuilder: (TopPopupConfig) -> TopPopupConfig
 
     public init(_ popup: some TopPopup) {
         self.id = popup.id

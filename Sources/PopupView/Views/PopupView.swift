@@ -112,7 +112,7 @@ public extension CentrePopup {
 
 
 public protocol TopPopup: PopupProtocolMain {
-    func configurePopup(content: PopupTopStackView.Config) -> PopupTopStackView.Config
+    func configurePopup(content: TopPopupConfig) -> TopPopupConfig
 }
 public extension TopPopup {
     func present() { PopupStackManager.shared.present(AnyTopPopup(self)) }

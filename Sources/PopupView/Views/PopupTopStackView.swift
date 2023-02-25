@@ -10,36 +10,14 @@
 
 import SwiftUI
 
-public extension PopupTopStackView {
-    struct Config {
-        public var contentIgnoresSafeArea: Bool = false
-
-        public var horizontalPadding: CGFloat = 0
-        public var topPadding: CGFloat = 0
-        public var stackedViewsOffset: CGFloat = 6
-        public var stackedViewsScale: CGFloat = 0.06
-        public var stackedViewsCornerRadius: CGFloat = 10
-        public var activeViewCornerRadius: CGFloat = 24
-        public var maxStackedElements: Int = 4
-        public var dragGestureProgressToClose: CGFloat = 1/3
-
-        public var viewOverlayColour: Color = .black.opacity(0.6)
-        public var backgroundColour: Color = .white
-
-        public var transitionAnimation: Animation { .spring(response: 0.32, dampingFraction: 1, blendDuration: 0.32) }
-        public var dragGestureAnimation: Animation { .interactiveSpring() }
-    }
-}
-
-
-public struct PopupTopStackView: View {
+struct PopupTopStackView: View {
     let items: [AnyTopPopup]
     let closingAction: () -> ()
     @State private var heights: [AnyTopPopup: CGFloat] = [:]
     @State private var gestureTranslation: CGFloat = 0
 
 
-    public var body: some View {
+    var body: some View {
         ZStack(alignment: .bottom, content: createPopupStack)
             .ignoresSafeArea()
             .animation(transitionAnimation, value: items)
@@ -138,5 +116,5 @@ private extension PopupTopStackView {
     var dragGestureAnimation: Animation { config.dragGestureAnimation }
     var gestureClosingThresholdFactor: CGFloat { config.dragGestureProgressToClose }
     var transition: AnyTransition { .move(edge: .top) }
-    var config: Config { items.last?.configBuilder(.init()) ?? .init() }
+    var config: TopPopupConfig { items.last?.configBuilder(.init()) ?? .init() }
 }
