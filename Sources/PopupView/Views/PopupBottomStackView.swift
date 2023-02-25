@@ -35,16 +35,10 @@ public extension PopupBottomStackView {
 public struct PopupBottomStackView: View {
     let items: [AnyBottomPopup]
     let closingAction: () -> ()
-    var config: Config = .init()
     @State private var heights: [String: CGFloat] = [:]
     @State private var gestureTranslation: CGFloat = 0
 
 
-    public init(items: [AnyBottomPopup], closingAction: @escaping () -> (), configBuilder: (inout Config) -> ()) {
-        self.items = items
-        self.closingAction = closingAction
-        configBuilder(&config)
-    }
     public var body: some View {
         ZStack(alignment: .top, content: createPopupStack)
             .ignoresSafeArea()
@@ -72,7 +66,7 @@ private extension PopupBottomStackView {
             .opacity(getOpacity(for: index))
             .offset(y: getOffset(for: index))
             .scaleEffect(getScale(for: index), anchor: .top)
-            .alignToBottom(config.bottomPadding)
+            .alignToBottom(bottomPadding)
             .transition(transition)
             .zIndex(isLast(index).doubleValue)
     }
@@ -136,6 +130,7 @@ private extension PopupBottomStackView {
 
 private extension PopupBottomStackView {
     var contentBottomPadding: CGFloat { config.contentIgnoresSafeArea ? 0 : max(UIScreen.safeArea.bottom - config.bottomPadding, 0) }
+    var bottomPadding: CGFloat { config.bottomPadding }
     var width: CGFloat { UIScreen.width - config.horizontalPadding * 2 }
     var height: CGFloat { heights.first { $0.key == items.last?.id }?.value ?? 0 }
     var opacityFactor: Double { 1 / config.maxStackedElements.doubleValue }
@@ -148,4 +143,5 @@ private extension PopupBottomStackView {
     var dragGestureAnimation: Animation { config.dragGestureAnimation }
     var gestureClosingThresholdFactor: CGFloat { config.dragGestureProgressToClose }
     var transition: AnyTransition { .move(edge: .bottom) }
+    var config: Config { items.last?.config ?? .init() }
 }

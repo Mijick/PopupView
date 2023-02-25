@@ -34,25 +34,41 @@ public struct AnyPopup: PopupProtocol {
 
 
 
-struct A: BottomPopup {
-    var id: String { "dupa" }
-
-    var body: some View {
-        EmptyView()
-    }
-
-    
-}
-
 
 
 public struct AnyBottomPopup: BottomPopup {
     public let id: String
     public var body: some View { _body }
+    var config: PopupBottomStackView.Config
 
     private var _body: AnyView
 
     public init(_ popup: some BottomPopup) {
+        self.id = popup.id
+        self._body = AnyView(popup.body)
+        self.config = popup.config
+    }
+}
+
+public struct AnyCentrePopup: CentrePopup {
+    public let id: String
+    public var body: some View { _body }
+
+    private var _body: AnyView
+
+    public init(_ popup: some CentrePopup) {
+        self.id = popup.id
+        self._body = AnyView(popup.body)
+    }
+}
+
+public struct AnyTopPopup: TopPopup {
+    public let id: String
+    public var body: some View { _body }
+
+    private var _body: AnyView
+
+    public init(_ popup: some TopPopup) {
         self.id = popup.id
         self._body = AnyView(popup.body)
     }

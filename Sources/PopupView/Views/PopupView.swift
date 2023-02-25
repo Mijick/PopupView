@@ -54,9 +54,7 @@ private extension PopupView {
         EmptyView()
     }
     func createBottomPopupStackView() -> some View {
-        PopupBottomStackView(items: stack.bottom, closingAction: stack.dismiss) { a in
-            a.horizontalPadding = 4
-        }
+        PopupBottomStackView(items: stack.bottom, closingAction: stack.dismiss)
     }
 }
 
@@ -98,16 +96,20 @@ public extension BottomPopup {
 
 
 
-protocol CentrePopup: PopupProtocolMain {}
-extension CentrePopup {
+public protocol CentrePopup: PopupProtocolMain {}
+public extension CentrePopup {
     var config: PopupCentreStackView.Config { .init() }
+
+    func present() { PopupStackManager.shared.present(AnyCentrePopup(self)) }
 }
 
 
 
-protocol TopPopup: PopupProtocolMain{}
-extension TopPopup {
+public protocol TopPopup: PopupProtocolMain{}
+public extension TopPopup {
     var config: PopupTopStackView.Config { .init() }
+
+    func present() { PopupStackManager.shared.present(AnyTopPopup(self)) }
 }
 
 
@@ -122,11 +124,11 @@ class PopupStackManager: ObservableObject {
 }
 
 extension PopupStackManager {
-    var top: [any TopPopup] {
-        views.compactMap { $0 as? (any TopPopup) }
+    var top: [AnyTopPopup] {
+        views.compactMap { $0 as? AnyTopPopup }
     }
-    var centre: [any CentrePopup] {
-        views.compactMap { $0 as? (any CentrePopup) }
+    var centre: [AnyCentrePopup] {
+        views.compactMap { $0 as? AnyCentrePopup }
     }
     var bottom: [AnyBottomPopup] {
         views.compactMap { $0 as? AnyBottomPopup }
