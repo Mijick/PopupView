@@ -18,14 +18,8 @@ public extension CentrePopup {
 }
 
 // MARK: -Type Eraser
-final class AnyCentrePopup: AnyPopup, CentrePopup {
-    private let _configBuilder: (CentrePopupConfig) -> CentrePopupConfig
+final class AnyCentrePopup: AnyPopup<CentrePopupConfig>, CentrePopup {
+    typealias Config = CentrePopupConfig
 
-    init(_ popup: some CentrePopup) {
-        self._configBuilder = popup.configurePopup
-        super.init(popup)
-    }
-}
-extension AnyCentrePopup {
-    func configurePopup(content: CentrePopupConfig) -> CentrePopupConfig { _configBuilder(content) }
+
 }

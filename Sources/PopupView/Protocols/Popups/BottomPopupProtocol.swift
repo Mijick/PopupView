@@ -18,14 +18,8 @@ public extension BottomPopup {
 }
 
 // MARK: -Type Eraser
-final class AnyBottomPopup: AnyPopup, BottomPopup {
-    private let _configBuilder: (BottomPopupConfig) -> BottomPopupConfig
+final class AnyBottomPopup: AnyPopup<BottomPopupConfig>, BottomPopup {
+    typealias Config = BottomPopupConfig
 
-    init(_ popup: some BottomPopup) {
-        self._configBuilder = popup.configurePopup
-        super.init(popup)
-    }
-}
-extension AnyBottomPopup {
-    func configurePopup(content: BottomPopupConfig) -> BottomPopupConfig { _configBuilder(content) }
+
 }
