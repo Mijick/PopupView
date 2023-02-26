@@ -1,5 +1,5 @@
 //
-//  PopupStackManager.swift of PopupView
+//  PopupManager.swift of PopupView
 //
 //  Created by Tomasz Kurylik
 //    - Twitter: https://twitter.com/tkurylik
