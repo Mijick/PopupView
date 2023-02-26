@@ -11,15 +11,11 @@
 import SwiftUI
 
 public protocol BottomPopup: Popup {
-    func configurePopup(content: BottomPopupConfig) -> BottomPopupConfig
+    associatedtype Config = CentrePopupConfig
 }
 public extension BottomPopup {
     func present() { PopupManager.shared.present(AnyBottomPopup(self)) }
 }
 
 // MARK: -Type Eraser
-final class AnyBottomPopup: AnyPopup<BottomPopupConfig>, BottomPopup {
-    typealias Config = BottomPopupConfig
-
-
-}
+final class AnyBottomPopup: AnyPopup, BottomPopup {}

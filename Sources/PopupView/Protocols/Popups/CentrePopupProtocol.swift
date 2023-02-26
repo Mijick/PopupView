@@ -11,15 +11,11 @@
 import SwiftUI
 
 public protocol CentrePopup: Popup {
-    func configurePopup(content: CentrePopupConfig) -> CentrePopupConfig
+    associatedtype Config = CentrePopupConfig
 }
 public extension CentrePopup {
     func present() { PopupManager.shared.present(AnyCentrePopup(self)) }
 }
 
 // MARK: -Type Eraser
-final class AnyCentrePopup: AnyPopup<CentrePopupConfig>, CentrePopup {
-    typealias Config = CentrePopupConfig
-
-
-}
+final class AnyCentrePopup: AnyPopup, CentrePopup {}
