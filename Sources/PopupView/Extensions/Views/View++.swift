@@ -10,6 +10,13 @@
 
 import SwiftUI
 
+public extension View {
+    func implementPopupView() -> some View { ZStack {
+        self
+        PopupView()
+    }}
+}
+
 // MARK: -Alignments
 extension View {
     func alignToBottom(_ value: CGFloat = 0) -> some View {
@@ -48,5 +55,8 @@ fileprivate struct HeightPreferenceKey: PreferenceKey {
 extension View {
     @ViewBuilder func active(if condition: Bool) -> some View {
         if condition { self }
+    }
+    func visible(if condition: Bool) -> some View {
+        opacity(condition.doubleValue)
     }
 }

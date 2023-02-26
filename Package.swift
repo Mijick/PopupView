@@ -11,7 +11,6 @@ let package = Package(
     products: [
         .library(name: "PopupView", targets: ["PopupView"])
     ],
-    dependencies: [],
     targets: [
         .target(name: "PopupView", dependencies: [])
     ]
