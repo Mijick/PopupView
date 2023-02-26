@@ -16,14 +16,14 @@ import SwiftUI
 
 
 public struct PopupView: View {
-    let sourceView: any View
+    //let sourceView: any View
     @StateObject private var stack: PopupStackManager = .shared
 
 
-    public init(@ViewBuilder _ builder: () -> some View) { self.sourceView = builder() }
+    //public init(@ViewBuilder _ builder: () -> some View) { self.sourceView = builder() }
     public var body: some View {
         ZStack {
-            createSourceView()
+            //createSourceView()
             createOverlay()
             createPopupStackView()
         }
@@ -32,9 +32,9 @@ public struct PopupView: View {
 }
 
 private extension PopupView {
-    func createSourceView() -> some View {
-        AnyView(sourceView)
-    }
+//    func createSourceView() -> some View {
+//        AnyView(sourceView)
+//    }
     func createPopupStackView() -> some View {
         ZStack {
             createTopPopupStackView()
@@ -109,4 +109,16 @@ extension PopupStackManager {
 extension PopupStackManager {
     func canBeInserted(_ popup: some Popup) -> Bool { !views.contains(where: { $0.id == popup.id }) }
     func canBeDismissed() -> Bool { !views.isEmpty }
+}
+
+
+
+
+public extension View {
+    func implementPopupView() -> some View {
+        ZStack {
+            self
+            PopupView()
+        }
+    }
 }
