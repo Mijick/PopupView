@@ -37,8 +37,6 @@ private extension PopupView {
     func createOverlay() -> some View {
         overlayColour
             .ignoresSafeArea()
-            //.transition(.opacity)
-
             .visible(if: !stack.isEmpty)
             .animation(overlayAnimation, value: stack.isEmpty)
     }
@@ -46,13 +44,13 @@ private extension PopupView {
 
 private extension PopupView {
     func createTopPopupStackView() -> some View {
-        PopupTopStackView(items: stack.top, closingAction: stack.dismiss)
+        PopupTopStackView(items: stack.top)
     }
     func createCentrePopupStackView() -> some View {
-        PopupCentreStackView(items: stack.centre, closingAction: stack.dismiss)
+        PopupCentreStackView(items: stack.centre)
     }
     func createBottomPopupStackView() -> some View {
-        PopupBottomStackView(items: stack.bottom, closingAction: stack.dismiss)
+        PopupBottomStackView(items: stack.bottom)
     }
 }
 
@@ -61,10 +59,8 @@ private extension PopupView {
     var overlayAnimation: Animation { .easeInOut }
 }
 
-private extension PopupView {
 
-}
 
-private extension PopupView {
 
-}
+// dismiss w:
+// 1. Globalnie - dismiss(all, id, last)

@@ -12,7 +12,6 @@ import SwiftUI
 
 struct PopupBottomStackView: View {
     let items: [AnyBottomPopup]
-    let closingAction: () -> ()
     @State private var heights: [AnyBottomPopup: CGFloat] = [:]
     @State private var gestureTranslation: CGFloat = 0
 
@@ -61,7 +60,7 @@ private extension PopupBottomStackView {
         gestureTranslation = max(0, value.translation.height)
     }
     func onPopupDragGestureEnded(_ value: DragGesture.Value) {
-        if translationProgress() >= gestureClosingThresholdFactor { closingAction() }
+        if translationProgress() >= gestureClosingThresholdFactor { items.last?.dismiss() }
         gestureTranslation = 0
     }
 }

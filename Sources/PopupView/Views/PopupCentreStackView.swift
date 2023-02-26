@@ -12,7 +12,6 @@ import SwiftUI
 
 struct PopupCentreStackView: View {
     let items: [AnyCentrePopup]
-    let closingAction: () -> ()
     @State private var height: CGFloat?
 
     
@@ -37,7 +36,7 @@ private extension PopupCentreStackView {
     }
     func createTapArea() -> some View {
         Color.black.opacity(0.00000000001)
-            .onTapGesture(perform: closingAction)
+            .onTapGesture(perform: items.last?.dismiss ?? {})
             .active(if: config.tapOutsideClosesView)
     }
 }

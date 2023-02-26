@@ -21,8 +21,20 @@ extension PopupStackManager {
     func present(_ popup: some Popup) {
         views.append(popup, if: canBeInserted(popup))
     }
-    func dismiss() {
-        views.removeLast()
+
+
+    enum DismisalType {
+        case last, popup(any Popup), all
+    }
+    func dismiss(_ type: DismisalType) {
+        
+
+
+        switch type {
+            case .last: views.removeLast()
+            case .popup(let popup): views.removeAll(where: { $0.id == popup.id })
+            case .all: views.removeAll()
+        }
     }
 }
 
@@ -35,5 +47,4 @@ extension PopupStackManager {
 
 extension PopupStackManager {
     func canBeInserted(_ popup: some Popup) -> Bool { !views.contains(where: { $0.id == popup.id }) }
-    func canBeDismissed() -> Bool { !views.isEmpty }
 }
