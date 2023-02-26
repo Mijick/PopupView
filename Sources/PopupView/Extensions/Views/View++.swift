@@ -10,6 +10,13 @@
 
 import SwiftUI
 
+public extension View {
+    func implementPopupView() -> some View { ZStack {
+        self
+        PopupView()
+    }}
+}
+
 // MARK: -Alignments
 extension View {
     func alignToBottom(_ value: CGFloat = 0) -> some View {

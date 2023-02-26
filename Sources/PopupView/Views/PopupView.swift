@@ -15,39 +15,30 @@ import SwiftUI
 
 
 
-public struct PopupView: View {
-    //let sourceView: any View
+struct PopupView: View {
     @StateObject private var stack: PopupStackManager = .shared
 
 
-    //public init(@ViewBuilder _ builder: () -> some View) { self.sourceView = builder() }
-    public var body: some View {
-        ZStack {
-            //createSourceView()
-            createOverlay()
-            createPopupStackView()
-        }
-        .animation(.default, value: stack.isEmpty)
+    var body: some View {
+        createPopupStackView()
+            .frame(width: UIScreen.width, height: UIScreen.height)
+            .background(createOverlay())
     }
 }
 
 private extension PopupView {
-//    func createSourceView() -> some View {
-//        AnyView(sourceView)
-//    }
     func createPopupStackView() -> some View {
         ZStack {
             createTopPopupStackView()
             createCentrePopupStackView()
             createBottomPopupStackView()
         }
-        .frame(width: UIScreen.width, height: UIScreen.height)
     }
     func createOverlay() -> some View {
-        Color.black.opacity(0.44)
+        overlayColour
             .ignoresSafeArea()
             .transition(.opacity)
-
+            .animation(overlayAnimation, value: stack.isEmpty)
             .active(if: !stack.isEmpty)
     }
 }
@@ -65,7 +56,8 @@ private extension PopupView {
 }
 
 private extension PopupView {
-
+    var overlayColour: Color { .black.opacity(0.44) }
+    var overlayAnimation: Animation { .easeInOut }
 }
 
 private extension PopupView {
@@ -74,51 +66,4 @@ private extension PopupView {
 
 private extension PopupView {
 
-}
-
-
-
-
-
-
-
-
-class PopupStackManager: ObservableObject {
-    @Published private var views: [any Popup] = []
-
-    static let shared: PopupStackManager = .init()
-    private init() {}
-}
-
-extension PopupStackManager {
-    var top: [AnyTopPopup] { views.compactMap { $0 as? AnyTopPopup } }
-    var centre: [AnyCentrePopup] { views.compactMap { $0 as? AnyCentrePopup } }
-    var bottom: [AnyBottomPopup] { views.compactMap { $0 as? AnyBottomPopup } }
-    var isEmpty: Bool { views.isEmpty }
-}
-
-extension PopupStackManager {
-    func present(_ popup: some Popup) {
-        views.append(popup, if: canBeInserted(popup))
-    }
-    func dismiss() {
-        views.removeLast()
-    }
-}
-
-extension PopupStackManager {
-    func canBeInserted(_ popup: some Popup) -> Bool { !views.contains(where: { $0.id == popup.id }) }
-    func canBeDismissed() -> Bool { !views.isEmpty }
-}
-
-
-
-
-public extension View {
-    func implementPopupView() -> some View {
-        ZStack {
-            self
-            PopupView()
-        }
-    }
 }
