@@ -37,9 +37,10 @@ private extension PopupView {
     func createOverlay() -> some View {
         overlayColour
             .ignoresSafeArea()
-            .transition(.opacity)
-            .animation(overlayAnimation, value: stack.isEmpty)
+            //.transition(.opacity)
+
             .visible(if: !stack.isEmpty)
+            .animation(overlayAnimation, value: stack.isEmpty)
     }
 }
 
