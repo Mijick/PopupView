@@ -18,17 +18,12 @@ public extension CentrePopup {
 }
 
 // MARK: -Type Eraser
-struct AnyCentrePopup: CentrePopup {
-    let id: String
-    var body: some View { _body }
-
+final class AnyCentrePopup: AnyPopup, CentrePopup {
     private let _configBuilder: (CentrePopupConfig) -> CentrePopupConfig
-    private let _body: AnyView
 
     init(_ popup: some CentrePopup) {
-        self.id = popup.id
-        self._body = AnyView(popup.body)
         self._configBuilder = popup.configurePopup
+        super.init(popup)
     }
 }
 extension AnyCentrePopup {

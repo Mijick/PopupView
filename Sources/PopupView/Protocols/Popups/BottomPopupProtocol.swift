@@ -18,17 +18,12 @@ public extension BottomPopup {
 }
 
 // MARK: -Type Eraser
-struct AnyBottomPopup: BottomPopup {
-    let id: String
-    var body: some View { _body }
-
+final class AnyBottomPopup: AnyPopup, BottomPopup {
     private let _configBuilder: (BottomPopupConfig) -> BottomPopupConfig
-    private let _body: AnyView
 
     init(_ popup: some BottomPopup) {
-        self.id = popup.id
-        self._body = AnyView(popup.body)
         self._configBuilder = popup.configurePopup
+        super.init(popup)
     }
 }
 extension AnyBottomPopup {

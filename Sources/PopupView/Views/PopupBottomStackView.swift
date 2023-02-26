@@ -34,7 +34,7 @@ private extension PopupBottomStackView {
 
 private extension PopupBottomStackView {
     func createPopup(_ item: AnyBottomPopup) -> some View {
-        item
+        item.body
             .padding(.bottom, contentBottomPadding)
             .readHeight { saveHeight($0, for: item) }
             .frame(width: width, height: height)

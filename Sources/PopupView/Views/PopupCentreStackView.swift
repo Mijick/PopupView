@@ -26,7 +26,7 @@ struct PopupCentreStackView: View {
 
 private extension PopupCentreStackView {
     func createPopup() -> some View {
-        items.last?
+        items.last?.body
             .readHeight(onChange: getHeight)
             .frame(width: width, height: height)
             .background(backgroundColour)
