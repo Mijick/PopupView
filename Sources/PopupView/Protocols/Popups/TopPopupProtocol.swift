@@ -28,13 +28,13 @@ class AnyPopup {
     var body: some View { _body }
 
     private let _body: AnyView
-    private let _configBuilder: (Configurable) -> Configurable
+    private let _configBuilder: (Any) -> Any
 
 
     init(_ popup: some Popup) {
         self.id = popup.id
         self._body = AnyView(popup.body)
-        self._configBuilder = popup.configurePopup as! (any Configurable) -> any Configurable
+        self._configBuilder = popup.configurePopup as! (Any) -> Any //as! (any Configurable) -> any Configurable
     }
 }
 extension AnyPopup {
