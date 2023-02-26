@@ -11,7 +11,7 @@
 import SwiftUI
 
 public protocol BottomPopup: Popup {
-    associatedtype Config = CentrePopupConfig
+    associatedtype Config = BottomPopupConfig
 }
 public extension BottomPopup {
     func present() { PopupManager.shared.present(AnyBottomPopup(self)) }
