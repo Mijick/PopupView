@@ -39,7 +39,7 @@ private extension PopupView {
             .ignoresSafeArea()
             .transition(.opacity)
             .animation(overlayAnimation, value: stack.isEmpty)
-            .active(if: !stack.isEmpty)
+            .visible(if: !stack.isEmpty)
     }
 }
 
