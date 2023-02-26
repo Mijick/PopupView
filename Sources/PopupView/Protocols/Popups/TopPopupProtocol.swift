@@ -18,19 +18,30 @@ public extension TopPopup {
 }
 
 // MARK: -Type Eraser
-struct AnyTopPopup: TopPopup {
-    let id: String
-    var body: some View { _body }
-
+final class AnyTopPopup: AnyPopup, TopPopup {
     private let _configBuilder: (TopPopupConfig) -> TopPopupConfig
-    private let _body: AnyView
 
     init(_ popup: some TopPopup) {
-        self.id = popup.id
-        self._body = AnyView(popup.body)
         self._configBuilder = popup.configurePopup
+        super.init(popup)
     }
 }
 extension AnyTopPopup {
     func configurePopup(content: TopPopupConfig) -> TopPopupConfig { _configBuilder(content) }
+}
+
+
+
+
+class AnyPopup {
+    let id: String
+    var body: some View { _body }
+
+    private let _body: AnyView
+
+
+    init(_ popup: some Popup) {
+        self.id = popup.id
+        self._body = AnyView(popup.body)
+    }
 }

@@ -10,7 +10,7 @@
 
 import Foundation
 
-protocol Configurable {}
+public protocol Configurable {}
 extension Configurable {
     func changing<T>(path: WritableKeyPath<Self, T>, to value: T) -> Self {
         var clone = self
