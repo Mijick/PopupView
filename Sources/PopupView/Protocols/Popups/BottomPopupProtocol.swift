@@ -14,7 +14,7 @@ public protocol BottomPopup: Popup {
     func configurePopup(content: BottomPopupConfig) -> BottomPopupConfig
 }
 public extension BottomPopup {
-    func present() { PopupStackManager.shared.present(AnyBottomPopup(self)) }
+    func present() { PopupManager.shared.present(AnyBottomPopup(self)) }
 }
 
 // MARK: -Type Eraser

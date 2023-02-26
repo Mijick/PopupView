@@ -14,7 +14,7 @@ public protocol CentrePopup: Popup {
     func configurePopup(content: CentrePopupConfig) -> CentrePopupConfig
 }
 public extension CentrePopup {
-    func present() { PopupStackManager.shared.present(AnyCentrePopup(self)) }
+    func present() { PopupManager.shared.present(AnyCentrePopup(self)) }
 }
 
 // MARK: -Type Eraser

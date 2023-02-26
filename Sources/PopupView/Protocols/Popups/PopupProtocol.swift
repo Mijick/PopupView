@@ -17,5 +17,5 @@ public protocol Popup: View, Identifiable, Hashable, Equatable {
 public extension Popup {
     static func ==(lhs: Self, rhs: Self) -> Bool { lhs.id == rhs.id }
     func hash(into hasher: inout Hasher) { hasher.combine(id) }
-    func dismiss() { PopupStackManager.shared.dismiss(.popup(self)) }
+    func dismiss() { PopupManager.dismiss(id: id) }
 }

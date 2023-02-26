@@ -14,7 +14,7 @@ public protocol TopPopup: Popup {
     func configurePopup(content: TopPopupConfig) -> TopPopupConfig
 }
 public extension TopPopup {
-    func present() { PopupStackManager.shared.present(AnyTopPopup(self)) }
+    func present() { PopupManager.shared.present(AnyTopPopup(self)) }
 }
 
 // MARK: -Type Eraser

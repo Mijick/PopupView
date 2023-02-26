@@ -10,41 +10,32 @@
 
 import SwiftUI
 
-class PopupStackManager: ObservableObject {
+public class PopupManager: ObservableObject {
     @Published private var views: [any Popup] = []
 
-    static let shared: PopupStackManager = .init()
+    static let shared: PopupManager = .init()
     private init() {}
 }
 
-extension PopupStackManager {
+public extension PopupManager {
+    static func dismissLast() { shared.views.removeLast() }
+    static func dismiss(id: String) { shared.views.removeAll(where: { $0.id == id }) }
+    static func dismissAll() { shared.views.removeAll() }
+}
+
+extension PopupManager {
     func present(_ popup: some Popup) {
         views.append(popup, if: canBeInserted(popup))
     }
-
-
-    enum DismisalType {
-        case last, popup(any Popup), all
-    }
-    func dismiss(_ type: DismisalType) {
-        
-
-
-        switch type {
-            case .last: views.removeLast()
-            case .popup(let popup): views.removeAll(where: { $0.id == popup.id })
-            case .all: views.removeAll()
-        }
-    }
 }
 
-extension PopupStackManager {
+extension PopupManager {
     var top: [AnyTopPopup] { views.compactMap { $0 as? AnyTopPopup } }
     var centre: [AnyCentrePopup] { views.compactMap { $0 as? AnyCentrePopup } }
     var bottom: [AnyBottomPopup] { views.compactMap { $0 as? AnyBottomPopup } }
     var isEmpty: Bool { views.isEmpty }
 }
 
-extension PopupStackManager {
+private extension PopupManager {
     func canBeInserted(_ popup: some Popup) -> Bool { !views.contains(where: { $0.id == popup.id }) }
 }

@@ -1,5 +1,5 @@
 //
-//  File.swift of PopupView
+//  PopupView.swift of PopupView
 //
 //  Created by Tomasz Kurylik
 //    - Twitter: https://twitter.com/tkurylik
@@ -10,13 +10,8 @@
 
 import SwiftUI
 
-// PROBLEMY:
-// 2. DISMISS NA PRZYKŁAD TOP POWODUJE DISMISS OSTATNIEGO ELEMENTU JAKO TAKIEGO A NIE TOP
-
-
-
 struct PopupView: View {
-    @StateObject private var stack: PopupStackManager = .shared
+    @StateObject private var stack: PopupManager = .shared
 
 
     var body: some View {
@@ -58,9 +53,3 @@ private extension PopupView {
     var overlayColour: Color { .black.opacity(0.44) }
     var overlayAnimation: Animation { .easeInOut }
 }
-
-
-
-
-// dismiss w:
-// 1. Globalnie - dismiss(all, id, last)
