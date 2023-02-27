@@ -29,12 +29,13 @@ public protocol Popup: View, Identifiable, Hashable, Equatable {
     func configurePopup(content: Config) -> Config
 }
 public extension Popup {
-    func present() { PopupManager.shared.present(AnyPopup<Config>(self)) }
+    func present() { PopupManager.present(AnyPopup<Config>(self)) }
     func dismiss() { PopupManager.dismiss(id: id) }
 
     static func ==(lhs: Self, rhs: Self) -> Bool { lhs.id == rhs.id }
     func hash(into hasher: inout Hasher) { hasher.combine(id) }
 }
+
 
 // MARK: -Type Eraser
 struct AnyPopup<Config: Configurable>: Popup {
