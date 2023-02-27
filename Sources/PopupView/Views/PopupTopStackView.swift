@@ -11,8 +11,8 @@
 import SwiftUI
 
 struct PopupTopStackView: View {
-    let items: [AnyTopPopup]
-    @State private var heights: [AnyTopPopup: CGFloat] = [:]
+    let items: [AnyPopup<TopPopupConfig>]
+    @State private var heights: [AnyPopup<TopPopupConfig>: CGFloat] = [:]
     @State private var gestureTranslation: CGFloat = 0
 
 
@@ -33,7 +33,7 @@ private extension PopupTopStackView {
 }
 
 private extension PopupTopStackView {
-    func createPopup(_ item: AnyTopPopup) -> some View {
+    func createPopup(_ item: AnyPopup<TopPopupConfig>) -> some View {
         item.body
             .padding(.top, contentTopPadding)
             .readHeight { saveHeight($0, for: item) }
@@ -67,7 +67,7 @@ private extension PopupTopStackView {
 
 // MARK: -View Handlers
 private extension PopupTopStackView {
-    func getCornerRadius(for item: AnyTopPopup) -> CGFloat {
+    func getCornerRadius(for item: AnyPopup<TopPopupConfig>) -> CGFloat {
         if isLast(item) { return cornerRadius.active }
         if gestureTranslation.isZero || !isNextToLast(item) { return cornerRadius.inactive }
 
@@ -75,7 +75,7 @@ private extension PopupTopStackView {
         let differenceProgress = difference * translationProgress()
         return cornerRadius.inactive + differenceProgress
     }
-    func getOpacity(for item: AnyTopPopup) -> Double {
+    func getOpacity(for item: AnyPopup<TopPopupConfig>) -> Double {
         if isLast(item) { return 1 }
         if gestureTranslation.isZero { return  1 - invertedIndex(of: item).doubleValue * opacityFactor }
 
@@ -83,7 +83,7 @@ private extension PopupTopStackView {
         let progressDifference = isNextToLast(item) ? 1 - translationProgress() : max(0.6, 1 - translationProgress())
         return 1 - scaleValue * progressDifference
     }
-    func getScale(for item: AnyTopPopup) -> CGFloat {
+    func getScale(for item: AnyPopup<TopPopupConfig>) -> CGFloat {
         if isLast(item) { return 1 }
         if gestureTranslation.isZero { return  1 - invertedIndex(of: item).floatValue * scaleFactor }
 
@@ -91,16 +91,16 @@ private extension PopupTopStackView {
         let progressDifference = isNextToLast(item) ? 1 - translationProgress() : max(0.7, 1 - translationProgress())
         return 1 - scaleValue * progressDifference
     }
-    func getOffset(for item: AnyTopPopup) -> CGFloat { isLast(item) ? gestureTranslation : invertedIndex(of: item).floatValue * offsetFactor }
-    func saveHeight(_ height: CGFloat, for item: AnyTopPopup) { heights[item] = height }
+    func getOffset(for item: AnyPopup<TopPopupConfig>) -> CGFloat { isLast(item) ? gestureTranslation : invertedIndex(of: item).floatValue * offsetFactor }
+    func saveHeight(_ height: CGFloat, for item: AnyPopup<TopPopupConfig>) { heights[item] = height }
 }
 
 private extension PopupTopStackView {
     func translationProgress() -> CGFloat { abs(gestureTranslation) / height }
-    func isLast(_ item: AnyTopPopup) -> Bool { items.last == item }
-    func isNextToLast(_ item: AnyTopPopup) -> Bool { index(of: item) == items.count - 2 }
-    func invertedIndex(of item: AnyTopPopup) -> Int { items.count - 1 - index(of: item) }
-    func index(of item: AnyTopPopup) -> Int { items.firstIndex(of: item) ?? 0 }
+    func isLast(_ item: AnyPopup<TopPopupConfig>) -> Bool { items.last == item }
+    func isNextToLast(_ item: AnyPopup<TopPopupConfig>) -> Bool { index(of: item) == items.count - 2 }
+    func invertedIndex(of item: AnyPopup<TopPopupConfig>) -> Int { items.count - 1 - index(of: item) }
+    func index(of item: AnyPopup<TopPopupConfig>) -> Int { items.firstIndex(of: item) ?? 0 }
 }
 
 private extension PopupTopStackView {

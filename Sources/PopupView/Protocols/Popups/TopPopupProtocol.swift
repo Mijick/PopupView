@@ -13,30 +13,27 @@ import SwiftUI
 public protocol TopPopup: Popup {
     associatedtype Config = TopPopupConfig
 }
-public extension TopPopup {
-    func present() { PopupManager.shared.present(AnyTopPopup(self)) }
-}
-
-// MARK: -Type Eraser
-final class AnyTopPopup: AnyPopup, TopPopup {}
 
 
 
 
-class AnyPopup {
+final class AnyPopup<Config: Configurable>: Popup {
     let id: String
     var body: some View { _body }
 
     private let _body: AnyView
-    private let _configBuilder: (Any) -> Any
+    private let _configBuilder: (Config) -> Config
 
 
     init(_ popup: some Popup) {
         self.id = popup.id
         self._body = AnyView(popup.body)
-        self._configBuilder = popup.configurePopup as! (Any) -> Any //as! (any Configurable) -> any Configurable
+        self._configBuilder = popup.configurePopup as! (Config) -> Config
     }
 }
 extension AnyPopup {
-    func configurePopup<C: Configurable>(content: C) -> C { _configBuilder(content) as! C }
+    func configurePopup(content: Config) -> Config { _configBuilder(content) }
 }
+
+
+

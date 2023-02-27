@@ -13,9 +13,3 @@ import SwiftUI
 public protocol BottomPopup: Popup {
     associatedtype Config = BottomPopupConfig
 }
-public extension BottomPopup {
-    func present() { PopupManager.shared.present(AnyBottomPopup(self)) }
-}
-
-// MARK: -Type Eraser
-final class AnyBottomPopup: AnyPopup, BottomPopup {}

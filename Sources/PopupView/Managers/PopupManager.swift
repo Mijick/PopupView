@@ -30,9 +30,9 @@ extension PopupManager {
 }
 
 extension PopupManager {
-    var top: [AnyTopPopup] { views.compactMap { $0 as? AnyTopPopup } }
-    var centre: [AnyCentrePopup] { views.compactMap { $0 as? AnyCentrePopup } }
-    var bottom: [AnyBottomPopup] { views.compactMap { $0 as? AnyBottomPopup } }
+    var top: [AnyPopup<TopPopupConfig>] { views.compactMap { $0 as? AnyPopup<TopPopupConfig> } }
+    var centre: [AnyPopup<CentrePopupConfig>] { views.compactMap { $0 as? AnyPopup<CentrePopupConfig> } }
+    var bottom: [AnyPopup<BottomPopupConfig>] { views.compactMap { $0 as? AnyPopup<BottomPopupConfig> } }
     var isEmpty: Bool { views.isEmpty }
 }
 

@@ -11,7 +11,7 @@
 import SwiftUI
 
 struct PopupCentreStackView: View {
-    let items: [AnyCentrePopup]
+    let items: [AnyPopup<CentrePopupConfig>]
     @State private var height: CGFloat?
 
     
@@ -43,7 +43,7 @@ private extension PopupCentreStackView {
 
 // MARK: -Logic Handlers
 private extension PopupCentreStackView {
-    func onItemsChange(_ items: [AnyCentrePopup]) {
+    func onItemsChange(_ items: [AnyPopup<CentrePopupConfig>]) {
         if items.isEmpty { height = nil }
     }
 }
