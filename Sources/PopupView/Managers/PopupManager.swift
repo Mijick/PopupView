@@ -24,18 +24,16 @@ public extension PopupManager {
 }
 
 extension PopupManager {
-    func present(_ popup: some Popup) {
-        views.append(popup, if: canBeInserted(popup))
-    }
+    static func present(_ popup: some Popup) { shared.views.append(popup, if: canBeInserted(popup)) }
 }
 
 extension PopupManager {
-    var top: [AnyTopPopup] { views.compactMap { $0 as? AnyTopPopup } }
-    var centre: [AnyCentrePopup] { views.compactMap { $0 as? AnyCentrePopup } }
-    var bottom: [AnyBottomPopup] { views.compactMap { $0 as? AnyBottomPopup } }
+    var top: [AnyPopup<TopPopupConfig>] { views.compactMap { $0 as? AnyPopup<TopPopupConfig> } }
+    var centre: [AnyPopup<CentrePopupConfig>] { views.compactMap { $0 as? AnyPopup<CentrePopupConfig> } }
+    var bottom: [AnyPopup<BottomPopupConfig>] { views.compactMap { $0 as? AnyPopup<BottomPopupConfig> } }
     var isEmpty: Bool { views.isEmpty }
 }
 
 private extension PopupManager {
-    func canBeInserted(_ popup: some Popup) -> Bool { !views.contains(where: { $0.id == popup.id }) }
+    static func canBeInserted(_ popup: some Popup) -> Bool { !shared.views.contains(where: { $0.id == popup.id }) }
 }

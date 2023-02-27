@@ -11,7 +11,7 @@
 import SwiftUI
 
 struct PopupCentreStackView: View {
-    let items: [AnyCentrePopup]
+    let items: [AnyPopup<CentrePopupConfig>]
     @State private var height: CGFloat?
 
     
@@ -26,7 +26,7 @@ struct PopupCentreStackView: View {
 
 private extension PopupCentreStackView {
     func createPopup() -> some View {
-        items.last?
+        items.last?.body
             .readHeight(onChange: getHeight)
             .frame(width: width, height: height)
             .background(backgroundColour)
@@ -43,7 +43,7 @@ private extension PopupCentreStackView {
 
 // MARK: -Logic Handlers
 private extension PopupCentreStackView {
-    func onItemsChange(_ items: [AnyCentrePopup]) {
+    func onItemsChange(_ items: [AnyPopup<CentrePopupConfig>]) {
         if items.isEmpty { height = nil }
     }
 }
@@ -57,7 +57,7 @@ private extension PopupCentreStackView {
     var width: CGFloat { max(0, UIScreen.width - config.horizontalPadding * 2) }
     var opacity: Double { (height != nil).doubleValue }
     var cornerRadius: CGFloat { config.cornerRadius }
-    var scale: CGFloat { height == nil ? 1.4 : 1 }
+    var scale: CGFloat { height == nil ? 1.28 : 1 }
     var backgroundColour: Color { config.backgroundColour }
     var transitionAnimation: Animation { config.transitionAnimation }
     var config: CentrePopupConfig { items.last?.configurePopup(content: .init()) ?? .init() }
