@@ -117,5 +117,5 @@ private extension PopupBottomStackView {
     var dragGestureAnimation: Animation { config.dragGestureAnimation }
     var gestureClosingThresholdFactor: CGFloat { config.dragGestureProgressToClose }
     var transition: AnyTransition { .move(edge: .bottom) }
-    var config: BottomPopupConfig { items.last?.configurePopup(content: .init()) ?? .init() }
+    var config: BottomPopupConfig { items.last?.configurePopup(config: .init()) ?? .init() }
 }
