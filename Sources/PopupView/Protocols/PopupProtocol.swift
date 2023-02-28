@@ -29,7 +29,7 @@ public protocol Popup: View, Identifiable, Hashable, Equatable {
     var id: String { get }
 
     func createContent() -> V
-    func configurePopup(content: Config) -> Config
+    func configurePopup(popup: Config) -> Config
 }
 public extension Popup {
     func present() { PopupManager.present(AnyPopup<Config>(self)) }
@@ -57,5 +57,5 @@ struct AnyPopup<Config: Configurable>: Popup {
 }
 extension AnyPopup {
     func createContent() -> some View { _body }
-    func configurePopup(content: Config) -> Config { _configBuilder(content) }
+    func configurePopup(popup: Config) -> Config { _configBuilder(popup) }
 }

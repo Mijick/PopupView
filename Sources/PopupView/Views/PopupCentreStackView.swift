@@ -60,5 +60,5 @@ private extension PopupCentreStackView {
     var scale: CGFloat { height == nil ? 1.28 : 1 }
     var backgroundColour: Color { config.backgroundColour }
     var transitionAnimation: Animation { config.transitionAnimation }
-    var config: CentrePopupConfig { items.last?.configurePopup(content: .init()) ?? .init() }
+    var config: CentrePopupConfig { items.last?.configurePopup(popup: .init()) ?? .init() }
 }
