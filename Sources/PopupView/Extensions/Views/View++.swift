@@ -37,7 +37,13 @@ extension View {
 // MARK: -Content Height Reader
 extension View {
     func readHeight(onChange action: @escaping (CGFloat) -> ()) -> some View {
-        background(heightReader).onPreferenceChange(HeightPreferenceKey.self, perform: action)
+        GeometryReader {
+            Color.clear.preference(key: HeightPreferenceKey.self, value: $0.size.height)
+        }
+
+
+
+        //background(heightReader).onPreferenceChange(HeightPreferenceKey.self, perform: action)
     }
 }
 private extension View {
