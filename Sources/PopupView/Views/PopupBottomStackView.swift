@@ -36,7 +36,6 @@ private extension PopupBottomStackView {
     func createPopup(_ item: AnyPopup<BottomPopupConfig>) -> some View {
         item.body
             .padding(.bottom, contentBottomPadding)
-            .frame(maxHeight: .infinity)
             .readHeight { saveHeight($0, for: item) }
             .frame(width: width, height: height)
             .background(backgroundColour)
@@ -93,7 +92,14 @@ private extension PopupBottomStackView {
         return 1 - scaleValue * progressDifference
     }
     func getOffset(for item: AnyPopup<BottomPopupConfig>) -> CGFloat { isLast(item) ? gestureTranslation : invertedIndex(of: item).floatValue * offsetFactor }
-    func saveHeight(_ height: CGFloat, for item: AnyPopup<BottomPopupConfig>) { heights[item] = height }
+    func saveHeight(_ height: CGFloat, for item: AnyPopup<BottomPopupConfig>) {
+
+
+        heights[item] = config.contentFillsWholeHeight ? UIScreen.height : height
+
+
+        
+    }
 }
 
 private extension PopupBottomStackView {
