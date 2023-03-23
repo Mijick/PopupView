@@ -91,15 +91,14 @@ private extension PopupBottomStackView {
         let progressDifference = isNextToLast(item) ? 1 - translationProgress() : max(0.7, 1 - translationProgress())
         return 1 - scaleValue * progressDifference
     }
-    func getOffset(for item: AnyPopup<BottomPopupConfig>) -> CGFloat { isLast(item) ? gestureTranslation : invertedIndex(of: item).floatValue * offsetFactor }
-    func saveHeight(_ height: CGFloat, for item: AnyPopup<BottomPopupConfig>) {
-
-
-        heights[item] = config.contentFillsWholeHeight ? maxHeight : height
-
-
-        
+    func getMaxHeight() -> CGFloat {
+        let basicHeight = UIScreen.height - UIScreen.safeArea.top
+        let stackedViewsCount = max(config.maxStackedElements, items.count - 1)
+        let stackedViewsHeight = config.stackedViewsOffset * .init(stackedViewsCount)
+        return basicHeight - stackedViewsHeight + maxHeightFactor
     }
+    func getOffset(for item: AnyPopup<BottomPopupConfig>) -> CGFloat { isLast(item) ? gestureTranslation : invertedIndex(of: item).floatValue * offsetFactor }
+    func saveHeight(_ height: CGFloat, for item: AnyPopup<BottomPopupConfig>) { heights[item] = config.contentFillsWholeHeight ? getMaxHeight() : height }
 }
 
 private extension PopupBottomStackView {
@@ -115,7 +114,7 @@ private extension PopupBottomStackView {
     var bottomPadding: CGFloat { config.bottomPadding }
     var width: CGFloat { UIScreen.width - config.horizontalPadding * 2 }
     var height: CGFloat { heights.first { $0.key == items.last }?.value ?? 0 }
-    var maxHeight: CGFloat { UIScreen.height - UIScreen.safeArea.top - .init(items.count - 1) * config.stackedViewsOffset + 12 }
+    var maxHeightFactor: CGFloat { 12 }
     var opacityFactor: Double { 1 / config.maxStackedElements.doubleValue }
     var offsetFactor: CGFloat { -config.stackedViewsOffset }
     var scaleFactor: CGFloat { config.stackedViewsScale }
