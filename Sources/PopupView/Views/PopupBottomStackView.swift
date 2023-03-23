@@ -115,7 +115,7 @@ private extension PopupBottomStackView {
     var bottomPadding: CGFloat { config.bottomPadding }
     var width: CGFloat { UIScreen.width - config.horizontalPadding * 2 }
     var height: CGFloat { heights.first { $0.key == items.last }?.value ?? 0 }
-    var maxHeight: CGFloat { UIScreen.height - UIScreen.safeArea.top - .init(items.count) * config.stackedViewsOffset }
+    var maxHeight: CGFloat { UIScreen.height - UIScreen.safeArea.top - .init(items.count - 1) * config.stackedViewsOffset }
     var opacityFactor: Double { 1 / config.maxStackedElements.doubleValue }
     var offsetFactor: CGFloat { -config.stackedViewsOffset }
     var scaleFactor: CGFloat { config.stackedViewsScale }
