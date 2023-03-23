@@ -93,7 +93,7 @@ private extension PopupBottomStackView {
     }
     func getMaxHeight() -> CGFloat {
         let basicHeight = UIScreen.height - UIScreen.safeArea.top
-        let stackedViewsCount = max(config.maxStackedElements, items.count - 1)
+        let stackedViewsCount = min(config.maxStackedElements, items.count - 1)
         let stackedViewsHeight = config.stackedViewsOffset * .init(stackedViewsCount)
         return basicHeight - stackedViewsHeight + maxHeightFactor
     }
