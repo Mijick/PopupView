@@ -11,10 +11,9 @@
 import SwiftUI
 
 public extension View {
-    func implementPopupView() -> some View { ZStack {
-        self
-        PopupView()
-    }}
+    func implementPopupView() -> some View {
+        overlay(PopupView())
+    }
 }
 
 // MARK: -Alignments
