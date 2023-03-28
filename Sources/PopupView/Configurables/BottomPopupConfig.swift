@@ -32,7 +32,7 @@ public struct BottomPopupConfig: Configurable {
     var horizontalPadding: CGFloat = 0
     var bottomPadding: CGFloat = 0
     var stackedViewsOffset: CGFloat = 12
-    var stackedViewsScale: CGFloat = 0.09
+    var stackedViewsScale: CGFloat = 0.05
     var stackedViewsCornerRadius: CGFloat = 10
     var maxStackedElements: Int = 4
     var activeViewCornerRadius: CGFloat = 32
