@@ -13,6 +13,7 @@ import SwiftUI
 struct PopupBottomStackView: View {
     let items: [AnyPopup<BottomPopupConfig>]
     @State private var heights: [AnyPopup<BottomPopupConfig>: CGFloat] = [:]
+    @State private var scales: [AnyPopup<BottomPopupConfig>: CGFloat] = [:]
     @State private var gestureTranslation: CGFloat = 0
 
 
@@ -43,7 +44,7 @@ private extension PopupBottomStackView {
             .cornerRadius(getCornerRadius(for: item))
             .opacity(getOpacity(for: item))
             .offset(y: getOffset(for: item))
-            .scaleEffect(getScale(for: item), anchor: .top)
+            .scaleEffect(scales.first { $0.key == items.last }?.value ?? 0, anchor: .top)
             .alignToBottom(bottomPadding)
             .transition(transition)
             .zIndex(isLast(item).doubleValue)
@@ -97,6 +98,8 @@ private extension PopupBottomStackView {
             case true: heights[item] = getMaxHeight()
             case false: heights[item] = min(height, getMaxHeight() - bottomPadding)
         }
+
+        scales[item] = getScale(for: item)
     }
     func getMaxHeight() -> CGFloat {
         let basicHeight = UIScreen.height - UIScreen.safeArea.top
