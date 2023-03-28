@@ -37,13 +37,13 @@ private extension PopupBottomStackView {
         item.body
             .padding(.bottom, contentBottomPadding)
             .readHeight { saveHeight($0, for: item) }
-            .scaleEffect(getScale(for: item), anchor: .top)
+
             .frame(width: width, height: height, alignment: .top)
             .background(backgroundColour)
             .cornerRadius(getCornerRadius(for: item))
             .opacity(getOpacity(for: item))
             .offset(y: getOffset(for: item))
-
+            .scaleEffect(getScale(for: item), anchor: .top)
             .alignToBottom(bottomPadding)
             .transition(transition)
             .zIndex(isLast(item).doubleValue)
