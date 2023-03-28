@@ -18,20 +18,15 @@ public class PopupManager: ObservableObject {
 }
 
 public extension PopupManager {
-    static func dismissLast() { shared.views.removeLast() }
+    static func dismissLast() { DispatchQueue.main.async { shared.views.removeLast() } }
     static func dismiss(id: String) { shared.views.removeAll(where: { $0.id == id }) }
     static func dismissAll() { shared.views.removeAll() }
 }
 
 extension PopupManager {
-    static func present(_ popup: some Popup) {
-        //DispatchQueue.main.async {
-            //withAnimation(.spring(response: 0.44, dampingFraction: 1, blendDuration: 0.4)) {
-                shared.views.append(popup, if: canBeInserted(popup))
-            //}
-        //}
-
-       }
+    static func present(_ popup: some Popup) { DispatchQueue.main.async {
+        shared.views.append(popup, if: canBeInserted(popup))
+    }}
 }
 
 extension PopupManager {
