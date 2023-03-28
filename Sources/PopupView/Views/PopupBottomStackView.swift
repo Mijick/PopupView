@@ -45,7 +45,7 @@ private extension PopupBottomStackView {
 
             .scaleEffect(getScale(for: item), anchor: .top)
             //.offset(y: )
-            .alignToBottom(bottomPadding + getOffset(for: item))
+            .alignToBottom(bottomPadding)
             .transition(transition)
             .zIndex(isLast(item).doubleValue)
     }
