@@ -44,7 +44,7 @@ private extension PopupBottomStackView {
             .cornerRadius(getCornerRadius(for: item))
             .opacity(getOpacity(for: item))
 
-            .scaleEffect(getScale(for: item), anchor: .top)
+            //.scaleEffect(getScale(for: item), anchor: .top)
             .offset(y: getOffset(for: item))
             .alignToBottom(bottomPadding)
             .transition(transition)
