@@ -42,9 +42,10 @@ private extension PopupBottomStackView {
             .background(backgroundColour)
             .cornerRadius(getCornerRadius(for: item))
             .opacity(getOpacity(for: item))
-            .offset(y: getOffset(for: item))
+
             .scaleEffect(getScale(for: item), anchor: .top)
-            .alignToBottom(bottomPadding)
+            //.offset(y: )
+            .alignToBottom(bottomPadding + getOffset(for: item))
             .transition(transition)
             .zIndex(isLast(item).doubleValue)
     }
@@ -95,7 +96,7 @@ private extension PopupBottomStackView {
     func saveHeight(_ height: CGFloat, for item: AnyPopup<BottomPopupConfig>) {
         switch config.contentFillsWholeHeight {
             case true: heights[item] = getMaxHeight()
-            case false: heights[item] = height//min(height, getMaxHeight() - bottomPadding)
+            case false: heights[item] = min(height, getMaxHeight() - bottomPadding)
         }
     }
     func getMaxHeight() -> CGFloat {
