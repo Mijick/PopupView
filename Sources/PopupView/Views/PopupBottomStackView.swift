@@ -87,7 +87,11 @@ private extension PopupBottomStackView {
         return 1 - scaleValue * progressDifference
     }
     func getScale(for item: AnyPopup<BottomPopupConfig>) -> CGFloat {
-        if isLast(item) { return 1 }
+        print(item.id, isLast(item))
+
+
+
+        //if isLast(item) { return 1 }
         if gestureTranslation.isZero { return  1 - invertedIndex(of: item).floatValue * scaleFactor }
 
         let scaleValue = invertedIndex(of: item).floatValue * scaleFactor
