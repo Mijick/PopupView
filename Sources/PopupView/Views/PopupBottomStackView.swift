@@ -22,7 +22,7 @@ struct PopupBottomStackView: View {
             .animation(transitionAnimation, value: items)
             .animation(transitionAnimation, value: heights)
             .animation(dragGestureAnimation, value: gestureTranslation)
-            .simultaneousGesture(popupDragGesture)
+            .gesture(popupDragGesture)
     }
 }
 

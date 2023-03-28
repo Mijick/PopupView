@@ -24,7 +24,7 @@ public extension PopupManager {
 }
 
 extension PopupManager {
-    static func present(_ popup: some Popup) { withAnimation(.default) {
+    static func present(_ popup: some Popup) { DispatchQueue.main.async {
         shared.views.append(popup, if: canBeInserted(popup))
     }}
 }
