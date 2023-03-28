@@ -20,6 +20,7 @@ struct PopupCentreStackView: View {
             .frame(width: UIScreen.width, height: UIScreen.height)
             .background(createTapArea())
             .animation(transitionAnimation, value: height)
+            .animation(transitionAnimation, value: items)
             .onChange(of: items, perform: onItemsChange)
     }
 }
@@ -44,6 +45,9 @@ private extension PopupCentreStackView {
 // MARK: -Logic Handlers
 private extension PopupCentreStackView {
     func onItemsChange(_ items: [AnyPopup<CentrePopupConfig>]) {
+        // zmiana 
+
+
         if items.isEmpty { height = nil }
     }
 }
