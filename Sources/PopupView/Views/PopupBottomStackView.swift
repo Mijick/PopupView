@@ -20,10 +20,8 @@ struct PopupBottomStackView: View {
         ZStack(alignment: .top, content: createPopupStack)
             .ignoresSafeArea()
             .animation(transitionAnimation, value: items)
-            //.animation(transitionAnimation.delay(0.2), value: items.last)
             .animation(transitionAnimation, value: heights)
             .animation(dragGestureAnimation, value: gestureTranslation)
-            .onChange(of: items) { _ in gestureTranslation = 0 }
             .gesture(popupDragGesture)
     }
 }
@@ -43,9 +41,8 @@ private extension PopupBottomStackView {
             .background(backgroundColour)
             .cornerRadius(getCornerRadius(for: item))
             .opacity(getOpacity(for: item))
-
-            //.scaleEffect(getScale(for: item), anchor: .top)
-            //.offset(y: getOffset(for: item))
+            .offset(y: getOffset(for: item))
+            .scaleEffect(getScale(for: item), anchor: .top)
             .alignToBottom(bottomPadding)
             .transition(transition)
             .zIndex(isLast(item).doubleValue)
