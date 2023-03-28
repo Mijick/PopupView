@@ -24,9 +24,9 @@ public extension PopupManager {
 }
 
 extension PopupManager {
-    static func present(_ popup: some Popup) { //withAnimation(.default) {
+    static func present(_ popup: some Popup) { withAnimation(.spring(response: 0.44, dampingFraction: 1, blendDuration: 0.4)) {
         shared.views.append(popup, if: canBeInserted(popup))
-    }//}
+    }}
 }
 
 extension PopupManager {

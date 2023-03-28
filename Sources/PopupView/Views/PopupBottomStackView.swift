@@ -19,7 +19,7 @@ struct PopupBottomStackView: View {
     var body: some View {
         ZStack(alignment: .top, content: createPopupStack)
             .ignoresSafeArea()
-            .animation(transitionAnimation, value: items.count)
+            .animation(transitionAnimation, value: items)
             .animation(transitionAnimation, value: heights)
             .animation(dragGestureAnimation, value: gestureTranslation)
             .simultaneousGesture(popupDragGesture)
