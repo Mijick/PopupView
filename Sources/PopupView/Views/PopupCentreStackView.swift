@@ -45,9 +45,10 @@ private extension PopupCentreStackView {
         ac?
             .readHeight(onChange: saveHeight(_:))
             .frame(width: width, height: height)
+            .opacity(aaaChang ? 0.2 : 1)
             .background(backgroundColour)
             .cornerRadius(cornerRadius)
-            .opacity(aaaChang ? 0 : 1)
+
             //.scaleEffect(scale)
             //.opacity(opacity)
     }
