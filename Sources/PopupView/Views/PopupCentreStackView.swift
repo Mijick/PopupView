@@ -12,7 +12,7 @@ import SwiftUI
 
 struct PopupCentreStackView: View {
     let items: [AnyPopup<CentrePopupConfig>]
-    @State private var height: CGFloat = 0
+    @State private var heights: [AnyPopup<CentrePopupConfig>: CGFloat] = [:]
 
     
     var body: some View {
@@ -20,6 +20,7 @@ struct PopupCentreStackView: View {
             if items.isEmpty { EmptyView() }
             else { createPopup() }
         }
+        .animation(transitionAnimation, value: height)
         //.id(items.isEmpty)
         //.animation(transitionAnimation, value: items)
         .transition(
@@ -33,7 +34,7 @@ struct PopupCentreStackView: View {
             //.scale(scale: 1.12).combined(with: .opacity).animation(transitionAnimation))
         .frame(width: UIScreen.width, height: UIScreen.height)
         .background(createTapArea())
-        .animation(transitionAnimation, value: height)
+
 
 
 
@@ -48,7 +49,7 @@ struct PopupCentreStackView: View {
 private extension PopupCentreStackView {
     func createPopup() -> some View {
         items.last?.body
-            .readHeight(onChange: getHeight)
+            .readHeight { saveHeight($0, for: items.last!) }
             .frame(width: width, height: height)
             .background(backgroundColour)
             .cornerRadius(cornerRadius)
@@ -64,11 +65,12 @@ private extension PopupCentreStackView {
 
 // MARK: -View Handlers
 private extension PopupCentreStackView {
-    func getHeight(_ value: CGFloat) { height = value }
+    func saveHeight(_ height: CGFloat, for item: AnyPopup<CentrePopupConfig>) { heights[item] = height }
 }
 
 private extension PopupCentreStackView {
     var width: CGFloat { max(0, UIScreen.width - config.horizontalPadding * 2) }
+    var height: CGFloat { heights.first { $0.key == items.last }?.value ?? 0 }
     var cornerRadius: CGFloat { config.cornerRadius }
     var backgroundColour: Color { config.backgroundColour }
     var transitionAnimation: Animation { config.transitionAnimation }
