@@ -18,12 +18,15 @@ struct PopupCentreStackView: View {
     @State private var ac: AnyView?
     @State private var configTemp: CentrePopupConfig?
 
+    @State private var aaaChang: Bool = false
+
 
     var body: some View {
         createPopup()
             .frame(width: UIScreen.width, height: UIScreen.height)
             .background(createTapArea())
             .animation(transitionAnimation, value: height)
+            .animation(transitionAnimation, value: aaaChang)
             //.animation(transitionAnimation, value: items.isEmpty)
             .transition(
                 .scale(scale: items.isEmpty ? 0.9 : 1.1).combined(with: .opacity).animation(height == nil || items.isEmpty ? transitionAnimation : nil)
@@ -44,6 +47,7 @@ private extension PopupCentreStackView {
             .frame(width: width, height: height)
             .background(backgroundColour)
             .cornerRadius(cornerRadius)
+            .opacity(aaaChang ? 0 : 1)
             //.scaleEffect(scale)
             //.opacity(opacity)
     }
@@ -64,6 +68,9 @@ private extension PopupCentreStackView {
         } else {
             ac = AnyView(items.last!.body)
             configTemp = items.last!.configurePopup(popup: .init())
+
+            aaaChang = false
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) { aaaChang = true }
         }
 
 
