@@ -22,7 +22,7 @@ struct PopupCentreStackView: View {
     var body: some View {
         createPopup()
             .frame(width: UIScreen.width, height: UIScreen.height)
-            .background(createTapArea())
+            //.background(createTapArea())
             .animation(transitionAnimation, value: height)
             //.animation(transitionAnimation, value: items.isEmpty)
             .transition(
