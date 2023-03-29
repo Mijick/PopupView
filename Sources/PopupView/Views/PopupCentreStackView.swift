@@ -16,12 +16,12 @@ struct PopupCentreStackView: View {
 
     
     var body: some View {
-        a()
-        .animation(transitionAnimation, value: height)
-        .animation(transitionAnimation, value: items.isEmpty)
+        createPopup()
+        //.animation(transitionAnimation, value: height)
+        //.animation(transitionAnimation, value: items)
         .transition(
-            .asymmetric(insertion: .scale(scale: 1.1).combined(with: .opacity),
-                        removal: .scale(scale: 0.9).combined(with: .opacity))
+            .asymmetric(insertion: .scale(scale: 1.1).combined(with: .opacity).animation(transitionAnimation),
+                        removal: .scale(scale: 0.9).combined(with: .opacity).animation(transitionAnimation))
         )
 
         .background(createTapArea())
@@ -29,15 +29,8 @@ struct PopupCentreStackView: View {
 }
 
 private extension PopupCentreStackView {
-    func a() -> some View {
-        Group {
-            ForEach(items, id: \.id, content: createPopup)
-        }
-    }
-
-
-    func createPopup(_ item: AnyPopup<CentrePopupConfig>) -> some View {
-        item.body
+    func createPopup() -> some View {
+        items.last?.body
             .readHeight { saveHeight($0, for: items.last!) }
             .frame(width: width, height: height)
             .background(backgroundColour)
