@@ -53,7 +53,7 @@ private extension PopupCentreStackView {
 private extension PopupCentreStackView {
     func onItemsChange(_ items: [AnyPopup<CentrePopupConfig>]) {
         if items.isEmpty {
-            height = nil
+            //height = nil
             ac = nil
 
         } else {
@@ -68,7 +68,7 @@ private extension PopupCentreStackView {
 
 // MARK: -View Handlers
 private extension PopupCentreStackView {
-    func saveHeight(_ value: CGFloat) { height = value }
+    func saveHeight(_ value: CGFloat) { height = items.isEmpty ? nil : value }
 }
 
 private extension PopupCentreStackView {
