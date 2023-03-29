@@ -20,7 +20,7 @@ struct PopupCentreStackView: View {
             if items.isEmpty { EmptyView() }
             else { createPopup() }
         }
-        .transition(.scale(scale: 0.9))
+        .transition(.scale(scale: 0.9).combined(with: .opacity))
         .id(items.isEmpty)
 
 
@@ -41,8 +41,8 @@ private extension PopupCentreStackView {
             .frame(width: width, height: height)
             .background(backgroundColour)
             .cornerRadius(cornerRadius)
-            .scaleEffect(scale)
-            .opacity(opacity)
+            //.scaleEffect(scale)
+            //.opacity(opacity)
     }
     func createTapArea() -> some View {
         Color.black.opacity(0.00000000001)
