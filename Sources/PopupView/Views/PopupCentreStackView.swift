@@ -23,7 +23,7 @@ struct PopupCentreStackView: View {
         //.id(items.isEmpty)
         //.animation(transitionAnimation, value: items)
         .transition(
-            .asymmetric(insertion: .move(edge: .leading).animation(transitionAnimation),//.scale(scale: 1.1).combined(with: .opacity).animation(transitionAnimation),
+            .asymmetric(insertion: .scale(scale: 1.1).combined(with: .opacity).animation(transitionAnimation),//.scale(scale: 1.1).combined(with: .opacity).animation(transitionAnimation),
 
                         removal: .scale(scale: 0.9).combined(with: .opacity).animation(transitionAnimation))
         )
