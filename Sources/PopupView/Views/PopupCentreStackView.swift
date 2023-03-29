@@ -22,6 +22,7 @@ struct PopupCentreStackView: View {
             .background(createTapArea())
             .animation(transitionAnimation, value: height)
             .animation(transitionAnimation, value: items)
+            .animation(transitionAnimation, value: scale)
             .onChange(of: items, perform: onItemsChange)
     }
 }
