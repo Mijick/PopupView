@@ -51,8 +51,11 @@ private extension PopupCentreStackView {
 
 
         if items.isEmpty {
-            scale = 0.8
-            height = 0
+            DispatchQueue.main.async {
+                scale = 0.8
+                height = 0
+            }
+
 
         }
 
