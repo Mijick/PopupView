@@ -48,32 +48,25 @@ private extension PopupCentreStackView {
 // MARK: -Logic Handlers
 private extension PopupCentreStackView {
     func onItemsChange(_ items: [AnyPopup<CentrePopupConfig>]) {
-        if let item = items.last {
+        guard let popup = items.last else { return handleClosingPopup() }
 
-
-            DispatchQueue.main.async {
-                activeView = AnyView(item.body)
-                configTemp = item.configurePopup(popup: .init())
-            }
-
-
-
-
-
-
-
-            guard height != nil else {  return }
-
-            contentIsAnimated = true
-            DispatchQueue.main.asyncAfter(deadline: .now() + contentOpacityAnimationTime) { contentIsAnimated = false }
-
-
-
-        } else {
-            height = nil
-            activeView = nil
-        }
+        showNewPopup(popup)
+        animateContentIfNeeded()
     }
+}
+private extension PopupCentreStackView {
+    func showNewPopup(_ popup: AnyPopup<CentrePopupConfig>) { DispatchQueue.main.async {
+        activeView = AnyView(popup.body)
+        configTemp = popup.configurePopup(popup: .init())
+    }}
+    func animateContentIfNeeded() { if height != nil {
+        contentIsAnimated = true
+        DispatchQueue.main.asyncAfter(deadline: .now() + contentOpacityAnimationTime) { contentIsAnimated = false }
+    }}
+    func handleClosingPopup() { DispatchQueue.main.async {
+        height = nil
+        activeView = nil
+    }}
 }
 
 // MARK: -View Handlers
