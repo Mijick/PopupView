@@ -20,7 +20,7 @@ struct PopupCentreStackView: View {
             .frame(width: UIScreen.width, height: UIScreen.height)
             .background(createTapArea())
             .animation(transitionAnimation, value: height)
-            .transition(.asymmetric(insertion: .opacity.animation(transitionAnimation), removal: .scale(scale: 0.9).combined(with: .opacity).animation(transitionAnimation)))
+            .transition(.asymmetric(insertion: .opacity.animation(transitionAnimation), removal: .scale(scale: 0.9).combined(with: .opacity).animation(items.count == 1 ? transitionAnimation : nil)))
             //.onChange(of: items, perform: onItemsChange)
     }
 }
