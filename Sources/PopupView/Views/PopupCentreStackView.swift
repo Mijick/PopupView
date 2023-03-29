@@ -16,7 +16,7 @@ struct PopupCentreStackView: View {
 
     
     var body: some View {
-        ZStack {
+        Group {
             if items.isEmpty { EmptyView() }
             else { createPopup() }
         }
