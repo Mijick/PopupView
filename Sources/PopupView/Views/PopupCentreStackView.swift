@@ -25,12 +25,12 @@ struct PopupCentreStackView: View {
             .animation(ac == nil ? nil : transitionAnimation, value: height)
             //.animation(transitionAnimation, value: items.isEmpty)
             .transition(
-                .scale(scale: 1.1).combined(with: .opacity).animation(items.count == 1 && height == nil || items.isEmpty ? transitionAnimation : nil)
+                //.scale(scale: 1.1).combined(with: .opacity).animation(items.count == 1 && height == nil || items.isEmpty ? transitionAnimation : nil)
 
 
-//                .asymmetric(
-//                insertion: .scale(scale: 1.1).combined(with: .opacity).animation(items.count == 1 && height == nil ? transitionAnimation : nil),
-//                removal: .scale(scale: 0.9).combined(with: .opacity).animation(items.count == 0 ? transitionAnimation : nil))
+                .asymmetric(
+                insertion: .scale(scale: 1.1).combined(with: .opacity).animation(items.count == 1 && height == nil ? transitionAnimation : nil),
+                removal: .scale(scale: 0.9).combined(with: .opacity).animation(items.count == 0 ? transitionAnimation : nil))
             )
             .onChange(of: items, perform: onItemsChange)
     }
