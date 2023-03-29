@@ -16,10 +16,13 @@ struct PopupCentreStackView: View {
 
     
     var body: some View {
-        Group {
-            if items.isEmpty { EmptyView() }
-            else { createPopup() }
-        }
+        createPopup()
+
+
+//        Group {
+//            if items.isEmpty { EmptyView() }
+//            else { createPopup() }
+//        }
         .animation(transitionAnimation, value: height)
         .animation(transitionAnimation, value: items)
         .transition(
@@ -27,20 +30,7 @@ struct PopupCentreStackView: View {
                         removal: .scale(scale: 0.9).combined(with: .opacity).animation(transitionAnimation))
         )
 
-
-
-            //.scale(scale: 1.12).combined(with: .opacity).animation(transitionAnimation))
-
         .background(createTapArea())
-
-
-
-
-
-
-
-
-            //.onChange(of: items, perform: onItemsChange)
     }
 }
 
