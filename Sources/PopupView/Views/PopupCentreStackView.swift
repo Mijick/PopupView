@@ -20,16 +20,17 @@ struct PopupCentreStackView: View {
             if items.isEmpty { EmptyView() }
             else { createPopup() }
         }
-        .transition(.scale(scale: 0.9).combined(with: .opacity))
+        .transition(.scale(scale: 0.9))
+        .frame(width: UIScreen.width, height: UIScreen.height)
+        .background(createTapArea())
+        .animation(transitionAnimation, value: height)
+        .animation(transitionAnimation, value: items)
         .id(items.isEmpty)
 
 
 
 
-            .frame(width: UIScreen.width, height: UIScreen.height)
-            .background(createTapArea())
-            .animation(transitionAnimation, value: height)
-            .animation(transitionAnimation, value: items)
+
             .onChange(of: items, perform: onItemsChange)
     }
 }
