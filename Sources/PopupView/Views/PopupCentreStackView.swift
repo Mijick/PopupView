@@ -16,11 +16,11 @@ struct PopupCentreStackView: View {
 
     
     var body: some View {
-        Group {
+        ZStack {
             if items.isEmpty { EmptyView() }
             else { createPopup() }
         }
-        .transition(.scale(scale: 0.9))
+        .transition(.scale(scale: 0.9).animation(transitionAnimation))
         .frame(width: UIScreen.width, height: UIScreen.height)
         .background(createTapArea())
         .animation(transitionAnimation, value: height)
