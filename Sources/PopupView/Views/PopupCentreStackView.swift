@@ -31,7 +31,7 @@ struct PopupCentreStackView: View {
             //.scale(scale: 1.12).combined(with: .opacity).animation(transitionAnimation))
         .frame(width: UIScreen.width, height: UIScreen.height)
         .background(createTapArea())
-        .animation(transitionAnimation, value: height)
+        //.animation(transitionAnimation, value: height)
 
 
 
