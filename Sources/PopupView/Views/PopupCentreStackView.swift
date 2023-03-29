@@ -20,7 +20,7 @@ struct PopupCentreStackView: View {
             if items.isEmpty { EmptyView() }
             else { createPopup() }
         }
-        .transition(.scale(scale: 0.9).animation(transitionAnimation))
+        .transition(.scale(scale: 1.12).combined(with: .opacity).animation(transitionAnimation))
         .frame(width: UIScreen.width, height: UIScreen.height)
         .background(createTapArea())
         .animation(transitionAnimation, value: height)
