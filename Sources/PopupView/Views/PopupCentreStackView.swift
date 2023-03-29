@@ -30,7 +30,7 @@ struct PopupCentreStackView: View {
 
 private extension PopupCentreStackView {
     func a() -> some View {
-        ZStack {
+        Group {
             ForEach(items, id: \.id, content: createPopup)
         }
     }
