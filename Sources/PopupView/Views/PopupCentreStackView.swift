@@ -53,9 +53,9 @@ private extension PopupCentreStackView {
 private extension PopupCentreStackView {
     func onItemsChange(_ items: [AnyPopup<CentrePopupConfig>]) {
         if items.isEmpty {
-
-            ac = nil
             height = nil
+            ac = nil
+
         } else {
             ac = AnyView(items.last!.body)
         }
