@@ -52,7 +52,7 @@ private extension PopupCentreStackView {
 
         if items.isEmpty {
             scale = 0.8
-            height = nil
+            height = 0
 
         }
 
@@ -70,7 +70,7 @@ private extension PopupCentreStackView {
 
 private extension PopupCentreStackView {
     var width: CGFloat { max(0, UIScreen.width - config.horizontalPadding * 2) }
-    var opacity: Double { (height != nil).doubleValue }
+    var opacity: Double { (height != 0).doubleValue }
     var cornerRadius: CGFloat { config.cornerRadius }
     //var scale: CGFloat { height == nil ? 1.08 : 1 }
     var backgroundColour: Color { config.backgroundColour }
