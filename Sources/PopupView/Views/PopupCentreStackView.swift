@@ -26,7 +26,14 @@ struct PopupCentreStackView: View {
             .animation(transitionAnimation, value: height)
             //.animation(transitionAnimation, value: items.isEmpty)
             .transition(
+                height == nil || items.isEmpty ?
+
+
+
+
                 .scale(scale: items.isEmpty ? 0.9 : 1.1).combined(with: .opacity).animation(height == nil || items.isEmpty ? transitionAnimation : nil)
+
+                : .opacity
 
 
 //                .asymmetric(
@@ -44,7 +51,6 @@ private extension PopupCentreStackView {
             .frame(width: width, height: height)
             .background(backgroundColour)
             .cornerRadius(cornerRadius)
-            .transition(.opacity)
             //.scaleEffect(scale)
             //.opacity(opacity)
     }
