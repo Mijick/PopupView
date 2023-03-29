@@ -23,7 +23,9 @@ struct PopupCentreStackView: View {
         //.id(items.isEmpty)
         //.animation(transitionAnimation, value: items)
         .transition(
-            .asymmetric(insertion: .scale(scale: 1.1).combined(with: .opacity).animation(transitionAnimation), removal: .scale(scale: 0.9).combined(with: .opacity).animation(transitionAnimation))
+            .asymmetric(insertion: .move(edge: .leading).animation(transitionAnimation),//.scale(scale: 1.1).combined(with: .opacity).animation(transitionAnimation),
+
+                        removal: .scale(scale: 0.9).combined(with: .opacity).animation(transitionAnimation))
         )
 
 
@@ -31,7 +33,7 @@ struct PopupCentreStackView: View {
             //.scale(scale: 1.12).combined(with: .opacity).animation(transitionAnimation))
         .frame(width: UIScreen.width, height: UIScreen.height)
         .background(createTapArea())
-        //.animation(transitionAnimation, value: height)
+        .animation(transitionAnimation, value: height)
 
 
 
