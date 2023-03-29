@@ -69,6 +69,9 @@ private extension PopupCentreStackView {
 
 
 
+        } else {
+            height = nil
+            activeView = nil
         }
     }
 }
