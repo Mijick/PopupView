@@ -73,7 +73,7 @@ private extension PopupCentreStackView {
 private extension PopupCentreStackView {
     func saveHeight(_ value: CGFloat) { height = items.isEmpty ? nil : value }
     func getTransition() -> AnyTransition {
-        .scale(scale: items.isEmpty ? config.exitScale : config.entryScale)
+        .scale(scale: items.isEmpty ? config.transitionExitScale : config.transitionEntryScale)
         .combined(with: .opacity)
         .animation(height == nil || items.isEmpty ? transitionAnimation : nil)
     }

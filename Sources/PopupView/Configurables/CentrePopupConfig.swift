@@ -15,6 +15,8 @@ public extension CentrePopupConfig {
     func tapOutsideToDismiss(_ value: Bool) -> Self { changing(path: \.tapOutsideClosesView, to: value) }
     func horizontalPadding(_ value: CGFloat) -> Self { changing(path: \.horizontalPadding, to: value) }
     func cornerRadius(_ value: CGFloat) -> Self { changing(path: \.cornerRadius, to: value) }
+    func transitionEntryScale(_ value: CGFloat) -> Self { changing(path: \.transitionEntryScale, to: value) }
+    func transitionExitScale(_ value: CGFloat) -> Self { changing(path: \.transitionExitScale, to: value) }
     func transitionAnimation(_ value: Animation) -> Self { changing(path: \.transitionAnimation, to: value) }
 }
 public struct CentrePopupConfig: Configurable {
@@ -22,7 +24,7 @@ public struct CentrePopupConfig: Configurable {
     var tapOutsideClosesView: Bool = true
     var horizontalPadding: CGFloat = 12
     var cornerRadius: CGFloat = 24
-    var entryScale: CGFloat = 1.1
-    var exitScale: CGFloat = 0.86
+    var transitionEntryScale: CGFloat = 1.1
+    var transitionExitScale: CGFloat = 0.86
     var transitionAnimation: Animation = .spring(response: 0.28, dampingFraction: 1, blendDuration: 0.28)
 }
