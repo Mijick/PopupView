@@ -23,6 +23,7 @@ struct PopupCentreStackView: View {
             .frame(width: UIScreen.width, height: UIScreen.height)
             .background(createTapArea())
             .animation(transitionAnimation, value: height)
+            .animation(transitionAnimation, value: width)
             .animation(transitionAnimation, value: contentIsAnimated)
             .transition(getTransition())
             .onChange(of: items, perform: onItemsChange)
