@@ -30,7 +30,7 @@ struct PopupCentreStackView: View {
 
 
             //.scale(scale: 1.12).combined(with: .opacity).animation(transitionAnimation))
-        .frame(width: UIScreen.width, height: UIScreen.height)
+
         .background(createTapArea())
 
 
@@ -54,6 +54,8 @@ private extension PopupCentreStackView {
     }
     func createTapArea() -> some View {
         Color.black.opacity(0.00000000001)
+            .ignoresSafeArea()
+            .frame(width: UIScreen.width, height: UIScreen.height)
             .onTapGesture(perform: items.last?.dismiss ?? {})
             .active(if: config.tapOutsideClosesView)
     }
