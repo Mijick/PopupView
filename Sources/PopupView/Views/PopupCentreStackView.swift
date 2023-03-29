@@ -17,6 +17,7 @@ struct PopupCentreStackView: View {
     
     var body: some View {
         createPopup()
+            .id(items.isEmpty)
         //.animation(transitionAnimation, value: height)
             .animation(transitionAnimation, value: items.isEmpty)
         .transition(
