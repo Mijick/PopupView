@@ -27,14 +27,8 @@ struct PopupCentreStackView: View {
             .background(createTapArea())
             .animation(transitionAnimation, value: height)
             .animation(transitionAnimation, value: aaaChang)
-            //.animation(transitionAnimation, value: items.isEmpty)
             .transition(
                 .scale(scale: items.isEmpty ? 0.86 : 1.1).combined(with: .opacity).animation(height == nil || items.isEmpty ? transitionAnimation : nil)
-
-
-//                .asymmetric(
-//                insertion: .scale(scale: 1.1).combined(with: .opacity).animation(height == nil ? transitionAnimation : nil),
-//                removal: .scale(scale: 1.1).combined(with: .opacity).animation(items.count == 0 ? transitionAnimation : nil))
             )
             .onChange(of: items, perform: onItemsChange)
     }
@@ -48,9 +42,6 @@ private extension PopupCentreStackView {
             .opacity(aaaChang ? 0 : 1)
             .background(backgroundColour)
             .cornerRadius(cornerRadius)
-
-            //.scaleEffect(scale)
-            //.opacity(opacity)
     }
     func createTapArea() -> some View {
         Color.black.opacity(0.00000000001)
@@ -83,10 +74,6 @@ private extension PopupCentreStackView {
             aaaChang = true
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) { aaaChang = false }
         }
-
-
-
-        //if items.isEmpty { height = nil }
     }
 }
 
@@ -98,7 +85,6 @@ private extension PopupCentreStackView {
 private extension PopupCentreStackView {
     var width: CGFloat { max(0, UIScreen.width - config.horizontalPadding * 2) }
     var cornerRadius: CGFloat { config.cornerRadius }
-    var scale: CGFloat { height == nil ? 1.1 : 1 }
     var backgroundColour: Color { config.backgroundColour }
     var transitionAnimation: Animation { config.transitionAnimation }
     var config: CentrePopupConfig { items.last?.configurePopup(popup: .init()) ?? configTemp ?? .init() }
