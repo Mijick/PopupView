@@ -69,8 +69,8 @@ private extension PopupCentreStackView {
             ac = AnyView(items.last!.body)
             configTemp = items.last!.configurePopup(popup: .init())
 
-            aaaChang = false
-            DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) { aaaChang = true }
+            aaaChang = true
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) { aaaChang = false }
         }
 
 
