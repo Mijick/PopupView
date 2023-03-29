@@ -20,6 +20,8 @@ struct PopupCentreStackView: View {
             if items.isEmpty { EmptyView() }
             else { createPopup() }
         }
+        .transition(.scale(scale: 0.9))
+        .id(items.isEmpty)
 
 
 
