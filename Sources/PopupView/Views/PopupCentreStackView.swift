@@ -67,8 +67,16 @@ private extension PopupCentreStackView {
             ac = nil
 
         } else {
-            ac = AnyView(items.last!.body)
-            configTemp = items.last!.configurePopup(popup: .init())
+            DispatchQueue.main.async {
+                ac = AnyView(items.last!.body)
+                configTemp = items.last!.configurePopup(popup: .init())
+            }
+
+
+
+
+
+
 
             guard height != nil else {  return}
 
