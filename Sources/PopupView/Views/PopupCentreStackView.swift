@@ -13,16 +13,14 @@ import SwiftUI
 struct PopupCentreStackView: View {
     let items: [AnyPopup<CentrePopupConfig>]
     @State private var height: CGFloat?
-    @State private var scale: CGFloat = 1
 
     
     var body: some View {
         createPopup()
             .frame(width: UIScreen.width, height: UIScreen.height)
-            .background(createTapArea())
+            //.background(createTapArea())
             .animation(transitionAnimation, value: height)
             .animation(transitionAnimation, value: items)
-            .animation(transitionAnimation, value: scale)
             .onChange(of: items, perform: onItemsChange)
     }
 }
@@ -50,19 +48,7 @@ private extension PopupCentreStackView {
         // zmiana 
 
 
-        if items.isEmpty {
-            DispatchQueue.main.async {
-                scale = 0.8
-                height = 0
-            }
-
-
-        }
-
-
-        else {
-            scale = 1
-        }
+        if items.isEmpty { height = nil }
     }
 }
 
@@ -73,9 +59,9 @@ private extension PopupCentreStackView {
 
 private extension PopupCentreStackView {
     var width: CGFloat { max(0, UIScreen.width - config.horizontalPadding * 2) }
-    var opacity: Double { (height != 0).doubleValue }
+    var opacity: Double { (height != nil).doubleValue }
     var cornerRadius: CGFloat { config.cornerRadius }
-    //var scale: CGFloat { height == nil ? 1.08 : 1 }
+    var scale: CGFloat { height == nil ? 1.08 : 1 }
     var backgroundColour: Color { config.backgroundColour }
     var transitionAnimation: Animation { config.transitionAnimation }
     var config: CentrePopupConfig { items.last?.configurePopup(popup: .init()) ?? .init() }
