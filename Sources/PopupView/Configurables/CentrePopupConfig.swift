@@ -21,6 +21,6 @@ public struct CentrePopupConfig: Configurable {
     var backgroundColour: Color = .white
     var tapOutsideClosesView: Bool = true
     var horizontalPadding: CGFloat = 12
-    var cornerRadius: CGFloat = 32
+    var cornerRadius: CGFloat = 24
     var transitionAnimation: Animation = .spring(response: 0.28, dampingFraction: 1, blendDuration: 0.28)
 }
