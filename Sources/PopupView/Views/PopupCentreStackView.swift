@@ -16,6 +16,7 @@ struct PopupCentreStackView: View {
 
 
     @State private var ac: AnyView?
+    @State private var config: CentrePopupConfig!
 
 
     var body: some View {
@@ -61,6 +62,7 @@ private extension PopupCentreStackView {
             ac = nil
 
         } else {
+            config = items.last!.configurePopup(popup: .init())
             ac = AnyView(items.last!.body)
         }
 
@@ -81,5 +83,5 @@ private extension PopupCentreStackView {
     var scale: CGFloat { height == nil ? 1.1 : 1 }
     var backgroundColour: Color { config.backgroundColour }
     var transitionAnimation: Animation { config.transitionAnimation }
-    var config: CentrePopupConfig { items.last?.configurePopup(popup: .init()) ?? .init() }
+    //var config: CentrePopupConfig { items.last?.configurePopup(popup: .init()) ?? .init() }
 }
