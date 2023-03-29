@@ -45,7 +45,7 @@ private extension PopupCentreStackView {
         ac?
             .readHeight(onChange: saveHeight(_:))
             .frame(width: width, height: height)
-            .opacity(aaaChang ? 0.2 : 1)
+            .opacity(aaaChang ? 0 : 1)
             .background(backgroundColour)
             .cornerRadius(cornerRadius)
 
@@ -71,7 +71,7 @@ private extension PopupCentreStackView {
             configTemp = items.last!.configurePopup(popup: .init())
 
             aaaChang = true
-            DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) { aaaChang = false }
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.15) { aaaChang = false }
         }
 
 
