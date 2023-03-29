@@ -16,44 +16,34 @@ struct PopupCentreStackView: View {
 
 
     @State private var ac: AnyView?
-    @State private var config: CentrePopupConfig!
+    @State private var configTemp: CentrePopupConfig?
 
 
     var body: some View {
         createPopup()
+            .frame(width: UIScreen.width, height: UIScreen.height)
+            .background(createTapArea())
+            .animation(transitionAnimation, value: height)
+            //.animation(transitionAnimation, value: items.isEmpty)
+            .transition(
+                .scale(scale: items.isEmpty ? 0.9 : 1.1).combined(with: .opacity).animation(height == nil || items.isEmpty ? transitionAnimation : nil)
 
+
+//                .asymmetric(
+//                insertion: .scale(scale: 1.1).combined(with: .opacity).animation(height == nil ? transitionAnimation : nil),
+//                removal: .scale(scale: 1.1).combined(with: .opacity).animation(items.count == 0 ? transitionAnimation : nil))
+            )
+            .onChange(of: items, perform: onItemsChange)
     }
 }
 
 private extension PopupCentreStackView {
-    @ViewBuilder func createPopup() -> some View {
-        if let a = ac {
-            ac?
-                .readHeight(onChange: saveHeight(_:))
-                .frame(width: width, height: height)
-                .background(backgroundColour)
-                .cornerRadius(cornerRadius)
-
-
-
-                .frame(width: UIScreen.width, height: UIScreen.height)
-                .background(createTapArea())
-                .animation(transitionAnimation, value: height)
-            //.animation(transitionAnimation, value: items.isEmpty)
-                .transition(
-                    .scale(scale: items.isEmpty ? 0.9 : 1.1).combined(with: .opacity).animation(height == nil || items.isEmpty ? transitionAnimation : nil)
-
-
-                    //                .asymmetric(
-                    //                insertion: .scale(scale: 1.1).combined(with: .opacity).animation(height == nil ? transitionAnimation : nil),
-                    //                removal: .scale(scale: 1.1).combined(with: .opacity).animation(items.count == 0 ? transitionAnimation : nil))
-                )
-                .onChange(of: items, perform: onItemsChange)
-        }
-
-
-
-
+    func createPopup() -> some View {
+        ac?
+            .readHeight(onChange: saveHeight(_:))
+            .frame(width: width, height: height)
+            .background(backgroundColour)
+            .cornerRadius(cornerRadius)
             //.scaleEffect(scale)
             //.opacity(opacity)
     }
@@ -72,8 +62,8 @@ private extension PopupCentreStackView {
             ac = nil
 
         } else {
-            config = items.last!.configurePopup(popup: .init())
             ac = AnyView(items.last!.body)
+            configTemp = items.last!.configurePopup(popup: .init())
         }
 
 
@@ -93,5 +83,5 @@ private extension PopupCentreStackView {
     var scale: CGFloat { height == nil ? 1.1 : 1 }
     var backgroundColour: Color { config.backgroundColour }
     var transitionAnimation: Animation { config.transitionAnimation }
-    //var config: CentrePopupConfig { items.last?.configurePopup(popup: .init()) ?? .init() }
+    var config: CentrePopupConfig { items.last?.configurePopup(popup: .init()) ?? configTemp ?? .init() }
 }
