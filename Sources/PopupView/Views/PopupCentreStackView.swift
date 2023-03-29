@@ -17,14 +17,8 @@ struct PopupCentreStackView: View {
     
     var body: some View {
         createPopup()
-
-
-//        Group {
-//            if items.isEmpty { EmptyView() }
-//            else { createPopup() }
-//        }
-        .animation(transitionAnimation, value: height)
-        .animation(transitionAnimation, value: items)
+        //.animation(transitionAnimation, value: height)
+        //.animation(transitionAnimation, value: items)
         .transition(
             .asymmetric(insertion: .scale(scale: 1.1).combined(with: .opacity).animation(transitionAnimation),
                         removal: .scale(scale: 0.9).combined(with: .opacity).animation(transitionAnimation))
