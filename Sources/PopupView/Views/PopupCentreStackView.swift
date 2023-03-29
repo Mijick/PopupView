@@ -30,7 +30,7 @@ struct PopupCentreStackView: View {
 
                 .asymmetric(
                 insertion: .scale(scale: 1.1).combined(with: .opacity).animation(height == nil ? transitionAnimation : nil),
-                removal: .scale(scale: 0.9).combined(with: .opacity).animation(items.count == 0 ? transitionAnimation : nil))
+                removal: .scale(scale: 1.1).combined(with: .opacity).animation(items.count == 0 ? transitionAnimation : nil))
             )
             .onChange(of: items, perform: onItemsChange)
     }
