@@ -21,19 +21,7 @@ struct PopupCentreStackView: View {
 
     var body: some View {
         createPopup()
-            .frame(width: UIScreen.width, height: UIScreen.height)
-            .background(createTapArea())
-            .animation(transitionAnimation, value: height)
-            //.animation(transitionAnimation, value: items.isEmpty)
-            .transition(
-                .scale(scale: items.isEmpty ? 0.9 : 1.1).combined(with: .opacity).animation(height == nil || items.isEmpty ? transitionAnimation : nil)
 
-
-//                .asymmetric(
-//                insertion: .scale(scale: 1.1).combined(with: .opacity).animation(height == nil ? transitionAnimation : nil),
-//                removal: .scale(scale: 1.1).combined(with: .opacity).animation(items.count == 0 ? transitionAnimation : nil))
-            )
-            .onChange(of: items, perform: onItemsChange)
     }
 }
 
@@ -45,6 +33,22 @@ private extension PopupCentreStackView {
                 .frame(width: width, height: height)
                 .background(backgroundColour)
                 .cornerRadius(cornerRadius)
+
+
+
+                .frame(width: UIScreen.width, height: UIScreen.height)
+                .background(createTapArea())
+                .animation(transitionAnimation, value: height)
+            //.animation(transitionAnimation, value: items.isEmpty)
+                .transition(
+                    .scale(scale: items.isEmpty ? 0.9 : 1.1).combined(with: .opacity).animation(height == nil || items.isEmpty ? transitionAnimation : nil)
+
+
+                    //                .asymmetric(
+                    //                insertion: .scale(scale: 1.1).combined(with: .opacity).animation(height == nil ? transitionAnimation : nil),
+                    //                removal: .scale(scale: 1.1).combined(with: .opacity).animation(items.count == 0 ? transitionAnimation : nil))
+                )
+                .onChange(of: items, perform: onItemsChange)
         }
 
 
