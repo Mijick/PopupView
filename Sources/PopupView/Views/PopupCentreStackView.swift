@@ -70,7 +70,7 @@ private extension PopupCentreStackView {
 
 private extension PopupCentreStackView {
     var width: CGFloat { max(0, UIScreen.width - config.horizontalPadding * 2) }
-    var height: CGFloat { heights.first { $0.key == items.last }?.value ?? 0 }
+    var height: CGFloat? { heights.first { $0.key == items.last }?.value }
     var cornerRadius: CGFloat { config.cornerRadius }
     var backgroundColour: Color { config.backgroundColour }
     var transitionAnimation: Animation { config.transitionAnimation }
