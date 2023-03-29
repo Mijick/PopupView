@@ -83,7 +83,7 @@ private extension PopupCentreStackView {
     var width: CGFloat { max(0, UIScreen.width - config.horizontalPadding * 2) }
     var cornerRadius: CGFloat { config.cornerRadius }
     var contentOpacity: CGFloat { contentIsAnimated ? 0 : 1 }
-    var contentOpacityAnimationTime: CGFloat { 0.1 }
+    var contentOpacityAnimationTime: CGFloat { config.contentAnimationTime }
     var backgroundColour: Color { config.backgroundColour }
     var transitionAnimation: Animation { config.transitionAnimation }
     var config: CentrePopupConfig { items.last?.configurePopup(popup: .init()) ?? configTemp ?? .init() }
