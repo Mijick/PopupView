@@ -183,8 +183,6 @@ struct BottomCustomPopup: BottomPopup {
 # Try our demo
 See for yourself how does it work by cloning [project][PopupView-Example] we created
 
-<br>
-
 # License
 PopupView is released under the MIT license. See [LICENSE][License] for details.
 
