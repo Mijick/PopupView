@@ -20,7 +20,6 @@ Create beautiful popups in no time
 
 <p align="center">
 <img alt="SwiftUI logo" src="https://user-images.githubusercontent.com/23524947/228702915-460686b0-64e1-4c43-81f9-b6950e441271.svg"/>
-&thinsp;
 <img alt="Platforms: iOS, iPadOS" src="https://user-images.githubusercontent.com/23524947/228702908-490eaa2f-d028-49a3-8959-cc7d64261de3.svg"/>
 &thinsp;
 <img alt="Release: 1.1" src="https://user-images.githubusercontent.com/23524947/228702911-996ce1fe-4fed-47b0-93e7-e6271036a8e5.svg"/>&nbsp;&nbsp;
