@@ -1,5 +1,5 @@
 <p align="center">
-    <img src="https://user-images.githubusercontent.com/23524947/228916322-a07ff380-aa33-4c2e-9ac1-9a61d54ac90c.svg" width="64%" alt="PopupView logo">
+    <img src="https://user-images.githubusercontent.com/23524947/228916843-52644334-7fa7-4cfe-be56-5754de83db96.svg" width="64%" alt="PopupView logo">
 </p>
 
 <h3 style="font-size: 5em" align="center">
