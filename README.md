@@ -1,34 +1,67 @@
-# PopupView
-[![Swift Version][swift version badge]][swift version]
-[![Platform][platforms badge]][platforms]
-[![SPM][spm badge]][spm] 
-[![IOS][ios badge]][ios]
-[![MIT][mit badge]][mit]
+<p align="center">
+    <img src="https://user-images.githubusercontent.com/23524947/228917693-bb8c565f-4316-492c-9290-3462d09e6ef8.svg" width="64%" alt="PopupView logo">
+</p>
 
-Implementation of view popups written with SwiftUI
+<h3 style="font-size: 5em" align="center">
+    Popups presentation made simple
+</h3>
 
+<p align="center">
+    Create beautiful and fully customisable popups in no time. Keep your code clean
+</p>
 
-| **Bottom**  | **Top**  | **Center** |
-|:----------|:----------|:----------|
-| ![Bottom][bottom popup stack rounded corner] | ![Top][top popup] | ![Center][center popup] |
+<p align="center">
+    <a href="https://github.com/Mijick/PopupView-Example" rel="nofollow">Try demo we prepared</a>
+</p>
 
-___
+<br>
 
+<p align="center">
+    <img alt="SwiftUI logo" src="https://user-images.githubusercontent.com/23524947/228844494-9be6d187-b4f5-4a95-93fa-9c430b2bc043.svg"/>
+    <img alt="Platforms: iOS, iPadOS" src="https://user-images.githubusercontent.com/23524947/228702908-490eaa2f-d028-49a3-8959-cc7d64261de3.svg"/>
+    <img alt="Release: 1.1" src="https://user-images.githubusercontent.com/23524947/228702911-996ce1fe-4fed-47b0-93e7-e6271036a8e5.svg"/>
+    <a href="https://www.swift.org/package-manager">
+        <img alt="Swift Package Manager: Compatible" src="https://user-images.githubusercontent.com/23524947/228702912-50878cca-0902-4ec9-b042-c7762359137b.svg"/>
+    </a>
+    <img alt="License: MIT" src="https://user-images.githubusercontent.com/23524947/228702907-8388add4-b92f-46be-84e2-1526ff34ab72.svg"/>
+</p>
 
-# Requirements
+<p align="center">
+    <a href="https://github.com/Mijick/PopupView/stargazers">
+        <img alt="Stars" src="https://user-images.githubusercontent.com/23524947/228844578-ff6ae7cf-688c-4f78-b618-8e88dc3e5f3b.svg"/>
+    </a>
+    <a href="https://twitter.com/tkurylik">
+        <img alt="Follow us on Twitter" src="https://user-images.githubusercontent.com/23524947/228844665-d8cf7db8-e692-4c17-9b41-1b0471b552aa.svg"/>
+    </a>
+    <a href=mailto:“team@mijick.com?subject=Hello>
+        <img alt="Let's work together" src="https://user-images.githubusercontent.com/23524947/228844684-e8f87e2c-c85c-4cad-9bd1-f2e12a4627b8.svg"/>
+    </a>
+</p>
 
-| **Platform** | **Minimum Swift Version**  | **Installation**  |
-|:----------|:----------|:----------|
-| iOS 15+    | 5.7   | [Swift Package Manager][installation]    |
+<p align="center">
+    <img alt="Popup Examples" src="https://user-images.githubusercontent.com/23524947/228883231-7f55cf64-17e1-48b9-8922-2696ab7179d1.gif"/>
+</p>
 
+<br>
 
+PopupView is a free and open-source library dedicated for SwiftUI that makes the process of presenting popups easier and much cleaner.
+* **Improves code quality.** Show your popup using the `present()` modifier. Hide the selected one with `dismiss()`. Simple as never.
+* **Create any popup.** We know how important customisation is; that's why we give you the opportunity to design your popup in any way you like.
+* **Designed for SwiftUI.** While developing the library, we have used the power of SwiftUI to give you powerful tool to speed up your implementation process.
 
-# Installation
+<br>
 
+# Getting Started
+### ✋ Requirements
+
+| **Platforms** | **Minimum Swift Version** |
+|:----------|:----------|
+| iOS 15+, iPadOS 15+ | 5.7 |
+
+### ⏳ Installation
 The [Swift package manager][spm] is a tool for automating the distribution of Swift code and is integrated into the `swift` compiler.
 
 Once you have your Swift package set up, adding PopupView as a dependency is as easy as adding it to the `dependencies` value of your `Package.swift`.
-
 
 ```Swift
 dependencies: [
@@ -36,166 +69,139 @@ dependencies: [
 ]
 ```
 
+<br>
 
 # Usage
-
-1. [Setup project][setup]
-1. [Implement animation protocol][animation]
-1. [Present popup view][presentation]
-1. [Dismiss popup view][dismiss]
-
-## Setup project
-Inside `@main` structure body call the `implementPopupView` method 
+### 1. Setup library
+Inside your `@main` structure call the `implementPopupView` method 
 ```Swift
   var body: some Scene {
         WindowGroup(content: ContentView().implementPopupView)
   }
 ```
 
-
-## Animation protocols
-The library provides an ability to use custom views. <br>
-In order to present a view on top of other views, it is necessary to inherit from one of the protocols during popup creation:
+### 2. Declare a structure of your popup
+The library provides an ability to present your custom view in three predefinied places - **Top**, **Centre** and **Bottom**.<br>
+In order to present it, it is necessary to confirm to one of the protocols during your view declaration:
 - `TopPopup` - presents popup view from the top
 - `CentrePopup` - presents popup view from the center
 - `BottomPopup` - presents popup view from the bottom
 
-
-### Common Setup
-Inheritance from one of the popup protocols requires the implementation of the following requirements:
-
-1. Set the `id` parameter to control the uniqueness of the views being presented
+So that an example view you want to present will have the following declaration:
 ```Swift
-let id: String { "some_id" }
+struct BottomCustomPopup: BottomPopup {
+    ...
+}
 ```
-2. Implement `createContent` method. It's used instead of the `body` property, and declares the design of the popup view
+
+### 3. Provide identifier of your popup
+Set the `id` parameter to control the uniqueness of the views being presented.
+<br>
+
+Your structure should now look like the following:
 ```Swift
-func createContent() -> some View {
-        VStack(alignment: .leading, spacing: 0) {
-            Text("First")
-            Spacer.height(12)
-            Text("Another element")
+struct BottomCustomPopup: BottomPopup {
+    let id: String = "your_id"
+    ...
+}
+```
+
+### 4. Implement `createContent()` method. It's used instead of the body property, and declares the design of the popup view
+```Swift
+struct BottomCustomPopup: BottomPopup {
+    let id: String = "your_id"
+    
+    
+    func createContent() -> some View {
+        HStack(spacing: 0) {
+            Text("Witaj okrutny świecie")
+            Spacer()
+            Button(action: dismiss) { Text("Dismiss") } 
         }
-        .padding(.top, 36)
+        .padding(.vertical, 20)
+        .padding(.leading, 24)
+        .padding(.trailing, 16)
+    }
+    ...
 }
 ```
 
-3. Implement `configurePopup(popup: Config) -> Config`  method to setup UI of presented view
-Each protocol has its own set of configuration type
-
-An example of implementing BottomPopup protocol configurations setups
-
+### 5. Implement `configurePopup(popup: Config) -> Config` method to setup UI of presented view Each protocol has its own set of configuration type
 ```Swift
-func configurePopup(popup: BottomPopupConfig) -> BottomPopupConfig {
+struct BottomCustomPopup: BottomPopup {
+    let id: String = "your_id"
+    
+    
+    func createContent() -> some View {
+        HStack(spacing: 0) {
+            Text("Witaj okrutny świecie")
+            Spacer()
+            Button(action: dismiss) { Text("Dismiss") } 
+        }
+        .padding(.vertical, 20)
+        .padding(.leading, 24)
+        .padding(.trailing, 16)
+    }
+    func configurePopup(popup: BottomPopupConfig) -> BottomPopupConfig {
         popup
-            .contentIgnoresSafeArea(true)
-            .activePopupCornerRadius(0)
-            .stackedPopupsCornerRadius(0)
+            .horizontalPadding(20)
+            .bottomPadding(42)
+            .activePopupCornerRadius(16)
+            .stackedPopupsCornerRadius(4)
+    }
+    ...
 }
 ```
 
-
-#### Available Configurations
-|  | **TopPopup**  | **CentrePopup** | **BottomPopup**  |
-|:----------|:----------|:----------|:----------|
-| backgroundColour | ✅ | ✅  | ✅    |
-| contentIgnoresSafeArea    | ✅ | ❌  | ✅ |
-| horizontalPadding   | ✅  | ✅ | ✅  |
-| bottomPadding   | ❌ | ❌ | ✅ |
-| topPadding   | ✅ | ❌ | ❌ |
-| stackedPopupsOffset   | ✅ | ❌ | ✅ |
-| stackedPopupsScale   | ✅  | ❌ | ✅ |
-| stackedElementsLimit  | ✅ | ❌ | ✅ |
-| cornerRadius   | ❌ | ✅ | ❌ |
-| activePopupCornerRadius    | ✅  | ❌ | ✅ |
-| stackedPopupsCornerRadius  | ✅  | ❌ | ✅ |
-| activePopupCornerRadius | ✅| ❌ | ✅ |
-| dragGestureProgressToClose  | ✅ | ❌ | ✅ |
-| dragGestureAnimation   | ✅ | ❌ | ✅ |
-| tapOutsideToDismiss    | ❌ | ✅ | ❌ |
-| transitionAnimation    | ✅ | ✅ | ✅ |
-
-
-
-#### TopPopup
-| Safe area  | Ignore safe area  |
-|:----------|:----------|
-| ![Top][top popup] | ![Top][top stack popup]    |
-
-
-
-#### CentrePopup
-![TopPopup][center popup]
-
-#### BottomPopup
-|  Safe Area  | Ignore Safe Area   | 
-|:----------|:----------|
-| ![Bottom][bottom popup safe area] | ![Bottom][bottom popup] | 
-
-#### Popup Stack
-The `PopupView` allows you to stack views and present several popups on the screen at the same time. The library automatically manages the display of multiple pop-up windows depending on the type of presentation.
-
-| Bottom stack  | Top stack  | Different view heights  | Bottom stack  |
-|:----------|:----------|:----------|:----------|
-| ![Bottom][bottom popup stack drag]   | ![Top][top stack popup]   | ![Bottom][bottom popup stack documents]    | ![bottom][bottom popup stack old style]   |
-
-
-
-## Popup presentation
-To present a view, it is enough to initialize it and call the method `present`
+### 6. Present your popup from any place you want!
+Just call `BottomCustomPopup().present()` from the selected place
 ```Swift
- SomeView().present()
+struct SettingsViewModel {
+    ...
+    func saveSettings() {
+        ...
+        BottomCustomPopup().present()
+        ...
+    }
+    ...
+}
 ```
 
-## Popup dismiss
-Call the method `dismiss` inside the popup view to dismiss it
-
-It's also available to dismiss any view with methods inside the `PopupManager` class: 
-
-- `dismissLast` - Dismisses the last presented popup view
+### 7. Closing popups
+There are two methods to do so:
+- By calling the method `dismiss` inside the popup you created
 ```Swift
-PopupManager.dismissLast()
+struct BottomCustomPopup: BottomPopup {
+    ...
+    func createButton() -> some View {
+        Button(action: dismiss) { Text("Tap to close") } 
+    }
+    ...
+}
 ```
+- By calling one of three static methods of PopupManager:
+    - `PopupManager.dismissLast()`
+    - `PopupManager.dismiss(id: "some_id")` where id is the identifier of the popup you want to close
+    - `PopupManager.dismissAll()`
+    
+<br>
 
-- `dismiss(id:)` - Dismisses the presented popup view with concrate id
-```Swift
-PopupManager.dismiss(id: "some_id")
-```
+# Try our demo
+See for yourself how does it work by cloning [project][Demo] we created
 
-- `dismissAll` - Dismisses all presented popup views
-```Swift
-PopupManager.dismissAll()
-```
+# License
+PopupView is released under the MIT license. See [LICENSE][License] for details.
 
-# Project example
-[PopupView-Example][PopupView-Example] - example of usage `PopupView` library
 
-[swift version]: https://swift.org/download/
-[swift version badge]: https://img.shields.io/badge/swift-5.7-orange
-[platforms badge]: https://img.shields.io/badge/platforms-ios-lightgrey
-[platforms]: https://swift.org/download/
-[mit badge]: https://img.shields.io/badge/license-MIT-lightgrey
-[mit]: https://github.com/Mijick/PopupView/blob/main/LICENSE
-[spm badge]: https://img.shields.io/badge/spm-compatible-green
+
+
+
+[MIT]: https://en.wikipedia.org/wiki/MIT_License
+[SPM]: https://www.swift.org/package-manager
+
+[Demo]: https://github.com/Mijick/PopupView-Example
+[License]: https://github.com/Mijick/PopupView/blob/main/LICENSE
+
+
+
 [spm]: https://www.swift.org/package-manager/
-[ios badge]: https://img.shields.io/badge/ios-15%2B-orange 
-[ios]: https://developer.apple.com/documentation/ios-ipados-release-notes/ios-ipados-15-release-notes
-
-[setup]: #setup-project
-[animation]: #animation-protocols
-[presentation]: #popup-presentation
-[dismiss]: #popup-dismiss
-[installation]: #installation
-
-[PopupView-Example]: https://github.com/Mijick/PopupView-Example
-
-[top popup]: https://media1.tenor.com/images/5423f4c94dbe850d0a16952a83c8a1cd/tenor.gif?itemid=27638405
-[bottom popup safe area]: https://media1.tenor.com/images/53db74eaaa9ac6b56fb87135781f4f20/tenor.gif?itemid=27638501
-[bottom popup]: https://media1.tenor.com/images/886c15b77bb62115bbafd35c54e20234/tenor.gif?itemid=27638499
-[center popup]: https://media1.tenor.com/images/28bee69f1ed4793f28aade7c21003899/tenor.gif?itemid=27638435
-
-[top stack popup]: https://media1.tenor.com/images/3b8593c8d52fbea8ca74b46f9ebd948a/tenor.gif?itemid=27638433
-[bottom popup stack documents]: https://media1.tenor.com/images/e2e9eb5a58f2c6ba42ef10da4cb10ecf/tenor.gif?itemid=27638434
-[bottom popup stack drag]: https://media1.tenor.com/images/8947619538733c4394d38cfcf1daa28f/tenor.gif?itemid=27638500 
-[bottom popup stack rounded corner]: https://media1.tenor.com/images/9dda5430a4c1f9ca654285a2d72c1cab/tenor.gif?itemid=27638502
-[bottom popup stack old style]: https://media1.tenor.com/images/10e52a97eda60dbd81709bca45369a8e/tenor.gif?itemid=27638503
