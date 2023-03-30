@@ -3,11 +3,11 @@
 </p>
 
 <h3 style="font-size: 4em" align="center">
-    Popup creation made simple, configurable and fast
+    Popup creation made simple, customisable and fast
 </h3>
 
 <p align="center">
-Create beautiful popups in no time
+Create beautiful popups in no time. Keep your code clean
 </p>
 
 <p align="center">
