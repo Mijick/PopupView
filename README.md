@@ -83,7 +83,7 @@ In order to present it, it is necessary to confirm to one of the protocols durin
 
 So that an example view you want to present will have the following declaration:
 ```Swift
-struct TopCustomPopup: TopPopup {
+struct BottomCustomPopup: BottomPopup {
     ...
 }
 ```
@@ -95,11 +95,33 @@ Set the `id` parameter to control the uniqueness of the views being presented.
 
 Your structure should now look like the following:
 ```Swift
-struct TopCustomPopup: TopPopup {
+struct BottomCustomPopup: BottomPopup {
     let id: String = "your_id"
     ...
 }
 ```
+<br>
+
+### 4. Implement `createContent()` method. It's used instead of the body property, and declares the design of the popup view
+```Swift
+struct BottomCustomPopup: BottomPopup {
+    let id: String = "your_id"
+    
+    
+    func createContent() -> some View {
+        HStack(spacing: 0) {
+            Text("Witaj okrutny świecie")
+            Spacer()
+            Button(action: dismiss) { Text("Dismiss") } 
+        }
+        .padding(.vertical, 20)
+        .padding(.leading, 24)
+        .padding(.trailing, 16)
+    }
+    ...
+}
+```
+<br>
 
 
 
