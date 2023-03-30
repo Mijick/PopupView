@@ -64,8 +64,13 @@ dependencies: [
 <br>
 
 # Usage
-
-
+### 1. Setup library
+Inside your `@main` structure call the `implementPopupView` method 
+```Swift
+  var body: some Scene {
+        WindowGroup(content: ContentView().implementPopupView)
+  }
+```
 
 
 
