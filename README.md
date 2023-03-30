@@ -3,7 +3,7 @@
 </p>
 
 <h3 style="font-size: 4em" align="center">
-    Popup creation made simple, customisable and fast
+    Popup presentation made simple, customisable and fast
 </h3>
 
 <p align="center">
