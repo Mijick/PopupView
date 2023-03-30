@@ -177,10 +177,21 @@ struct BottomCustomPopup: BottomPopup {
     - `PopupManager.dismissLast()`
     - `PopupManager.dismiss(id: "some_id")` where id is the identifier of the popup you want to close
     - `PopupManager.dismissAll()`
+    
+<br>
+
+# Try our demo
+See for yourself how does it work by cloning [project][PopupView-Example] we created
+
+<br>
+
+# License
+PopupView is released under the MIT license. See [LICENSE][License] for details.
 
 
 
-
+[PopupView-Example]: https://github.com/Mijick/PopupView-Example
+[License]: https://github.com/Mijick/PopupView/blob/main/LICENSE
 
 
 
