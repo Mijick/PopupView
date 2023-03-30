@@ -123,6 +123,33 @@ struct BottomCustomPopup: BottomPopup {
 ```
 <br>
 
+### 5. Implement `configurePopup(popup: Config) -> Config` method to setup UI of presented view Each protocol has its own set of configuration type
+```Swift
+struct BottomCustomPopup: BottomPopup {
+    let id: String = "your_id"
+    
+    
+    func createContent() -> some View {
+        HStack(spacing: 0) {
+            Text("Witaj okrutny świecie")
+            Spacer()
+            Button(action: dismiss) { Text("Dismiss") } 
+        }
+        .padding(.vertical, 20)
+        .padding(.leading, 24)
+        .padding(.trailing, 16)
+    }
+    func configurePopup(popup: BottomPopupConfig) -> BottomPopupConfig {
+        popup
+            .horizontalPadding(20)
+            .bottomPadding(42)
+            .activePopupCornerRadius(16)
+            .stackedPopupsCornerRadius(4)
+    }
+    ...
+}
+```
+<br>
 
 
 
