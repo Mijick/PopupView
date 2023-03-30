@@ -30,10 +30,12 @@ Create beautiful popups in no time. Keep your code clean
 <img alt="Let's work together" src="https://user-images.githubusercontent.com/23524947/228844684-e8f87e2c-c85c-4cad-9bd1-f2e12a4627b8.svg"/>
 </p>
 
-<br><br>
+<br>
 
 <p align="center">
-<img alt="Bottom Popup Example" src="https://user-images.githubusercontent.com/23524947/228853678-621304a5-b7c5-48f4-aeb3-b7ce482bfb1e.gif"/>
-<img alt="Centre Popup Example" src="https://user-images.githubusercontent.com/23524947/228853686-98fd12b8-5f97-4ca6-9956-13b03f0b88ef.gif"/>
-<img alt="Top Popup Example" src="https://user-images.githubusercontent.com/23524947/228853661-40de7931-ab36-4dbd-8d8d-99c4ca7ce1b3.gif"/>
+<img alt="Popup Examples" src="https://user-images.githubusercontent.com/23524947/228877708-11888798-dcd0-4299-af41-f2fba75a5e34.gif"/>
 </p>
+
+<br><br>
+PopupView is a free and open-source library dedicated for SwiftUI that makes the process of presenting popups easier and much cleaner.
+
