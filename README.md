@@ -22,7 +22,9 @@ Create beautiful popups in no time. Keep your code clean
 <img alt="SwiftUI logo" src="https://user-images.githubusercontent.com/23524947/228844494-9be6d187-b4f5-4a95-93fa-9c430b2bc043.svg"/>
 <img alt="Platforms: iOS, iPadOS" src="https://user-images.githubusercontent.com/23524947/228702908-490eaa2f-d028-49a3-8959-cc7d64261de3.svg"/>
 <img alt="Release: 1.1" src="https://user-images.githubusercontent.com/23524947/228702911-996ce1fe-4fed-47b0-93e7-e6271036a8e5.svg"/>
-<img alt="Swift Package Manager: Compatible" src="https://user-images.githubusercontent.com/23524947/228702912-50878cca-0902-4ec9-b042-c7762359137b.svg"/>
+<a href="https://www.tutorialspoint.com">
+    <img alt="Swift Package Manager: Compatible" src="https://user-images.githubusercontent.com/23524947/228702912-50878cca-0902-4ec9-b042-c7762359137b.svg"/>
+</a>
 <img alt="License: MIT" src="https://user-images.githubusercontent.com/23524947/228702907-8388add4-b92f-46be-84e2-1526ff34ab72.svg"/>
 </p>
 
@@ -181,14 +183,18 @@ struct BottomCustomPopup: BottomPopup {
 <br>
 
 # Try our demo
-See for yourself how does it work by cloning [project][PopupView-Example] we created
+See for yourself how does it work by cloning [project][Demo] we created
 
 # License
 PopupView is released under the MIT license. See [LICENSE][License] for details.
 
 
 
-[PopupView-Example]: https://github.com/Mijick/PopupView-Example
+
+[MIT]: https://en.wikipedia.org/wiki/MIT_License
+[SPM]: https://www.swift.org/package-manager
+
+[Demo]: https://github.com/Mijick/PopupView-Example
 [License]: https://github.com/Mijick/PopupView/blob/main/LICENSE
 
 
