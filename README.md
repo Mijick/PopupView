@@ -1,5 +1,5 @@
 <p align="center">
-    <img src="https://user-images.githubusercontent.com/23524947/228915446-324178fa-8bef-48e5-b349-2344752d48b6.svg" width="64%" alt="PopupView logo">
+    <img src="https://user-images.githubusercontent.com/23524947/228916322-a07ff380-aa33-4c2e-9ac1-9a61d54ac90c.svg" width="64%" alt="PopupView logo">
 </p>
 
 <h3 style="font-size: 5em" align="center">
@@ -193,7 +193,6 @@ See for yourself how does it work by cloning [project][Demo] we created
 
 # License
 PopupView is released under the MIT license. See [LICENSE][License] for details.
-
 
 
 
