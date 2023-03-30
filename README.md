@@ -44,3 +44,18 @@ PopupView is a free and open-source library dedicated for SwiftUI that makes the
 <br>
 
 # Getting Started
+### ⏳ Installation
+The [Swift package manager][spm] is a tool for automating the distribution of Swift code and is integrated into the `swift` compiler.
+
+Once you have your Swift package set up, adding PopupView as a dependency is as easy as adding it to the `dependencies` value of your `Package.swift`.
+
+
+```Swift
+dependencies: [
+    .package(url: "https://github.com/Mijick/PopupView.git", branch(“main”))
+]
+```
+
+
+
+[spm]: https://www.swift.org/package-manager/
