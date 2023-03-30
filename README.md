@@ -71,10 +71,9 @@ Inside your `@main` structure call the `implementPopupView` method
         WindowGroup(content: ContentView().implementPopupView)
   }
 ```
-
 <br>
 
-### 2. Create and customise your popup
+### 2. Declare a structure of your popup
 The library provides an ability to present your custom view in three predefinied places - **Top**, **Centre** and **Bottom**.<br>
 In order to present it, it is necessary to confirm to one of the protocols during your view declaration:
 - `TopPopup` - presents popup view from the top
@@ -88,7 +87,19 @@ struct TopCustomPopup: TopPopup {
     ...
 }
 ```
+<br>
 
+### 3. Provide identifier of your popup
+Set the `id` parameter to control the uniqueness of the views being presented.
+<br>
+
+Your structure should now look like the following:
+```Swift
+struct TopCustomPopup: TopPopup {
+    let id: String = "your_id"
+    ...
+}
+```
 
 
 
