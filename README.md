@@ -1,5 +1,5 @@
 <p align="center">
-    <img src="https://user-images.githubusercontent.com/23524947/228916843-52644334-7fa7-4cfe-be56-5754de83db96.svg" width="64%" alt="PopupView logo">
+    <img src="https://user-images.githubusercontent.com/23524947/228917693-bb8c565f-4316-492c-9290-3462d09e6ef8.svg" width="64%" alt="PopupView logo">
 </p>
 
 <h3 style="font-size: 5em" align="center">
@@ -7,10 +7,8 @@
 </h3>
 
 <p align="center">
-    Create beautiful popups in no time. Keep your code clean
+    Create beautiful and fully customisable popups in no time. Keep your code clean
 </p>
-
-<br>
 
 <p align="center">
     <a href="https://github.com/Mijick/PopupView-Example" rel="nofollow">Try demo we prepared</a>
