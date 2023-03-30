@@ -76,10 +76,20 @@ Inside your `@main` structure call the `implementPopupView` method
 
 ### 2. Create and customise your popup
 The library provides an ability to present your custom view in three predefinied places - **Top**, **Centre** and **Bottom**.<br>
-In order to present it, it is necessary to confirm to one of the protocols during your view creation:
+In order to present it, it is necessary to confirm to one of the protocols during your view declaration:
 - `TopPopup` - presents popup view from the top
 - `CentrePopup` - presents popup view from the center
 - `BottomPopup` - presents popup view from the bottom
+<br>
+
+So that an example view you want to present will have the following declaration:
+```Swift
+struct TopCustomPopup: TopPopup {
+    ...
+}
+```
+
+
 
 
 
