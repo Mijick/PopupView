@@ -2,7 +2,7 @@
 <img src="https://user-images.githubusercontent.com/23524947/228845256-a9a6fc24-7a6b-49a1-9fa4-89b0355df67b.svg" width="450px" alt="PopupView logo">
 </p>
 
-<h3 style="font-size: 4em" align="center">
+<h3 style="font-size: 5em" align="center">
     Popup presentation made simple, customisable and fast
 </h3>
 
@@ -10,8 +10,10 @@
 Create beautiful popups in no time. Keep your code clean
 </p>
 
+<br>
+
 <p align="center">
-<a href="https://github.com/Mijick/PopupView-Example" rel="nofollow">Try demo</a>
+<a href="https://github.com/Mijick/PopupView-Example" rel="nofollow">Try demo we prepared</a>
 </p>
 
 <br>
@@ -29,7 +31,7 @@ Create beautiful popups in no time. Keep your code clean
 <img alt="Follow us on Twitter" src="https://user-images.githubusercontent.com/23524947/228844665-d8cf7db8-e692-4c17-9b41-1b0471b552aa.svg"/>
 <img alt="Let's work together" src="https://user-images.githubusercontent.com/23524947/228844684-e8f87e2c-c85c-4cad-9bd1-f2e12a4627b8.svg"/>
 </p>
-<br>
+
 <p align="center">
 <img alt="Popup Examples" src="https://user-images.githubusercontent.com/23524947/228883231-7f55cf64-17e1-48b9-8922-2696ab7179d1.gif"/>
 </p>
@@ -71,7 +73,6 @@ Inside your `@main` structure call the `implementPopupView` method
         WindowGroup(content: ContentView().implementPopupView)
   }
 ```
-<br>
 
 ### 2. Declare a structure of your popup
 The library provides an ability to present your custom view in three predefinied places - **Top**, **Centre** and **Bottom**.<br>
@@ -79,7 +80,6 @@ In order to present it, it is necessary to confirm to one of the protocols durin
 - `TopPopup` - presents popup view from the top
 - `CentrePopup` - presents popup view from the center
 - `BottomPopup` - presents popup view from the bottom
-<br>
 
 So that an example view you want to present will have the following declaration:
 ```Swift
@@ -87,7 +87,6 @@ struct BottomCustomPopup: BottomPopup {
     ...
 }
 ```
-<br>
 
 ### 3. Provide identifier of your popup
 Set the `id` parameter to control the uniqueness of the views being presented.
@@ -100,7 +99,6 @@ struct BottomCustomPopup: BottomPopup {
     ...
 }
 ```
-<br>
 
 ### 4. Implement `createContent()` method. It's used instead of the body property, and declares the design of the popup view
 ```Swift
@@ -121,7 +119,6 @@ struct BottomCustomPopup: BottomPopup {
     ...
 }
 ```
-<br>
 
 ### 5. Implement `configurePopup(popup: Config) -> Config` method to setup UI of presented view Each protocol has its own set of configuration type
 ```Swift
@@ -149,7 +146,21 @@ struct BottomCustomPopup: BottomPopup {
     ...
 }
 ```
-<br>
+
+### 6. Present your popup from any place you want!
+Just call `BottomCustomPopup().present()` from the selected place
+```Swift
+struct SettingsViewModel {
+    ...
+    func saveSettings() {
+        ...
+        BottomCustomPopup().present()
+        ...
+    }
+    ...
+}
+```
+
 
 
 
