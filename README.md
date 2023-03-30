@@ -36,5 +36,7 @@ Create beautiful popups in no time. Keep your code clean
 <img alt="Popup Examples" src="https://user-images.githubusercontent.com/23524947/228883231-7f55cf64-17e1-48b9-8922-2696ab7179d1.gif"/>
 </p>
 
-<br><br>
+<br>
+
 PopupView is a free and open-source library dedicated for SwiftUI that makes the process of presenting popups easier and much cleaner.
+* **Improves code quality.** Show your popup using the `present()` modifier. Hide the selected one with `dismiss()`. Simple as never.
