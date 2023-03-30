@@ -35,7 +35,7 @@
     <a href="https://twitter.com/tkurylik">
         <img alt="Follow us on Twitter" src="https://user-images.githubusercontent.com/23524947/228844665-d8cf7db8-e692-4c17-9b41-1b0471b552aa.svg"/>
     </a>
-    <a href mailto:"lunde@adobe.com?subject=dupa">
+    <a href=mailto:“disha@uplers.com?bcc=”kevin@uplers.com”>
         <img alt="Let's work together" src="https://user-images.githubusercontent.com/23524947/228844684-e8f87e2c-c85c-4cad-9bd1-f2e12a4627b8.svg"/>
     </a>
 </p>
