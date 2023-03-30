@@ -29,3 +29,11 @@ Create beautiful popups in no time. Keep your code clean
 <img alt="Follow us on Twitter" src="https://user-images.githubusercontent.com/23524947/228844665-d8cf7db8-e692-4c17-9b41-1b0471b552aa.svg"/>
 <img alt="Let's work together" src="https://user-images.githubusercontent.com/23524947/228844684-e8f87e2c-c85c-4cad-9bd1-f2e12a4627b8.svg"/>
 </p>
+
+<br><br>
+
+<p align="center">
+<img alt="Bottom Popup Example" src="https://user-images.githubusercontent.com/23524947/228853678-621304a5-b7c5-48f4-aeb3-b7ce482bfb1e.gif"/>
+<img alt="Centre Popup Example" src="https://user-images.githubusercontent.com/23524947/228853686-98fd12b8-5f97-4ca6-9956-13b03f0b88ef.gif"/>
+<img alt="Top Popup Example" src="https://user-images.githubusercontent.com/23524947/228853661-40de7931-ab36-4dbd-8d8d-99c4ca7ce1b3.gif"/>
+</p>
