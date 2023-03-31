@@ -1,7 +1,7 @@
 <br>
 
 <p align="center">
-    <img alt="PopupView logo" src="https://user-images.githubusercontent.com/23524947/229163179-2033f875-f9cc-46ea-8d27-3a8a04007824.svg" src-light="https://user-images.githubusercontent.com/23524947/229172729-dd4fec15-8f90-4ca8-b59c-7ee109da7370.svg"" width="84%">
+    <img alt="PopupView logo" src="https://user-images.githubusercontent.com/23524947/229172729-dd4fec15-8f90-4ca8-b59c-7ee109da7370.svg" src-light="https://user-images.githubusercontent.com/23524947/229163179-2033f875-f9cc-46ea-8d27-3a8a04007824.svg"" width="84%">
 </p>
 
 <h3 style="font-size: 5em" align="center">
