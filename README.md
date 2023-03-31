@@ -1,5 +1,11 @@
+<br>
+
 <p align="center">
-    <img src="https://user-images.githubusercontent.com/23524947/228917693-bb8c565f-4316-492c-9290-3462d09e6ef8.svg" width="64%" alt="PopupView logo">
+  <picture> 
+    <source media="(prefers-color-scheme: dark)" srcset="https://user-images.githubusercontent.com/23524947/229163179-2033f875-f9cc-46ea-8d27-3a8a04007824.svg">
+    <source media="(prefers-color-scheme: light)" srcset="https://user-images.githubusercontent.com/23524947/229172729-dd4fec15-8f90-4ca8-b59c-7ee109da7370.svg">
+    <img alt="PopupView Logo" src="https://user-images.githubusercontent.com/23524947/229163179-2033f875-f9cc-46ea-8d27-3a8a04007824.svg" width="88%"">
+  </picture>
 </p>
 
 <h3 style="font-size: 5em" align="center">
@@ -14,7 +20,7 @@
     <a href="https://github.com/Mijick/PopupView-Example" rel="nofollow">Try demo we prepared</a>
 </p>
 
-<br>
+<br><br>
 
 <p align="center">
     <img alt="SwiftUI logo" src="https://user-images.githubusercontent.com/23524947/228844494-9be6d187-b4f5-4a95-93fa-9c430b2bc043.svg"/>
