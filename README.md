@@ -1,7 +1,7 @@
 <br>
 
 <p align="center">
-    <img src="https://user-images.githubusercontent.com/23524947/229163179-2033f875-f9cc-46ea-8d27-3a8a04007824.svg" width="72%" alt="PopupView logo">
+    <img src="https://user-images.githubusercontent.com/23524947/229163179-2033f875-f9cc-46ea-8d27-3a8a04007824.svg" width="84%" alt="PopupView logo">
 </p>
 
 <h3 style="font-size: 5em" align="center">
