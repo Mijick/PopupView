@@ -4,8 +4,6 @@
     <img src="https://user-images.githubusercontent.com/23524947/229163179-2033f875-f9cc-46ea-8d27-3a8a04007824.svg" width="72%" alt="PopupView logo">
 </p>
 
-<br>
-
 <h3 style="font-size: 5em" align="center">
     Popups presentation made simple
 </h3>
@@ -18,7 +16,7 @@
     <a href="https://github.com/Mijick/PopupView-Example" rel="nofollow">Try demo we prepared</a>
 </p>
 
-<br>
+<br><br>
 
 <p align="center">
     <img alt="SwiftUI logo" src="https://user-images.githubusercontent.com/23524947/228844494-9be6d187-b4f5-4a95-93fa-9c430b2bc043.svg"/>
