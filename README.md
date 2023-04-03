@@ -20,7 +20,7 @@
     <a href="https://github.com/Mijick/PopupView-Example" rel="nofollow">Try demo we prepared</a>
 </p>
 
-<br><br>
+<br>
 
 <p align="center">
     <img alt="SwiftUI logo" src="https://user-images.githubusercontent.com/23524947/228844494-9be6d187-b4f5-4a95-93fa-9c430b2bc043.svg"/>
