@@ -26,7 +26,7 @@ public protocol Popup: View, Hashable, Equatable {
     associatedtype Config: Configurable
     associatedtype V: View
 
-    var body: V { get }
+    func createContent() -> V
 }
 public extension Popup {
     func present() { PopupManager.present(AnyPopup<Config>(self)) }
@@ -35,15 +35,16 @@ public extension Popup {
     static func ==(lhs: Self, rhs: Self) -> Bool { lhs.id == rhs.id }
     func hash(into hasher: inout Hasher) { hasher.combine(id) }
 
-    func configurePopup(popup: Config) -> Config { popup }
+    var body: V { createContent() }
     var id: String { String(describing: Self.self) }
+
+    func configurePopup(popup: Config) -> Config { popup }
 }
 
 
 // MARK: -Type Eraser
 struct AnyPopup<Config: Configurable>: Popup {
     let id: String
-    var body: some View { _body }
 
     private let _body: AnyView
     private let _configBuilder: (Config) -> Config
@@ -55,5 +56,6 @@ struct AnyPopup<Config: Configurable>: Popup {
     }
 }
 extension AnyPopup {
+    func createContent() -> some View { _body }
     func configurePopup(popup: Config) -> Config { _configBuilder(popup) }
 }
