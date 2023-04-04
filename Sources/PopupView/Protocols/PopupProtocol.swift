@@ -29,6 +29,7 @@ public protocol Popup: View, Hashable, Equatable {
     var id: String { get }
 
     func createContent() -> V
+    func configurePopup(popup: Config) -> Config
 }
 public extension Popup {
     func present() { PopupManager.present(AnyPopup<Config>(self)) }
@@ -38,10 +39,7 @@ public extension Popup {
     func hash(into hasher: inout Hasher) { hasher.combine(id) }
 
     var body: V { createContent() }
-    var id: String {
-        //print(String(describing: type(of: self)))
-
-        return String(describing: type(of: self)) }
+    var id: String { String(describing: type(of: self)) }
 
     func configurePopup(popup: Config) -> Config { popup }
 }
