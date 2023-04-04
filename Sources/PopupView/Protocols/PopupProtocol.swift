@@ -26,6 +26,8 @@ public protocol Popup: View, Hashable, Equatable {
     associatedtype Config: Configurable
     associatedtype V: View
 
+    var id: String { get }
+
     func createContent() -> V
 }
 public extension Popup {
