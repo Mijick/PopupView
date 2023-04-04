@@ -36,7 +36,10 @@ public extension Popup {
     func hash(into hasher: inout Hasher) { hasher.combine(id) }
 
     var body: V { createContent() }
-    var id: String { String(describing: Self.self) }
+    var id: String {
+        print(String(describing: Self.self))
+
+        return String(describing: Self.self) }
 
     func configurePopup(popup: Config) -> Config { popup }
 }
