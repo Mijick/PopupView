@@ -37,7 +37,7 @@ public extension Popup {
 
     var body: V { createContent() }
     var id: String {
-        print(String(describing: type(of: self)))
+        //print(String(describing: type(of: self)))
 
         return String(describing: type(of: self)) }
 
@@ -54,6 +54,8 @@ struct AnyPopup<Config: Configurable>: Popup {
 
     init(_ popup: some Popup) {
         self.id = popup.id
+
+        print(self.id)
         self._body = AnyView(popup)
         self._configBuilder = popup.configurePopup as! (Config) -> Config
     }
