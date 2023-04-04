@@ -22,7 +22,7 @@ public protocol BottomPopup: Popup {
 
 
 // MARK: -Implementation
-public protocol Popup: View, Identifiable, Hashable, Equatable {
+public protocol Popup: View, Hashable, Equatable {
     associatedtype Config: Configurable
     associatedtype V: View
 
@@ -39,6 +39,9 @@ public extension Popup {
     func hash(into hasher: inout Hasher) { hasher.combine(id) }
 
     var body: V { createContent() }
+    var id: String {
+        print(String(describing: Self.self))
+        return String(describing: Self.self) }
 }
 
 
