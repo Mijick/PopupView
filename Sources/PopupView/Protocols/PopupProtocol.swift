@@ -24,7 +24,7 @@ public protocol BottomPopup: Popup {
 // MARK: -Implementation
 public protocol Popup: View, Hashable, Equatable {
     associatedtype Config: Configurable
-    associatedtype V = View
+    associatedtype V: View
 
     var body: V { get }
 }
