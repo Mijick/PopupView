@@ -37,9 +37,9 @@ public extension Popup {
 
     var body: V { createContent() }
     var id: String {
-        print(String(describing: Self.self))
+        print(String(describing: type(of: self)))
 
-        return String(describing: Self.self) }
+        return String(describing: type(of: self)) }
 
     func configurePopup(popup: Config) -> Config { popup }
 }
