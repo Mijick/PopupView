@@ -54,8 +54,6 @@ struct AnyPopup<Config: Configurable>: Popup {
 
     init(_ popup: some Popup) {
         self.id = popup.id
-
-        print(self.id)
         self._body = AnyView(popup)
         self._configBuilder = popup.configurePopup as! (Config) -> Config
     }
