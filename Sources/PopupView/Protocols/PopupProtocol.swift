@@ -51,7 +51,7 @@ struct AnyPopup<Config: Configurable>: Popup {
 
     init(_ popup: some Popup) {
         self.id = popup.id
-        self._body = AnyView(popup.createContent())
+        self._body = AnyView(popup)
         self._configBuilder = popup.configurePopup as! (Config) -> Config
     }
 }
