@@ -25,7 +25,7 @@
 <p align="center">
     <img alt="SwiftUI logo" src="https://user-images.githubusercontent.com/23524947/228844494-9be6d187-b4f5-4a95-93fa-9c430b2bc043.svg"/>
     <img alt="Platforms: iOS, iPadOS" src="https://user-images.githubusercontent.com/23524947/228702908-490eaa2f-d028-49a3-8959-cc7d64261de3.svg"/>
-    <img alt="Release: 1.1" src="https://user-images.githubusercontent.com/23524947/228702911-996ce1fe-4fed-47b0-93e7-e6271036a8e5.svg"/>
+    <img alt="Release: 1.2.1" src="https://user-images.githubusercontent.com/23524947/233516901-19470969-7f8f-4be7-b10b-cf765b6e6a6a.svg"/>
     <a href="https://www.swift.org/package-manager">
         <img alt="Swift Package Manager: Compatible" src="https://user-images.githubusercontent.com/23524947/228702912-50878cca-0902-4ec9-b042-c7762359137b.svg"/>
     </a>
@@ -34,7 +34,7 @@
 
 <p align="center">
     <a href="https://github.com/Mijick/PopupView/stargazers">
-        <img alt="Stars" src="https://user-images.githubusercontent.com/23524947/228844578-ff6ae7cf-688c-4f78-b618-8e88dc3e5f3b.svg"/>
+        <img alt="Stars" src="https://user-images.githubusercontent.com/23524947/233516962-7588da9d-901c-4887-aef0-e4701b4b8612.svg"/>
     </a>
     <a href="https://twitter.com/tkurylik">
         <img alt="Follow us on Twitter" src="https://user-images.githubusercontent.com/23524947/228844665-d8cf7db8-e692-4c17-9b41-1b0471b552aa.svg"/>
@@ -207,7 +207,5 @@ PopupView is released under the MIT license. See [LICENSE][License] for details.
 
 [Demo]: https://github.com/Mijick/PopupView-Example
 [License]: https://github.com/Mijick/PopupView/blob/main/LICENSE
-
-
 
 [spm]: https://www.swift.org/package-manager/
