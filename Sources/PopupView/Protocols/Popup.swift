@@ -1,5 +1,5 @@
 //
-//  PopupProtocol.swift of PopupView
+//  Popup.swift of PopupView
 //
 //  Created by Tomasz Kurylik
 //    - Twitter: https://twitter.com/tkurylik
@@ -22,7 +22,7 @@ public protocol BottomPopup: Popup {
 
 
 // MARK: -Implementation
-public protocol Popup: View, Hashable, Equatable {
+public protocol Popup: View {
     associatedtype Config: Configurable
     associatedtype V: View
 
@@ -35,18 +35,15 @@ public extension Popup {
     func present() { PopupManager.present(AnyPopup<Config>(self)) }
     func dismiss() { PopupManager.dismiss(id: id) }
 
-    static func ==(lhs: Self, rhs: Self) -> Bool { lhs.id == rhs.id }
-    func hash(into hasher: inout Hasher) { hasher.combine(id) }
-
+    var id: String { .init(describing: Self.self) }
     var body: V { createContent() }
-    var id: String { String(describing: type(of: self)) }
 
     func configurePopup(popup: Config) -> Config { popup }
 }
 
 
 // MARK: -Type Eraser
-struct AnyPopup<Config: Configurable>: Popup {
+struct AnyPopup<Config: Configurable>: Popup, Hashable {
     let id: String
 
     private let _body: AnyView
@@ -57,6 +54,10 @@ struct AnyPopup<Config: Configurable>: Popup {
         self._body = AnyView(popup)
         self._configBuilder = popup.configurePopup as! (Config) -> Config
     }
+}
+extension AnyPopup {
+    static func == (lhs: AnyPopup<Config>, rhs: AnyPopup<Config>) -> Bool { lhs.id == rhs.id }
+    func hash(into hasher: inout Hasher) { hasher.combine(id) }
 }
 extension AnyPopup {
     func createContent() -> some View { _body }

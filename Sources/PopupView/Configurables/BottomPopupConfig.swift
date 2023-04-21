@@ -21,6 +21,7 @@ public extension BottomPopupConfig {
     func stackedPopupsCornerRadius(_ value: CGFloat) -> Self { changing(path: \.stackedViewsCornerRadius, to: value) }
     func stackedElementsLimit(_ value: Int) -> Self { changing(path: \.maxStackedElements, to: value) }
     func activePopupCornerRadius(_ value: CGFloat) -> Self { changing(path: \.activeViewCornerRadius, to: value) }
+    func dragGestureEnabled(_ value: Bool) -> Self { changing(path: \.dragGestureEnabled, to: value) }
     func dragGestureProgressToClose(_ value: CGFloat) -> Self { changing(path: \.dragGestureProgressToClose, to: value) }
     func dragGestureAnimation(_ value: Animation) -> Self { changing(path: \.dragGestureAnimation, to: value) }
     func transitionAnimation(_ value: Animation) -> Self { changing(path: \.transitionAnimation, to: value) }
@@ -36,6 +37,7 @@ public struct BottomPopupConfig: Configurable {
     var stackedViewsCornerRadius: CGFloat = 10
     var maxStackedElements: Int = 4
     var activeViewCornerRadius: CGFloat = 32
+    var dragGestureEnabled: Bool = true
     var dragGestureProgressToClose: CGFloat = 1/3
     var dragGestureAnimation: Animation = .interactiveSpring()
     var transitionAnimation: Animation = .spring(response: 0.44, dampingFraction: 1, blendDuration: 0.4)
