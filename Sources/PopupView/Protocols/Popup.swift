@@ -1,5 +1,5 @@
 //
-//  PopupProtocol.swift of PopupView
+//  Popup.swift of PopupView
 //
 //  Created by Tomasz Kurylik
 //    - Twitter: https://twitter.com/tkurylik
@@ -35,13 +35,15 @@ public extension Popup {
     func present() { PopupManager.present(AnyPopup<Config>(self)) }
     func dismiss() { PopupManager.dismiss(id: id) }
 
-    static func ==(lhs: Self, rhs: Self) -> Bool { lhs.id == rhs.id }
-    func hash(into hasher: inout Hasher) { hasher.combine(id) }
-
-    var body: V { createContent() }
-    var id: String { String(describing: type(of: self)) }
+    var id: String { .init(describing: Self.self) }
 
     func configurePopup(popup: Config) -> Config { popup }
+}
+extension Popup {
+    var body: V { createContent() }
+
+    static func ==(lhs: Self, rhs: Self) -> Bool { lhs.id == rhs.id }
+    func hash(into hasher: inout Hasher) { hasher.combine(id) }
 }
 
 

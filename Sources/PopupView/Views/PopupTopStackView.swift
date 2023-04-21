@@ -57,7 +57,7 @@ private extension PopupTopStackView {
             .onEnded(onPopupDragGestureEnded)
     }
     func onPopupDragGestureChanged(_ value: DragGesture.Value) {
-        gestureTranslation = min(0, value.translation.height)
+        if config.dragGestureEnabled { gestureTranslation = min(0, value.translation.height) }
     }
     func onPopupDragGestureEnded(_ value: DragGesture.Value) {
         if translationProgress() >= gestureClosingThresholdFactor { items.last?.dismiss() }
