@@ -33,7 +33,9 @@ public protocol Popup: View {
 }
 public extension Popup {
     func present() { PopupManager.present(AnyPopup<Config>(self)) }
-    func dismiss() { PopupManager.dismiss(id: id) }
+    func dismiss() { PopupManager.dismiss() }
+    func dismiss<P: Popup>(_ popup: P.Type) { PopupManager.dismiss(popup) }
+    func dismissAll() { PopupManager.dismissAll() }
 
     var id: String { .init(describing: Self.self) }
     var body: V { createContent() }
