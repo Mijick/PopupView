@@ -36,11 +36,9 @@ public extension Popup {
     func dismiss() { PopupManager.dismiss(id: id) }
 
     var id: String { .init(describing: Self.self) }
+    var body: V { createContent() }
 
     func configurePopup(popup: Config) -> Config { popup }
-}
-extension Popup {
-    var body: V { createContent() }
 }
 
 
