@@ -16,7 +16,7 @@ public extension View {
     }
 }
 
-// MARK: -Alignments
+// MARK: - Alignments
 extension View {
     func alignToBottom(_ value: CGFloat = 0) -> some View {
         VStack(spacing: 0) {
@@ -34,7 +34,15 @@ extension View {
     }
 }
 
-// MARK: -Content Height Reader
+// MARK: - Cleaning Cache
+extension View {
+    func clearCacheObjects(shouldClear: Bool, trigger: Binding<Bool>) -> some View {
+        onChange(of: shouldClear) { $0 ? trigger.toggleAfter(seconds: 0.4) : () }
+        .id(trigger.wrappedValue)
+    }
+}
+
+// MARK: - Content Height Reader
 extension View {
     func readHeight(onChange action: @escaping (CGFloat) -> ()) -> some View {
         background(heightReader).onPreferenceChange(HeightPreferenceKey.self, perform: action)
@@ -50,7 +58,7 @@ fileprivate struct HeightPreferenceKey: PreferenceKey {
     static func reduce(value: inout CGFloat, nextValue: () -> CGFloat) {}
 }
 
-// MARK: -Others
+// MARK: - Others
 extension View {
     @ViewBuilder func active(if condition: Bool) -> some View {
         if condition { self }

@@ -16,8 +16,9 @@ struct PopupCentreStackView: View {
     @State private var configTemp: CentrePopupConfig?
     @State private var height: CGFloat?
     @State private var contentIsAnimated: Bool = false
+    @State private var cacheCleanerTrigger: Bool = false
 
-
+    
     var body: some View {
         createPopup()
             .frame(width: UIScreen.width, height: UIScreen.height)
@@ -27,6 +28,7 @@ struct PopupCentreStackView: View {
             .animation(transitionAnimation, value: contentIsAnimated)
             .transition(getTransition())
             .onChange(of: items, perform: onItemsChange)
+            .clearCacheObjects(shouldClear: items.isEmpty, trigger: $cacheCleanerTrigger)
     }
 }
 

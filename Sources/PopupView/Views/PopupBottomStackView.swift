@@ -14,9 +14,9 @@ struct PopupBottomStackView: View {
     let items: [AnyPopup<BottomPopupConfig>]
     @State private var heights: [AnyPopup<BottomPopupConfig>: CGFloat] = [:]
     @State private var gestureTranslation: CGFloat = 0
+    @State private var cacheCleanerTrigger: Bool = false
 
-    @State var a: Bool = false
-
+    
     var body: some View {
         ZStack(alignment: .top, content: createPopupStack)
             .ignoresSafeArea()
@@ -24,18 +24,7 @@ struct PopupBottomStackView: View {
             .animation(transitionAnimation, value: heights)
             .animation(dragGestureAnimation, value: gestureTranslation)
             .gesture(popupDragGesture)
-            .onChange(of: items.isEmpty) { newValue in
-                DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
-                    newValue ? a.toggle() : ()
-
-                }
-                print(newValue)
-            }
-
-            .id(a)
-
-
-        // zamknij również możliwość otwierania nowych popupów w ciągu 0.3 sekundy od poprzedniego
+            .clearCacheObjects(shouldClear: items.isEmpty, trigger: $cacheCleanerTrigger)
     }
 }
 
