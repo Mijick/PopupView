@@ -12,22 +12,21 @@ import SwiftUI
 
 public class PopupManager: ObservableObject {
     @Published private var views: [any Popup] = []
+    fileprivate var operationRecentlyPerformed: Bool = false
 
     static let shared: PopupManager = .init()
     private init() {}
 }
 
 public extension PopupManager {
-    static func dismiss() { DispatchQueue.main.async { shared.views.removeLast() }}
-    static func dismiss(id: String) { DispatchQueue.main.async { shared.views.removeAll(where: { $0.id == id }) }}
-    static func dismiss<P: Popup>(_ popup: P.Type) { DispatchQueue.main.async { shared.views.removeAll(where: { $0.id == .init(describing: popup) }) }}
-    static func dismissAll() { DispatchQueue.main.async { shared.views.removeAll() }}
+    static func dismiss() { shared.views.perform(.removeLast) }
+    static func dismiss(id: String) { shared.views.perform(.remove(id: id)) }
+    static func dismiss<P: Popup>(_ popup: P.Type) { shared.views.perform(.remove(id: .init(describing: popup))) }
+    static func dismissAll() { shared.views.perform(.removeAll) }
 }
 
 extension PopupManager {
-    static func present(_ popup: some Popup) { DispatchQueue.main.async { withAnimation(nil) {
-        shared.views.append(popup, if: canBeInserted(popup))
-    }}}
+    static func present(_ popup: some Popup) { DispatchQueue.main.async { withAnimation(nil) { shared.views.perform(.insert(popup)) }}}
 }
 
 extension PopupManager {
@@ -37,6 +36,39 @@ extension PopupManager {
     var isEmpty: Bool { views.isEmpty }
 }
 
-private extension PopupManager {
-    static func canBeInserted(_ popup: some Popup) -> Bool { !shared.views.contains(where: { $0.id == popup.id }) }
+
+// MARK: - Helpers
+fileprivate extension [any Popup] {
+    enum Operation {
+        case insert(any Popup)
+        case removeLast, remove(id: String), removeAll
+    }
+}
+fileprivate extension [any Popup] {
+    mutating func perform(_ operation: Operation) {
+        guard !PopupManager.shared.operationRecentlyPerformed else { return }
+
+        blockOtherOperations()
+        performOperation(operation)
+        liftBlockade()
+    }
+}
+private extension [any Popup] {
+    func blockOtherOperations() {
+        PopupManager.shared.operationRecentlyPerformed = true
+    }
+    mutating func performOperation(_ operation: Operation) {
+        switch operation {
+            case .insert(let popup): append(popup, if: canBeInserted(popup))
+            case .removeLast: removeLast()
+            case .remove(let id): removeAll(where: { $0.id == id })
+            case .removeAll: removeAll()
+        }
+    }
+    func liftBlockade() {
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.44) { PopupManager.shared.operationRecentlyPerformed = false }
+    }
+}
+private extension [any Popup] {
+    func canBeInserted(_ popup: some Popup) -> Bool { !contains(where: { $0.id == popup.id }) }
 }

@@ -14,8 +14,9 @@ struct PopupBottomStackView: View {
     let items: [AnyPopup<BottomPopupConfig>]
     @State private var heights: [AnyPopup<BottomPopupConfig>: CGFloat] = [:]
     @State private var gestureTranslation: CGFloat = 0
+    @State private var cacheCleanerTrigger: Bool = false
 
-
+    
     var body: some View {
         ZStack(alignment: .top, content: createPopupStack)
             .ignoresSafeArea()
@@ -23,6 +24,7 @@ struct PopupBottomStackView: View {
             .animation(transitionAnimation, value: heights)
             .animation(dragGestureAnimation, value: gestureTranslation)
             .gesture(popupDragGesture)
+            .clearCacheObjects(shouldClear: items.isEmpty, trigger: $cacheCleanerTrigger)
     }
 }
 
@@ -37,12 +39,13 @@ private extension PopupBottomStackView {
         item.body
             .padding(.bottom, contentBottomPadding)
             .readHeight { saveHeight($0, for: item) }
-            .frame(width: width, height: height)
+            .frame(width: width, height: height, alignment: .top)
             .background(backgroundColour)
             .cornerRadius(getCornerRadius(for: item))
             .opacity(getOpacity(for: item))
             .offset(y: getOffset(for: item))
             .scaleEffect(getScale(for: item), anchor: .top)
+            .compositingGroup()
             .alignToBottom(bottomPadding)
             .transition(transition)
             .zIndex(isLast(item).doubleValue)

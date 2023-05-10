@@ -25,7 +25,7 @@
 <p align="center">
     <img alt="SwiftUI logo" src="https://user-images.githubusercontent.com/23524947/228844494-9be6d187-b4f5-4a95-93fa-9c430b2bc043.svg"/>
     <img alt="Platforms: iOS, iPadOS" src="https://user-images.githubusercontent.com/23524947/228702908-490eaa2f-d028-49a3-8959-cc7d64261de3.svg"/>
-    <img alt="Release: 1.2.1" src="https://user-images.githubusercontent.com/23524947/233516901-19470969-7f8f-4be7-b10b-cf765b6e6a6a.svg"/>
+    <img alt="Release: 1.2.2" src="https://github.com/Mijick/PopupView/assets/23524947/198dfcaa-8615-43af-9b14-812e9dd6a7bd"/>
     <a href="https://www.swift.org/package-manager">
         <img alt="Swift Package Manager: Compatible" src="https://user-images.githubusercontent.com/23524947/228702912-50878cca-0902-4ec9-b042-c7762359137b.svg"/>
     </a>
