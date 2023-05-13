@@ -20,6 +20,7 @@ struct PopupTopStackView: View {
     var body: some View {
         ZStack(alignment: .bottom, content: createPopupStack)
             .ignoresSafeArea()
+            .background(createTapArea())
             .animation(transitionAnimation, value: items)
             .animation(transitionAnimation, value: heights)
             .animation(dragGestureAnimation, value: gestureTranslation)
@@ -31,6 +32,11 @@ struct PopupTopStackView: View {
 private extension PopupTopStackView {
     func createPopupStack() -> some View {
         ForEach(items, id: \.self, content: createPopup)
+    }
+    func createTapArea() -> some View {
+        Color.black.opacity(0.00000000001)
+            .onTapGesture(perform: items.last?.dismiss ?? {})
+            .active(if: config.tapOutsideClosesView)
     }
 }
 
