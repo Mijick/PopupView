@@ -12,6 +12,7 @@ import SwiftUI
 
 public extension BottomPopupConfig {
     func backgroundColour(_ value: Color) -> Self { changing(path: \.backgroundColour, to: value) }
+    func tapOutsideToDismiss(_ value: Bool) -> Self { changing(path: \.tapOutsideClosesView, to: value) }
     func contentIgnoresSafeArea(_ value: Bool) -> Self { changing(path: \.contentIgnoresSafeArea, to: value) }
     func contentFillsWholeHeigh(_ value: Bool) -> Self { changing(path: \.contentFillsWholeHeight, to: value) }
     func horizontalPadding(_ value: CGFloat) -> Self { changing(path: \.horizontalPadding, to: value) }
@@ -28,6 +29,7 @@ public extension BottomPopupConfig {
 }
 public struct BottomPopupConfig: Configurable {
     var backgroundColour: Color = .white
+    var tapOutsideClosesView: Bool = false
     var contentIgnoresSafeArea: Bool = false
     var contentFillsWholeHeight: Bool = false
     var horizontalPadding: CGFloat = 0

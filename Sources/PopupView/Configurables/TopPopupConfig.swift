@@ -12,6 +12,7 @@ import SwiftUI
 
 public extension TopPopupConfig {
     func backgroundColour(_ value: Color) -> Self { changing(path: \.backgroundColour, to: value) }
+    func tapOutsideToDismiss(_ value: Bool) -> Self { changing(path: \.tapOutsideClosesView, to: value) }
     func contentIgnoresSafeArea(_ value: Bool) -> Self { changing(path: \.contentIgnoresSafeArea, to: value) }
     func horizontalPadding(_ value: CGFloat) -> Self { changing(path: \.horizontalPadding, to: value) }
     func topPadding(_ value: CGFloat) -> Self { changing(path: \.topPadding, to: value) }
@@ -27,6 +28,7 @@ public extension TopPopupConfig {
 }
 public struct TopPopupConfig: Configurable {
     var backgroundColour: Color = .white
+    var tapOutsideClosesView: Bool = false
     var contentIgnoresSafeArea: Bool = false
     var horizontalPadding: CGFloat = 0
     var topPadding: CGFloat = 0
