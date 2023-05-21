@@ -46,7 +46,7 @@
 </p>
 
 <p align="center">
-    <img alt="Popup Examples" src="https://user-images.githubusercontent.com/23524947/228883231-7f55cf64-17e1-48b9-8922-2696ab7179d1.gif"/>
+    <img alt="Popup Examples" src="https://github.com/Mijick/PopupView/assets/23524947/32a8afc2-9c7e-4121-85ff-030bb8dad11a"/>
 </p>
 
 <br>
