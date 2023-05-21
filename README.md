@@ -36,12 +36,13 @@
     <a href="https://github.com/Mijick/PopupView/stargazers">
         <img alt="Stars" src="https://github.com/Mijick/PopupView/assets/23524947/b6c871b5-7da1-4b1b-a802-5387ea7b0d82"/>
     </a>
+    <img alt="Made in Kraków" src="https://github.com/Mijick/PopupView/assets/23524947/87dc9080-c9be-403a-9838-0714ff33375c"/>                                                                                                                   
     <a href="https://twitter.com/tkurylik">
         <img alt="Follow us on Twitter" src="https://user-images.githubusercontent.com/23524947/228844665-d8cf7db8-e692-4c17-9b41-1b0471b552aa.svg"/>
     </a>
     <a href=mailto:team@mijick.com?subject=Hello>
         <img alt="Let's work together" src="https://user-images.githubusercontent.com/23524947/228844684-e8f87e2c-c85c-4cad-9bd1-f2e12a4627b8.svg"/>
-    </a>
+    </a>             
 </p>
 
 <p align="center">
@@ -184,7 +185,6 @@ See for yourself how does it work by cloning [project][Demo] we created
 
 # License
 PopupView is released under the MIT license. See [LICENSE][License] for details.
-
 
 
 [MIT]: https://en.wikipedia.org/wiki/MIT_License
