@@ -49,6 +49,7 @@ fileprivate extension [any Popup] {
         guard !PopupManager.shared.operationRecentlyPerformed else { return }
 
         blockOtherOperations()
+        hideKeyboard()
         performOperation(operation)
         liftBlockade()
     }
@@ -56,6 +57,9 @@ fileprivate extension [any Popup] {
 private extension [any Popup] {
     func blockOtherOperations() {
         PopupManager.shared.operationRecentlyPerformed = true
+    }
+    func hideKeyboard() {
+        UIApplication.shared.hideKeyboard()
     }
     mutating func performOperation(_ operation: Operation) {
         switch operation {
@@ -71,4 +75,10 @@ private extension [any Popup] {
 }
 private extension [any Popup] {
     func canBeInserted(_ popup: some Popup) -> Bool { !contains(where: { $0.id == popup.id }) }
+}
+
+fileprivate extension UIApplication {
+    func hideKeyboard() {
+        sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
+    }
 }
