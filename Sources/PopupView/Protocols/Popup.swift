@@ -10,18 +10,6 @@
 
 import SwiftUI
 
-public protocol TopPopup: Popup {
-    associatedtype Config = TopPopupConfig
-}
-public protocol CentrePopup: Popup {
-    associatedtype Config = CentrePopupConfig
-}
-public protocol BottomPopup: Popup {
-    associatedtype Config = BottomPopupConfig
-}
-
-
-// MARK: -Implementation
 public protocol Popup: View {
     associatedtype Config: Configurable
     associatedtype V: View
@@ -31,20 +19,49 @@ public protocol Popup: View {
     func createContent() -> V
     func configurePopup(popup: Config) -> Config
 }
+
+// MARK: - Presenting Popups
 public extension Popup {
-    func present() { PopupManager.present(AnyPopup<Config>(self)) }
+
+    /// Displays the popup. Stacks previous one
+    func showAndStack() { PopupManager.show(AnyPopup<Config>(self), withStacking: true) }
+
+    /// Displays the popup. Closes previous one
+    func showAndReplace() { PopupManager.show(AnyPopup<Config>(self), withStacking: false) }
+}
+
+// MARK: - Dismissing Popups
+public extension Popup {
+
+    /// Dismisses the last popup on the stack
     func dismiss() { PopupManager.dismiss() }
+
+    /// Dismisses all popups of the selected type on the stack
     func dismiss<P: Popup>(_ popup: P.Type) { PopupManager.dismiss(popup) }
+
+    /// Dismisses all popups on the stack
     func dismissAll() { PopupManager.dismissAll() }
+}
+
+// MARK: - Others
+public extension Popup {
+    func configurePopup(popup: Config) -> Config { popup }
 
     var id: String { .init(describing: Self.self) }
     var body: V { createContent() }
+}
 
-    func configurePopup(popup: Config) -> Config { popup }
+// MARK: - Deprecated
+public extension Popup {
+    @available(*, deprecated, message: "Method no longer supported. Use showAndStack or showAndReplace instead")
+    func present() { PopupManager.show(AnyPopup<Config>(self), withStacking: true) }
 }
 
 
-// MARK: -Type Eraser
+public protocol TopPopup: Popup { associatedtype Config = TopPopupConfig }
+public protocol CentrePopup: Popup { associatedtype Config = CentrePopupConfig }
+public protocol BottomPopup: Popup { associatedtype Config = BottomPopupConfig }
+
 struct AnyPopup<Config: Configurable>: Popup, Hashable {
     let id: String
 
