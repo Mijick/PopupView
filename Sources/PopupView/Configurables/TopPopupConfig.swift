@@ -10,35 +10,82 @@
 
 import SwiftUI
 
+// MARK: - Content Customisation
 public extension TopPopupConfig {
-    func backgroundColour(_ value: Color) -> Self { changing(path: \.backgroundColour, to: value) }
-    func tapOutsideToDismiss(_ value: Bool) -> Self { changing(path: \.tapOutsideClosesView, to: value) }
+    /// Whether content should ignore safe area
     func contentIgnoresSafeArea(_ value: Bool) -> Self { changing(path: \.contentIgnoresSafeArea, to: value) }
-    func horizontalPadding(_ value: CGFloat) -> Self { changing(path: \.horizontalPadding, to: value) }
-    func topPadding(_ value: CGFloat) -> Self { changing(path: \.topPadding, to: value) }
-    func stackedPopupsOffset(_ value: CGFloat) -> Self { changing(path: \.stackedViewsOffset, to: value) }
-    func stackedPopupsScale(_ value: CGFloat) -> Self { changing(path: \.stackedViewsScale, to: value) }
-    func stackedPopupsCornerRadius(_ value: CGFloat) -> Self { changing(path: \.stackedViewsCornerRadius, to: value) }
-    func stackedElementsLimit(_ value: Int) -> Self { changing(path: \.maxStackedElements, to: value) }
-    func activePopupCornerRadius(_ value: CGFloat) -> Self { changing(path: \.activeViewCornerRadius, to: value) }
-    func dragGestureEnabled(_ value: Bool) -> Self { changing(path: \.dragGestureEnabled, to: value) }
-    func dragGestureProgressToClose(_ value: CGFloat) -> Self { changing(path: \.dragGestureProgressToClose, to: value) }
-    func dragGestureAnimation(_ value: Animation) -> Self { changing(path: \.dragGestureAnimation, to: value) }
-    func transitionAnimation(_ value: Animation) -> Self { changing(path: \.transitionAnimation, to: value) }
 }
+
+// MARK: - Popup Customisation
+public extension TopPopupConfig {
+    /// Background colour of the popup
+    func backgroundColour(_ value: Color) -> Self { changing(path: \.backgroundColour, to: value) }
+
+    /// Corner radius of the popup at the top of the stack
+    func activePopupCornerRadius(_ value: CGFloat) -> Self { changing(path: \.activePopupCornerRadius, to: value) }
+
+    /// Distance of the entire popup (including its background) from the top edge
+    func topPadding(_ value: CGFloat) -> Self { changing(path: \.popupPadding.top, to: value) }
+
+    /// Distance of the entire popup (including its background) from the horizontal edges
+    func horizontalPadding(_ value: CGFloat) -> Self { changing(path: \.popupPadding.horizontal, to: value) }
+}
+
+// MARK: - Stack Customisation
+public extension TopPopupConfig {
+    /// Corner radius for popups on the stack
+    func stackCornerRadius(_ value: CGFloat) -> Self { changing(path: \.stackCornerRadius, to: value) }
+
+    /// Distance between popups on the stack
+    func stackOffset(_ value: CGFloat) -> Self { changing(path: \.stackOffset, to: value) }
+
+    /// Scale factor of subsequent popups on the stack.
+    /// For example, for **value** = 0.1, the next popup on the stack will have a size of 0.9 of the active popup, and the one after next 0.8.
+    func stackScale(_ value: CGFloat) -> Self { changing(path: \.stackScaleFactor, to: value) }
+
+    /// Maximum number of popups on the stack
+    func stackLimit(_ value: Int) -> Self { changing(path: \.stackLimit, to: value) }
+}
+
+// MARK: - Gestures
+public extension TopPopupConfig {
+    /// Dismisses the active popup when tapped outside its area if enabled
+    func tapOutsideToDismiss(_ value: Bool) -> Self { changing(path: \.tapOutsideClosesView, to: value) }
+
+    /// Popup can be closed with drag gesture if enabled
+    func dragGestureEnabled(_ value: Bool) -> Self { changing(path: \.dragGestureEnabled, to: value) }
+
+    /// Minimal threshold of a drag gesture to close the active popup
+    func dragGestureProgressToClose(_ value: CGFloat) -> Self { changing(path: \.dragGestureProgressToClose, to: value) }
+}
+
+// MARK: - Animations
+public extension TopPopupConfig {
+    /// Default closing and opening animations for popups
+    func transitionAnimation(_ value: Animation) -> Self { changing(path: \.transitionAnimation, to: value) }
+
+    /// Default animation for closing popup with drag gesture
+    func dragGestureAnimation(_ value: Animation) -> Self { changing(path: \.dragGestureAnimation, to: value) }
+}
+
+
+// MARK: - Internal
 public struct TopPopupConfig: Configurable {
-    var backgroundColour: Color = .white
-    var tapOutsideClosesView: Bool = false
-    var contentIgnoresSafeArea: Bool = false
-    var horizontalPadding: CGFloat = 0
-    var topPadding: CGFloat = 0
-    var stackedViewsOffset: CGFloat = 6
-    var stackedViewsScale: CGFloat = 0.06
-    var stackedViewsCornerRadius: CGFloat = 10
-    var maxStackedElements: Int = 3
-    var activeViewCornerRadius: CGFloat = 24
-    var dragGestureEnabled: Bool = true
-    var dragGestureProgressToClose: CGFloat = 1/3
-    var dragGestureAnimation: Animation = .interactiveSpring()
-    var transitionAnimation: Animation = .spring(response: 0.32, dampingFraction: 1, blendDuration: 0.32)
+    private(set) var contentIgnoresSafeArea: Bool = false
+
+    private(set) var backgroundColour: Color = .white
+    private(set) var activePopupCornerRadius: CGFloat = 24
+    private(set) var popupPadding: (top: CGFloat, horizontal: CGFloat) = (0, 0)
+
+    private(set) var stackCornerRadius: CGFloat = 10
+    private(set) var stackOffset: CGFloat = 6
+    private(set) var stackScaleFactor: CGFloat = 0.06
+    private(set) var stackLimit: Int = 3
+
+    private(set) var tapOutsideClosesView: Bool = false
+    private(set) var dragGestureEnabled: Bool = true
+    private(set) var dragGestureProgressToClose: CGFloat = 1/3
+
+    private(set) var transitionAnimation: Animation = .spring(response: 0.32, dampingFraction: 1, blendDuration: 0.32)
+    private(set) var dragGestureAnimation: Animation = .interactiveSpring()
 }

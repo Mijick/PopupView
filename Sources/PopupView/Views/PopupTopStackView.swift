@@ -12,6 +12,7 @@ import SwiftUI
 
 struct PopupTopStackView: View {
     let items: [AnyPopup<TopPopupConfig>]
+    let screenSize: CGSize
     @State private var heights: [AnyPopup<TopPopupConfig>: CGFloat] = [:]
     @State private var gestureTranslation: CGFloat = 0
     @State private var cacheCleanerTrigger: Bool = false
@@ -113,14 +114,14 @@ private extension PopupTopStackView {
 }
 
 private extension PopupTopStackView {
-    var contentTopPadding: CGFloat { config.contentIgnoresSafeArea ? 0 : max(UIScreen.safeArea.top - config.topPadding, 0) }
-    var topPadding: CGFloat { config.topPadding }
-    var width: CGFloat { UIScreen.width - config.horizontalPadding * 2 }
+    var contentTopPadding: CGFloat { config.contentIgnoresSafeArea ? 0 : max(UIScreen.safeArea.top - topPadding, 0) }
+    var topPadding: CGFloat { config.popupPadding.top }
+    var width: CGFloat { screenSize.width - config.popupPadding.horizontal * 2 }
     var height: CGFloat { heights.first { $0.key == items.last }?.value ?? 0 }
-    var opacityFactor: Double { 1 / config.maxStackedElements.doubleValue }
-    var offsetFactor: CGFloat { config.stackedViewsOffset }
-    var scaleFactor: CGFloat { config.stackedViewsScale }
-    var cornerRadius: (active: CGFloat, inactive: CGFloat) { (config.activeViewCornerRadius, config.stackedViewsCornerRadius) }
+    var opacityFactor: Double { 1 / config.stackLimit.doubleValue }
+    var offsetFactor: CGFloat { config.stackOffset }
+    var scaleFactor: CGFloat { config.stackScaleFactor }
+    var cornerRadius: (active: CGFloat, inactive: CGFloat) { (config.activePopupCornerRadius, config.stackCornerRadius) }
     var backgroundColour: Color { config.backgroundColour }
     var transitionAnimation: Animation { config.transitionAnimation }
     var dragGestureAnimation: Animation { config.dragGestureAnimation }

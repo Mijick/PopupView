@@ -25,7 +25,7 @@
 <p align="center">
     <img alt="SwiftUI logo" src="https://user-images.githubusercontent.com/23524947/228844494-9be6d187-b4f5-4a95-93fa-9c430b2bc043.svg"/>
     <img alt="Platforms: iOS, iPadOS" src="https://user-images.githubusercontent.com/23524947/228702908-490eaa2f-d028-49a3-8959-cc7d64261de3.svg"/>
-    <img alt="Release: 1.2.2" src="https://github.com/Mijick/PopupView/assets/23524947/198dfcaa-8615-43af-9b14-812e9dd6a7bd"/>
+    <img alt="Release: 1.5" src="https://github.com/Mijick/PopupView/assets/23524947/d17616d6-7a37-489a-96af-320d793f2ed0"/>
     <a href="https://www.swift.org/package-manager">
         <img alt="Swift Package Manager: Compatible" src="https://user-images.githubusercontent.com/23524947/228702912-50878cca-0902-4ec9-b042-c7762359137b.svg"/>
     </a>
@@ -34,24 +34,26 @@
 
 <p align="center">
     <a href="https://github.com/Mijick/PopupView/stargazers">
-        <img alt="Stars" src="https://user-images.githubusercontent.com/23524947/233516962-7588da9d-901c-4887-aef0-e4701b4b8612.svg"/>
+        <img alt="Stars" src="https://github.com/Mijick/PopupView/assets/23524947/b6c871b5-7da1-4b1b-a802-5387ea7b0d82"/>
     </a>
+    <img alt="Made in Kraków" src="https://github.com/Mijick/PopupView/assets/23524947/87dc9080-c9be-403a-9838-0714ff33375c"/>                                                                                                                   
     <a href="https://twitter.com/tkurylik">
         <img alt="Follow us on Twitter" src="https://user-images.githubusercontent.com/23524947/228844665-d8cf7db8-e692-4c17-9b41-1b0471b552aa.svg"/>
     </a>
     <a href=mailto:team@mijick.com?subject=Hello>
         <img alt="Let's work together" src="https://user-images.githubusercontent.com/23524947/228844684-e8f87e2c-c85c-4cad-9bd1-f2e12a4627b8.svg"/>
-    </a>
+    </a>             
 </p>
 
 <p align="center">
-    <img alt="Popup Examples" src="https://user-images.githubusercontent.com/23524947/228883231-7f55cf64-17e1-48b9-8922-2696ab7179d1.gif"/>
+    <img alt="Popup Examples" src="https://github.com/Mijick/PopupView/assets/23524947/32a8afc2-9c7e-4121-85ff-030bb8dad11a"/>
 </p>
 
 <br>
 
 PopupView is a free and open-source library dedicated for SwiftUI that makes the process of presenting popups easier and much cleaner.
-* **Improves code quality.** Show your popup using the `present()` modifier. Hide the selected one with `dismiss()`. Simple as never.
+* **Improves code quality.** Show your popup using the `showAndStack()` or `showAndReplace()` method.<br/>
+    Hide the selected one with `dismiss()`. Simple as never.
 * **Create any popup.** We know how important customisation is; that's why we give you the opportunity to design your popup in any way you like.
 * **Designed for SwiftUI.** While developing the library, we have used the power of SwiftUI to give you powerful tool to speed up your implementation process.
 
@@ -100,24 +102,10 @@ struct BottomCustomPopup: BottomPopup {
 }
 ```
 
-### 3. Provide identifier of your popup
-Set the `id` parameter to control the uniqueness of the views being presented.
-<br>
-
-Your structure should now look like the following:
+### 3. Implement `createContent()` method 
+The function above is used instead of the body property, and declares the design of the popup view.
 ```Swift
-struct BottomCustomPopup: BottomPopup {
-    let id: String = "your_id"
-    ...
-}
-```
-
-### 4. Implement `createContent()` method. It's used instead of the body property, and declares the design of the popup view
-```Swift
-struct BottomCustomPopup: BottomPopup {
-    let id: String = "your_id"
-    
-    
+struct BottomCustomPopup: BottomPopup {    
     func createContent() -> some View {
         HStack(spacing: 0) {
             Text("Witaj okrutny świecie")
@@ -132,12 +120,11 @@ struct BottomCustomPopup: BottomPopup {
 }
 ```
 
-### 5. Implement `configurePopup(popup: Config) -> Config` method to setup UI of presented view Each protocol has its own set of configuration type
+### 4. Implement `configurePopup(popup: Config) -> Config` method
+*Declaring this step is optional - if you wish, you can skip this step and leave the UI configuration to us.*<br/>
+Each protocol has its own set of methods that can be used to create a unique appearance for every popup.
 ```Swift
-struct BottomCustomPopup: BottomPopup {
-    let id: String = "your_id"
-    
-    
+struct BottomCustomPopup: BottomPopup {    
     func createContent() -> some View {
         HStack(spacing: 0) {
             Text("Witaj okrutny świecie")
@@ -153,27 +140,27 @@ struct BottomCustomPopup: BottomPopup {
             .horizontalPadding(20)
             .bottomPadding(42)
             .activePopupCornerRadius(16)
-            .stackedPopupsCornerRadius(4)
+            .stackCornerRadius(4)
     }
     ...
 }
 ```
 
-### 6. Present your popup from any place you want!
-Just call `BottomCustomPopup().present()` from the selected place
+### 5. Present your popup from any place you want!
+Just call `BottomCustomPopup().showAndStack()` from the selected place
 ```Swift
 struct SettingsViewModel {
     ...
     func saveSettings() {
         ...
-        BottomCustomPopup().present()
+        BottomCustomPopup().showAndStack()
         ...
     }
     ...
 }
 ```
 
-### 7. Closing popups
+### 6. Closing popups
 There are two methods to do so:
 - By calling one of the methods `dismiss`, `dismiss(_ popup: Popup.Type)`, `dismissAll` inside the popup you created
 ```Swift
@@ -198,9 +185,6 @@ See for yourself how does it work by cloning [project][Demo] we created
 
 # License
 PopupView is released under the MIT license. See [LICENSE][License] for details.
-
-
-
 
 
 [MIT]: https://en.wikipedia.org/wiki/MIT_License
