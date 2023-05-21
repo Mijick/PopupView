@@ -21,7 +21,7 @@ class KeyboardManager: ObservableObject {
 private extension KeyboardManager {
     func subscribeToKeyboardEvents() {
         Publishers.Merge(getKeyboardWillOpenPublisher(), createKeyboardWillHidePublisher())
-            .debounce(for: .milliseconds(20), scheduler: DispatchQueue.main)
+            .debounce(for: .milliseconds(50), scheduler: DispatchQueue.main)
             .sink { self.keyboardHeight = $0 }
             .store(in: &subscription)
     }
