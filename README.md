@@ -120,7 +120,7 @@ struct BottomCustomPopup: BottomPopup {
 ```
 
 ### 4. Implement `configurePopup(popup: Config) -> Config` method
-Declaring this step is optional; if you wish, you can skip this step and leave the UI configuration to us.
+*Declaring this step is optional - if you wish, you can skip this step and leave the UI configuration to us.*<br/>
 Each protocol has its own set of methods that can be used to create a unique appearance for every popup.
 ```Swift
 struct BottomCustomPopup: BottomPopup {    
@@ -145,21 +145,21 @@ struct BottomCustomPopup: BottomPopup {
 }
 ```
 
-### 6. Present your popup from any place you want!
-Just call `BottomCustomPopup().present()` from the selected place
+### 5. Present your popup from any place you want!
+Just call `BottomCustomPopup().showAndStack()` from the selected place
 ```Swift
 struct SettingsViewModel {
     ...
     func saveSettings() {
         ...
-        BottomCustomPopup().present()
+        BottomCustomPopup().showAndStack()
         ...
     }
     ...
 }
 ```
 
-### 7. Closing popups
+### 6. Closing popups
 There are two methods to do so:
 - By calling one of the methods `dismiss`, `dismiss(_ popup: Popup.Type)`, `dismissAll` inside the popup you created
 ```Swift
