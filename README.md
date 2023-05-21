@@ -100,24 +100,10 @@ struct BottomCustomPopup: BottomPopup {
 }
 ```
 
-### 3. Provide identifier of your popup
-Set the `id` parameter to control the uniqueness of the views being presented.
-<br>
-
-Your structure should now look like the following:
+### 3. Implement `createContent()` method 
+The function above is used instead of the body property, and declares the design of the popup view.
 ```Swift
-struct BottomCustomPopup: BottomPopup {
-    let id: String = "your_id"
-    ...
-}
-```
-
-### 4. Implement `createContent()` method. It's used instead of the body property, and declares the design of the popup view
-```Swift
-struct BottomCustomPopup: BottomPopup {
-    let id: String = "your_id"
-    
-    
+struct BottomCustomPopup: BottomPopup {    
     func createContent() -> some View {
         HStack(spacing: 0) {
             Text("Witaj okrutny świecie")
@@ -132,12 +118,11 @@ struct BottomCustomPopup: BottomPopup {
 }
 ```
 
-### 5. Implement `configurePopup(popup: Config) -> Config` method to setup UI of presented view Each protocol has its own set of configuration type
+### 4. Implement `configurePopup(popup: Config) -> Config` method
+Declaring this step is optional; if you wish, you can skip this step and leave the UI configuration to us.
+Each protocol has its own set of methods that can be used to create a unique appearance for every popup.
 ```Swift
-struct BottomCustomPopup: BottomPopup {
-    let id: String = "your_id"
-    
-    
+struct BottomCustomPopup: BottomPopup {    
     func createContent() -> some View {
         HStack(spacing: 0) {
             Text("Witaj okrutny świecie")
@@ -153,7 +138,7 @@ struct BottomCustomPopup: BottomPopup {
             .horizontalPadding(20)
             .bottomPadding(42)
             .activePopupCornerRadius(16)
-            .stackedPopupsCornerRadius(4)
+            .stackCornerRadius(4)
     }
     ...
 }
