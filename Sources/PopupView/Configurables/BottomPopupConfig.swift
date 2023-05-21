@@ -12,7 +12,6 @@ import SwiftUI
 
 // MARK: - Content Customisation
 public extension BottomPopupConfig {
-
     /// Whether content should ignore safe area
     func contentIgnoresSafeArea(_ value: Bool) -> Self { changing(path: \.contentIgnoresSafeArea, to: value) }
 
@@ -24,11 +23,13 @@ public extension BottomPopupConfig {
     func distanceFromKeyboard(_ value: CGFloat) -> Self { changing(path: \.distanceFromKeyboard, to: value) }
 }
 
-// MARK: - Background Customisation
+// MARK: - Popup Customisation
 public extension BottomPopupConfig {
-
     /// Background colour of the popup
     func backgroundColour(_ value: Color) -> Self { changing(path: \.backgroundColour, to: value) }
+
+    /// Corner radius of the popup at the top of the stack
+    func activePopupCornerRadius(_ value: CGFloat) -> Self { changing(path: \.activePopupCornerRadius, to: value) }
 
     /// Distance of the entire popup (including its background) from the bottom edge
     func bottomPadding(_ value: CGFloat) -> Self { changing(path: \.popupPadding.bottom, to: value) }
@@ -39,9 +40,6 @@ public extension BottomPopupConfig {
 
 // MARK: - Stack Customisation
 public extension BottomPopupConfig {
-    /// Corner radius of the popup at the top of the stack
-    func activePopupCornerRadius(_ value: CGFloat) -> Self { changing(path: \.activePopupCornerRadius, to: value) }
-
     /// Corner radius for popups on the stack
     func stackCornerRadius(_ value: CGFloat) -> Self { changing(path: \.stackCornerRadius, to: value) }
 
@@ -58,7 +56,6 @@ public extension BottomPopupConfig {
 
 // MARK: - Gestures
 public extension BottomPopupConfig {
-
     /// Dismisses the active popup when tapped outside its area if enabled
     func tapOutsideToDismiss(_ value: Bool) -> Self { changing(path: \.tapOutsideClosesView, to: value) }
 
@@ -71,7 +68,6 @@ public extension BottomPopupConfig {
 
 // MARK: - Animations
 public extension BottomPopupConfig {
-
     /// Default closing and opening animations for popups
     func transitionAnimation(_ value: Animation) -> Self { changing(path: \.transitionAnimation, to: value) }
 
@@ -87,9 +83,9 @@ public struct BottomPopupConfig: Configurable {
     private(set) var distanceFromKeyboard: CGFloat = 8
 
     private(set) var backgroundColour: Color = .white
+    private(set) var activePopupCornerRadius: CGFloat = 32
     private(set) var popupPadding: (bottom: CGFloat, horizontal: CGFloat) = (0, 0)
 
-    private(set) var activePopupCornerRadius: CGFloat = 32
     private(set) var stackCornerRadius: CGFloat = 10
     private(set) var stackOffset: CGFloat = 8
     private(set) var stackScaleFactor: CGFloat = 0.1
