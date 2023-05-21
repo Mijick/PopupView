@@ -34,6 +34,11 @@ extension View {
     }
 }
 
+// MARK: - Frames
+extension View {
+    func frame(size: CGSize) -> some View { frame(width: size.width, height: size.height) }
+}
+
 // MARK: - Cleaning Cache
 extension View {
     func clearCacheObjects(shouldClear: Bool, trigger: Binding<Bool>) -> some View {

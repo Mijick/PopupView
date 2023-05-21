@@ -13,6 +13,7 @@ import SwiftUI
 struct PopupBottomStackView: View {
     let items: [AnyPopup<BottomPopupConfig>]
     let keyboardHeight: CGFloat
+    let screenSize: CGSize
     @State private var heights: [AnyPopup<BottomPopupConfig>: CGFloat] = [:]
     @State private var gestureTranslation: CGFloat = 0
     @State private var cacheCleanerTrigger: Bool = false
@@ -108,7 +109,7 @@ private extension PopupBottomStackView {
         }
     }
     func getMaxHeight() -> CGFloat {
-        let basicHeight = UIScreen.height - UIScreen.safeArea.top
+        let basicHeight = screenSize.height - UIScreen.safeArea.top
         let stackedViewsCount = min(max(0, config.stackLimit - 1), items.count - 1)
         let stackedViewsHeight = config.stackOffset * .init(stackedViewsCount) * maxHeightStackedFactor
         return basicHeight - stackedViewsHeight + maxHeightFactor
@@ -132,7 +133,7 @@ private extension PopupBottomStackView {
 
 private extension PopupBottomStackView {
     var popupBottomPadding: CGFloat { config.popupPadding.bottom }
-    var width: CGFloat { UIScreen.width - config.popupPadding.horizontal * 2 }
+    var width: CGFloat { screenSize.width - config.popupPadding.horizontal * 2 }
     var height: CGFloat { heights.first { $0.key == items.last }?.value ?? 0 }
     var maxHeightFactor: CGFloat { 12 }
     var maxHeightStackedFactor: CGFloat { 0.85 }

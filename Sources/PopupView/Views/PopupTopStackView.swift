@@ -12,6 +12,7 @@ import SwiftUI
 
 struct PopupTopStackView: View {
     let items: [AnyPopup<TopPopupConfig>]
+    let screenSize: CGSize
     @State private var heights: [AnyPopup<TopPopupConfig>: CGFloat] = [:]
     @State private var gestureTranslation: CGFloat = 0
     @State private var cacheCleanerTrigger: Bool = false
@@ -115,7 +116,7 @@ private extension PopupTopStackView {
 private extension PopupTopStackView {
     var contentTopPadding: CGFloat { config.contentIgnoresSafeArea ? 0 : max(UIScreen.safeArea.top - config.topPadding, 0) }
     var topPadding: CGFloat { config.topPadding }
-    var width: CGFloat { UIScreen.width - config.horizontalPadding * 2 }
+    var width: CGFloat { screenSize.width - config.horizontalPadding * 2 }
     var height: CGFloat { heights.first { $0.key == items.last }?.value ?? 0 }
     var opacityFactor: Double { 1 / config.maxStackedElements.doubleValue }
     var offsetFactor: CGFloat { config.stackedViewsOffset }
