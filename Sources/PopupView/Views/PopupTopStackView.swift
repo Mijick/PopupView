@@ -12,7 +12,6 @@ import SwiftUI
 
 struct PopupTopStackView: View {
     let items: [AnyPopup<TopPopupConfig>]
-    let screenSize: CGSize
     @State private var heights: [AnyPopup<TopPopupConfig>: CGFloat] = [:]
     @State private var gestureTranslation: CGFloat = 0
     @State private var cacheCleanerTrigger: Bool = false
@@ -27,6 +26,7 @@ struct PopupTopStackView: View {
             .animation(dragGestureAnimation, value: gestureTranslation)
             .simultaneousGesture(popupDragGesture)
             .clearCacheObjects(shouldClear: items.isEmpty, trigger: $cacheCleanerTrigger)
+            .padding(.horizontal, config.popupPadding.horizontal)
     }
 }
 
@@ -46,7 +46,7 @@ private extension PopupTopStackView {
         item.body
             .padding(.top, contentTopPadding)
             .readHeight { saveHeight($0, for: item) }
-            .frame(width: width, height: height)
+            .frame(maxWidth: .infinity, idealHeight: height)
             .background(backgroundColour)
             .cornerRadius(getCornerRadius(for: item))
             .opacity(getOpacity(for: item))
@@ -116,7 +116,6 @@ private extension PopupTopStackView {
 private extension PopupTopStackView {
     var contentTopPadding: CGFloat { config.contentIgnoresSafeArea ? 0 : max(UIScreen.safeArea.top - topPadding, 0) }
     var topPadding: CGFloat { config.popupPadding.top }
-    var width: CGFloat { screenSize.width - config.popupPadding.horizontal * 2 }
     var height: CGFloat { heights.first { $0.key == items.last }?.value ?? 0 }
     var opacityFactor: Double { 1 / config.stackLimit.doubleValue }
     var offsetFactor: CGFloat { config.stackOffset }

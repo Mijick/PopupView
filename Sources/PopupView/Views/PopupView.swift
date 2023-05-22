@@ -28,25 +28,26 @@ private extension PopupView {
             createCentrePopupStackView()
             createBottomPopupStackView()
         }
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
     }
     func createOverlay() -> some View {
         overlayColour
-            .frame(size: screenObserver.screenSize)
             .ignoresSafeArea()
             .visible(if: !stack.isEmpty)
+            .transition(.opacity)
             .animation(overlayAnimation, value: stack.isEmpty)
     }
 }
 
 private extension PopupView {
     func createTopPopupStackView() -> some View {
-        PopupTopStackView(items: stack.top, screenSize: screenObserver.screenSize)
+        PopupTopStackView(items: stack.top)
     }
     func createCentrePopupStackView() -> some View {
-        PopupCentreStackView(items: stack.centre, screenSize: screenObserver.screenSize)
+        PopupCentreStackView(items: stack.centre)
     }
     func createBottomPopupStackView() -> some View {
-        PopupBottomStackView(items: stack.bottom, keyboardHeight: keyboardObserver.keyboardHeight, screenSize: screenObserver.screenSize)
+        PopupBottomStackView(items: stack.bottom, keyboardHeight: keyboardObserver.keyboardHeight, screenHeight: screenObserver.screenHeight)
     }
 }
 

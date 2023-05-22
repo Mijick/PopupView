@@ -12,7 +12,6 @@ import SwiftUI
 
 struct PopupCentreStackView: View {
     let items: [AnyPopup<CentrePopupConfig>]
-    let screenSize: CGSize
     @State private var activeView: AnyView?
     @State private var configTemp: CentrePopupConfig?
     @State private var height: CGFloat?
@@ -22,14 +21,13 @@ struct PopupCentreStackView: View {
     
     var body: some View {
         createPopup()
-            .frame(size: screenSize)
             .background(createTapArea())
-            .animation(transitionAnimation, value: width)
             .animation(transitionAnimation, value: height)
             .animation(transitionAnimation, value: contentIsAnimated)
             .transition(getTransition())
             .onChange(of: items, perform: onItemsChange)
             .clearCacheObjects(shouldClear: items.isEmpty, trigger: $cacheCleanerTrigger)
+            .padding(.horizontal, config.horizontalPadding)
     }
 }
 
@@ -37,7 +35,7 @@ private extension PopupCentreStackView {
     func createPopup() -> some View {
         activeView?
             .readHeight(onChange: saveHeight)
-            .frame(width: width, height: height)
+            .frame(maxWidth: .infinity, idealHeight: height)
             .opacity(contentOpacity)
             .background(backgroundColour)
             .cornerRadius(cornerRadius)
@@ -85,7 +83,6 @@ private extension PopupCentreStackView {
 }
 
 private extension PopupCentreStackView {
-    var width: CGFloat { max(0, screenSize.width - config.horizontalPadding * 2) }
     var cornerRadius: CGFloat { config.cornerRadius }
     var contentOpacity: CGFloat { contentIsAnimated ? 0 : 1 }
     var contentOpacityAnimationTime: CGFloat { config.contentAnimationTime }

@@ -12,7 +12,7 @@ import SwiftUI
 import Combine
 
 class ScreenManager: ObservableObject {
-    @Published private(set) var screenSize: CGSize = UIScreen.size
+    @Published private(set) var screenHeight: CGFloat = UIScreen.main.bounds.size.height
     private var subscription: [AnyCancellable] = []
 
     init() { subscribeToScreenOrientationChangeEvents() }
@@ -23,13 +23,7 @@ private extension ScreenManager {
         NotificationCenter.default
             .publisher(for: UIDevice.orientationDidChangeNotification)
             .receive(on: DispatchQueue.main)
-            .sink { _ in self.screenSize = UIScreen.size }
+            .sink { [weak self] _ in self?.screenHeight = UIScreen.main.bounds.size.height }
             .store(in: &subscription)
     }
-}
-
-
-// MARK: - Helpers
-fileprivate extension UIScreen {
-    static var size: CGSize { main.bounds.size }
 }
