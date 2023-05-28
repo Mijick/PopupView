@@ -18,9 +18,9 @@ public extension View {
 
 // MARK: - Alignments
 extension View {
-    func alignToBottom(_ value: CGFloat = 0) -> some View {
+    func alignToBottom(if shouldAlign: Bool = true, _ value: CGFloat = 0) -> some View {
         VStack(spacing: 0) {
-            Spacer()
+            if shouldAlign { Spacer() }
             self
             Spacer.height(value)
         }
