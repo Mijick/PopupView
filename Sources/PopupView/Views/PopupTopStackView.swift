@@ -46,9 +46,9 @@ private extension PopupTopStackView {
         item.body
             .padding(.top, contentTopPadding)
             .readHeight { saveHeight($0, for: item) }
-            .frame(width: width, height: height)
-            .background(backgroundColour)
-            .cornerRadius(getCornerRadius(for: item))
+            .frame(height: height).frame(maxWidth: .infinity)
+            .background(backgroundColour, radius: getCornerRadius(for: item), corners: getCorners())
+            .padding(.horizontal, config.popupPadding.horizontal)
             .opacity(getOpacity(for: item))
             .offset(y: getOffset(for: item))
             .scaleEffect(getScale(for: item), anchor: .bottom)
@@ -85,6 +85,12 @@ private extension PopupTopStackView {
         let differenceProgress = difference * translationProgress()
         return cornerRadius.inactive + differenceProgress
     }
+    func getCorners() -> UIRectCorner {
+        switch topPadding {
+            case 0: return [.bottomLeft, .bottomRight]
+            default: return .allCorners
+        }
+    }
     func getOpacity(for item: AnyPopup<TopPopupConfig>) -> Double {
         if isLast(item) { return 1 }
         if gestureTranslation.isZero { return  1 - invertedIndex(of: item).doubleValue * opacityFactor }
@@ -116,7 +122,6 @@ private extension PopupTopStackView {
 private extension PopupTopStackView {
     var contentTopPadding: CGFloat { config.contentIgnoresSafeArea ? 0 : max(UIScreen.safeArea.top - topPadding, 0) }
     var topPadding: CGFloat { config.popupPadding.top }
-    var width: CGFloat { screenSize.width - config.popupPadding.horizontal * 2 }
     var height: CGFloat { heights.first { $0.key == items.last }?.value ?? 0 }
     var opacityFactor: Double { 1 / config.stackLimit.doubleValue }
     var offsetFactor: CGFloat { config.stackOffset }
