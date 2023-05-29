@@ -22,9 +22,9 @@ struct PopupCentreStackView: View {
     
     var body: some View {
         createPopup()
-            .frame(size: screenSize)
+            .frame(height: screenSize.height)
             .background(createTapArea())
-            .animation(transitionAnimation, value: width)
+            .animation(transitionAnimation, value: config.horizontalPadding)
             .animation(transitionAnimation, value: height)
             .animation(transitionAnimation, value: contentIsAnimated)
             .transition(getTransition())
@@ -37,10 +37,10 @@ private extension PopupCentreStackView {
     func createPopup() -> some View {
         activeView?
             .readHeight(onChange: saveHeight)
-            .frame(width: width, height: height)
+            .frame(height: height).frame(maxWidth: .infinity)
             .opacity(contentOpacity)
-            .background(backgroundColour)
-            .cornerRadius(cornerRadius)
+            .background(backgroundColour, radius: cornerRadius, corners: .allCorners)
+            .padding(.horizontal, config.horizontalPadding)
             .compositingGroup()
     }
     func createTapArea() -> some View {
@@ -85,7 +85,6 @@ private extension PopupCentreStackView {
 }
 
 private extension PopupCentreStackView {
-    var width: CGFloat { max(0, screenSize.width - config.horizontalPadding * 2) }
     var cornerRadius: CGFloat { config.cornerRadius }
     var contentOpacity: CGFloat { contentIsAnimated ? 0 : 1 }
     var contentOpacityAnimationTime: CGFloat { config.contentAnimationTime }
