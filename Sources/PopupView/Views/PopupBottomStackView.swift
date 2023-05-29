@@ -47,9 +47,9 @@ private extension PopupBottomStackView {
         item.body
             .padding(.bottom, getContentBottomPadding())
             .readHeight { saveHeight($0, for: item) }
-            .frame(width: width, height: height, alignment: .top)
-            .background(backgroundColour)
-            .cornerRadius(getCornerRadius(for: item))
+            .frame(height: height, alignment: .top).frame(maxWidth: .infinity)
+            .background(backgroundColour, radius: getCornerRadius(for: item), corners: getCorners())
+            .padding(.horizontal, config.popupPadding.horizontal)
             .opacity(getOpacity(for: item))
             .offset(y: getOffset(for: item))
             .scaleEffect(getScale(for: item), anchor: .top)
@@ -85,6 +85,12 @@ private extension PopupBottomStackView {
         let difference = cornerRadius.active - cornerRadius.inactive
         let differenceProgress = difference * translationProgress()
         return cornerRadius.inactive + differenceProgress
+    }
+    func getCorners() -> UIRectCorner {
+        switch popupBottomPadding {
+            case 0: return [.topLeft, .topRight]
+            default: return [.topLeft, .topRight, .bottomLeft, .bottomRight]
+        }
     }
     func getOpacity(for item: AnyPopup<BottomPopupConfig>) -> Double {
         if isLast(item) { return 1 }
@@ -133,7 +139,6 @@ private extension PopupBottomStackView {
 
 private extension PopupBottomStackView {
     var popupBottomPadding: CGFloat { config.popupPadding.bottom }
-    var width: CGFloat { screenSize.width - config.popupPadding.horizontal * 2 }
     var height: CGFloat { heights.first { $0.key == items.last }?.value ?? defaultHeight }
     var defaultHeight: CGFloat { config.contentFillsEntireScreen ? screenSize.height : 0 }
     var maxHeightFactor: CGFloat { 12 }
