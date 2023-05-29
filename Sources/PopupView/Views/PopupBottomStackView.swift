@@ -109,9 +109,10 @@ private extension PopupBottomStackView {
         return 1 - scaleValue * progressDifference
     }
     func saveHeight(_ height: CGFloat, for item: AnyPopup<BottomPopupConfig>) {
+        let config = item.configurePopup(popup: .init())
+
         if config.contentFillsEntireScreen { return heights[item] = screenSize.height }
         if config.contentFillsWholeHeight { return heights[item] = getMaxHeight() }
-
         return heights[item] = min(height, getMaxHeight() - popupBottomPadding)
     }
     func getMaxHeight() -> CGFloat {
