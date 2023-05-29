@@ -89,7 +89,7 @@ private extension PopupBottomStackView {
     func getCorners() -> UIRectCorner {
         switch popupBottomPadding {
             case 0: return [.topLeft, .topRight]
-            default: return [.topLeft, .topRight, .bottomLeft, .bottomRight]
+            default: return .allCorners
         }
     }
     func getOpacity(for item: AnyPopup<BottomPopupConfig>) -> Double {
