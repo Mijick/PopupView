@@ -25,7 +25,7 @@
 <p align="center">
     <img alt="SwiftUI logo" src="https://user-images.githubusercontent.com/23524947/228844494-9be6d187-b4f5-4a95-93fa-9c430b2bc043.svg"/>
     <img alt="Platforms: iOS, iPadOS" src="https://user-images.githubusercontent.com/23524947/228702908-490eaa2f-d028-49a3-8959-cc7d64261de3.svg"/>
-    <img alt="Release: 1.5" src="https://github.com/Mijick/PopupView/assets/23524947/d17616d6-7a37-489a-96af-320d793f2ed0"/>
+    <img alt="Release: 1.6" src="https://github.com/Mijick/PopupView/assets/23524947/185ecbff-95ba-48b6-ad0f-91d7f514eaa9"/>
     <a href="https://www.swift.org/package-manager">
         <img alt="Swift Package Manager: Compatible" src="https://user-images.githubusercontent.com/23524947/228702912-50878cca-0902-4ec9-b042-c7762359137b.svg"/>
     </a>
@@ -34,7 +34,7 @@
 
 <p align="center">
     <a href="https://github.com/Mijick/PopupView/stargazers">
-        <img alt="Stars" src="https://github.com/Mijick/PopupView/assets/23524947/b6c871b5-7da1-4b1b-a802-5387ea7b0d82"/>
+        <img alt="Stars" src="https://github.com/Mijick/PopupView/assets/23524947/6bd1730e-87ea-4ed5-aaa3-573cd1b2f65e"/>
     </a>
     <img alt="Made in Kraków" src="https://github.com/Mijick/PopupView/assets/23524947/87dc9080-c9be-403a-9838-0714ff33375c"/>                                                                                                                   
     <a href="https://twitter.com/tkurylik">
