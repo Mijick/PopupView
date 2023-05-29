@@ -16,8 +16,13 @@ public extension BottomPopupConfig {
     func contentIgnoresSafeArea(_ value: Bool) -> Self { changing(path: \.contentIgnoresSafeArea, to: value) }
 
     /// Whether the content should take up the entire height of the screen.
-    /// It is recommended to enable when a scroll view is present in the content view
+    /// Stacked items will be visible.
+    /// HINT: It is recommended to enable when a scroll view is present in the content view
     func contentFillsWholeHeigh(_ value: Bool) -> Self { changing(path: \.contentFillsWholeHeight, to: value) }
+
+    /// Whether the content should take up the entire height of the screen.
+    /// Stacked items will be invisible
+    func contentFillsEntireScreen(_ value: Bool) -> Self { changing(path: \.contentFillsEntireScreen, to: value) }
 
     /// Distance between content and keyboard (if present)
     func distanceFromKeyboard(_ value: CGFloat) -> Self { changing(path: \.distanceFromKeyboard, to: value) }
@@ -80,13 +85,14 @@ public extension BottomPopupConfig {
 public struct BottomPopupConfig: Configurable {
     private(set) var contentIgnoresSafeArea: Bool = false
     private(set) var contentFillsWholeHeight: Bool = false
+    private(set) var contentFillsEntireScreen: Bool = false
     private(set) var distanceFromKeyboard: CGFloat = 8
 
     private(set) var backgroundColour: Color = .white
-    private(set) var activePopupCornerRadius: CGFloat = 32
+    private(set) var activePopupCornerRadius: CGFloat = UIScreen.displayCornerRadius ?? 32
     private(set) var popupPadding: (bottom: CGFloat, horizontal: CGFloat) = (0, 0)
 
-    private(set) var stackCornerRadius: CGFloat = 10
+    private(set) var stackCornerRadius: CGFloat = (UIScreen.displayCornerRadius ?? 32) * 0.6
     private(set) var stackOffset: CGFloat = 8
     private(set) var stackScaleFactor: CGFloat = 0.1
     private(set) var stackLimit: Int = 4

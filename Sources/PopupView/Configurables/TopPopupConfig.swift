@@ -77,7 +77,7 @@ public struct TopPopupConfig: Configurable {
     private(set) var activePopupCornerRadius: CGFloat = 24
     private(set) var popupPadding: (top: CGFloat, horizontal: CGFloat) = (0, 0)
 
-    private(set) var stackCornerRadius: CGFloat = 10
+    private(set) var stackCornerRadius: CGFloat = 24 * 0.6
     private(set) var stackOffset: CGFloat = 6
     private(set) var stackScaleFactor: CGFloat = 0.06
     private(set) var stackLimit: Int = 3
