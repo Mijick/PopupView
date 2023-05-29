@@ -16,10 +16,14 @@ extension View {
 
 // MARK: - Implementation
 fileprivate struct RoundedCorner: Shape {
-    let radius: CGFloat
-    let corners: UIRectCorner
+    var radius: CGFloat
+    var corners: UIRectCorner
 
-
+    
+    var animatableData: CGFloat {
+        get { radius }
+        set { radius = newValue }
+    }
     func path(in rect: CGRect) -> Path {
         let path = UIBezierPath(roundedRect: rect, byRoundingCorners: corners, cornerRadii: .init(width: radius, height: radius))
         return Path(path.cgPath)
