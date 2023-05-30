@@ -89,10 +89,10 @@ public struct BottomPopupConfig: Configurable {
     private(set) var distanceFromKeyboard: CGFloat = 8
 
     private(set) var backgroundColour: Color = .white
-    private(set) var activePopupCornerRadius: CGFloat = UIScreen.displayCornerRadius ?? 32
+    private(set) var activePopupCornerRadius: CGFloat = 32
     private(set) var popupPadding: (bottom: CGFloat, horizontal: CGFloat) = (0, 0)
 
-    private(set) var stackCornerRadius: CGFloat = (UIScreen.displayCornerRadius ?? 32) * 0.6
+    private(set) var stackCornerRadius: CGFloat = 32 * 0.6
     private(set) var stackOffset: CGFloat = 8
     private(set) var stackScaleFactor: CGFloat = 0.1
     private(set) var stackLimit: Int = 4

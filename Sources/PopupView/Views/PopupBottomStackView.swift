@@ -79,7 +79,7 @@ private extension PopupBottomStackView {
 // MARK: -View Handlers
 private extension PopupBottomStackView {
     func getCornerRadius(for item: AnyPopup<BottomPopupConfig>) -> CGFloat {
-        if isLast(item) { return cornerRadius.active }
+        if isLast(item) { return min(config.contentFillsEntireScreen ? UIScreen.displayCornerRadius ?? 32 : .infinity, cornerRadius.active) }
         if gestureTranslation.isZero || !isNextToLast(item) { return cornerRadius.inactive }
 
         let difference = cornerRadius.active - cornerRadius.inactive
