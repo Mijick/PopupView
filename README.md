@@ -79,14 +79,21 @@ dependencies: [
 ]
 ``` 
 #### Cocoapods   
-[Cocoapods][cocoapods] is a dependency manager for Swift and Objective-C Cocoa projects that helps to scale it elegantly.
+[Cocoapods][cocoapods] is a dependency manager for Swift and Objective-C Cocoa projects that helps to scale them elegantly.
 
 Installation steps:
 - Install CocoaPods 1.10.0 (or later)
-- [Generate CocoaPods][generate_cocoapods] for your progect
+- [Generate CocoaPods][generate_cocoapods] for your project
+```Swift
+    pod init
+```
 - Add CocoaPods dependency into your `Podfile`   
 ```Swift
-pod 'Mijick_PopupView'
+    pod 'Mijick_PopupView'
+```
+- Install dependency and generate `.xcworkspace` file
+```Swift
+    pod install
 ```
 - Use new XCode project file `.xcworkspace`
 <br>
