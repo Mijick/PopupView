@@ -86,7 +86,7 @@ Installation steps:
 - [Generate CocoaPods][generate_cocoapods] for your progect
 - Add CocoaPods dependency into your `Podfile`   
 ```Swift
-pod 'PopupView', :git => 'https://github.com/Mijick/PopupView.git'
+pod 'Mijick_PopupView'
 ```
 - Use new XCode project file `.xcworkspace`
 <br>

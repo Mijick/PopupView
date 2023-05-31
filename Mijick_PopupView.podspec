@@ -1,5 +1,5 @@
 Pod::Spec.new do |s|
-  s.name                  = 'PopupView'
+  s.name                  = 'Mijick_PopupView'
   s.summary               = 'Beautiful and fully customisable popups in no time. Keep your SwiftUI code clean'
   s.description           = <<-DESC
   PopupView is a free and open-source library dedicated for SwiftUI that makes the process of presenting popups easier and much cleaner.
