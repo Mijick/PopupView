@@ -19,11 +19,13 @@ struct AnyPopup<Config: Configurable>: Popup, Hashable {
 
     private let _body: AnyView
     private let _configBuilder: (Config) -> Config
+    private let _onPopupActive: () -> ()
 
     init(_ popup: some Popup) {
         self.id = popup.id
         self._body = AnyView(popup)
         self._configBuilder = popup.configurePopup as! (Config) -> Config
+        self._onPopupActive = popup.onPopupActive
     }
 }
 extension AnyPopup {
@@ -33,4 +35,5 @@ extension AnyPopup {
 extension AnyPopup {
     func createContent() -> some View { _body }
     func configurePopup(popup: Config) -> Config { _configBuilder(popup) }
+    func onPopupActive() { _onPopupActive() }
 }

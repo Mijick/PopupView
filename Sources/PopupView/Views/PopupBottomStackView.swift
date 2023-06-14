@@ -27,6 +27,7 @@ struct PopupBottomStackView: View {
             .animation(transitionAnimation, value: heights)
             .animation(dragGestureAnimation, value: gestureTranslation)
             .gesture(popupDragGesture)
+            .onChange(of: items, perform: onItemsChange)
             .clearCacheObjects(shouldClear: items.isEmpty, trigger: $cacheCleanerTrigger)
     }
 }
@@ -60,7 +61,7 @@ private extension PopupBottomStackView {
     }
 }
 
-// MARK: -Gesture Handler
+// MARK: - Gesture Handler
 private extension PopupBottomStackView {
     var popupDragGesture: some Gesture {
         DragGesture()
@@ -76,7 +77,12 @@ private extension PopupBottomStackView {
     }
 }
 
-// MARK: -View Handlers
+// MARK: - Action Modifiers
+private extension PopupBottomStackView {
+    func onItemsChange(_ items: [AnyPopup<BottomPopupConfig>]) { items.last?.onPopupActive() }
+}
+
+// MARK: - View Handlers
 private extension PopupBottomStackView {
     func getCornerRadius(for item: AnyPopup<BottomPopupConfig>) -> CGFloat {
         if isLast(item) { return min(config.contentFillsEntireScreen ? UIScreen.displayCornerRadius ?? 32 : .infinity, cornerRadius.active) }

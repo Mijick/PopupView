@@ -18,6 +18,7 @@ public protocol Popup: View {
 
     func createContent() -> V
     func configurePopup(popup: Config) -> Config
+    func onPopupActive()
 }
 
 // MARK: - Presenting and Dismissing
@@ -45,6 +46,7 @@ public extension Popup {
     var body: V { createContent() }
 
     func configurePopup(popup: Config) -> Config { popup }
+    func onPopupActive() {}
 }
 
 
