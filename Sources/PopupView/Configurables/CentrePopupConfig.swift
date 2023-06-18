@@ -43,6 +43,12 @@ public extension CentrePopupConfig {
     func transitionAnimation(_ value: Animation) -> Self { changing(path: \.transitionAnimation, to: value) }
 }
 
+// MARK: - Actions
+public extension CentrePopupConfig {
+    /// Triggers every time the popup is at the top of the stack
+    func onFocus(_ action: @escaping () -> ()) -> Self { changing(path: \.onFocus, to: action) }
+}
+
 
 // MARK: - Internal
 public struct CentrePopupConfig: Configurable {
@@ -56,4 +62,6 @@ public struct CentrePopupConfig: Configurable {
     private(set) var transitionEntryScale: CGFloat = 1.1
     private(set) var transitionExitScale: CGFloat = 0.86
     private(set) var transitionAnimation: Animation = .spring(response: 0.28, dampingFraction: 1, blendDuration: 0.28)
+
+    private(set) var onFocus: () -> () = {}
 }

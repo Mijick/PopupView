@@ -26,6 +26,7 @@ struct PopupTopStackView: View {
             .animation(transitionAnimation, value: heights)
             .animation(dragGestureAnimation, value: gestureTranslation)
             .simultaneousGesture(popupDragGesture)
+            .onChange(of: items, perform: onItemsChange)
             .clearCacheObjects(shouldClear: items.isEmpty, trigger: $cacheCleanerTrigger)
     }
 }
@@ -73,6 +74,11 @@ private extension PopupTopStackView {
         if translationProgress() >= gestureClosingThresholdFactor { items.last?.dismiss() }
         gestureTranslation = 0
     }
+}
+
+// MARK: - Action Modifiers
+private extension PopupTopStackView {
+    func onItemsChange(_ items: [AnyPopup<TopPopupConfig>]) { items.last?.configurePopup(popup: .init()).onFocus() }
 }
 
 // MARK: -View Handlers
