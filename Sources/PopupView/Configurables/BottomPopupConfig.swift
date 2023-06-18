@@ -82,7 +82,7 @@ public extension BottomPopupConfig {
 
 // MARK: - Actions
 public extension BottomPopupConfig {
-    /// Triggers every time a popup is at the top of the stack
+    /// Triggers every time the popup is at the top of the stack
     func onFocus(_ action: @escaping () -> ()) -> Self { changing(path: \.onFocus, to: action) }
 }
 
