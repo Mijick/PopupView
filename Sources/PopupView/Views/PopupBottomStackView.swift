@@ -27,6 +27,7 @@ struct PopupBottomStackView: View {
             .animation(transitionAnimation, value: heights)
             .animation(dragGestureAnimation, value: gestureTranslation)
             .gesture(popupDragGesture)
+            .onChange(of: items, perform: onItemsChange)
             .clearCacheObjects(shouldClear: items.isEmpty, trigger: $cacheCleanerTrigger)
     }
 }
@@ -60,7 +61,7 @@ private extension PopupBottomStackView {
     }
 }
 
-// MARK: -Gesture Handler
+// MARK: - Gesture Handler
 private extension PopupBottomStackView {
     var popupDragGesture: some Gesture {
         DragGesture()
@@ -76,7 +77,12 @@ private extension PopupBottomStackView {
     }
 }
 
-// MARK: -View Handlers
+// MARK: - Action Modifiers
+private extension PopupBottomStackView {
+    func onItemsChange(_ items: [AnyPopup<BottomPopupConfig>]) { items.last?.configurePopup(popup: .init()).onFocus() }
+}
+
+// MARK: - View Handlers
 private extension PopupBottomStackView {
     func getCornerRadius(for item: AnyPopup<BottomPopupConfig>) -> CGFloat {
         if isLast(item) { return min(config.contentFillsEntireScreen ? UIScreen.displayCornerRadius ?? 32 : .infinity, cornerRadius.active) }
@@ -119,7 +125,7 @@ private extension PopupBottomStackView {
         let basicHeight = screenSize.height - UIScreen.safeArea.top
         let stackedViewsCount = min(max(0, config.stackLimit - 1), items.count - 1)
         let stackedViewsHeight = config.stackOffset * .init(stackedViewsCount) * maxHeightStackedFactor
-        return basicHeight - stackedViewsHeight + maxHeightFactor
+        return basicHeight - stackedViewsHeight
     }
     func getContentBottomPadding() -> CGFloat {
         if isKeyboardVisible { return keyboardHeight + config.distanceFromKeyboard }
@@ -142,7 +148,6 @@ private extension PopupBottomStackView {
     var popupBottomPadding: CGFloat { config.popupPadding.bottom }
     var height: CGFloat { heights.first { $0.key == items.last }?.value ?? defaultHeight }
     var defaultHeight: CGFloat { config.contentFillsEntireScreen ? screenSize.height : 0 }
-    var maxHeightFactor: CGFloat { 12 }
     var maxHeightStackedFactor: CGFloat { 0.85 }
     var opacityFactor: Double { 1 / config.stackLimit.doubleValue }
     var offsetFactor: CGFloat { -config.stackOffset }

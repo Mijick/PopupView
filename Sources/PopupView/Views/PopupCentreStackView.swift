@@ -53,11 +53,18 @@ private extension PopupCentreStackView {
 // MARK: -Logic Handlers
 private extension PopupCentreStackView {
     func onItemsChange(_ items: [AnyPopup<CentrePopupConfig>]) {
+        handlePopupChange(items)
+        notifyPopupChange(items)
+    }
+}
+private extension PopupCentreStackView {
+    func handlePopupChange(_ items: [AnyPopup<CentrePopupConfig>]) {
         guard let popup = items.last else { return handleClosingPopup() }
 
         showNewPopup(popup)
         animateContentIfNeeded()
     }
+    func notifyPopupChange(_ items: [AnyPopup<CentrePopupConfig>]) { items.last?.configurePopup(popup: .init()).onFocus() }
 }
 private extension PopupCentreStackView {
     func showNewPopup(_ popup: AnyPopup<CentrePopupConfig>) { DispatchQueue.main.async {
