@@ -79,7 +79,7 @@ private extension PopupBottomStackView {
 
 // MARK: - Action Modifiers
 private extension PopupBottomStackView {
-    func onItemsChange(_ items: [AnyPopup<BottomPopupConfig>]) { items.last?.onPopupActive() }
+    func onItemsChange(_ items: [AnyPopup<BottomPopupConfig>]) { config.onFocus() }
 }
 
 // MARK: - View Handlers

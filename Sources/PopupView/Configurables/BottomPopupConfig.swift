@@ -80,6 +80,12 @@ public extension BottomPopupConfig {
     func dragGestureAnimation(_ value: Animation) -> Self { changing(path: \.dragGestureAnimation, to: value) }
 }
 
+// MARK: - Actions
+public extension BottomPopupConfig {
+    /// Triggers every time a popup is at the top of the stack
+    func onFocus(_ action: @escaping () -> ()) -> Self { changing(path: \.onFocus, to: action) }
+}
+
 
 // MARK: - Internal
 public struct BottomPopupConfig: Configurable {
@@ -103,4 +109,6 @@ public struct BottomPopupConfig: Configurable {
 
     private(set) var dragGestureAnimation: Animation = .interactiveSpring()
     private(set) var transitionAnimation: Animation = .spring(response: 0.44, dampingFraction: 1, blendDuration: 0.4)
+
+    private(set) var onFocus: () -> () = {}
 }
