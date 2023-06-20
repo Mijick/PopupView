@@ -24,25 +24,23 @@
 
 <p align="center">
     <img alt="SwiftUI logo" src="https://user-images.githubusercontent.com/23524947/228844494-9be6d187-b4f5-4a95-93fa-9c430b2bc043.svg"/>
-    <img alt="Platforms: iOS, iPadOS" src="https://user-images.githubusercontent.com/23524947/228702908-490eaa2f-d028-49a3-8959-cc7d64261de3.svg"/>
-    <img alt="Release: 1.6" src="https://github.com/Mijick/PopupView/assets/23524947/185ecbff-95ba-48b6-ad0f-91d7f514eaa9"/>
-    <a href="https://www.swift.org/package-manager">
-        <img alt="Swift Package Manager: Compatible" src="https://user-images.githubusercontent.com/23524947/228702912-50878cca-0902-4ec9-b042-c7762359137b.svg"/>
-    </a>
+    <img alt="Platforms: iOS, iPadOS, macOS" src="https://user-images.githubusercontent.com/23524947/228702908-490eaa2f-d028-49a3-8959-cc7d64261de3.svg"/>
+    <img alt="Release: 1.7.0" src="https://github.com/Mijick/PopupView/assets/23524947/185ecbff-95ba-48b6-ad0f-91d7f514eaa9"/>
+    <img alt="Compatible: Swift Package Manager, Cocoapods" src="https://user-images.githubusercontent.com/23524947/228702912-50878cca-0902-4ec9-b042-c7762359137b.svg"/>
     <img alt="License: MIT" src="https://user-images.githubusercontent.com/23524947/228702907-8388add4-b92f-46be-84e2-1526ff34ab72.svg"/>
 </p>
 
 <p align="center">
     <a href="https://github.com/Mijick/PopupView/stargazers">
         <img alt="Stars" src="https://github.com/Mijick/PopupView/assets/23524947/6bd1730e-87ea-4ed5-aaa3-573cd1b2f65e"/>
-    </a>
-    <img alt="Made in Kraków" src="https://github.com/Mijick/PopupView/assets/23524947/87dc9080-c9be-403a-9838-0714ff33375c"/>                                                                                                                   
-    <a href="https://twitter.com/tkurylik">
+    </a>                                                                                                              
+    <a href="https://twitter.com/MijickTeam">
         <img alt="Follow us on Twitter" src="https://user-images.githubusercontent.com/23524947/228844665-d8cf7db8-e692-4c17-9b41-1b0471b552aa.svg"/>
     </a>
     <a href=mailto:team@mijick.com?subject=Hello>
         <img alt="Let's work together" src="https://user-images.githubusercontent.com/23524947/228844684-e8f87e2c-c85c-4cad-9bd1-f2e12a4627b8.svg"/>
-    </a>             
+    </a>   
+    <img alt="Made in Kraków" src="https://github.com/Mijick/PopupView/assets/23524947/87dc9080-c9be-403a-9838-0714ff33375c"/>
 </p>
 
 <p align="center">
@@ -64,7 +62,7 @@ PopupView is a free and open-source library dedicated for SwiftUI that makes the
 
 | **Platforms** | **Minimum Swift Version** |
 |:----------|:----------|
-| iOS 15+, iPadOS 15+ | 5.0 |
+| iOS 14+, iPadOS 14+, macOS 12+ | 5.0 |
 
 ### ⏳ Installation
     
