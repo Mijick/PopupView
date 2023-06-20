@@ -13,7 +13,7 @@ import SwiftUI
 struct PopupBottomStackView: View {
     let items: [AnyPopup<BottomPopupConfig>]
     let keyboardHeight: CGFloat
-    let screenSize: CGSize
+    let screen: ScreenManager
     @State private var heights: [AnyPopup<BottomPopupConfig>: CGFloat] = [:]
     @State private var gestureTranslation: CGFloat = 0
     @State private var cacheCleanerTrigger: Bool = false
@@ -85,7 +85,7 @@ private extension PopupBottomStackView {
 // MARK: - View Handlers
 private extension PopupBottomStackView {
     func getCornerRadius(for item: AnyPopup<BottomPopupConfig>) -> CGFloat {
-        if isLast(item) { return min(config.contentFillsEntireScreen ? Screen.cornerRadius ?? 32 : .infinity, cornerRadius.active) }
+        if isLast(item) { return min(config.contentFillsEntireScreen ? screen.cornerRadius ?? 32 : .infinity, cornerRadius.active) }
         if gestureTranslation.isZero || !isNextToLast(item) { return cornerRadius.inactive }
 
         let difference = cornerRadius.active - cornerRadius.inactive
@@ -117,12 +117,12 @@ private extension PopupBottomStackView {
     func saveHeight(_ height: CGFloat, for item: AnyPopup<BottomPopupConfig>) {
         let config = item.configurePopup(popup: .init())
 
-        if config.contentFillsEntireScreen { return heights[item] = screenSize.height }
+        if config.contentFillsEntireScreen { return heights[item] = screen.size.height }
         if config.contentFillsWholeHeight { return heights[item] = getMaxHeight() }
         return heights[item] = min(height, getMaxHeight() - popupBottomPadding)
     }
     func getMaxHeight() -> CGFloat {
-        let basicHeight = screenSize.height - Screen.safeArea.top
+        let basicHeight = screen.size.height - screen.safeArea.top
         let stackedViewsCount = min(max(0, config.stackLimit - 1), items.count - 1)
         let stackedViewsHeight = config.stackOffset * .init(stackedViewsCount) * maxHeightStackedFactor
         return basicHeight - stackedViewsHeight
@@ -131,7 +131,7 @@ private extension PopupBottomStackView {
         if isKeyboardVisible { return keyboardHeight + config.distanceFromKeyboard }
         if config.contentIgnoresSafeArea { return 0 }
 
-        return max(Screen.safeArea.bottom - popupBottomPadding, 0)
+        return max(screen.safeArea.bottom - popupBottomPadding, 0)
     }
     func getOffset(for item: AnyPopup<BottomPopupConfig>) -> CGFloat { isLast(item) ? gestureTranslation : invertedIndex(of: item).floatValue * offsetFactor }
 }
@@ -147,7 +147,7 @@ private extension PopupBottomStackView {
 private extension PopupBottomStackView {
     var popupBottomPadding: CGFloat { config.popupPadding.bottom }
     var height: CGFloat { heights.first { $0.key == items.last }?.value ?? defaultHeight }
-    var defaultHeight: CGFloat { config.contentFillsEntireScreen ? screenSize.height : 0 }
+    var defaultHeight: CGFloat { config.contentFillsEntireScreen ? screen.size.height : 0 }
     var maxHeightStackedFactor: CGFloat { 0.85 }
     var opacityFactor: Double { 1 / config.stackLimit.doubleValue }
     var offsetFactor: CGFloat { -config.stackOffset }
