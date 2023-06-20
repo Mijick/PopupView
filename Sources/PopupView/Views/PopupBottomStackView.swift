@@ -24,10 +24,10 @@ struct PopupBottomStackView: View {
             .ignoresSafeArea()
             .background(createTapArea())
             .animation(transitionAnimation, value: items)
-            .animation(transitionAnimation, value: heights)
             .animation(dragGestureAnimation, value: gestureTranslation)
             .gesture(popupDragGesture)
             .onChange(of: items, perform: onItemsChange)
+            .onChange(of: screen.size, perform: onScreenChange)
             .clearCacheObjects(shouldClear: items.isEmpty, trigger: $cacheCleanerTrigger)
     }
 }
@@ -49,7 +49,7 @@ private extension PopupBottomStackView {
             .padding(.bottom, getContentBottomPadding())
             .padding(.leading, screen.safeArea.left)
             .padding(.trailing, screen.safeArea.right)
-            .readHeight { saveHeight($0, for: item) }
+            .readHeight { saveHeight($0, withAnimation: transitionAnimation, for: item) }
             .frame(height: height, alignment: .top).frame(maxWidth: .infinity)
             .background(backgroundColour, radius: getCornerRadius(for: item), corners: getCorners())
             .padding(.horizontal, config.popupPadding.horizontal)
@@ -82,6 +82,7 @@ private extension PopupBottomStackView {
 // MARK: - Action Modifiers
 private extension PopupBottomStackView {
     func onItemsChange(_ items: [AnyPopup<BottomPopupConfig>]) { items.last?.configurePopup(popup: .init()).onFocus() }
+    func onScreenChange(_ value: Any) { if let lastItem = items.last { saveHeight(heights[lastItem] ?? .infinity, withAnimation: nil, for: lastItem) }}
 }
 
 // MARK: - View Handlers
@@ -116,13 +117,13 @@ private extension PopupBottomStackView {
         let progressDifference = isNextToLast(item) ? 1 - translationProgress() : max(0.7, 1 - translationProgress())
         return 1 - scaleValue * progressDifference
     }
-    func saveHeight(_ height: CGFloat, for item: AnyPopup<BottomPopupConfig>) {
+    func saveHeight(_ height: CGFloat, withAnimation animation: Animation?, for item: AnyPopup<BottomPopupConfig>) { withAnimation(animation) {
         let config = item.configurePopup(popup: .init())
 
         if config.contentFillsEntireScreen { return heights[item] = screen.size.height }
         if config.contentFillsWholeHeight { return heights[item] = getMaxHeight() }
         return heights[item] = min(height, getMaxHeight() - popupBottomPadding)
-    }
+    }}
     func getMaxHeight() -> CGFloat {
         let basicHeight = screen.size.height - screen.safeArea.top
         let stackedViewsCount = min(max(0, config.stackLimit - 1), items.count - 1)
