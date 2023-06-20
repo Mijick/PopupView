@@ -91,7 +91,7 @@ private extension PopupTopStackView {
         let differenceProgress = difference * translationProgress()
         return cornerRadius.inactive + differenceProgress
     }
-    func getCorners() -> UIRectCorner {
+    func getCorners() -> RectCorner {
         switch topPadding {
             case 0: return [.bottomLeft, .bottomRight]
             default: return .allCorners
@@ -126,7 +126,7 @@ private extension PopupTopStackView {
 }
 
 private extension PopupTopStackView {
-    var contentTopPadding: CGFloat { config.contentIgnoresSafeArea ? 0 : max(UIScreen.safeArea.top - topPadding, 0) }
+    var contentTopPadding: CGFloat { config.contentIgnoresSafeArea ? 0 : max(Screen.safeArea.top - topPadding, 0) }
     var topPadding: CGFloat { config.popupPadding.top }
     var height: CGFloat { heights.first { $0.key == items.last }?.value ?? 0 }
     var opacityFactor: Double { 1 / config.stackLimit.doubleValue }

@@ -85,14 +85,14 @@ private extension PopupBottomStackView {
 // MARK: - View Handlers
 private extension PopupBottomStackView {
     func getCornerRadius(for item: AnyPopup<BottomPopupConfig>) -> CGFloat {
-        if isLast(item) { return min(config.contentFillsEntireScreen ? UIScreen.displayCornerRadius ?? 32 : .infinity, cornerRadius.active) }
+        if isLast(item) { return min(config.contentFillsEntireScreen ? Screen.cornerRadius ?? 32 : .infinity, cornerRadius.active) }
         if gestureTranslation.isZero || !isNextToLast(item) { return cornerRadius.inactive }
 
         let difference = cornerRadius.active - cornerRadius.inactive
         let differenceProgress = difference * translationProgress()
         return cornerRadius.inactive + differenceProgress
     }
-    func getCorners() -> UIRectCorner {
+    func getCorners() -> RectCorner {
         switch popupBottomPadding {
             case 0: return [.topLeft, .topRight]
             default: return .allCorners
@@ -122,7 +122,7 @@ private extension PopupBottomStackView {
         return heights[item] = min(height, getMaxHeight() - popupBottomPadding)
     }
     func getMaxHeight() -> CGFloat {
-        let basicHeight = screenSize.height - UIScreen.safeArea.top
+        let basicHeight = screenSize.height - Screen.safeArea.top
         let stackedViewsCount = min(max(0, config.stackLimit - 1), items.count - 1)
         let stackedViewsHeight = config.stackOffset * .init(stackedViewsCount) * maxHeightStackedFactor
         return basicHeight - stackedViewsHeight
@@ -131,7 +131,7 @@ private extension PopupBottomStackView {
         if isKeyboardVisible { return keyboardHeight + config.distanceFromKeyboard }
         if config.contentIgnoresSafeArea { return 0 }
 
-        return max(UIScreen.safeArea.bottom - popupBottomPadding, 0)
+        return max(Screen.safeArea.bottom - popupBottomPadding, 0)
     }
     func getOffset(for item: AnyPopup<BottomPopupConfig>) -> CGFloat { isLast(item) ? gestureTranslation : invertedIndex(of: item).floatValue * offsetFactor }
 }
