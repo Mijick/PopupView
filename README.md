@@ -206,6 +206,11 @@ See for yourself how does it work by cloning [project][Demo] we created
 # License
 PopupView is released under the MIT license. See [LICENSE][License] for details.
 
+<br><br>
+
+# Our other open source SwiftUI libraries
+[Navigattie] - Easier and cleaner way of navigating through your app
+
 
 [MIT]: https://en.wikipedia.org/wiki/MIT_License
 [SPM]: https://www.swift.org/package-manager
@@ -216,3 +221,5 @@ PopupView is released under the MIT license. See [LICENSE][License] for details.
 [spm]: https://www.swift.org/package-manager/
 [cocoapods]: https://cocoapods.org/
 [generate_cocoapods]: https://github.com/square/cocoapods-generate
+
+[Navigattie]: https://github.com/Mijick/Navigattie  
