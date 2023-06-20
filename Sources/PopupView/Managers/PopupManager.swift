@@ -70,7 +70,7 @@ private extension [any Popup] {
         PopupManager.shared.operationRecentlyPerformed = true
     }
     func hideKeyboard() {
-        UIApplication.shared.hideKeyboard()
+        KeyboardManager.hideKeyboard()
     }
     mutating func performOperation(_ operation: Operation) {
         switch operation {
@@ -87,10 +87,4 @@ private extension [any Popup] {
 }
 private extension [any Popup] {
     func canBeInserted(_ popup: some Popup) -> Bool { !contains(where: { $0.id == popup.id }) }
-}
-
-fileprivate extension UIApplication {
-    func hideKeyboard() {
-        sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
-    }
 }

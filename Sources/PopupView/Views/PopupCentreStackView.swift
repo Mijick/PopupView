@@ -12,7 +12,7 @@ import SwiftUI
 
 struct PopupCentreStackView: View {
     let items: [AnyPopup<CentrePopupConfig>]
-    let screenSize: CGSize
+    @ObservedObject private var screen: ScreenManager = .shared
     @State private var activeView: AnyView?
     @State private var configTemp: CentrePopupConfig?
     @State private var height: CGFloat?
@@ -22,7 +22,7 @@ struct PopupCentreStackView: View {
     
     var body: some View {
         createPopup()
-            .frame(height: screenSize.height)
+            .frame(height: screen.size.height)
             .background(createTapArea())
             .animation(transitionAnimation, value: config.horizontalPadding)
             .animation(transitionAnimation, value: height)

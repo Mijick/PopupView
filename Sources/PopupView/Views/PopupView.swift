@@ -13,11 +13,12 @@ import SwiftUI
 struct PopupView: View {
     @StateObject private var stack: PopupManager = .shared
     @StateObject private var keyboardObserver: KeyboardManager = .init()
-    @StateObject private var screenObserver: ScreenManager = .init()
 
 
     var body: some View {
-        createPopupStackView().background(createOverlay())
+        createPopupStackView()
+            .frame(maxWidth: .infinity, maxHeight: .infinity)
+            .background(createOverlay())
     }
 }
 
@@ -31,7 +32,6 @@ private extension PopupView {
     }
     func createOverlay() -> some View {
         overlayColour
-            .frame(size: screenObserver.screenSize)
             .ignoresSafeArea()
             .visible(if: !stack.isEmpty)
             .animation(overlayAnimation, value: stack.isEmpty)
@@ -40,13 +40,13 @@ private extension PopupView {
 
 private extension PopupView {
     func createTopPopupStackView() -> some View {
-        PopupTopStackView(items: stack.top, screenSize: screenObserver.screenSize)
+        PopupTopStackView(items: stack.top)
     }
     func createCentrePopupStackView() -> some View {
-        PopupCentreStackView(items: stack.centre, screenSize: screenObserver.screenSize)
+        PopupCentreStackView(items: stack.centre)
     }
     func createBottomPopupStackView() -> some View {
-        PopupBottomStackView(items: stack.bottom, keyboardHeight: keyboardObserver.keyboardHeight, screenSize: screenObserver.screenSize)
+        PopupBottomStackView(items: stack.bottom, keyboardHeight: keyboardObserver.keyboardHeight)
     }
 }
 

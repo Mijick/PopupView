@@ -10,14 +10,18 @@
 import SwiftUI
 import Combine
 
+// MARK: -iOS Implementation
+#if os(iOS)
 class KeyboardManager: ObservableObject {
     @Published private(set) var keyboardHeight: CGFloat = 0
     private var subscription: [AnyCancellable] = []
 
     init() { subscribeToKeyboardEvents() }
 }
+extension KeyboardManager {
+    static func hideKeyboard() { UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil) }
+}
 
-// MARK: - Creating Publishers
 private extension KeyboardManager {
     func subscribeToKeyboardEvents() {
         Publishers.Merge(getKeyboardWillOpenPublisher(), createKeyboardWillHidePublisher())
@@ -39,3 +43,17 @@ private extension KeyboardManager {
             .map { _ in .zero }
     }
 }
+#endif
+
+
+
+
+// MARK: - MacOS Implementation
+#if os(macOS)
+class KeyboardManager: ObservableObject {
+    private(set) var keyboardHeight: CGFloat = 0
+}
+extension KeyboardManager {
+    static func hideKeyboard() { DispatchQueue.main.async { NSApp.keyWindow?.makeFirstResponder(nil) } }
+}
+#endif

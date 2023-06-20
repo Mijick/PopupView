@@ -12,7 +12,7 @@ import SwiftUI
 
 struct PopupTopStackView: View {
     let items: [AnyPopup<TopPopupConfig>]
-    let screenSize: CGSize
+    @ObservedObject private var screen: ScreenManager = .shared
     @State private var heights: [AnyPopup<TopPopupConfig>: CGFloat] = [:]
     @State private var gestureTranslation: CGFloat = 0
     @State private var cacheCleanerTrigger: Bool = false
@@ -46,6 +46,8 @@ private extension PopupTopStackView {
     func createPopup(_ item: AnyPopup<TopPopupConfig>) -> some View {
         item.body
             .padding(.top, contentTopPadding)
+            .padding(.leading, screen.safeArea.left)
+            .padding(.trailing, screen.safeArea.right)
             .readHeight { saveHeight($0, for: item) }
             .frame(height: height).frame(maxWidth: .infinity)
             .background(backgroundColour, radius: getCornerRadius(for: item), corners: getCorners())
@@ -91,7 +93,7 @@ private extension PopupTopStackView {
         let differenceProgress = difference * translationProgress()
         return cornerRadius.inactive + differenceProgress
     }
-    func getCorners() -> UIRectCorner {
+    func getCorners() -> RectCorner {
         switch topPadding {
             case 0: return [.bottomLeft, .bottomRight]
             default: return .allCorners
@@ -126,7 +128,7 @@ private extension PopupTopStackView {
 }
 
 private extension PopupTopStackView {
-    var contentTopPadding: CGFloat { config.contentIgnoresSafeArea ? 0 : max(UIScreen.safeArea.top - topPadding, 0) }
+    var contentTopPadding: CGFloat { config.contentIgnoresSafeArea ? 0 : max(screen.safeArea.top - topPadding, 0) }
     var topPadding: CGFloat { config.popupPadding.top }
     var height: CGFloat { heights.first { $0.key == items.last }?.value ?? 0 }
     var opacityFactor: Double { 1 / config.stackLimit.doubleValue }
