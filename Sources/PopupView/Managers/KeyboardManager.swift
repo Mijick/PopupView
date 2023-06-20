@@ -54,6 +54,6 @@ class KeyboardManager: ObservableObject {
     private(set) var keyboardHeight: CGFloat = 0
 }
 extension KeyboardManager {
-    static func hideKeyboard() {}
+    static func hideKeyboard() { DispatchQueue.main.async { NSApp.keyWindow?.makeFirstResponder(nil) } }
 }
 #endif
