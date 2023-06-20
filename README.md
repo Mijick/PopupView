@@ -23,24 +23,24 @@
 <br>
 
 <p align="center">
-    <img alt="SwiftUI logo" src="https://user-images.githubusercontent.com/23524947/228844494-9be6d187-b4f5-4a95-93fa-9c430b2bc043.svg"/>
-    <img alt="Platforms: iOS, iPadOS, macOS" src="https://user-images.githubusercontent.com/23524947/228702908-490eaa2f-d028-49a3-8959-cc7d64261de3.svg"/>
-    <img alt="Release: 1.7.0" src="https://github.com/Mijick/PopupView/assets/23524947/185ecbff-95ba-48b6-ad0f-91d7f514eaa9"/>
-    <img alt="Compatible: Swift Package Manager, Cocoapods" src="https://user-images.githubusercontent.com/23524947/228702912-50878cca-0902-4ec9-b042-c7762359137b.svg"/>
-    <img alt="License: MIT" src="https://user-images.githubusercontent.com/23524947/228702907-8388add4-b92f-46be-84e2-1526ff34ab72.svg"/>
+    <img alt="SwiftUI logo" src="https://github.com/Mijick/PopupView/assets/23524947/4ad7cce0-3efc-473b-bc41-9512aab2b26d.svg"/>
+    <img alt="Platforms: iOS, iPadOS, macOS" src="https://github.com/Mijick/PopupView/assets/23524947/519fa7ef-b81a-48a9-9f45-dd4342dd66a9.svg"/>
+    <img alt="Release: 1.7.0" src="https://github.com/Mijick/PopupView/assets/23524947/33a7002c-dc0a-462d-90bb-57030fed9a20.svg"/>
+    <img alt="Compatible: Swift Package Manager, Cocoapods" src="https://github.com/Mijick/PopupView/assets/23524947/b54d3a61-1f4c-4a74-99d4-9b81418a70ae.svg"/>
+    <img alt="License: MIT" src="https://github.com/Mijick/PopupView/assets/23524947/e3e47658-8ccd-4532-8121-fbf15853e725.svg"/>
 </p>
 
 <p align="center">
     <a href="https://github.com/Mijick/PopupView/stargazers">
-        <img alt="Stars" src="https://github.com/Mijick/PopupView/assets/23524947/6bd1730e-87ea-4ed5-aaa3-573cd1b2f65e"/>
+        <img alt="Stars" src="https://github.com/Mijick/PopupView/assets/23524947/43d335a7-fc5a-4521-bbb8-f183e18ecd94"/>
     </a>                                                                                                              
     <a href="https://twitter.com/MijickTeam">
-        <img alt="Follow us on Twitter" src="https://user-images.githubusercontent.com/23524947/228844665-d8cf7db8-e692-4c17-9b41-1b0471b552aa.svg"/>
+        <img alt="Follow us on Twitter" src="https://github.com/Mijick/PopupView/assets/23524947/26c8f5fc-1162-4721-a514-10ef17833021"/>
     </a>
     <a href=mailto:team@mijick.com?subject=Hello>
-        <img alt="Let's work together" src="https://user-images.githubusercontent.com/23524947/228844684-e8f87e2c-c85c-4cad-9bd1-f2e12a4627b8.svg"/>
+        <img alt="Let's work together" src="https://github.com/Mijick/PopupView/assets/23524947/4491418b-c831-41c7-b7fa-68ae9664a943"/>
     </a>   
-    <img alt="Made in Kraków" src="https://github.com/Mijick/PopupView/assets/23524947/87dc9080-c9be-403a-9838-0714ff33375c"/>
+    <img alt="Made in Kraków" src="https://github.com/Mijick/PopupView/assets/23524947/289bb4f8-6c0e-4e97-afb5-dae0b2688965.svg"/>
 </p>
 
 <p align="center">
