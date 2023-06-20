@@ -12,7 +12,7 @@ import SwiftUI
 
 struct PopupCentreStackView: View {
     let items: [AnyPopup<CentrePopupConfig>]
-    let screen: ScreenManager
+    @ObservedObject private var screen: ScreenManager = .shared
     @State private var activeView: AnyView?
     @State private var configTemp: CentrePopupConfig?
     @State private var height: CGFloat?

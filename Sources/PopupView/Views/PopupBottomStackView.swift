@@ -13,7 +13,7 @@ import SwiftUI
 struct PopupBottomStackView: View {
     let items: [AnyPopup<BottomPopupConfig>]
     let keyboardHeight: CGFloat
-    let screen: ScreenManager
+    @ObservedObject private var screen: ScreenManager = .shared
     @State private var heights: [AnyPopup<BottomPopupConfig>: CGFloat] = [:]
     @State private var gestureTranslation: CGFloat = 0
     @State private var cacheCleanerTrigger: Bool = false
@@ -47,6 +47,8 @@ private extension PopupBottomStackView {
     func createPopup(_ item: AnyPopup<BottomPopupConfig>) -> some View {
         item.body
             .padding(.bottom, getContentBottomPadding())
+            .padding(.leading, screen.safeArea.left)
+            .padding(.trailing, screen.safeArea.right)
             .readHeight { saveHeight($0, for: item) }
             .frame(height: height, alignment: .top).frame(maxWidth: .infinity)
             .background(backgroundColour, radius: getCornerRadius(for: item), corners: getCorners())

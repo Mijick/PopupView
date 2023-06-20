@@ -19,7 +19,8 @@ class ScreenManager: ObservableObject {
     private(set) var cornerRadius: CGFloat? = UIScreen.cornerRadius
     private var subscription: [AnyCancellable] = []
 
-    init() { subscribeToScreenOrientationChangeEvents() }
+    static let shared: ScreenManager = .init()
+    private init() { subscribeToScreenOrientationChangeEvents() }
 }
 
 private extension ScreenManager {
@@ -67,7 +68,8 @@ class ScreenManager: ObservableObject {
     private(set) var cornerRadius: CGFloat? = NSScreen.cornerRadius
     private var subscription: [AnyCancellable] = []
 
-    init() { subscribeToWindowSizeChangeEvents() }
+    static let shared: ScreenManager = .init()
+    private init() { subscribeToWindowSizeChangeEvents() }
 }
 
 private extension ScreenManager {

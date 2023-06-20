@@ -12,7 +12,7 @@ import SwiftUI
 
 struct PopupTopStackView: View {
     let items: [AnyPopup<TopPopupConfig>]
-    let screen: ScreenManager
+    @ObservedObject private var screen: ScreenManager = .shared
     @State private var heights: [AnyPopup<TopPopupConfig>: CGFloat] = [:]
     @State private var gestureTranslation: CGFloat = 0
     @State private var cacheCleanerTrigger: Bool = false
@@ -46,6 +46,8 @@ private extension PopupTopStackView {
     func createPopup(_ item: AnyPopup<TopPopupConfig>) -> some View {
         item.body
             .padding(.top, contentTopPadding)
+            .padding(.leading, screen.safeArea.left)
+            .padding(.trailing, screen.safeArea.right)
             .readHeight { saveHeight($0, for: item) }
             .frame(height: height).frame(maxWidth: .infinity)
             .background(backgroundColour, radius: getCornerRadius(for: item), corners: getCorners())
