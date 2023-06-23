@@ -7,7 +7,8 @@ let package = Package(
     name: "PopupView",
     platforms: [
         .iOS(.v14),
-        .macOS(.v12)
+        .macOS(.v12),
+        .tvOS(.v15)
     ],
     products: [
         .library(name: "PopupView", targets: ["PopupView"])

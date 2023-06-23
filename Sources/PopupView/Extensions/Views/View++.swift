@@ -11,9 +11,13 @@
 import SwiftUI
 
 public extension View {
-    func implementPopupView() -> some View {
-        overlay(PopupView())
-    }
+
+#if os(iOS) || os(macOS)
+    func implementPopupView() -> some View { overlay(PopupView()) }
+#elseif os(tvOS)
+    func implementPopupView() -> some View { PopupView(rootView: self) }
+#endif
+    
 }
 
 // MARK: - Alignments
@@ -47,22 +51,6 @@ extension View {
     }
 }
 
-// MARK: - Content Height Reader
-extension View {
-    func readHeight(onChange action: @escaping (CGFloat) -> ()) -> some View {
-        background(heightReader).onPreferenceChange(HeightPreferenceKey.self, perform: action)
-    }
-}
-private extension View {
-    var heightReader: some View { GeometryReader {
-        Color.clear.preference(key: HeightPreferenceKey.self, value: $0.size.height)
-    }}
-}
-fileprivate struct HeightPreferenceKey: PreferenceKey {
-    static var defaultValue: CGFloat = 0
-    static func reduce(value: inout CGFloat, nextValue: () -> CGFloat) {}
-}
-
 // MARK: - Others
 extension View {
     @ViewBuilder func active(if condition: Bool) -> some View {
@@ -71,4 +59,14 @@ extension View {
     func visible(if condition: Bool) -> some View {
         opacity(condition.doubleValue)
     }
+}
+
+extension View {
+
+#if os(iOS) || os(macOS)
+    func focusSectionIfAvailable() -> some View { self }
+#elseif os(tvOS)
+    func focusSectionIfAvailable() -> some View { focusSection() }
+#endif
+
 }

@@ -48,12 +48,25 @@ private extension KeyboardManager {
 
 
 
-// MARK: - MacOS Implementation
+// MARK: - macOS Implementation
 #if os(macOS)
 class KeyboardManager: ObservableObject {
     private(set) var keyboardHeight: CGFloat = 0
 }
 extension KeyboardManager {
     static func hideKeyboard() { DispatchQueue.main.async { NSApp.keyWindow?.makeFirstResponder(nil) } }
+}
+#endif
+
+
+
+
+// MARK: - tvOS Implementation
+#if os(tvOS)
+class KeyboardManager: ObservableObject {
+    private(set) var keyboardHeight: CGFloat = 0
+}
+extension KeyboardManager {
+    static func hideKeyboard() {}
 }
 #endif

@@ -60,7 +60,7 @@ fileprivate extension UIScreen {
 
 
 
-// MARK: - MacOS Implementation
+// MARK: - macOS Implementation
 #if os(macOS)
 class ScreenManager: ObservableObject {
     @Published private(set) var size: CGSize = NSScreen.size
@@ -96,6 +96,35 @@ fileprivate extension NSScreen {
             .contentView?
             .safeAreaInsets ?? .init(top: 0, left: 0, bottom: 0, right: 0)
     static var size: CGSize = NSApplication.shared.mainWindow?.frame.size ?? .zero
-    static var cornerRadius: CGFloat? = nil
+    static var cornerRadius: CGFloat = 0
+}
+#endif
+
+
+
+
+// MARK: - tvOS Implementation
+#if os(tvOS)
+class ScreenManager: ObservableObject {
+    @Published private(set) var size: CGSize = UIScreen.size
+    @Published private(set) var safeArea: UIEdgeInsets = UIScreen.safeArea
+    private(set) var cornerRadius: CGFloat? = UIScreen.cornerRadius
+
+    static let shared: ScreenManager = .init()
+    private init() {}
+}
+
+// MARK: - Helpers
+fileprivate extension UIScreen {
+    static var safeArea: UIEdgeInsets {
+        UIApplication.shared
+            .connectedScenes
+            .compactMap { $0 as? UIWindowScene }
+            .flatMap(\.windows)
+            .first(where: \.isKeyWindow)?
+            .safeAreaInsets ?? .zero
+    }
+    static var size: CGSize { UIScreen.main.bounds.size }
+    static var cornerRadius: CGFloat = 0
 }
 #endif
