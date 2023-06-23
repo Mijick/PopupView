@@ -25,7 +25,7 @@ struct PopupBottomStackView: View {
             .background(createTapArea())
             .animation(transitionAnimation, value: items)
             .animation(dragGestureAnimation, value: gestureTranslation)
-            .gesture(popupDragGesture)
+            .onDragGesture(onChanged: onPopupDragGestureChanged, onEnded: onPopupDragGestureEnded)
             .onChange(of: items, perform: onItemsChange)
             .onChange(of: screen.size, perform: onScreenChange)
             .clearCacheObjects(shouldClear: items.isEmpty, trigger: $cacheCleanerTrigger)
@@ -65,15 +65,10 @@ private extension PopupBottomStackView {
 
 // MARK: - Gesture Handler
 private extension PopupBottomStackView {
-    var popupDragGesture: some Gesture {
-        DragGesture()
-            .onChanged(onPopupDragGestureChanged)
-            .onEnded(onPopupDragGestureEnded)
+    func onPopupDragGestureChanged(_ value: CGFloat) {
+        if config.dragGestureEnabled { gestureTranslation = max(0, value) }
     }
-    func onPopupDragGestureChanged(_ value: DragGesture.Value) {
-        if config.dragGestureEnabled { gestureTranslation = max(0, value.translation.height) }
-    }
-    func onPopupDragGestureEnded(_ value: DragGesture.Value) {
+    func onPopupDragGestureEnded(_ value: CGFloat) {
         if translationProgress() >= gestureClosingThresholdFactor { items.last?.dismiss() }
         gestureTranslation = 0
     }

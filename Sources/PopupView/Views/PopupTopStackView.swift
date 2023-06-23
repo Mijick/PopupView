@@ -25,7 +25,7 @@ struct PopupTopStackView: View {
             .animation(transitionAnimation, value: items)
             .animation(transitionAnimation, value: heights)
             .animation(dragGestureAnimation, value: gestureTranslation)
-            .simultaneousGesture(popupDragGesture)
+            .onDragGesture(onChanged: onPopupDragGestureChanged, onEnded: onPopupDragGestureEnded)
             .onChange(of: items, perform: onItemsChange)
             .clearCacheObjects(shouldClear: items.isEmpty, trigger: $cacheCleanerTrigger)
     }
@@ -62,17 +62,12 @@ private extension PopupTopStackView {
     }
 }
 
-// MARK: -Gesture Handler
+// MARK: - Gesture Handler
 private extension PopupTopStackView {
-    var popupDragGesture: some Gesture {
-        DragGesture()
-            .onChanged(onPopupDragGestureChanged)
-            .onEnded(onPopupDragGestureEnded)
+    func onPopupDragGestureChanged(_ value: CGFloat) {
+        if config.dragGestureEnabled { gestureTranslation = min(0, value) }
     }
-    func onPopupDragGestureChanged(_ value: DragGesture.Value) {
-        if config.dragGestureEnabled { gestureTranslation = min(0, value.translation.height) }
-    }
-    func onPopupDragGestureEnded(_ value: DragGesture.Value) {
+    func onPopupDragGestureEnded(_ value: CGFloat) {
         if translationProgress() >= gestureClosingThresholdFactor { items.last?.dismiss() }
         gestureTranslation = 0
     }
