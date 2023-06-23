@@ -29,7 +29,7 @@ public extension PopupManager {
 
 // MARK: - Internal
 public class PopupManager: ObservableObject {
-    @Published private var views: [any Popup] = []
+    @Published private(set) var views: [any Popup] = []
     fileprivate var operationRecentlyPerformed: Bool = false
 
     static let shared: PopupManager = .init()

@@ -42,6 +42,7 @@ private extension PopupCentreStackView {
             .background(backgroundColour, radius: cornerRadius, corners: .allCorners)
             .padding(.horizontal, config.horizontalPadding)
             .compositingGroup()
+            .focusSectionIfAvailable()
     }
     func createTapArea() -> some View {
         Color.black.opacity(0.00000000001)
