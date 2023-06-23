@@ -11,9 +11,13 @@
 import SwiftUI
 
 public extension View {
-    func implementPopupView() -> some View {
-        overlay(PopupView())
-    }
+
+#if os(iOS) || os(macOS)
+    func implementPopupView() -> some View { overlay(PopupView()) }
+#elseif os(tvOS)
+    func implementPopupView() -> some View { PopupView(rootView: self) }
+#endif
+    
 }
 
 // MARK: - Alignments
@@ -55,4 +59,14 @@ extension View {
     func visible(if condition: Bool) -> some View {
         opacity(condition.doubleValue)
     }
+}
+
+extension View {
+
+#if os(iOS) || os(macOS)
+    func focusSectionIfAvailable() -> some View { self }
+#elseif os(tvOS)
+    func focusSectionIfAvailable() -> some View { focusSection() }
+#endif
+
 }

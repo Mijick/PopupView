@@ -10,8 +10,10 @@
 
 import SwiftUI
 
+// MARK: - iOS / macOS Implementation
+#if os(iOS) || os(macOS)
 struct PopupView: View {
-    @StateObject private var stack: PopupManager = .shared
+    @ObservedObject private var stack: PopupManager = .shared
     @StateObject private var keyboardObserver: KeyboardManager = .init()
 
 
@@ -22,6 +24,31 @@ struct PopupView: View {
     }
 }
 
+// MARK: - tvOS Implementation
+#elseif os(tvOS)
+struct PopupView: View {
+    let rootView: any View
+    @ObservedObject private var stack: PopupManager = .shared
+    @StateObject private var keyboardObserver: KeyboardManager = .init()
+
+
+    var body: some View {
+        AnyView(rootView)
+            .disabled(!stack.views.isEmpty)
+            .overlay(createBody())
+    }
+}
+private extension PopupView {
+    func createBody() -> some View {
+        createPopupStackView()
+            .frame(maxWidth: .infinity, maxHeight: .infinity)
+            .background(createOverlay())
+    }
+}
+#endif
+
+
+// MARK: - Common Part
 private extension PopupView {
     func createPopupStackView() -> some View {
         ZStack {
