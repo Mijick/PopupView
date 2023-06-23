@@ -96,7 +96,7 @@ fileprivate extension NSScreen {
             .contentView?
             .safeAreaInsets ?? .init(top: 0, left: 0, bottom: 0, right: 0)
     static var size: CGSize = NSApplication.shared.mainWindow?.frame.size ?? .zero
-    static var cornerRadius: CGFloat? = nil
+    static var cornerRadius: CGFloat = 0
 }
 #endif
 
@@ -125,6 +125,6 @@ fileprivate extension UIScreen {
             .safeAreaInsets ?? .zero
     }
     static var size: CGSize { UIScreen.main.bounds.size }
-    static var cornerRadius: CGFloat? = nil
+    static var cornerRadius: CGFloat = 0
 }
 #endif
