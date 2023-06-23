@@ -24,8 +24,8 @@
 
 <p align="center">
     <img alt="SwiftUI logo" src="https://github.com/Mijick/PopupView/assets/23524947/4ad7cce0-3efc-473b-bc41-9512aab2b26d.svg"/>
-    <img alt="Platforms: iOS, iPadOS, macOS" src="https://github.com/Mijick/PopupView/assets/23524947/519fa7ef-b81a-48a9-9f45-dd4342dd66a9.svg"/>
-    <img alt="Release: 1.7.0" src="https://github.com/Mijick/PopupView/assets/23524947/33a7002c-dc0a-462d-90bb-57030fed9a20.svg"/>
+    <img alt="Platforms: iOS, iPadOS, macOS, tvOS" src="https://github.com/Mijick/PopupView/assets/23524947/519fa7ef-b81a-48a9-9f45-dd4342dd66a9.svg"/>
+    <img alt="Release: 1.8.0" src="https://github.com/Mijick/PopupView/assets/23524947/33a7002c-dc0a-462d-90bb-57030fed9a20.svg"/>
     <img alt="Compatible: Swift Package Manager, Cocoapods" src="https://github.com/Mijick/PopupView/assets/23524947/b54d3a61-1f4c-4a74-99d4-9b81418a70ae.svg"/>
     <img alt="License: MIT" src="https://github.com/Mijick/PopupView/assets/23524947/e3e47658-8ccd-4532-8121-fbf15853e725.svg"/>
 </p>
