@@ -65,6 +65,7 @@ PopupView is a free and open-source library dedicated for SwiftUI that makes the
 | iOS 14+ | 5.0 |
 | iPadOS 14+ | 5.0 |
 | macOS 12+ | 5.0 |
+| tvOS 15+ | 5.0 |
 
 ### ⏳ Installation
     
