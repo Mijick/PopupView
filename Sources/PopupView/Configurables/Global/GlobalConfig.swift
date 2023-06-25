@@ -9,6 +9,14 @@
 
 
 public struct GlobalConfig {
-    var top: Top = .init()
-    var centre: Centre = .init()
+    let top: Top
+    let centre: Centre
+    let bottom: Bottom
+
+
+    init(_ topConfigBuilder: (Top) -> Top, _ centreConfigBuilder: (Centre) -> Centre, _ bottomConfigBuilder: (Bottom) -> Bottom) {
+        self.top = topConfigBuilder(.init())
+        self.centre = centreConfigBuilder(.init())
+        self.bottom = bottomConfigBuilder(.init())
+    }
 }

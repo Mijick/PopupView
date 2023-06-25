@@ -13,6 +13,7 @@ import SwiftUI
 // MARK: - iOS / macOS Implementation
 #if os(iOS) || os(macOS)
 struct PopupView: View {
+    let globalConfig: GlobalConfig
     @ObservedObject private var stack: PopupManager = .shared
     @StateObject private var keyboardObserver: KeyboardManager = .init()
 
@@ -28,6 +29,7 @@ struct PopupView: View {
 #elseif os(tvOS)
 struct PopupView: View {
     let rootView: any View
+    let globalConfig: GlobalConfig
     @ObservedObject private var stack: PopupManager = .shared
     @StateObject private var keyboardObserver: KeyboardManager = .init()
 
@@ -67,13 +69,13 @@ private extension PopupView {
 
 private extension PopupView {
     func createTopPopupStackView() -> some View {
-        PopupTopStackView(items: stack.top)
+        PopupTopStackView(items: stack.top, globalConfig: globalConfig.top)
     }
     func createCentrePopupStackView() -> some View {
-        PopupCentreStackView(items: stack.centre)
+        PopupCentreStackView(items: stack.centre, globalConfig: globalConfig.centre)
     }
     func createBottomPopupStackView() -> some View {
-        PopupBottomStackView(items: stack.bottom, keyboardHeight: keyboardObserver.keyboardHeight)
+        PopupBottomStackView(items: stack.bottom, keyboardHeight: keyboardObserver.keyboardHeight, globalConfig: globalConfig.bottom)
     }
 }
 

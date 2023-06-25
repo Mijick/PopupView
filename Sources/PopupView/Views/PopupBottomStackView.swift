@@ -13,6 +13,7 @@ import SwiftUI
 struct PopupBottomStackView: View {
     let items: [AnyPopup<BottomPopupConfig>]
     let keyboardHeight: CGFloat
+    let globalConfig: GlobalConfig.Bottom
     @ObservedObject private var screen: ScreenManager = .shared
     @State private var heights: [AnyPopup<BottomPopupConfig>: CGFloat] = [:]
     @State private var gestureTranslation: CGFloat = 0
@@ -84,12 +85,12 @@ private extension PopupBottomStackView {
 // MARK: - View Handlers
 private extension PopupBottomStackView {
     func getCornerRadius(for item: AnyPopup<BottomPopupConfig>) -> CGFloat {
-        if isLast(item) { return min(config.contentFillsEntireScreen ? screen.cornerRadius ?? 32 : .infinity, cornerRadius.active) }
-        if gestureTranslation.isZero || !isNextToLast(item) { return cornerRadius.inactive }
+        if isLast(item) { return min(config.contentFillsEntireScreen ? screen.cornerRadius ?? 32 : .infinity, cornerRadius) }
+        if gestureTranslation.isZero || !isNextToLast(item) { return stackedCornerRadius }
 
-        let difference = cornerRadius.active - cornerRadius.inactive
+        let difference = cornerRadius - stackedCornerRadius
         let differenceProgress = difference * translationProgress()
-        return cornerRadius.inactive + differenceProgress
+        return stackedCornerRadius + differenceProgress
     }
     func getCorners() -> RectCorner {
         switch popupBottomPadding {
@@ -151,10 +152,11 @@ private extension PopupBottomStackView {
     var opacityFactor: Double { 1 / config.stackLimit.doubleValue }
     var offsetFactor: CGFloat { -config.stackOffset }
     var scaleFactor: CGFloat { config.stackScaleFactor }
-    var cornerRadius: (active: CGFloat, inactive: CGFloat) { (config.activePopupCornerRadius, config.stackCornerRadius) }
-    var backgroundColour: Color { config.backgroundColour }
-    var transitionAnimation: Animation { config.transitionAnimation }
-    var dragGestureAnimation: Animation { config.dragGestureAnimation }
+    var cornerRadius: CGFloat { config.cornerRadius ?? globalConfig.cornerRadius }
+    var stackedCornerRadius: CGFloat { cornerRadius * globalConfig.stackCornerRadiusMultiplier }
+    var backgroundColour: Color { config.backgroundColour ?? globalConfig.backgroundColour }
+    var transitionAnimation: Animation { globalConfig.transitionAnimation }
+    var dragGestureAnimation: Animation { globalConfig.dragGestureAnimation }
     var gestureClosingThresholdFactor: CGFloat { config.dragGestureProgressToClose }
     var transition: AnyTransition { .move(edge: .bottom) }
     var isKeyboardVisible: Bool { keyboardHeight > 0 }
