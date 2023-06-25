@@ -123,8 +123,8 @@ private extension PopupBottomStackView {
     }}
     func getMaxHeight() -> CGFloat {
         let basicHeight = screen.size.height - screen.safeArea.top
-        let stackedViewsCount = min(max(0, config.stackLimit - 1), items.count - 1)
-        let stackedViewsHeight = config.stackOffset * .init(stackedViewsCount) * maxHeightStackedFactor
+        let stackedViewsCount = min(max(0, globalConfig.stackLimit - 1), items.count - 1)
+        let stackedViewsHeight = globalConfig.stackOffset * .init(stackedViewsCount) * maxHeightStackedFactor
         return basicHeight - stackedViewsHeight
     }
     func getContentBottomPadding() -> CGFloat {
@@ -149,9 +149,9 @@ private extension PopupBottomStackView {
     var height: CGFloat { heights.first { $0.key == items.last }?.value ?? defaultHeight }
     var defaultHeight: CGFloat { config.contentFillsEntireScreen ? screen.size.height : 0 }
     var maxHeightStackedFactor: CGFloat { 0.85 }
-    var opacityFactor: Double { 1 / config.stackLimit.doubleValue }
-    var offsetFactor: CGFloat { -config.stackOffset }
-    var scaleFactor: CGFloat { config.stackScaleFactor }
+    var opacityFactor: Double { 1 / globalConfig.stackLimit.doubleValue }
+    var offsetFactor: CGFloat { -globalConfig.stackOffset }
+    var scaleFactor: CGFloat { globalConfig.stackScaleFactor }
     var cornerRadius: CGFloat { config.cornerRadius ?? globalConfig.cornerRadius }
     var stackedCornerRadius: CGFloat { cornerRadius * globalConfig.stackCornerRadiusMultiplier }
     var backgroundColour: Color { config.backgroundColour ?? globalConfig.backgroundColour }
