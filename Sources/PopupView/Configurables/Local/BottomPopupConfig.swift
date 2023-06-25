@@ -50,9 +50,6 @@ public extension BottomPopupConfig {
 
     /// Popup can be closed with drag gesture if enabled
     func dragGestureEnabled(_ value: Bool) -> Self { changing(path: \.dragGestureEnabled, to: value) }
-
-    /// Minimal threshold of a drag gesture to close the active popup
-    func minimalDragThresholdToClose(_ value: CGFloat) -> Self { changing(path: \.dragGestureProgressToClose, to: value) }
 }
 
 // MARK: - Actions
@@ -67,15 +64,14 @@ public struct BottomPopupConfig: Configurable {
     private(set) var contentIgnoresSafeArea: Bool = false
     private(set) var contentFillsWholeHeight: Bool = false
     private(set) var contentFillsEntireScreen: Bool = false
-    private(set) var distanceFromKeyboard: CGFloat = 8
+    private(set) var distanceFromKeyboard: CGFloat? = nil
 
     private(set) var backgroundColour: Color? = nil
     private(set) var cornerRadius: CGFloat? = nil
     private(set) var popupPadding: (bottom: CGFloat, horizontal: CGFloat) = (0, 0)
 
-    private(set) var tapOutsideClosesView: Bool = false
-    private(set) var dragGestureEnabled: Bool = true
-    private(set) var dragGestureProgressToClose: CGFloat = 1/3
+    private(set) var tapOutsideClosesView: Bool? = nil
+    private(set) var dragGestureEnabled: Bool? = nil
 
     private(set) var onFocus: () -> () = {}
 }

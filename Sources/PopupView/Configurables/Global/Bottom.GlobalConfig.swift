@@ -10,6 +10,12 @@
 
 import SwiftUI
 
+// MARK: - Content Customisation
+public extension GlobalConfig.Bottom {
+    /// Distance between content and keyboard (if present)
+    func distanceFromKeyboard(_ value: CGFloat) -> Self { changing(path: \.distanceFromKeyboard, to: value) }
+}
+
 // MARK: - Popup Customisation
 public extension GlobalConfig.Bottom {
     /// Background colour of the popup
@@ -36,6 +42,18 @@ public extension GlobalConfig.Bottom {
     func stackLimit(_ value: Int) -> Self { changing(path: \.stackLimit, to: value) }
 }
 
+// MARK: - Gestures
+public extension GlobalConfig.Bottom {
+    /// Dismisses the active popup when tapped outside its area if enabled
+    func tapOutsideToDismiss(_ value: Bool) -> Self { changing(path: \.tapOutsideClosesView, to: value) }
+
+    /// Popup can be closed with drag gesture if enabled
+    func dragGestureEnabled(_ value: Bool) -> Self { changing(path: \.dragGestureEnabled, to: value) }
+
+    /// Minimal threshold of a drag gesture to close the active popup
+    func minimalDragThresholdToClose(_ value: CGFloat) -> Self { changing(path: \.dragGestureProgressToClose, to: value) }
+}
+
 // MARK: - Animations
 public extension GlobalConfig.Bottom {
     /// Default closing and opening animations for popups
@@ -48,6 +66,8 @@ public extension GlobalConfig.Bottom {
 
 // MARK: - Internal
 public extension GlobalConfig { struct Bottom: Configurable {
+    private(set) var distanceFromKeyboard: CGFloat = 8
+
     private(set) var backgroundColour: Color = .white
     private(set) var cornerRadius: CGFloat = 32
 
@@ -55,6 +75,10 @@ public extension GlobalConfig { struct Bottom: Configurable {
     private(set) var stackOffset: CGFloat = 8
     private(set) var stackScaleFactor: CGFloat = 0.1
     private(set) var stackLimit: Int = 4
+
+    private(set) var tapOutsideClosesView: Bool = false
+    private(set) var dragGestureEnabled: Bool = true
+    private(set) var dragGestureProgressToClose: CGFloat = 1/3
 
     private(set) var transitionAnimation: Animation = .spring(response: 0.44, dampingFraction: 1, blendDuration: 0.4)
     private(set) var dragGestureAnimation: Animation = .interactiveSpring()

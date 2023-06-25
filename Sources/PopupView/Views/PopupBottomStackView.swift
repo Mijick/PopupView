@@ -40,7 +40,7 @@ private extension PopupBottomStackView {
     func createTapArea() -> some View {
         Color.black.opacity(0.00000000001)
             .onTapGesture(perform: items.last?.dismiss ?? {})
-            .active(if: config.tapOutsideClosesView)
+            .active(if: config.tapOutsideClosesView ?? globalConfig.tapOutsideClosesView)
     }
 }
 
@@ -68,7 +68,7 @@ private extension PopupBottomStackView {
 // MARK: - Gesture Handler
 private extension PopupBottomStackView {
     func onPopupDragGestureChanged(_ value: CGFloat) {
-        if config.dragGestureEnabled { gestureTranslation = max(0, value) }
+        if config.dragGestureEnabled ?? globalConfig.dragGestureEnabled { gestureTranslation = max(0, value) }
     }
     func onPopupDragGestureEnded(_ value: CGFloat) {
         if translationProgress() >= gestureClosingThresholdFactor { items.last?.dismiss() }
@@ -128,7 +128,7 @@ private extension PopupBottomStackView {
         return basicHeight - stackedViewsHeight
     }
     func getContentBottomPadding() -> CGFloat {
-        if isKeyboardVisible { return keyboardHeight + config.distanceFromKeyboard }
+        if isKeyboardVisible { return keyboardHeight + (config.distanceFromKeyboard ?? globalConfig.distanceFromKeyboard) }
         if config.contentIgnoresSafeArea { return 0 }
 
         return max(screen.safeArea.bottom - popupBottomPadding, 0)
@@ -157,7 +157,7 @@ private extension PopupBottomStackView {
     var backgroundColour: Color { config.backgroundColour ?? globalConfig.backgroundColour }
     var transitionAnimation: Animation { globalConfig.transitionAnimation }
     var dragGestureAnimation: Animation { globalConfig.dragGestureAnimation }
-    var gestureClosingThresholdFactor: CGFloat { config.dragGestureProgressToClose }
+    var gestureClosingThresholdFactor: CGFloat { globalConfig.dragGestureProgressToClose }
     var transition: AnyTransition { .move(edge: .bottom) }
     var isKeyboardVisible: Bool { keyboardHeight > 0 }
     var config: BottomPopupConfig { items.last?.configurePopup(popup: .init()) ?? .init() }
