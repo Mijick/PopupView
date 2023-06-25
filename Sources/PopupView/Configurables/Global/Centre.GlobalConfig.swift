@@ -19,6 +19,12 @@ public extension GlobalConfig.Centre {
     func cornerRadius(_ value: CGFloat) -> Self { changing(path: \.cornerRadius, to: value) }
 }
 
+// MARK: - Gestures
+public extension GlobalConfig.Centre {
+    /// Dismisses the active popup when tapped outside its area if enabled
+    func tapOutsideToDismiss(_ value: Bool) -> Self { changing(path: \.tapOutsideClosesView, to: value) }
+}
+
 // MARK: - Animations
 public extension GlobalConfig.Centre {
     /// Time to animate content while presenting new popup
@@ -39,6 +45,8 @@ public extension GlobalConfig.Centre {
 public extension GlobalConfig { struct Centre: Configurable {
     private(set) var backgroundColour: Color = .white
     private(set) var cornerRadius: CGFloat = 24
+
+    private(set) var tapOutsideClosesView: Bool = true
 
     private(set) var contentAnimationTime: CGFloat = 0.1
     private(set) var transitionEntryScale: CGFloat = 1.1

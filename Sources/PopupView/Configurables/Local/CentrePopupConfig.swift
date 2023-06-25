@@ -41,7 +41,7 @@ public struct CentrePopupConfig: Configurable {
     private(set) var cornerRadius: CGFloat? = nil
     private(set) var horizontalPadding: CGFloat = 12
 
-    private(set) var tapOutsideClosesView: Bool = true
+    private(set) var tapOutsideClosesView: Bool? = nil
 
     private(set) var onFocus: () -> () = {}
 }

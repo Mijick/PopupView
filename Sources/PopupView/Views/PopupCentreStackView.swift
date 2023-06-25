@@ -48,7 +48,7 @@ private extension PopupCentreStackView {
     func createTapArea() -> some View {
         Color.black.opacity(0.00000000001)
             .onTapGesture(perform: items.last?.dismiss ?? {})
-            .active(if: config.tapOutsideClosesView)
+            .active(if: config.tapOutsideClosesView ?? globalConfig.tapOutsideClosesView)
     }
 }
 
