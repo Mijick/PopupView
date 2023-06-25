@@ -14,8 +14,6 @@ public protocol Popup: View {
     associatedtype Config: Configurable
     associatedtype V: View
 
-    var id: String { get }
-
     func createContent() -> V
     func configurePopup(popup: Config) -> Config
 }
@@ -45,11 +43,4 @@ public extension Popup {
     var body: V { createContent() }
 
     func configurePopup(popup: Config) -> Config { popup }
-}
-
-
-// MARK: - Deprecated Methods
-public extension Popup {
-    @available(*, deprecated, message: "Method no longer supported. Use showAndStack or showAndReplace instead")
-    func present() { PopupManager.show(AnyPopup<Config>(self), withStacking: true) }
 }

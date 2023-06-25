@@ -15,11 +15,7 @@ public extension PopupManager {
     /// Dismisses last popup on the stack
     static func dismiss() { shared.views.perform(.removeLast) }
 
-    /// Dismisses all popups with provided ID on the stack
-    static func dismiss(id: String) { shared.views.perform(.remove(id: id)) }
-
     /// Dismisses all popups of provided type on the stack.
-    /// ** WARNING: ** Method won't work if ID of the popup is custom
     static func dismiss<P: Popup>(_ popup: P.Type) { shared.views.perform(.remove(id: .init(describing: popup))) }
 
     /// Dismisses all the popups on the stack.
