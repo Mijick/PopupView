@@ -14,6 +14,8 @@ public protocol Popup: View {
     associatedtype Config: Configurable
     associatedtype V: View
 
+    var id: String { get }
+
     func createContent() -> V
     func configurePopup(popup: Config) -> Config
 }
