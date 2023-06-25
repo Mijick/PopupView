@@ -39,7 +39,7 @@ private extension PopupTopStackView {
     func createTapArea() -> some View {
         Color.black.opacity(0.00000000001)
             .onTapGesture(perform: items.last?.dismiss ?? {})
-            .active(if: config.tapOutsideClosesView)
+            .active(if: config.tapOutsideClosesView ?? globalConfig.tapOutsideClosesView)
     }
 }
 
@@ -67,7 +67,7 @@ private extension PopupTopStackView {
 // MARK: - Gesture Handler
 private extension PopupTopStackView {
     func onPopupDragGestureChanged(_ value: CGFloat) {
-        if config.dragGestureEnabled { gestureTranslation = min(0, value) }
+        if config.dragGestureEnabled ?? globalConfig.dragGestureEnabled { gestureTranslation = min(0, value) }
     }
     func onPopupDragGestureEnded(_ value: CGFloat) {
         if translationProgress() >= gestureClosingThresholdFactor { items.last?.dismiss() }
@@ -136,7 +136,7 @@ private extension PopupTopStackView {
     var backgroundColour: Color { config.backgroundColour ?? globalConfig.backgroundColour }
     var transitionAnimation: Animation { globalConfig.transitionAnimation }
     var dragGestureAnimation: Animation { globalConfig.dragGestureAnimation }
-    var gestureClosingThresholdFactor: CGFloat { config.dragGestureProgressToClose }
+    var gestureClosingThresholdFactor: CGFloat { globalConfig.dragGestureProgressToClose }
     var transition: AnyTransition { .move(edge: .top) }
     var config: TopPopupConfig { items.last?.configurePopup(popup: .init()) ?? .init() }
 }

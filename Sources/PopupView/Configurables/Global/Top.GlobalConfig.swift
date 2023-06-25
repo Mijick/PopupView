@@ -36,6 +36,18 @@ public extension GlobalConfig.Top {
     func stackLimit(_ value: Int) -> Self { changing(path: \.stackLimit, to: value) }
 }
 
+// MARK: - Gestures
+public extension GlobalConfig.Top {
+    /// Dismisses the active popup when tapped outside its area if enabled
+    func tapOutsideToDismiss(_ value: Bool) -> Self { changing(path: \.tapOutsideClosesView, to: value) }
+
+    /// Popup can be closed with drag gesture if enabled
+    func dragGestureEnabled(_ value: Bool) -> Self { changing(path: \.dragGestureEnabled, to: value) }
+
+    /// Minimal threshold of a drag gesture to close the active popup
+    func minimalDragThresholdToClose(_ value: CGFloat) -> Self { changing(path: \.dragGestureProgressToClose, to: value) }
+}
+
 // MARK: - Animations
 public extension GlobalConfig.Top {
     /// Default closing and opening animations for popups
@@ -55,6 +67,10 @@ public extension GlobalConfig { struct Top: Configurable {
     private(set) var stackOffset: CGFloat = 6
     private(set) var stackScaleFactor: CGFloat = 0.06
     private(set) var stackLimit: Int = 3
+
+    private(set) var tapOutsideClosesView: Bool = false
+    private(set) var dragGestureEnabled: Bool = true
+    private(set) var dragGestureProgressToClose: CGFloat = 1/3
 
     private(set) var transitionAnimation: Animation = .spring(response: 0.32, dampingFraction: 1, blendDuration: 0.32)
     private(set) var dragGestureAnimation: Animation = .interactiveSpring()
