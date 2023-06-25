@@ -12,6 +12,7 @@ import SwiftUI
 
 struct PopupCentreStackView: View {
     let items: [AnyPopup<CentrePopupConfig>]
+    let globalConfig: GlobalConfig.Centre
     @ObservedObject private var screen: ScreenManager = .shared
     @State private var activeView: AnyView?
     @State private var configTemp: CentrePopupConfig?
@@ -86,17 +87,17 @@ private extension PopupCentreStackView {
 private extension PopupCentreStackView {
     func saveHeight(_ value: CGFloat) { height = items.isEmpty ? nil : value }
     func getTransition() -> AnyTransition {
-        .scale(scale: items.isEmpty ? config.transitionExitScale : config.transitionEntryScale)
+        .scale(scale: items.isEmpty ? globalConfig.transitionExitScale : globalConfig.transitionEntryScale)
         .combined(with: .opacity)
         .animation(height == nil || items.isEmpty ? transitionAnimation : nil)
     }
 }
 
 private extension PopupCentreStackView {
-    var cornerRadius: CGFloat { config.cornerRadius }
+    var cornerRadius: CGFloat { config.cornerRadius ?? globalConfig.cornerRadius }
     var contentOpacity: CGFloat { contentIsAnimated ? 0 : 1 }
-    var contentOpacityAnimationTime: CGFloat { config.contentAnimationTime }
-    var backgroundColour: Color { config.backgroundColour }
-    var transitionAnimation: Animation { config.transitionAnimation }
+    var contentOpacityAnimationTime: CGFloat { globalConfig.contentAnimationTime }
+    var backgroundColour: Color { config.backgroundColour ?? globalConfig.backgroundColour }
+    var transitionAnimation: Animation { globalConfig.transitionAnimation }
     var config: CentrePopupConfig { items.last?.configurePopup(popup: .init()) ?? configTemp ?? .init() }
 }

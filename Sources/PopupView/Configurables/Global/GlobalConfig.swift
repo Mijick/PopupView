@@ -10,4 +10,5 @@
 
 public struct GlobalConfig {
     var top: Top = .init()
+    var centre: Centre = .init()
 }
