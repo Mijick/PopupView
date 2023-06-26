@@ -18,6 +18,8 @@ private extension View {
         Color.clear.preference(key: HeightPreferenceKey.self, value: $0.size.height)
     }}
 }
+
+// MARK: - Preference Key
 fileprivate struct HeightPreferenceKey: PreferenceKey {
     static var defaultValue: CGFloat = 0
     static func reduce(value: inout CGFloat, nextValue: () -> CGFloat) {}
