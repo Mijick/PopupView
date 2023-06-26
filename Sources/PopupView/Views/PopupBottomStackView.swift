@@ -59,7 +59,7 @@ private extension PopupBottomStackView {
             .scaleEffect(getScale(for: item), anchor: .top)
             .compositingGroup()
             .focusSectionIfAvailable()
-            .alignToBottom(if: !config.contentFillsEntireScreen, popupBottomPadding)
+            .align(to: .bottom, config.contentFillsEntireScreen ? nil : popupBottomPadding)
             .transition(transition)
             .zIndex(isLast(item).doubleValue)
     }

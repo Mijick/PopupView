@@ -30,25 +30,17 @@ public extension View {
 
 // MARK: - Alignments
 extension View {
-    func alignToBottom(if shouldAlign: Bool = true, _ value: CGFloat = 0) -> some View {
-        VStack(spacing: 0) {
-            if shouldAlign { Spacer() }
-            self
-            Spacer.height(value)
-        }
-    }
-    func alignToTop(_ value: CGFloat = 0) -> some View {
-        VStack(spacing: 0) {
-            Spacer.height(value)
-            self
-            Spacer()
-        }
-    }
+    func align(to edge: Edge, _ value: CGFloat?) -> some View { padding(.init(edge), value).frame(maxHeight: value != nil ? .infinity : nil, alignment: edge.toAlignment()) }
 }
-
-// MARK: - Frames
-extension View {
-    func frame(size: CGSize) -> some View { frame(width: size.width, height: size.height) }
+fileprivate extension Edge {
+    func toAlignment() -> Alignment {
+        switch self {
+            case .top: return .top
+            case .bottom: return .bottom
+            case .leading: return .leading
+            case .trailing: return .trailing
+        }
+    }
 }
 
 // MARK: - Cleaning Cache

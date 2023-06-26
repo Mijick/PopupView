@@ -58,7 +58,7 @@ private extension PopupTopStackView {
             .scaleEffect(getScale(for: item), anchor: .bottom)
             .compositingGroup()
             .focusSectionIfAvailable()
-            .alignToTop(topPadding)
+            .align(to: .top, topPadding)
             .transition(transition)
             .zIndex(isLast(item).doubleValue)
     }
