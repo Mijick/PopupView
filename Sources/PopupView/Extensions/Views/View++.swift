@@ -56,9 +56,6 @@ extension View {
     @ViewBuilder func active(if condition: Bool) -> some View {
         if condition { self }
     }
-    func visible(if condition: Bool) -> some View {
-        opacity(condition.doubleValue)
-    }
 }
 
 extension View {
