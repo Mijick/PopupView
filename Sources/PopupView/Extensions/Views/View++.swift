@@ -13,9 +13,17 @@ import SwiftUI
 public extension View {
 
 #if os(iOS) || os(macOS)
-    func implementPopupView() -> some View { overlay(PopupView()) }
+    func implementPopupView(
+        configTop: (GlobalConfig.Top) -> GlobalConfig.Top = { $0 },
+        configCentre: (GlobalConfig.Centre) -> GlobalConfig.Centre = { $0 },
+        configBottom: (GlobalConfig.Bottom) -> GlobalConfig.Bottom = { $0 }
+    ) -> some View { overlay(PopupView(globalConfig: .init(configTop, configCentre, configBottom))) }
 #elseif os(tvOS)
-    func implementPopupView() -> some View { PopupView(rootView: self) }
+    func implementPopupView(
+        configTop: (GlobalConfig.Top) -> GlobalConfig.Top = { $0 },
+        configCentre: (GlobalConfig.Centre) -> GlobalConfig.Centre = { $0 },
+        configBottom: (GlobalConfig.Bottom) -> GlobalConfig.Bottom = { $0 }
+    ) -> some View { PopupView(rootView: self, globalConfig: .init(configTop, configCentre, configBottom)) }
 #endif
     
 }

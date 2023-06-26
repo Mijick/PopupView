@@ -46,10 +46,3 @@ public extension Popup {
 
     func configurePopup(popup: Config) -> Config { popup }
 }
-
-
-// MARK: - Deprecated Methods
-public extension Popup {
-    @available(*, deprecated, message: "Method no longer supported. Use showAndStack or showAndReplace instead")
-    func present() { PopupManager.show(AnyPopup<Config>(self), withStacking: true) }
-}
