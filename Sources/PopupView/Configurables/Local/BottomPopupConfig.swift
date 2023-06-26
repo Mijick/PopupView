@@ -17,7 +17,6 @@ public extension BottomPopupConfig {
 
     /// Whether the content should take up the entire height of the screen.
     /// Stacked items will be visible.
-    /// HINT: It is recommended to enable when a scroll view is present in the content view
     func contentFillsWholeHeigh(_ value: Bool) -> Self { changing(path: \.contentFillsWholeHeight, to: value) }
 
     /// Whether the content should take up the entire height of the screen.
