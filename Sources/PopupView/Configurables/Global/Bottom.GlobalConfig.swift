@@ -54,15 +54,6 @@ public extension GlobalConfig.Bottom {
     func minimalDragThresholdToClose(_ value: CGFloat) -> Self { changing(path: \.dragGestureProgressToClose, to: value) }
 }
 
-// MARK: - Animations
-public extension GlobalConfig.Bottom {
-    /// Default closing and opening animations for popups
-    func transitionAnimation(_ value: Animation) -> Self { changing(path: \.transitionAnimation, to: value) }
-
-    /// Default animation for closing popup with drag gesture
-    func dragGestureAnimation(_ value: Animation) -> Self { changing(path: \.dragGestureAnimation, to: value) }
-}
-
 
 // MARK: - Internal
 public extension GlobalConfig { struct Bottom: Configurable {
@@ -79,7 +70,4 @@ public extension GlobalConfig { struct Bottom: Configurable {
     private(set) var tapOutsideClosesView: Bool = false
     private(set) var dragGestureEnabled: Bool = true
     private(set) var dragGestureProgressToClose: CGFloat = 1/3
-
-    private(set) var transitionAnimation: Animation = .spring(response: 0.44, dampingFraction: 1, blendDuration: 0.4)
-    private(set) var dragGestureAnimation: Animation = .interactiveSpring()
 }}

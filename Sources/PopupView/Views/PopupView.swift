@@ -76,7 +76,7 @@ private extension PopupView {
         PopupCentreStackView(items: stack.centre, globalConfig: globalConfig.centre)
     }
     func createBottomPopupStackView() -> some View {
-        PopupBottomStackView(items: stack.bottom, keyboardHeight: keyboardObserver.keyboardHeight, globalConfig: globalConfig.bottom)
+        PopupBottomStackView(items: stack.bottom, keyboardHeight: keyboardObserver.keyboardHeight, globalConfig: globalConfig)
     }
 }
 
