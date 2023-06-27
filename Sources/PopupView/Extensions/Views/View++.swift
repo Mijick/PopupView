@@ -14,16 +14,18 @@ public extension View {
 
 #if os(iOS) || os(macOS)
     func implementPopupView(
+        configMain: (GlobalConfig.Main) -> GlobalConfig.Main = { $0 },
         configTop: (GlobalConfig.Top) -> GlobalConfig.Top = { $0 },
         configCentre: (GlobalConfig.Centre) -> GlobalConfig.Centre = { $0 },
         configBottom: (GlobalConfig.Bottom) -> GlobalConfig.Bottom = { $0 }
-    ) -> some View { overlay(PopupView(globalConfig: .init(configTop, configCentre, configBottom))) }
+    ) -> some View { overlay(PopupView(globalConfig: .init(configMain, configTop, configCentre, configBottom))) }
 #elseif os(tvOS)
     func implementPopupView(
+        configMain: (GlobalConfig.Main) -> GlobalConfig.Main = { $0 },
         configTop: (GlobalConfig.Top) -> GlobalConfig.Top = { $0 },
         configCentre: (GlobalConfig.Centre) -> GlobalConfig.Centre = { $0 },
         configBottom: (GlobalConfig.Bottom) -> GlobalConfig.Bottom = { $0 }
-    ) -> some View { PopupView(rootView: self, globalConfig: .init(configTop, configCentre, configBottom)) }
+    ) -> some View { PopupView(rootView: self, globalConfig: .init(configMain, configTop, configCentre, configBottom)) }
 #endif
     
 }
@@ -40,14 +42,6 @@ fileprivate extension Edge {
             case .leading: return .leading
             case .trailing: return .trailing
         }
-    }
-}
-
-// MARK: - Cleaning Cache
-extension View {
-    func clearCacheObjects(shouldClear: Bool, trigger: Binding<Bool>) -> some View {
-        onChange(of: shouldClear) { $0 ? trigger.toggleAfter(seconds: 0.4) : () }
-        .id(trigger.wrappedValue)
     }
 }
 

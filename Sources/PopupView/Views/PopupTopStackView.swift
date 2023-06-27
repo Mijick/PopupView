@@ -16,19 +16,16 @@ struct PopupTopStackView: View {
     @ObservedObject private var screen: ScreenManager = .shared
     @State private var heights: [AnyPopup<TopPopupConfig>: CGFloat] = [:]
     @State private var gestureTranslation: CGFloat = 0
-    @State private var cacheCleanerTrigger: Bool = false
 
     
     var body: some View {
         ZStack(alignment: .bottom, content: createPopupStack)
             .ignoresSafeArea()
             .background(createTapArea())
-            .animation(transitionAnimation, value: items)
             .animation(transitionAnimation, value: heights)
             .animation(dragGestureAnimation, value: gestureTranslation)
             .onDragGesture(onChanged: onPopupDragGestureChanged, onEnded: onPopupDragGestureEnded)
             .onChange(of: items, perform: onItemsChange)
-            .clearCacheObjects(shouldClear: items.isEmpty, trigger: $cacheCleanerTrigger)
     }
 }
 
@@ -60,7 +57,7 @@ private extension PopupTopStackView {
             .focusSectionIfAvailable()
             .align(to: .top, topPadding)
             .transition(transition)
-            .zIndex(isLast(item).doubleValue)
+            .zIndex(getZIndex(for: item))
     }
 }
 
@@ -113,6 +110,7 @@ private extension PopupTopStackView {
         return 1 - scaleValue * progressDifference
     }
     func getOffset(for item: AnyPopup<TopPopupConfig>) -> CGFloat { isLast(item) ? gestureTranslation : invertedIndex(of: item).floatValue * offsetFactor }
+    func getZIndex(for item: AnyPopup<TopPopupConfig>) -> Double { (items.lastIndex(of: item)?.doubleValue ?? 0) + 1 }
     func saveHeight(_ height: CGFloat, for item: AnyPopup<TopPopupConfig>) { heights[item] = height }
 }
 
@@ -134,8 +132,8 @@ private extension PopupTopStackView {
     var cornerRadius: CGFloat { config.cornerRadius ?? globalConfig.top.cornerRadius }
     var stackedCornerRadius: CGFloat { cornerRadius * globalConfig.top.stackCornerRadiusMultiplier }
     var backgroundColour: Color { config.backgroundColour ?? globalConfig.top.backgroundColour }
-    var transitionAnimation: Animation { globalConfig.top.transitionAnimation }
-    var dragGestureAnimation: Animation { globalConfig.top.dragGestureAnimation }
+    var transitionAnimation: Animation { globalConfig.main.animation.entry }
+    var dragGestureAnimation: Animation { globalConfig.main.animation.removal }
     var gestureClosingThresholdFactor: CGFloat { globalConfig.top.dragGestureProgressToClose }
     var transition: AnyTransition { .move(edge: .top) }
     var config: TopPopupConfig { items.last?.configurePopup(popup: .init()) ?? .init() }
