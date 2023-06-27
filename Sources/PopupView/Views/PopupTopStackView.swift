@@ -12,7 +12,7 @@ import SwiftUI
 
 struct PopupTopStackView: View {
     let items: [AnyPopup<TopPopupConfig>]
-    let globalConfig: GlobalConfig.Top
+    let globalConfig: GlobalConfig
     @ObservedObject private var screen: ScreenManager = .shared
     @State private var heights: [AnyPopup<TopPopupConfig>: CGFloat] = [:]
     @State private var gestureTranslation: CGFloat = 0
@@ -39,7 +39,7 @@ private extension PopupTopStackView {
     func createTapArea() -> some View {
         Color.black.opacity(0.00000000001)
             .onTapGesture(perform: items.last?.dismiss ?? {})
-            .active(if: config.tapOutsideClosesView ?? globalConfig.tapOutsideClosesView)
+            .active(if: config.tapOutsideClosesView ?? globalConfig.top.tapOutsideClosesView)
     }
 }
 
@@ -67,7 +67,7 @@ private extension PopupTopStackView {
 // MARK: - Gesture Handler
 private extension PopupTopStackView {
     func onPopupDragGestureChanged(_ value: CGFloat) {
-        if config.dragGestureEnabled ?? globalConfig.dragGestureEnabled { gestureTranslation = min(0, value) }
+        if config.dragGestureEnabled ?? globalConfig.top.dragGestureEnabled { gestureTranslation = min(0, value) }
     }
     func onPopupDragGestureEnded(_ value: CGFloat) {
         if translationProgress() >= gestureClosingThresholdFactor { items.last?.dismiss() }
@@ -128,15 +128,15 @@ private extension PopupTopStackView {
     var contentTopPadding: CGFloat { config.contentIgnoresSafeArea ? 0 : max(screen.safeArea.top - topPadding, 0) }
     var topPadding: CGFloat { config.popupPadding.top }
     var height: CGFloat { heights.first { $0.key == items.last }?.value ?? 0 }
-    var opacityFactor: Double { 1 / globalConfig.stackLimit.doubleValue }
-    var offsetFactor: CGFloat { globalConfig.stackOffset }
-    var scaleFactor: CGFloat { globalConfig.stackScaleFactor }
-    var cornerRadius: CGFloat { config.cornerRadius ?? globalConfig.cornerRadius }
-    var stackedCornerRadius: CGFloat { cornerRadius * globalConfig.stackCornerRadiusMultiplier }
-    var backgroundColour: Color { config.backgroundColour ?? globalConfig.backgroundColour }
-    var transitionAnimation: Animation { globalConfig.transitionAnimation }
-    var dragGestureAnimation: Animation { globalConfig.dragGestureAnimation }
-    var gestureClosingThresholdFactor: CGFloat { globalConfig.dragGestureProgressToClose }
+    var opacityFactor: Double { 1 / globalConfig.top.stackLimit.doubleValue }
+    var offsetFactor: CGFloat { globalConfig.top.stackOffset }
+    var scaleFactor: CGFloat { globalConfig.top.stackScaleFactor }
+    var cornerRadius: CGFloat { config.cornerRadius ?? globalConfig.top.cornerRadius }
+    var stackedCornerRadius: CGFloat { cornerRadius * globalConfig.top.stackCornerRadiusMultiplier }
+    var backgroundColour: Color { config.backgroundColour ?? globalConfig.top.backgroundColour }
+    var transitionAnimation: Animation { globalConfig.top.transitionAnimation }
+    var dragGestureAnimation: Animation { globalConfig.top.dragGestureAnimation }
+    var gestureClosingThresholdFactor: CGFloat { globalConfig.top.dragGestureProgressToClose }
     var transition: AnyTransition { .move(edge: .top) }
     var config: TopPopupConfig { items.last?.configurePopup(popup: .init()) ?? .init() }
 }

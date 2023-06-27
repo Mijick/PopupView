@@ -70,7 +70,7 @@ private extension PopupView {
 
 private extension PopupView {
     func createTopPopupStackView() -> some View {
-        PopupTopStackView(items: stack.top, globalConfig: globalConfig.top)
+        PopupTopStackView(items: stack.top, globalConfig: globalConfig)
     }
     func createCentrePopupStackView() -> some View {
         PopupCentreStackView(items: stack.centre, globalConfig: globalConfig)
