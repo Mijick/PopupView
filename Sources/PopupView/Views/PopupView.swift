@@ -58,6 +58,7 @@ private extension PopupView {
             createCentrePopupStackView()
             createBottomPopupStackView()
         }
+        .animation(stack.presenting ? globalConfig.main.animation.entry : globalConfig.main.animation.removal, value: stack.views.map(\.id))
     }
     func createOverlay() -> some View {
         overlayColour
