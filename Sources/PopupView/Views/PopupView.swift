@@ -81,5 +81,5 @@ private extension PopupView {
 
 private extension PopupView {
     var overlayColour: Color { .black.opacity(0.44) }
-    var overlayAnimation: Animation { .easeInOut }
+    var overlayAnimation: Animation { .easeInOut(duration: 0.4) }
 }

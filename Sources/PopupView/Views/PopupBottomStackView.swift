@@ -17,19 +17,16 @@ struct PopupBottomStackView: View {
     @ObservedObject private var screen: ScreenManager = .shared
     @State private var heights: [AnyPopup<BottomPopupConfig>: CGFloat] = [:]
     @State private var gestureTranslation: CGFloat = 0
-    @State private var cacheCleanerTrigger: Bool = false
 
     
     var body: some View {
         ZStack(alignment: .top, content: createPopupStack)
             .ignoresSafeArea()
             .background(createTapArea())
-            .animation(transitionAnimation, value: items)
             .animation(dragGestureAnimation, value: gestureTranslation)
             .onDragGesture(onChanged: onPopupDragGestureChanged, onEnded: onPopupDragGestureEnded)
             .onChange(of: items, perform: onItemsChange)
             .onChange(of: screen.size, perform: onScreenChange)
-            .clearCacheObjects(shouldClear: items.isEmpty, trigger: $cacheCleanerTrigger)
     }
 }
 
@@ -62,7 +59,7 @@ private extension PopupBottomStackView {
             .focusSectionIfAvailable()
             .align(to: .bottom, config.contentFillsEntireScreen ? nil : popupBottomPadding)
             .transition(transition)
-            .zIndex(isLast(item).doubleValue)
+            .zIndex(getZIndex(for: item))
     }
 }
 
@@ -135,6 +132,7 @@ private extension PopupBottomStackView {
         return max(screen.safeArea.bottom - popupBottomPadding, 0)
     }
     func getOffset(for item: AnyPopup<BottomPopupConfig>) -> CGFloat { isLast(item) ? gestureTranslation : invertedIndex(of: item).floatValue * offsetFactor }
+    func getZIndex(for item: AnyPopup<BottomPopupConfig>) -> Double { (items.lastIndex(of: item)?.doubleValue ?? 0) + 1 }
 }
 
 private extension PopupBottomStackView {
