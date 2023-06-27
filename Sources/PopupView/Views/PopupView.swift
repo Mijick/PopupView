@@ -73,7 +73,7 @@ private extension PopupView {
         PopupTopStackView(items: stack.top, globalConfig: globalConfig.top)
     }
     func createCentrePopupStackView() -> some View {
-        PopupCentreStackView(items: stack.centre, globalConfig: globalConfig.centre)
+        PopupCentreStackView(items: stack.centre, globalConfig: globalConfig)
     }
     func createBottomPopupStackView() -> some View {
         PopupBottomStackView(items: stack.bottom, keyboardHeight: keyboardObserver.keyboardHeight, globalConfig: globalConfig)
@@ -82,5 +82,5 @@ private extension PopupView {
 
 private extension PopupView {
     var overlayColour: Color { .black.opacity(0.44) }
-    var overlayAnimation: Animation { .easeInOut(duration: 0.4) }
+    var overlayAnimation: Animation { .easeInOut(duration: 0.44) }
 }

@@ -35,9 +35,6 @@ public extension GlobalConfig.Centre {
 
     /// Scale of the final state of the popup animation while closing
     func transitionExitScale(_ value: CGFloat) -> Self { changing(path: \.transitionExitScale, to: value) }
-
-    /// Default closing and opening animations for popups
-    func transitionAnimation(_ value: Animation) -> Self { changing(path: \.transitionAnimation, to: value) }
 }
 
 
@@ -51,5 +48,4 @@ public extension GlobalConfig { struct Centre: Configurable {
     private(set) var contentAnimationTime: CGFloat = 0.1
     private(set) var transitionEntryScale: CGFloat = 1.1
     private(set) var transitionExitScale: CGFloat = 0.86
-    private(set) var transitionAnimation: Animation = .spring(response: 0.28, dampingFraction: 1, blendDuration: 0.28)
 }}

@@ -12,25 +12,23 @@ import SwiftUI
 
 struct PopupCentreStackView: View {
     let items: [AnyPopup<CentrePopupConfig>]
-    let globalConfig: GlobalConfig.Centre
+    let globalConfig: GlobalConfig
     @ObservedObject private var screen: ScreenManager = .shared
     @State private var activeView: AnyView?
     @State private var configTemp: CentrePopupConfig?
     @State private var height: CGFloat?
     @State private var contentIsAnimated: Bool = false
-    @State private var cacheCleanerTrigger: Bool = false
 
     
     var body: some View {
         createPopup()
             .frame(height: screen.size.height)
             .background(createTapArea())
-            .animation(transitionAnimation, value: config.horizontalPadding)
-            .animation(transitionAnimation, value: height)
-            .animation(transitionAnimation, value: contentIsAnimated)
+            .animation(transitionEntryAnimation, value: config.horizontalPadding)
+            .animation(height == nil ? transitionRemovalAnimation : transitionEntryAnimation, value: height)
+            .animation(transitionEntryAnimation, value: contentIsAnimated)
             .transition(getTransition())
             .onChange(of: items, perform: onItemsChange)
-            .clearCacheObjects(shouldClear: items.isEmpty, trigger: $cacheCleanerTrigger)
     }
 }
 
@@ -48,7 +46,7 @@ private extension PopupCentreStackView {
     func createTapArea() -> some View {
         Color.black.opacity(0.00000000001)
             .onTapGesture(perform: items.last?.dismiss ?? {})
-            .active(if: config.tapOutsideClosesView ?? globalConfig.tapOutsideClosesView)
+            .active(if: config.tapOutsideClosesView ?? globalConfig.centre.tapOutsideClosesView)
     }
 }
 
@@ -87,17 +85,18 @@ private extension PopupCentreStackView {
 private extension PopupCentreStackView {
     func saveHeight(_ value: CGFloat) { height = items.isEmpty ? nil : value }
     func getTransition() -> AnyTransition {
-        .scale(scale: items.isEmpty ? globalConfig.transitionExitScale : globalConfig.transitionEntryScale)
+        .scale(scale: items.isEmpty ? globalConfig.centre.transitionExitScale : globalConfig.centre.transitionEntryScale)
         .combined(with: .opacity)
-        .animation(height == nil || items.isEmpty ? transitionAnimation : nil)
+        .animation(height == nil || items.isEmpty ? transitionRemovalAnimation : nil)
     }
 }
 
 private extension PopupCentreStackView {
-    var cornerRadius: CGFloat { config.cornerRadius ?? globalConfig.cornerRadius }
+    var cornerRadius: CGFloat { config.cornerRadius ?? globalConfig.centre.cornerRadius }
     var contentOpacity: CGFloat { contentIsAnimated ? 0 : 1 }
-    var contentOpacityAnimationTime: CGFloat { globalConfig.contentAnimationTime }
-    var backgroundColour: Color { config.backgroundColour ?? globalConfig.backgroundColour }
-    var transitionAnimation: Animation { globalConfig.transitionAnimation }
+    var contentOpacityAnimationTime: CGFloat { globalConfig.centre.contentAnimationTime }
+    var backgroundColour: Color { config.backgroundColour ?? globalConfig.centre.backgroundColour }
+    var transitionEntryAnimation: Animation { globalConfig.main.animation.entry }
+    var transitionRemovalAnimation: Animation { globalConfig.main.animation.removal }
     var config: CentrePopupConfig { items.last?.configurePopup(popup: .init()) ?? configTemp ?? .init() }
 }
