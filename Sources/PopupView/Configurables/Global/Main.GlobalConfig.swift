@@ -10,6 +10,11 @@
 
 import SwiftUI
 
+// MARK: - Overlay
+public extension GlobalConfig.Main {
+    func overlayColour(_ value: Color) -> Self { changing(path: \.overlayColour, to: value) }
+}
+
 // MARK: - Animations
 public extension GlobalConfig.Main {
     /// Animation for closing and opening popups
@@ -19,5 +24,7 @@ public extension GlobalConfig.Main {
 
 // MARK: - Internal
 public extension GlobalConfig { struct Main: Configurable {
+    private(set) var overlayColour: Color = .black.opacity(0.44)
+
     private(set) var animation: AnimationType = .spring
 }}
