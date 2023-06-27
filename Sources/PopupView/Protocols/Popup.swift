@@ -23,10 +23,10 @@ public protocol Popup: View {
 // MARK: - Presenting and Dismissing
 public extension Popup {
     /// Displays the popup. Stacks previous one
-    func showAndStack() { PopupManager.show(AnyPopup<Config>(self), withStacking: true) }
+    func showAndStack() { PopupManager.showAndStack(AnyPopup<Config>(self)) }
 
     /// Displays the popup. Closes previous one
-    func showAndReplace() { PopupManager.show(AnyPopup<Config>(self), withStacking: false) }
+    func showAndReplace() { PopupManager.showAndReplace(AnyPopup<Config>(self)) }
 }
 public extension Popup {
     /// Dismisses the last popup on the stack
