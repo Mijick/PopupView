@@ -24,6 +24,9 @@ public extension PopupManager {
     /// Dismisses all popups of provided type on the stack.
     static func dismiss<P: Popup>(_ popup: P.Type) { performOperation(.remove(id: .init(describing: popup))) }
 
+    /// Dismisses all popups on the stack up to the popup with the selected type
+    static func dismissAll<P: Popup>(upTo popup: P.Type) { performOperation(.removeAllUpTo(id: .init(describing: popup))) }
+
     /// Dismisses all the popups on the stack.
     static func dismissAll() { performOperation(.removeAll) }
 }
@@ -47,7 +50,7 @@ extension PopupManager {
 // MARK: - Operations
 fileprivate enum Operation {
     case insertAndReplace(any Popup), insertAndStack(any Popup)
-    case removeLast, remove(id: String), removeAll
+    case removeLast, remove(id: String), removeAllUpTo(id: String), removeAll
 }
 private extension PopupManager {
     static func performOperation(_ operation: Operation) { DispatchQueue.main.async {
@@ -59,7 +62,7 @@ private extension PopupManager {
     static func updateOperationType(_ operation: Operation) {
         switch operation {
             case .insertAndReplace, .insertAndStack: shared.presenting = true
-            case .removeLast, .remove, .removeAll: shared.presenting = false
+            case .removeLast, .remove, .removeAllUpTo, .removeAll: shared.presenting = false
         }
     }
 }
@@ -80,6 +83,7 @@ private extension [any Popup] {
             case .insertAndStack(let popup): append(popup, if: canBeInserted(popup))
             case .removeLast: removeLast()
             case .remove(let id): removeAll(where: { $0.id == id })
+            case .removeAllUpTo(let id): removeAllUpToElement(where: { $0.id == id })
             case .removeAll: removeAll()
         }
     }
