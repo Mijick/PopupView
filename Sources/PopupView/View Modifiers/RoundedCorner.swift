@@ -11,7 +11,10 @@
 import SwiftUI
 
 extension View {
-    func background(_ colour: Color, radius: CGFloat, corners: RectCorner) -> some View { background(RoundedCorner(radius: radius, corners: corners).fill(colour)) }
+    func background(_ backgroundColour: Color, overlayColour: Color, radius: CGFloat, corners: RectCorner) -> some View {
+        overlay(RoundedCorner(radius: radius, corners: corners).fill(overlayColour))
+            .background(RoundedCorner(radius: radius, corners: corners).fill(backgroundColour))
+    }
 }
 
 // MARK: - Implementation

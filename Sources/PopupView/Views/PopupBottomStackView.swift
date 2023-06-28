@@ -50,9 +50,8 @@ private extension PopupBottomStackView {
             .fixedSize(horizontal: false, vertical: true)
             .readHeight { saveHeight($0, withAnimation: transitionAnimation, for: item) }
             .frame(height: height, alignment: .top).frame(maxWidth: .infinity)
-            .background(backgroundColour, radius: getCornerRadius(for: item), corners: getCorners())
+            .background(getBackgroundColour(for: item), overlayColour: overlayColour.opacity(getOverlayOpacity(for: item)), radius: getCornerRadius(for: item), corners: getCorners())
             .padding(.horizontal, config.popupPadding.horizontal)
-            .opacity(getOpacity(for: item))
             .offset(y: getOffset(for: item))
             .scaleEffect(getScale(for: item), anchor: .top)
             .compositingGroup()
@@ -96,14 +95,6 @@ private extension PopupBottomStackView {
             default: return .allCorners
         }
     }
-    func getOpacity(for item: AnyPopup<BottomPopupConfig>) -> Double {
-        if isLast(item) { return 1 }
-        if gestureTranslation.isZero { return  1 - invertedIndex(of: item).doubleValue * opacityFactor }
-
-        let scaleValue = invertedIndex(of: item).doubleValue * opacityFactor
-        let progressDifference = isNextToLast(item) ? 1 - translationProgress() : max(0.6, 1 - translationProgress())
-        return 1 - scaleValue * progressDifference
-    }
     func getScale(for item: AnyPopup<BottomPopupConfig>) -> CGFloat {
         if isLast(item) { return 1 }
         if gestureTranslation.isZero { return  1 - invertedIndex(of: item).floatValue * scaleFactor }
@@ -131,6 +122,16 @@ private extension PopupBottomStackView {
 
         return max(screen.safeArea.bottom - popupBottomPadding, 0)
     }
+    func getOverlayOpacity(for item: AnyPopup<BottomPopupConfig>) -> Double {
+        if isLast(item) { return 0 }
+        if gestureTranslation.isZero { return invertedIndex(of: item).doubleValue * overlayFactor }
+
+        let scaleValue = invertedIndex(of: item).doubleValue * overlayFactor
+        let translationProgress = 1 - translationProgress()
+        let progressDifference = isNextToLast(item) ? translationProgress : max(0.7, translationProgress)
+        return scaleValue * progressDifference
+    }
+    func getBackgroundColour(for item: AnyPopup<BottomPopupConfig>) -> Color { item.configurePopup(popup: .init()).backgroundColour ?? globalConfig.bottom.backgroundColour }
     func getOffset(for item: AnyPopup<BottomPopupConfig>) -> CGFloat { isLast(item) ? gestureTranslation : invertedIndex(of: item).floatValue * offsetFactor }
     func getZIndex(for item: AnyPopup<BottomPopupConfig>) -> Double { (items.lastIndex(of: item)?.doubleValue ?? 0) + 1 }
 }
@@ -148,12 +149,12 @@ private extension PopupBottomStackView {
     var height: CGFloat { heights.first { $0.key == items.last }?.value ?? defaultHeight }
     var defaultHeight: CGFloat { config.contentFillsEntireScreen ? screen.size.height : 0 }
     var maxHeightStackedFactor: CGFloat { 0.85 }
-    var opacityFactor: Double { 1 / globalConfig.bottom.stackLimit.doubleValue }
     var offsetFactor: CGFloat { -globalConfig.bottom.stackOffset }
     var scaleFactor: CGFloat { globalConfig.bottom.stackScaleFactor }
     var cornerRadius: CGFloat { config.cornerRadius ?? globalConfig.bottom.cornerRadius }
     var stackedCornerRadius: CGFloat { cornerRadius * globalConfig.bottom.stackCornerRadiusMultiplier }
-    var backgroundColour: Color { config.backgroundColour ?? globalConfig.bottom.backgroundColour }
+    var overlayColour: Color { .black }
+    var overlayFactor: Double { 1 / globalConfig.bottom.stackLimit.doubleValue * 0.5 }
     var transitionAnimation: Animation { globalConfig.main.animation.entry }
     var dragGestureAnimation: Animation { globalConfig.main.animation.removal }
     var gestureClosingThresholdFactor: CGFloat { globalConfig.bottom.dragGestureProgressToClose }

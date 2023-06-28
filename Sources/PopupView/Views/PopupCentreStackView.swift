@@ -38,7 +38,7 @@ private extension PopupCentreStackView {
             .readHeight(onChange: saveHeight)
             .frame(height: height).frame(maxWidth: .infinity)
             .opacity(contentOpacity)
-            .background(backgroundColour, radius: cornerRadius, corners: .allCorners)
+            .background(backgroundColour, overlayColour: .clear, radius: cornerRadius, corners: .allCorners)
             .padding(.horizontal, config.horizontalPadding)
             .compositingGroup()
             .focusSectionIfAvailable()
