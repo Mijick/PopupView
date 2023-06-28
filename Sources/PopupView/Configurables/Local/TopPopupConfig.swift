@@ -40,12 +40,6 @@ public extension TopPopupConfig {
     func dragGestureEnabled(_ value: Bool) -> Self { changing(path: \.dragGestureEnabled, to: value) }
 }
 
-// MARK: - Actions
-public extension TopPopupConfig {
-    /// Triggers every time the popup is at the top of the stack
-    func onFocus(_ action: @escaping () -> ()) -> Self { changing(path: \.onFocus, to: action) }
-}
-
 
 // MARK: - Internal
 public struct TopPopupConfig: Configurable {
@@ -57,6 +51,4 @@ public struct TopPopupConfig: Configurable {
 
     private(set) var tapOutsideClosesView: Bool? = nil
     private(set) var dragGestureEnabled: Bool? = nil
-
-    private(set) var onFocus: () -> () = {}
 }

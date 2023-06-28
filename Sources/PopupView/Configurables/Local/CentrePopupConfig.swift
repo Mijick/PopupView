@@ -28,12 +28,6 @@ public extension CentrePopupConfig {
     func tapOutsideToDismiss(_ value: Bool) -> Self { changing(path: \.tapOutsideClosesView, to: value) }
 }
 
-// MARK: - Actions
-public extension CentrePopupConfig {
-    /// Triggers every time the popup is at the top of the stack
-    func onFocus(_ action: @escaping () -> ()) -> Self { changing(path: \.onFocus, to: action) }
-}
-
 
 // MARK: - Internal
 public struct CentrePopupConfig: Configurable {
@@ -42,6 +36,4 @@ public struct CentrePopupConfig: Configurable {
     private(set) var horizontalPadding: CGFloat = 12
 
     private(set) var tapOutsideClosesView: Bool? = nil
-
-    private(set) var onFocus: () -> () = {}
 }

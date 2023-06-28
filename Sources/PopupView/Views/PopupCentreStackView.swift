@@ -54,7 +54,6 @@ private extension PopupCentreStackView {
 private extension PopupCentreStackView {
     func onItemsChange(_ items: [AnyPopup<CentrePopupConfig>]) {
         handlePopupChange(items)
-        notifyPopupChange(items)
     }
 }
 private extension PopupCentreStackView {
@@ -64,7 +63,6 @@ private extension PopupCentreStackView {
         showNewPopup(popup)
         animateContentIfNeeded()
     }
-    func notifyPopupChange(_ items: [AnyPopup<CentrePopupConfig>]) { items.last?.configurePopup(popup: .init()).onFocus() }
 }
 private extension PopupCentreStackView {
     func showNewPopup(_ popup: AnyPopup<CentrePopupConfig>) { DispatchQueue.main.async {

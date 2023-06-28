@@ -51,12 +51,6 @@ public extension BottomPopupConfig {
     func dragGestureEnabled(_ value: Bool) -> Self { changing(path: \.dragGestureEnabled, to: value) }
 }
 
-// MARK: - Actions
-public extension BottomPopupConfig {
-    /// Triggers every time the popup is at the top of the stack
-    func onFocus(_ action: @escaping () -> ()) -> Self { changing(path: \.onFocus, to: action) }
-}
-
 
 // MARK: - Internal
 public struct BottomPopupConfig: Configurable {
@@ -71,6 +65,4 @@ public struct BottomPopupConfig: Configurable {
 
     private(set) var tapOutsideClosesView: Bool? = nil
     private(set) var dragGestureEnabled: Bool? = nil
-
-    private(set) var onFocus: () -> () = {}
 }

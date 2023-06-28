@@ -25,7 +25,6 @@ struct PopupBottomStackView: View {
             .background(createTapArea())
             .animation(dragGestureAnimation, value: gestureTranslation)
             .onDragGesture(onChanged: onPopupDragGestureChanged, onEnded: onPopupDragGestureEnded)
-            .onChange(of: items, perform: onItemsChange)
             .onChange(of: screen.size, perform: onScreenChange)
     }
 }
@@ -75,7 +74,6 @@ private extension PopupBottomStackView {
 
 // MARK: - Action Modifiers
 private extension PopupBottomStackView {
-    func onItemsChange(_ items: [AnyPopup<BottomPopupConfig>]) { items.last?.configurePopup(popup: .init()).onFocus() }
     func onScreenChange(_ value: Any) { if let lastItem = items.last { saveHeight(heights[lastItem] ?? .infinity, withAnimation: nil, for: lastItem) }}
 }
 

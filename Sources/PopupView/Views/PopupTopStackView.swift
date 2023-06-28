@@ -25,7 +25,6 @@ struct PopupTopStackView: View {
             .animation(transitionAnimation, value: heights)
             .animation(dragGestureAnimation, value: gestureTranslation)
             .onDragGesture(onChanged: onPopupDragGestureChanged, onEnded: onPopupDragGestureEnded)
-            .onChange(of: items, perform: onItemsChange)
     }
 }
 
@@ -71,12 +70,7 @@ private extension PopupTopStackView {
     }
 }
 
-// MARK: - Action Modifiers
-private extension PopupTopStackView {
-    func onItemsChange(_ items: [AnyPopup<TopPopupConfig>]) { items.last?.configurePopup(popup: .init()).onFocus() }
-}
-
-// MARK: -View Handlers
+// MARK: - View Handlers
 private extension PopupTopStackView {
     func getCornerRadius(for item: AnyPopup<TopPopupConfig>) -> CGFloat {
         if isLast(item) { return cornerRadius }

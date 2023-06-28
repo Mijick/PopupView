@@ -30,6 +30,16 @@ public extension View {
     
 }
 
+public extension View {
+    /// Triggers every time the popup is at the top of the stack
+    func onFocus(_ popup: some Popup, perform action: @escaping () -> ()) -> some View {
+        onReceive(PopupManager.shared.$views) { views in
+            if views.last?.id == popup.id { action() }
+        }
+    }
+}
+
+
 // MARK: - Alignments
 extension View {
     func align(to edge: Edge, _ value: CGFloat?) -> some View { padding(.init(edge), value).frame(maxHeight: value != nil ? .infinity : nil, alignment: edge.toAlignment()) }
