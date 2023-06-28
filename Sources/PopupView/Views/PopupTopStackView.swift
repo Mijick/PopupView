@@ -48,9 +48,8 @@ private extension PopupTopStackView {
             .padding(.trailing, screen.safeArea.right)
             .readHeight { saveHeight($0, for: item) }
             .frame(height: height).frame(maxWidth: .infinity)
-            .background(backgroundColour, radius: getCornerRadius(for: item), corners: getCorners())
+            .background(getBackgroundColour(for: item), overlayColour: overlayColour.opacity(getOverlayOpacity(for: item)), radius: getCornerRadius(for: item), corners: getCorners())
             .padding(.horizontal, config.popupPadding.horizontal)
-            .opacity(getOpacity(for: item))
             .offset(y: getOffset(for: item))
             .scaleEffect(getScale(for: item), anchor: .bottom)
             .compositingGroup()
@@ -93,14 +92,6 @@ private extension PopupTopStackView {
             default: return .allCorners
         }
     }
-    func getOpacity(for item: AnyPopup<TopPopupConfig>) -> Double {
-        if isLast(item) { return 1 }
-        if gestureTranslation.isZero { return  1 - invertedIndex(of: item).doubleValue * opacityFactor }
-
-        let scaleValue = invertedIndex(of: item).doubleValue * opacityFactor
-        let progressDifference = isNextToLast(item) ? 1 - translationProgress() : max(0.6, 1 - translationProgress())
-        return 1 - scaleValue * progressDifference
-    }
     func getScale(for item: AnyPopup<TopPopupConfig>) -> CGFloat {
         if isLast(item) { return 1 }
         if gestureTranslation.isZero { return  1 - invertedIndex(of: item).floatValue * scaleFactor }
@@ -109,6 +100,16 @@ private extension PopupTopStackView {
         let progressDifference = isNextToLast(item) ? 1 - translationProgress() : max(0.7, 1 - translationProgress())
         return 1 - scaleValue * progressDifference
     }
+    func getOverlayOpacity(for item: AnyPopup<TopPopupConfig>) -> Double {
+        if isLast(item) { return 0 }
+        if gestureTranslation.isZero { return invertedIndex(of: item).doubleValue * overlayFactor }
+
+        let scaleValue = invertedIndex(of: item).doubleValue * overlayFactor
+        let translationProgress = 1 - translationProgress()
+        let progressDifference = isNextToLast(item) ? translationProgress : max(0.6, translationProgress)
+        return scaleValue * progressDifference
+    }
+    func getBackgroundColour(for item: AnyPopup<TopPopupConfig>) -> Color { item.configurePopup(popup: .init()).backgroundColour ?? globalConfig.top.backgroundColour }
     func getOffset(for item: AnyPopup<TopPopupConfig>) -> CGFloat { isLast(item) ? gestureTranslation : invertedIndex(of: item).floatValue * offsetFactor }
     func getZIndex(for item: AnyPopup<TopPopupConfig>) -> Double { (items.lastIndex(of: item)?.doubleValue ?? 0) + 1 }
     func saveHeight(_ height: CGFloat, for item: AnyPopup<TopPopupConfig>) { heights[item] = height }
@@ -126,12 +127,12 @@ private extension PopupTopStackView {
     var contentTopPadding: CGFloat { config.contentIgnoresSafeArea ? 0 : max(screen.safeArea.top - topPadding, 0) }
     var topPadding: CGFloat { config.popupPadding.top }
     var height: CGFloat { heights.first { $0.key == items.last }?.value ?? 0 }
-    var opacityFactor: Double { 1 / globalConfig.top.stackLimit.doubleValue }
     var offsetFactor: CGFloat { globalConfig.top.stackOffset }
     var scaleFactor: CGFloat { globalConfig.top.stackScaleFactor }
     var cornerRadius: CGFloat { config.cornerRadius ?? globalConfig.top.cornerRadius }
     var stackedCornerRadius: CGFloat { cornerRadius * globalConfig.top.stackCornerRadiusMultiplier }
-    var backgroundColour: Color { config.backgroundColour ?? globalConfig.top.backgroundColour }
+    var overlayColour: Color { .black }
+    var overlayFactor: Double { 1 / globalConfig.top.stackLimit.doubleValue * 0.5 }
     var transitionAnimation: Animation { globalConfig.main.animation.entry }
     var dragGestureAnimation: Animation { globalConfig.main.animation.removal }
     var gestureClosingThresholdFactor: CGFloat { globalConfig.top.dragGestureProgressToClose }
