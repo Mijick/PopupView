@@ -47,7 +47,7 @@ private extension PopupBottomStackView {
             .padding(.bottom, getContentBottomPadding())
             .padding(.leading, screen.safeArea.left)
             .padding(.trailing, screen.safeArea.right)
-            .fixedSize(horizontal: false, vertical: true)
+            .fixedSize(horizontal: false, vertical: getFixedSize(for: item))
             .readHeight { saveHeight($0, withAnimation: transitionAnimation, for: item) }
             .frame(height: height, alignment: .top).frame(maxWidth: .infinity)
             .background(getBackgroundColour(for: item), overlayColour: overlayColour.opacity(getOverlayOpacity(for: item)), radius: getCornerRadius(for: item), corners: getCorners())
@@ -130,6 +130,10 @@ private extension PopupBottomStackView {
         let translationProgress = 1 - translationProgress()
         let progressDifference = isNextToLast(item) ? translationProgress : max(0.7, translationProgress)
         return scaleValue * progressDifference
+    }
+    func getFixedSize(for item: AnyPopup<BottomPopupConfig>) -> Bool {
+        let config = item.configurePopup(popup: .init())
+        return !(config.contentFillsEntireScreen || config.contentFillsWholeHeight)
     }
     func getBackgroundColour(for item: AnyPopup<BottomPopupConfig>) -> Color { item.configurePopup(popup: .init()).backgroundColour ?? globalConfig.bottom.backgroundColour }
     func getOffset(for item: AnyPopup<BottomPopupConfig>) -> CGFloat { isLast(item) ? gestureTranslation : invertedIndex(of: item).floatValue * offsetFactor }
