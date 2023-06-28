@@ -13,10 +13,11 @@ import Combine
 // MARK: -iOS Implementation
 #if os(iOS)
 class KeyboardManager: ObservableObject {
-    @Published private(set) var keyboardHeight: CGFloat = 0
+    @Published private(set) var height: CGFloat = 0
     private var subscription: [AnyCancellable] = []
 
-    init() { subscribeToKeyboardEvents() }
+    static let shared: KeyboardManager = .init()
+    private init() { subscribeToKeyboardEvents() }
 }
 extension KeyboardManager {
     static func hideKeyboard() { UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil) }
@@ -26,7 +27,7 @@ private extension KeyboardManager {
     func subscribeToKeyboardEvents() {
         Publishers.Merge(getKeyboardWillOpenPublisher(), createKeyboardWillHidePublisher())
             .debounce(for: .milliseconds(50), scheduler: DispatchQueue.main)
-            .sink { self.keyboardHeight = $0 }
+            .sink { self.height = $0 }
             .store(in: &subscription)
     }
 }
@@ -51,7 +52,10 @@ private extension KeyboardManager {
 // MARK: - macOS Implementation
 #if os(macOS)
 class KeyboardManager: ObservableObject {
-    private(set) var keyboardHeight: CGFloat = 0
+    private(set) var height: CGFloat = 0
+
+    static let shared: KeyboardManager = .init()
+    private init() {}
 }
 extension KeyboardManager {
     static func hideKeyboard() { DispatchQueue.main.async { NSApp.keyWindow?.makeFirstResponder(nil) } }
@@ -64,7 +68,10 @@ extension KeyboardManager {
 // MARK: - tvOS Implementation
 #if os(tvOS)
 class KeyboardManager: ObservableObject {
-    private(set) var keyboardHeight: CGFloat = 0
+    private(set) var height: CGFloat = 0
+
+    static let shared: KeyboardManager = .init()
+    private init() {}
 }
 extension KeyboardManager {
     static func hideKeyboard() {}

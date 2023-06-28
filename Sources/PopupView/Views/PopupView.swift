@@ -15,7 +15,6 @@ import SwiftUI
 struct PopupView: View {
     let globalConfig: GlobalConfig
     @ObservedObject private var stack: PopupManager = .shared
-    @StateObject private var keyboardObserver: KeyboardManager = .init()
 
 
     var body: some View {
@@ -31,7 +30,6 @@ struct PopupView: View {
     let rootView: any View
     let globalConfig: GlobalConfig
     @ObservedObject private var stack: PopupManager = .shared
-    @StateObject private var keyboardObserver: KeyboardManager = .init()
 
 
     var body: some View {
@@ -76,7 +74,7 @@ private extension PopupView {
         PopupCentreStackView(items: stack.centre, globalConfig: globalConfig)
     }
     func createBottomPopupStackView() -> some View {
-        PopupBottomStackView(items: stack.bottom, keyboardHeight: keyboardObserver.keyboardHeight, globalConfig: globalConfig)
+        PopupBottomStackView(items: stack.bottom, globalConfig: globalConfig)
     }
 }
 

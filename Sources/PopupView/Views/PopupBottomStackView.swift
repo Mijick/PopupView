@@ -12,9 +12,9 @@ import SwiftUI
 
 struct PopupBottomStackView: View {
     let items: [AnyPopup<BottomPopupConfig>]
-    let keyboardHeight: CGFloat
     let globalConfig: GlobalConfig
     @ObservedObject private var screen: ScreenManager = .shared
+    @ObservedObject private var keyboardManager: KeyboardManager = .shared
     @State private var heights: [AnyPopup<BottomPopupConfig>: CGFloat] = [:]
     @State private var gestureTranslation: CGFloat = 0
 
@@ -115,7 +115,7 @@ private extension PopupBottomStackView {
         return basicHeight - stackedViewsHeight
     }
     func getContentBottomPadding() -> CGFloat {
-        if isKeyboardVisible { return keyboardHeight + (config.distanceFromKeyboard ?? globalConfig.bottom.distanceFromKeyboard) }
+        if isKeyboardVisible { return keyboardManager.height + (config.distanceFromKeyboard ?? globalConfig.bottom.distanceFromKeyboard) }
         if config.contentIgnoresSafeArea { return 0 }
 
         return max(screen.safeArea.bottom - popupBottomPadding, 0)
@@ -161,6 +161,6 @@ private extension PopupBottomStackView {
     var dragGestureAnimation: Animation { globalConfig.main.animation.removal }
     var gestureClosingThresholdFactor: CGFloat { globalConfig.bottom.dragGestureProgressToClose }
     var transition: AnyTransition { .move(edge: .bottom) }
-    var isKeyboardVisible: Bool { keyboardHeight > 0 }
+    var isKeyboardVisible: Bool { keyboardManager.height > 0 }
     var config: BottomPopupConfig { items.last?.configurePopup(popup: .init()) ?? .init() }
 }
