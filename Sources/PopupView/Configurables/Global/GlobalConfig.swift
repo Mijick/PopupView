@@ -8,16 +8,18 @@
 //  Copyright ©2023 Mijick. Licensed under MIT License.
 
 
-public struct GlobalConfig {
-    let main: Main
-    let top: Top
-    let centre: Centre
-    let bottom: Bottom
+public extension GlobalConfig {
+    func main(_ configure: (Main) -> Main) -> GlobalConfig { changing(path: \.main, to: configure(.init())) }
+    func top(_ configure: (Top) -> Top) -> GlobalConfig { changing(path: \.top, to: configure(.init())) }
+    func centre(_ configure: (Centre) -> Centre) -> GlobalConfig { changing(path: \.centre, to: configure(.init())) }
+    func bottom(_ configure: (Bottom) -> Bottom) -> GlobalConfig { changing(path: \.bottom, to: configure(.init())) }
+}
 
-    init(_ mainConfigBuilder: (Main) -> (Main), _ topConfigBuilder: (Top) -> Top, _ centreConfigBuilder: (Centre) -> Centre, _ bottomConfigBuilder: (Bottom) -> Bottom) {
-        self.main = mainConfigBuilder(.init())
-        self.top = topConfigBuilder(.init())
-        self.centre = centreConfigBuilder(.init())
-        self.bottom = bottomConfigBuilder(.init())
-    }
+
+// MARK: - Internal
+public struct GlobalConfig: Configurable {
+    var main: Main = .init()
+    var top: Top = .init()
+    var centre: Centre = .init()
+    var bottom: Bottom = .init()
 }

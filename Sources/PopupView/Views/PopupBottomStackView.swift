@@ -53,6 +53,7 @@ private extension PopupBottomStackView {
             .padding(.horizontal, config.popupPadding.horizontal)
             .offset(y: getOffset(for: item))
             .scaleEffect(getScale(for: item), anchor: .top)
+            .opacity(getOpacity(for: item))
             .compositingGroup()
             .focusSectionIfAvailable()
             .align(to: .bottom, config.contentFillsEntireScreen ? nil : popupBottomPadding)
@@ -133,6 +134,7 @@ private extension PopupBottomStackView {
         let config = item.configurePopup(popup: .init())
         return !(config.contentFillsEntireScreen || config.contentFillsWholeHeight)
     }
+    func getOpacity(for item: AnyPopup<BottomPopupConfig>) -> Double { invertedIndex(of: item) <= globalConfig.bottom.stackLimit ? 1 : 0.000000001 }
     func getBackgroundColour(for item: AnyPopup<BottomPopupConfig>) -> Color { item.configurePopup(popup: .init()).backgroundColour ?? globalConfig.bottom.backgroundColour }
     func getOffset(for item: AnyPopup<BottomPopupConfig>) -> CGFloat { isLast(item) ? gestureTranslation : invertedIndex(of: item).floatValue * offsetFactor }
     func getZIndex(for item: AnyPopup<BottomPopupConfig>) -> Double { (items.lastIndex(of: item)?.doubleValue ?? 0) + 1 }

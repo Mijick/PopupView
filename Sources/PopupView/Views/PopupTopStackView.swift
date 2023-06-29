@@ -51,6 +51,7 @@ private extension PopupTopStackView {
             .padding(.horizontal, config.popupPadding.horizontal)
             .offset(y: getOffset(for: item))
             .scaleEffect(getScale(for: item), anchor: .bottom)
+            .opacity(getOpacity(for: item))
             .compositingGroup()
             .focusSectionIfAvailable()
             .align(to: .top, topPadding)
@@ -103,6 +104,7 @@ private extension PopupTopStackView {
         let progressDifference = isNextToLast(item) ? translationProgress : max(0.6, translationProgress)
         return scaleValue * progressDifference
     }
+    func getOpacity(for item: AnyPopup<TopPopupConfig>) -> Double { invertedIndex(of: item) <= globalConfig.top.stackLimit ? 1 : 0.000000001 }
     func getBackgroundColour(for item: AnyPopup<TopPopupConfig>) -> Color { item.configurePopup(popup: .init()).backgroundColour ?? globalConfig.top.backgroundColour }
     func getOffset(for item: AnyPopup<TopPopupConfig>) -> CGFloat { isLast(item) ? gestureTranslation : invertedIndex(of: item).floatValue * offsetFactor }
     func getZIndex(for item: AnyPopup<TopPopupConfig>) -> Double { (items.lastIndex(of: item)?.doubleValue ?? 0) + 1 }
