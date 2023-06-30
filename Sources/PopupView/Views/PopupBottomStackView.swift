@@ -68,7 +68,7 @@ private extension PopupBottomStackView {
         if config.dragGestureEnabled ?? globalConfig.bottom.dragGestureEnabled { gestureTranslation = max(0, value) }
     }
     func onPopupDragGestureEnded(_ value: CGFloat) {
-        if translationProgress() >= gestureClosingThresholdFactor { items.last?.dismiss() }
+        if translationProgress >= gestureClosingThresholdFactor { items.last?.dismiss() }
         gestureTranslation = 0
     }
 }
@@ -85,7 +85,7 @@ private extension PopupBottomStackView {
         if gestureTranslation.isZero || !isNextToLast(item) { return stackedCornerRadius }
 
         let difference = cornerRadius - stackedCornerRadius
-        let differenceProgress = difference * translationProgress()
+        let differenceProgress = difference * translationProgress
         return stackedCornerRadius + differenceProgress
     }
     func getCorners() -> RectCorner {
@@ -99,7 +99,7 @@ private extension PopupBottomStackView {
         if gestureTranslation.isZero { return  1 - invertedIndex(of: item).floatValue * scaleFactor }
 
         let scaleValue = invertedIndex(of: item).floatValue * scaleFactor
-        let progressDifference = isNextToLast(item) ? 1 - translationProgress() : max(0.7, 1 - translationProgress())
+        let progressDifference = isNextToLast(item) ? 1 - translationProgress : max(0.7, 1 - translationProgress)
         return 1 - scaleValue * progressDifference
     }
     func saveHeight(_ height: CGFloat, withAnimation animation: Animation?, for item: AnyPopup<BottomPopupConfig>) { withAnimation(animation) {
@@ -126,7 +126,7 @@ private extension PopupBottomStackView {
         if gestureTranslation.isZero { return invertedIndex(of: item).doubleValue * overlayFactor }
 
         let scaleValue = invertedIndex(of: item).doubleValue * overlayFactor
-        let translationProgress = 1 - translationProgress()
+        let translationProgress = 1 - translationProgress
         let progressDifference = isNextToLast(item) ? translationProgress : max(0.7, translationProgress)
         return scaleValue * progressDifference
     }
@@ -141,7 +141,6 @@ private extension PopupBottomStackView {
 }
 
 private extension PopupBottomStackView {
-    func translationProgress() -> CGFloat { abs(gestureTranslation) / height }
     func isLast(_ item: AnyPopup<BottomPopupConfig>) -> Bool { items.last == item }
     func isNextToLast(_ item: AnyPopup<BottomPopupConfig>) -> Bool { index(of: item) == items.count - 2 }
     func invertedIndex(of item: AnyPopup<BottomPopupConfig>) -> Int { items.count - 1 - index(of: item) }
@@ -165,4 +164,13 @@ private extension PopupBottomStackView {
     var transition: AnyTransition { .move(edge: .bottom) }
     var isKeyboardVisible: Bool { keyboardManager.height > 0 }
     var config: BottomPopupConfig { items.last?.configurePopup(popup: .init()) ?? .init() }
+
+
+}
+
+
+extension PopupBottomStackView {
+    var stackLimit: Int { globalConfig.bottom.stackLimit }
+    var translationProgress: CGFloat { abs(gestureTranslation) / height }
+    var stackScaleFactor: CGFloat { globalConfig.bottom.stackScaleFactor }
 }
