@@ -42,7 +42,7 @@ private extension PopupTopStackView {
             .padding(.trailing, screen.safeArea.right)
             .readHeight { saveHeight($0, for: item) }
             .frame(height: height).frame(maxWidth: .infinity)
-            .background(getBackgroundColour(for: item), overlayColour: getStackOverlayColour(item), radius: getCornerRadius(for: item), corners: getCorners())
+            .background(getBackgroundColour(for: item), overlayColour: getStackOverlayColour(item), radius: getCornerRadius(item), corners: getCorners())
             .padding(.horizontal, lastPopupConfig.popupPadding.horizontal)
             .offset(y: getOffset(for: item))
             .scaleEffect(getScale(item), anchor: .bottom)
@@ -68,14 +68,6 @@ private extension PopupTopStackView {
 
 // MARK: - View Handlers
 private extension PopupTopStackView {
-    func getCornerRadius(for item: AnyPopup<TopPopupConfig>) -> CGFloat {
-        if isLast(item) { return cornerRadius }
-        if gestureTranslation.isZero || !isNextToLast(item) { return stackedCornerRadius }
-
-        let difference = cornerRadius - stackedCornerRadius
-        let differenceProgress = difference * translationProgress
-        return stackedCornerRadius + differenceProgress
-    }
     func getCorners() -> RectCorner {
         switch topPadding {
             case 0: return [.bottomLeft, .bottomRight]
@@ -94,8 +86,7 @@ private extension PopupTopStackView {
     var topPadding: CGFloat { lastPopupConfig.popupPadding.top }
     var height: CGFloat { heights.first { $0.key == items.last }?.value ?? 0 }
     var offsetFactor: CGFloat { globalConfig.top.stackOffset }
-    var cornerRadius: CGFloat { lastPopupConfig.cornerRadius ?? globalConfig.top.cornerRadius }
-    var stackedCornerRadius: CGFloat { cornerRadius * globalConfig.top.stackCornerRadiusMultiplier }
+
     var transitionAnimation: Animation { globalConfig.main.animation.entry }
     var dragGestureAnimation: Animation { globalConfig.main.animation.removal }
     var gestureClosingThresholdFactor: CGFloat { globalConfig.top.dragGestureProgressToClose }
@@ -108,6 +99,9 @@ extension PopupTopStackView {
     var stackLimit: Int { globalConfig.top.stackLimit }
     var translationProgress: CGFloat { abs(gestureTranslation) / height }
     var stackScaleFactor: CGFloat { globalConfig.top.stackScaleFactor }
+
+    var cornerRadius: CGFloat { lastPopupConfig.cornerRadius ?? globalConfig.top.cornerRadius }
+    var stackedCornerRadius: CGFloat { cornerRadius * globalConfig.top.stackCornerRadiusMultiplier }
 }
 
 
@@ -138,6 +132,8 @@ protocol PopupStack: View {
     var stackLimit: Int { get }
     var translationProgress: CGFloat { get }
     var stackScaleFactor: CGFloat { get }
+    var cornerRadius: CGFloat { get }
+    var stackedCornerRadius: CGFloat { get }
 
 
     associatedtype Config: Configurable
@@ -166,8 +162,21 @@ extension PopupStack {
     var stackLimit: Int { 1 }
     var translationProgress: CGFloat { 1 }
     var stackScaleFactor: CGFloat { 1 }
+    var stackedCornerRadius: CGFloat { 0 }
 }
 
+
+// MARK: - Corner Radius
+extension PopupStack {
+    func getCornerRadius(_ item: AnyPopup<Config>) -> CGFloat {
+        if isLast(item) { return cornerRadius }
+        if translationProgress.isZero || !isNextToLast(item) { return stackedCornerRadius }
+
+        let difference = cornerRadius - stackedCornerRadius
+        let differenceProgress = difference * translationProgress
+        return stackedCornerRadius + differenceProgress
+    }
+}
 
 // MARK: - Scale
 extension PopupStack {
