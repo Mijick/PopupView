@@ -50,7 +50,7 @@ public extension GlobalConfig.Top {
 
 
 // MARK: - Internal
-public extension GlobalConfig { struct Top: Configurable {
+public extension GlobalConfig { struct Top: Configurable { public init() {}
     private(set) var backgroundColour: Color = .white
     private(set) var cornerRadius: CGFloat = 24
 

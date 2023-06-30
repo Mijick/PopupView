@@ -17,7 +17,7 @@ public extension GlobalConfig {
 
 
 // MARK: - Internal
-public struct GlobalConfig: Configurable {
+public struct GlobalConfig: Configurable { public init() {}
     var main: Main = .init()
     var top: Top = .init()
     var centre: Centre = .init()

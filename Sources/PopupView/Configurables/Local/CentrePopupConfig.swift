@@ -30,7 +30,7 @@ public extension CentrePopupConfig {
 
 
 // MARK: - Internal
-public struct CentrePopupConfig: Configurable {
+public struct CentrePopupConfig: Configurable { public init() {}
     private(set) var backgroundColour: Color? = nil
     private(set) var cornerRadius: CGFloat? = nil
     private(set) var horizontalPadding: CGFloat = 12

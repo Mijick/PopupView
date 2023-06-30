@@ -56,7 +56,7 @@ public extension GlobalConfig.Bottom {
 
 
 // MARK: - Internal
-public extension GlobalConfig { struct Bottom: Configurable {
+public extension GlobalConfig { struct Bottom: Configurable { public init() {}
     private(set) var distanceFromKeyboard: CGFloat = 8
 
     private(set) var backgroundColour: Color = .white

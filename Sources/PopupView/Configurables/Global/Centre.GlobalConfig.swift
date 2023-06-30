@@ -39,7 +39,7 @@ public extension GlobalConfig.Centre {
 
 
 // MARK: - Internal
-public extension GlobalConfig { struct Centre: Configurable {
+public extension GlobalConfig { struct Centre: Configurable { public init() {}
     private(set) var backgroundColour: Color = .white
     private(set) var cornerRadius: CGFloat = 24
 

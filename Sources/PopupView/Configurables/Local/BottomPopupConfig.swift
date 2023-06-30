@@ -53,7 +53,7 @@ public extension BottomPopupConfig {
 
 
 // MARK: - Internal
-public struct BottomPopupConfig: Configurable {
+public struct BottomPopupConfig: Configurable { public init() {}
     private(set) var contentIgnoresSafeArea: Bool = false
     private(set) var contentFillsWholeHeight: Bool = false
     private(set) var contentFillsEntireScreen: Bool = false

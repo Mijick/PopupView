@@ -10,7 +10,7 @@
 
 import SwiftUI
 
-struct PopupTopStackView: View {
+struct PopupTopStackView: PopupStack {
     let items: [AnyPopup<TopPopupConfig>]
     let globalConfig: GlobalConfig
     @ObservedObject private var screen: ScreenManager = .shared
@@ -89,34 +89,30 @@ private extension PopupTopStackView {
     }
     func getScale(for item: AnyPopup<TopPopupConfig>) -> CGFloat {
         if isLast(item) { return 1 }
-        if gestureTranslation.isZero { return  1 - invertedIndex(of: item).floatValue * scaleFactor }
+        if gestureTranslation.isZero { return  1 - invertedIndex(item).floatValue * scaleFactor }
 
-        let scaleValue = invertedIndex(of: item).floatValue * scaleFactor
+        let scaleValue = invertedIndex(item).floatValue * scaleFactor
         let progressDifference = isNextToLast(item) ? 1 - translationProgress() : max(0.7, 1 - translationProgress())
         return 1 - scaleValue * progressDifference
     }
     func getOverlayOpacity(for item: AnyPopup<TopPopupConfig>) -> Double {
         if isLast(item) { return 0 }
-        if gestureTranslation.isZero { return invertedIndex(of: item).doubleValue * overlayFactor }
+        if gestureTranslation.isZero { return invertedIndex(item).doubleValue * overlayFactor }
 
-        let scaleValue = invertedIndex(of: item).doubleValue * overlayFactor
+        let scaleValue = invertedIndex(item).doubleValue * overlayFactor
         let translationProgress = 1 - translationProgress()
         let progressDifference = isNextToLast(item) ? translationProgress : max(0.6, translationProgress)
         return scaleValue * progressDifference
     }
-    func getOpacity(for item: AnyPopup<TopPopupConfig>) -> Double { invertedIndex(of: item) <= globalConfig.top.stackLimit ? 1 : 0.000000001 }
+    func getOpacity(for item: AnyPopup<TopPopupConfig>) -> Double { invertedIndex(item) <= globalConfig.top.stackLimit ? 1 : 0.000000001 }
     func getBackgroundColour(for item: AnyPopup<TopPopupConfig>) -> Color { item.configurePopup(popup: .init()).backgroundColour ?? globalConfig.top.backgroundColour }
-    func getOffset(for item: AnyPopup<TopPopupConfig>) -> CGFloat { isLast(item) ? gestureTranslation : invertedIndex(of: item).floatValue * offsetFactor }
+    func getOffset(for item: AnyPopup<TopPopupConfig>) -> CGFloat { isLast(item) ? gestureTranslation : invertedIndex(item).floatValue * offsetFactor }
     func getZIndex(for item: AnyPopup<TopPopupConfig>) -> Double { (items.lastIndex(of: item)?.doubleValue ?? 0) + 1 }
     func saveHeight(_ height: CGFloat, for item: AnyPopup<TopPopupConfig>) { heights[item] = height }
 }
 
 private extension PopupTopStackView {
     func translationProgress() -> CGFloat { abs(gestureTranslation) / height }
-    func isLast(_ item: AnyPopup<TopPopupConfig>) -> Bool { items.last == item }
-    func isNextToLast(_ item: AnyPopup<TopPopupConfig>) -> Bool { index(of: item) == items.count - 2 }
-    func invertedIndex(of item: AnyPopup<TopPopupConfig>) -> Int { items.count - 1 - index(of: item) }
-    func index(of item: AnyPopup<TopPopupConfig>) -> Int { items.firstIndex(of: item) ?? 0 }
 }
 
 private extension PopupTopStackView {
@@ -133,5 +129,51 @@ private extension PopupTopStackView {
     var dragGestureAnimation: Animation { globalConfig.main.animation.removal }
     var gestureClosingThresholdFactor: CGFloat { globalConfig.top.dragGestureProgressToClose }
     var transition: AnyTransition { .move(edge: .top) }
-    var config: TopPopupConfig { items.last?.configurePopup(popup: .init()) ?? .init() }
+    var config: TopPopupConfig { activeConfig }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+protocol PopupStack: View {
+    var items: [AnyPopup<Config>] { get }
+
+    associatedtype Config: Configurable
+
+}
+extension PopupStack {
+    var activeConfig: Config { items.last?.configurePopup(popup: .init()) ?? .init() }
+}
+
+
+extension PopupStack {
+    func getConfig(_ item: AnyPopup<Config>? = nil) -> Config { (item ?? items.last)?.configurePopup(popup: .init()) ?? .init() }
+}
+
+
+
+extension PopupStack {
+    func isLast(_ item: AnyPopup<Config>) -> Bool { items.last == item }
+    func isNextToLast(_ item: AnyPopup<Config>) -> Bool { invertedIndex(item) == 1 }
+    func invertedIndex(_ item: AnyPopup<Config>) -> Int { items.count - 1 - index(item) }
+    func index(_ item: AnyPopup<Config>) -> Int { items.firstIndex(of: item) ?? 0 }
 }

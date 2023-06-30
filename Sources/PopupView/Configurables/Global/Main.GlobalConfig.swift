@@ -23,7 +23,7 @@ public extension GlobalConfig.Main {
 
 
 // MARK: - Internal
-public extension GlobalConfig { struct Main: Configurable {
+public extension GlobalConfig { struct Main: Configurable { public init() {}
     private(set) var overlayColour: Color = .black.opacity(0.44)
 
     private(set) var animation: AnimationType = .spring

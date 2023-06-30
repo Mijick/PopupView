@@ -42,7 +42,7 @@ public extension TopPopupConfig {
 
 
 // MARK: - Internal
-public struct TopPopupConfig: Configurable {
+public struct TopPopupConfig: Configurable { public init() {}
     private(set) var contentIgnoresSafeArea: Bool = false
 
     private(set) var backgroundColour: Color? = nil
