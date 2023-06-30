@@ -21,7 +21,7 @@ struct PopupTopStackView: PopupStack {
     var body: some View {
         ZStack(alignment: .bottom, content: createPopupStack)
             .ignoresSafeArea()
-            .background(createTapArea(if: config.tapOutsideClosesView ?? globalConfig.top.tapOutsideClosesView))
+            .background(createTapArea(if: lastPopupConfig.tapOutsideClosesView ?? globalConfig.top.tapOutsideClosesView))
             .animation(transitionAnimation, value: heights)
             .animation(dragGestureAnimation, value: gestureTranslation)
             .onDragGesture(onChanged: onPopupDragGestureChanged, onEnded: onPopupDragGestureEnded)
@@ -43,7 +43,7 @@ private extension PopupTopStackView {
             .readHeight { saveHeight($0, for: item) }
             .frame(height: height).frame(maxWidth: .infinity)
             .background(getBackgroundColour(for: item), overlayColour: overlayColour.opacity(getOverlayOpacity(for: item)), radius: getCornerRadius(for: item), corners: getCorners())
-            .padding(.horizontal, config.popupPadding.horizontal)
+            .padding(.horizontal, lastPopupConfig.popupPadding.horizontal)
             .offset(y: getOffset(for: item))
             .scaleEffect(getScale(for: item), anchor: .bottom)
             .opacity(getOpacity(for: item))
@@ -58,7 +58,7 @@ private extension PopupTopStackView {
 // MARK: - Gesture Handler
 private extension PopupTopStackView {
     func onPopupDragGestureChanged(_ value: CGFloat) {
-        if config.dragGestureEnabled ?? globalConfig.top.dragGestureEnabled { gestureTranslation = min(0, value) }
+        if lastPopupConfig.dragGestureEnabled ?? globalConfig.top.dragGestureEnabled { gestureTranslation = min(0, value) }
     }
     func onPopupDragGestureEnded(_ value: CGFloat) {
         if translationProgress() >= gestureClosingThresholdFactor { items.last?.dismiss() }
@@ -111,12 +111,12 @@ private extension PopupTopStackView {
 }
 
 private extension PopupTopStackView {
-    var contentTopPadding: CGFloat { config.contentIgnoresSafeArea ? 0 : max(screen.safeArea.top - topPadding, 0) }
-    var topPadding: CGFloat { config.popupPadding.top }
+    var contentTopPadding: CGFloat { lastPopupConfig.contentIgnoresSafeArea ? 0 : max(screen.safeArea.top - topPadding, 0) }
+    var topPadding: CGFloat { lastPopupConfig.popupPadding.top }
     var height: CGFloat { heights.first { $0.key == items.last }?.value ?? 0 }
     var offsetFactor: CGFloat { globalConfig.top.stackOffset }
     var scaleFactor: CGFloat { globalConfig.top.stackScaleFactor }
-    var cornerRadius: CGFloat { config.cornerRadius ?? globalConfig.top.cornerRadius }
+    var cornerRadius: CGFloat { lastPopupConfig.cornerRadius ?? globalConfig.top.cornerRadius }
     var stackedCornerRadius: CGFloat { cornerRadius * globalConfig.top.stackCornerRadiusMultiplier }
     var overlayColour: Color { .black }
     var overlayFactor: Double { 1 / globalConfig.top.stackLimit.doubleValue * 0.5 }
@@ -124,7 +124,6 @@ private extension PopupTopStackView {
     var dragGestureAnimation: Animation { globalConfig.main.animation.removal }
     var gestureClosingThresholdFactor: CGFloat { globalConfig.top.dragGestureProgressToClose }
     var transition: AnyTransition { .move(edge: .top) }
-    var config: TopPopupConfig { activeConfig }
 }
 
 
@@ -156,7 +155,7 @@ protocol PopupStack: View {
 
 }
 extension PopupStack {
-    var activeConfig: Config { items.last?.configurePopup(popup: .init()) ?? .init() }
+    var lastPopupConfig: Config { items.last?.configurePopup(popup: .init()) ?? .init() }
 }
 
 
