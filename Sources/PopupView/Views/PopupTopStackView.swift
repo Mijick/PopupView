@@ -21,7 +21,7 @@ struct PopupTopStackView: PopupStack {
     var body: some View {
         ZStack(alignment: .bottom, content: createPopupStack)
             .ignoresSafeArea()
-            .background(createTapArea())
+            .background(createTapArea(if: config.tapOutsideClosesView ?? globalConfig.top.tapOutsideClosesView))
             .animation(transitionAnimation, value: heights)
             .animation(dragGestureAnimation, value: gestureTranslation)
             .onDragGesture(onChanged: onPopupDragGestureChanged, onEnded: onPopupDragGestureEnded)
@@ -31,11 +31,6 @@ struct PopupTopStackView: PopupStack {
 private extension PopupTopStackView {
     func createPopupStack() -> some View {
         ForEach(items, id: \.self, content: createPopup)
-    }
-    func createTapArea() -> some View {
-        Color.black.opacity(0.00000000001)
-            .onTapGesture(perform: items.last?.dismiss ?? {})
-            .active(if: config.tapOutsideClosesView ?? globalConfig.top.tapOutsideClosesView)
     }
 }
 
@@ -176,4 +171,13 @@ extension PopupStack {
     func isNextToLast(_ item: AnyPopup<Config>) -> Bool { invertedIndex(item) == 1 }
     func invertedIndex(_ item: AnyPopup<Config>) -> Int { items.count - 1 - index(item) }
     func index(_ item: AnyPopup<Config>) -> Int { items.firstIndex(of: item) ?? 0 }
+}
+
+
+
+
+extension PopupStack {
+    @ViewBuilder func createTapArea(if predicate: Bool) -> some View { if predicate {
+        Color.black.opacity(0.00000000001).onTapGesture(perform: items.last?.dismiss ?? {})
+    }}
 }
