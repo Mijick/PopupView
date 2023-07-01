@@ -62,9 +62,7 @@ private extension RoundedCorner {
 }
 
 
-struct RectCorner: OptionSet {
-    let rawValue: Int
-}
+struct RectCorner: OptionSet { let rawValue: Int }
 extension RectCorner {
     static let topLeft = RectCorner(rawValue: 1 << 0)
     static let topRight = RectCorner(rawValue: 1 << 1)

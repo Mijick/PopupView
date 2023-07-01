@@ -10,6 +10,7 @@
 
 import SwiftUI
 
+// MARK: - iOS + macOS Implementation
 #if os(iOS) || os(macOS)
 extension View {
     func onTapGesture(perform action: @escaping () -> ()) -> some View { onTapGesture(count: 1, perform: action) }
@@ -22,12 +23,10 @@ private extension View {
             .onEnded { actionOnEnded($0.translation.height) }
     }
 }
-#endif
 
 
-
-
-#if os(tvOS)
+// MARK: - tvOS Implementation
+#elseif os(tvOS)
 extension View {
     func onTapGesture(perform action: () -> ()) -> some View { self }
     func onDragGesture(onChanged actionOnChanged: (CGFloat) -> (), onEnded actionOnEnded: (CGFloat) -> ()) -> some View { self }
