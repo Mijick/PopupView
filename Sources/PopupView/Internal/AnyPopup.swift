@@ -23,15 +23,12 @@ struct AnyPopup<Config: Configurable>: Popup, Hashable {
     }
 }
 extension AnyPopup {
-    static func == (lhs: AnyPopup<Config>, rhs: AnyPopup<Config>) -> Bool { lhs.id == rhs.id }
-    func hash(into hasher: inout Hasher) { hasher.combine(id) }
-}
-extension AnyPopup {
     func createContent() -> some View { _body }
     func configurePopup(popup: Config) -> Config { _configBuilder(popup) }
 }
 
-
-public protocol TopPopup: Popup { associatedtype Config = TopPopupConfig }
-public protocol CentrePopup: Popup { associatedtype Config = CentrePopupConfig }
-public protocol BottomPopup: Popup { associatedtype Config = BottomPopupConfig }
+// MARK: - Hashable
+extension AnyPopup {
+    static func == (lhs: AnyPopup<Config>, rhs: AnyPopup<Config>) -> Bool { lhs.id == rhs.id }
+    func hash(into hasher: inout Hasher) { hasher.combine(id) }
+}

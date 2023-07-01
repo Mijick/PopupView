@@ -1,5 +1,5 @@
 //
-//  Popup.swift of PopupView
+//  Public+Popup.swift of PopupView
 //
 //  Created by Tomasz Kurylik
 //    - Twitter: https://twitter.com/tkurylik
@@ -10,18 +10,9 @@
 
 import SwiftUI
 
-public protocol Popup: View {
-    associatedtype Config: Configurable
-    associatedtype V: View
-
-    var id: String { get }
-
-    func createContent() -> V
-    func configurePopup(popup: Config) -> Config
-}
-
 // MARK: - Presenting and Dismissing
 public extension Popup {
+
     /// Displays the popup. Stacks previous one
     func showAndStack() { PopupManager.showAndStack(AnyPopup<Config>(self)) }
 
@@ -29,6 +20,7 @@ public extension Popup {
     func showAndReplace() { PopupManager.showAndReplace(AnyPopup<Config>(self)) }
 }
 public extension Popup {
+    
     /// Dismisses the last popup on the stack
     func dismiss() { PopupManager.dismiss() }
 
@@ -42,10 +34,7 @@ public extension Popup {
     func dismissAll() { PopupManager.dismissAll() }
 }
 
-// MARK: - Others
-public extension Popup {
-    var id: String { .init(describing: Self.self) }
-    var body: V { createContent() }
-
-    func configurePopup(popup: Config) -> Config { popup }
-}
+// MARK: - Available Popups
+public protocol TopPopup: Popup { associatedtype Config = TopPopupConfig }
+public protocol CentrePopup: Popup { associatedtype Config = CentrePopupConfig }
+public protocol BottomPopup: Popup { associatedtype Config = BottomPopupConfig }
