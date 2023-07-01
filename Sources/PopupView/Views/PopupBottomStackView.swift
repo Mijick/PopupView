@@ -57,7 +57,7 @@ private extension PopupBottomStackView {
     }
 }
 
-// MARK: - Gesture Handler
+// MARK: - Gesture
 private extension PopupBottomStackView {
     func onPopupDragGestureChanged(_ value: CGFloat) {
         if lastPopupConfig.dragGestureEnabled ?? globalConfig.bottom.dragGestureEnabled { gestureTranslation = max(0, value) }
@@ -73,7 +73,7 @@ private extension PopupBottomStackView {
     func onScreenChange(_ value: Any) { if let lastItem = items.last { saveHeight(heights[lastItem] ?? .infinity, withAnimation: nil, for: lastItem) }}
 }
 
-// MARK: - View Handlers
+// MARK: - View Modifiers
 private extension PopupBottomStackView {
     func getCorners() -> RectCorner {
         switch popupBottomPadding {
@@ -104,14 +104,6 @@ private extension PopupBottomStackView {
     func getBackgroundColour(for item: AnyPopup<BottomPopupConfig>) -> Color { item.configurePopup(popup: .init()).backgroundColour ?? globalConfig.bottom.backgroundColour }
 }
 
-
-private extension PopupBottomStackView {
-    var maxHeightStackedFactor: CGFloat { 0.85 }
-
-    var isKeyboardVisible: Bool { keyboardManager.height > 0 }
-
-}
-
 // MARK: - Flags & Values
 extension PopupBottomStackView {
     var popupBottomPadding: CGFloat { lastPopupConfig.popupPadding.bottom }
@@ -119,6 +111,8 @@ extension PopupBottomStackView {
     var height: CGFloat { heights.first { $0.key == items.last }?.value ?? (lastPopupConfig.contentFillsEntireScreen ? screen.size.height : 0) }
     var distanceFromKeyboard: CGFloat { lastPopupConfig.distanceFromKeyboard ?? globalConfig.bottom.distanceFromKeyboard }
     var cornerRadius: CGFloat { let cornerRadius = lastPopupConfig.cornerRadius ?? globalConfig.bottom.cornerRadius; return lastPopupConfig.contentFillsEntireScreen ? min(cornerRadius, screen.cornerRadius ?? 0) : cornerRadius }
+    var maxHeightStackedFactor: CGFloat { 0.85 }
+    var isKeyboardVisible: Bool { keyboardManager.height > 0 }
 
     var stackLimit: Int { globalConfig.bottom.stackLimit }
     var stackScaleFactor: CGFloat { globalConfig.bottom.stackScaleFactor }
