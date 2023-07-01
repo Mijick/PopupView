@@ -182,7 +182,7 @@ struct SettingsViewModel {
 
 ### 6. Closing popups
 There are two methods to do so:
-- By calling one of the methods `dismiss`, `dismiss(_ popup: Popup.Type)`, `dismissAll` inside the popup you created
+- By calling one of the methods `dismiss`, `dismiss(_ popup: Popup.Type)`, `dismissAll(upTo: Popup.Type)`, `dismissAll` inside the popup you created
 ```Swift
 struct BottomCustomPopup: BottomPopup {
     ...
