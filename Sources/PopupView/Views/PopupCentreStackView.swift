@@ -10,7 +10,7 @@
 
 import SwiftUI
 
-struct PopupCentreStackView: View {
+struct PopupCentreStackView: PopupStack {
     let items: [AnyPopup<CentrePopupConfig>]
     let globalConfig: GlobalConfig
     @ObservedObject private var screen: ScreenManager = .shared
@@ -24,7 +24,7 @@ struct PopupCentreStackView: View {
         createPopup()
             .frame(height: screen.size.height)
             .background(createTapArea())
-            .animation(transitionEntryAnimation, value: config.horizontalPadding)
+            .animation(transitionEntryAnimation, value: lastPopupConfig.horizontalPadding)
             .animation(height == nil ? transitionRemovalAnimation : transitionEntryAnimation, value: height)
             .animation(transitionEntryAnimation, value: contentIsAnimated)
             .transition(getTransition())
@@ -39,18 +39,13 @@ private extension PopupCentreStackView {
             .frame(height: height).frame(maxWidth: .infinity)
             .opacity(contentOpacity)
             .background(backgroundColour, overlayColour: .clear, radius: cornerRadius, corners: .allCorners)
-            .padding(.horizontal, config.horizontalPadding)
+            .padding(.horizontal, lastPopupConfig.horizontalPadding)
             .compositingGroup()
             .focusSectionIfAvailable()
     }
-    func createTapArea() -> some View {
-        Color.black.opacity(0.00000000001)
-            .onTapGesture(perform: items.last?.dismiss ?? {})
-            .active(if: config.tapOutsideClosesView ?? globalConfig.centre.tapOutsideClosesView)
-    }
 }
 
-// MARK: -Logic Handlers
+// MARK: - Logic Modifiers
 private extension PopupCentreStackView {
     func onItemsChange(_ items: [AnyPopup<CentrePopupConfig>]) {
         handlePopupChange(items)
@@ -79,7 +74,7 @@ private extension PopupCentreStackView {
     }}
 }
 
-// MARK: -View Handlers
+// MARK: - View Modifiers
 private extension PopupCentreStackView {
     func saveHeight(_ value: CGFloat) { height = items.isEmpty ? nil : value }
     func getTransition() -> AnyTransition {
@@ -89,12 +84,12 @@ private extension PopupCentreStackView {
     }
 }
 
-private extension PopupCentreStackView {
-    var cornerRadius: CGFloat { config.cornerRadius ?? globalConfig.centre.cornerRadius }
+// MARK: - Flags & Values
+extension PopupCentreStackView {
+    var cornerRadius: CGFloat { lastPopupConfig.cornerRadius ?? globalConfig.centre.cornerRadius }
     var contentOpacity: CGFloat { contentIsAnimated ? 0 : 1 }
     var contentOpacityAnimationTime: CGFloat { globalConfig.centre.contentAnimationTime }
-    var backgroundColour: Color { config.backgroundColour ?? globalConfig.centre.backgroundColour }
-    var transitionEntryAnimation: Animation { globalConfig.main.animation.entry }
-    var transitionRemovalAnimation: Animation { globalConfig.main.animation.removal }
-    var config: CentrePopupConfig { items.last?.configurePopup(popup: .init()) ?? configTemp ?? .init() }
+    var backgroundColour: Color { lastPopupConfig.backgroundColour ?? globalConfig.centre.backgroundColour }
+
+    var tapOutsideClosesPopup: Bool { lastPopupConfig.tapOutsideClosesView ?? globalConfig.bottom.tapOutsideClosesView }
 }
