@@ -15,7 +15,7 @@ struct PopupTopStackView: PopupStack {
     let globalConfig: GlobalConfig
     @ObservedObject private var screen: ScreenManager = .shared
     @State private var heights: [AnyPopup<TopPopupConfig>: CGFloat] = [:]
-    @State private var gestureTranslation: CGFloat = 0
+    @State var gestureTranslation: CGFloat = 0
 
     
     var body: some View {
@@ -44,7 +44,7 @@ private extension PopupTopStackView {
             .frame(height: height).frame(maxWidth: .infinity)
             .background(getBackgroundColour(for: item), overlayColour: getStackOverlayColour(item), radius: getCornerRadius(item), corners: getCorners())
             .padding(.horizontal, lastPopupConfig.popupPadding.horizontal)
-            .offset(y: getOffset(for: item))
+            .offset(y: getOffset(item))
             .scaleEffect(getScale(item), anchor: .bottom)
             .opacity(getOpacity(item))
             .compositingGroup()
@@ -77,7 +77,6 @@ private extension PopupTopStackView {
     func getBackgroundColour(for item: AnyPopup<TopPopupConfig>) -> Color { getConfig(item).backgroundColour ?? globalConfig.top.backgroundColour }
 
     // DO REFAKTORYZACJI //
-    func getOffset(for item: AnyPopup<TopPopupConfig>) -> CGFloat { isLast(item) ? gestureTranslation : invertedIndex(item).floatValue * offsetFactor }
     func getZIndex(for item: AnyPopup<TopPopupConfig>) -> Double { (items.lastIndex(of: item)?.doubleValue ?? 0) + 1 }
     //                  //
 
@@ -89,7 +88,6 @@ private extension PopupTopStackView {
     var contentTopPadding: CGFloat { lastPopupConfig.contentIgnoresSafeArea ? 0 : max(screen.safeArea.top - topPadding, 0) }
     var topPadding: CGFloat { lastPopupConfig.popupPadding.top }
     var height: CGFloat { heights.first { $0.key == items.last }?.value ?? 0 }
-    var offsetFactor: CGFloat { globalConfig.top.stackOffset }
 
     var transitionAnimation: Animation { globalConfig.main.animation.entry }
     var dragGestureAnimation: Animation { globalConfig.main.animation.removal }
@@ -107,6 +105,7 @@ extension PopupTopStackView {
     var cornerRadius: CGFloat { lastPopupConfig.cornerRadius ?? globalConfig.top.cornerRadius }
     var stackedCornerRadius: CGFloat { cornerRadius * globalConfig.top.stackCornerRadiusMultiplier }
     var tapOutsideClosesPopup: Bool { lastPopupConfig.tapOutsideClosesView ?? globalConfig.top.tapOutsideClosesView }
+    var stackOffsetValue: CGFloat { globalConfig.top.stackOffset }
 }
 
 
@@ -140,6 +139,10 @@ protocol PopupStack: View {
     var cornerRadius: CGFloat { get }
     var stackedCornerRadius: CGFloat { get }
     var tapOutsideClosesPopup: Bool { get }
+    var stackOffsetValue: CGFloat { get }
+
+
+    var gestureTranslation: CGFloat { get }
 
 
     associatedtype Config: Configurable
@@ -169,6 +172,7 @@ extension PopupStack {
     var translationProgress: CGFloat { 1 }
     var stackScaleFactor: CGFloat { 1 }
     var stackedCornerRadius: CGFloat { 0 }
+    var stackOffsetValue: CGFloat { 0 }
 }
 
 
@@ -217,6 +221,11 @@ private extension PopupStack {
 // MARK: - Stack Opacity
 extension PopupStack {
     func getOpacity(_ item: AnyPopup<Config>) -> Double { invertedIndex(item) <= stackLimit ? 1 : 0.000000001 }
+}
+
+// MARK: - Stack Offset
+extension PopupStack {
+    func getOffset(_ item: AnyPopup<Config>) -> CGFloat { isLast(item) ? gestureTranslation : invertedIndex(item).floatValue * stackOffsetValue }
 }
 
 
