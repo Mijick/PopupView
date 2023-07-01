@@ -122,49 +122,36 @@ extension PopupTopStackView {
 
 
 protocol PopupStack: View {
-    var items: [AnyPopup<Config>] { get }
-
-
-    var stackLimit: Int { get }
-    var translationProgress: CGFloat { get }
-    var stackScaleFactor: CGFloat { get }
-    var cornerRadius: CGFloat { get }
-    var stackedCornerRadius: CGFloat { get }
-    var tapOutsideClosesPopup: Bool { get }
-    var stackOffsetValue: CGFloat { get }
-
-
-    var gestureTranslation: CGFloat { get }
-
-
     associatedtype Config: Configurable
 
+    var items: [AnyPopup<Config>] { get }
+    var gestureTranslation: CGFloat { get }
+    var translationProgress: CGFloat { get }
+    var cornerRadius: CGFloat { get }
+
+    var stackLimit: Int { get }
+    var stackScaleFactor: CGFloat { get }
+    var stackedCornerRadius: CGFloat { get }
+    var stackOffsetValue: CGFloat { get }
+
+    var tapOutsideClosesPopup: Bool { get }
 }
 extension PopupStack {
-    var lastPopupConfig: Config { items.last?.configurePopup(popup: .init()) ?? .init() }
-}
-
-
-extension PopupStack {
-    func getConfig(_ item: AnyPopup<Config>) -> Config { item.configurePopup(popup: .init()) }
-}
-
-
-
-extension PopupStack {
-    func isLast(_ item: AnyPopup<Config>) -> Bool { items.last == item }
-    func isNextToLast(_ item: AnyPopup<Config>) -> Bool { invertedIndex(item) == 1 }
-    func invertedIndex(_ item: AnyPopup<Config>) -> Int { items.count - 1 - index(item) }
-    func index(_ item: AnyPopup<Config>) -> Int { items.firstIndex(of: item) ?? 0 }
-}
-
-
-extension PopupStack {
-    var stackLimit: Int { 1 }
+    var gestureTranslation: CGFloat { 0 }
     var translationProgress: CGFloat { 1 }
+
+    var stackLimit: Int { 1 }
     var stackScaleFactor: CGFloat { 1 }
     var stackedCornerRadius: CGFloat { 0 }
     var stackOffsetValue: CGFloat { 0 }
+}
+
+
+// MARK: - Tapable Area
+extension PopupStack {
+    @ViewBuilder func createTapArea() -> some View { if tapOutsideClosesPopup {
+        Color.black.opacity(0.00000000001).onTapGesture(perform: items.last?.dismiss ?? {})
+    }}
 }
 
 
@@ -226,18 +213,22 @@ extension PopupStack {
 }
 
 
-
-
-
-
-private extension PopupStack {
-    var remainingTranslationProgress: CGFloat { 1 - translationProgress }
+// MARK: - Configurables
+extension PopupStack {
+    func getConfig(_ item: AnyPopup<Config>) -> Config { item.configurePopup(popup: .init()) }
+}
+extension PopupStack {
+    var lastPopupConfig: Config { items.last?.configurePopup(popup: .init()) ?? .init() }
 }
 
 
-
-extension PopupStack {
-    @ViewBuilder func createTapArea() -> some View { if tapOutsideClosesPopup {
-        Color.black.opacity(0.00000000001).onTapGesture(perform: items.last?.dismiss ?? {})
-    }}
+// MARK: - Helpers
+private extension PopupStack {
+    func isLast(_ item: AnyPopup<Config>) -> Bool { items.last == item }
+    func isNextToLast(_ item: AnyPopup<Config>) -> Bool { invertedIndex(item) == 1 }
+    func invertedIndex(_ item: AnyPopup<Config>) -> Int { items.count - 1 - index(item) }
+    func index(_ item: AnyPopup<Config>) -> Int { items.firstIndex(of: item) ?? 0 }
+}
+private extension PopupStack {
+    var remainingTranslationProgress: CGFloat { 1 - translationProgress }
 }
