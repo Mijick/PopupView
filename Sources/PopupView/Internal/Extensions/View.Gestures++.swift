@@ -1,5 +1,5 @@
 //
-//  Gestures.swift of PopupView
+//  View.Gestures++.swift of PopupView
 //
 //  Created by Tomasz Kurylik
 //    - Twitter: https://twitter.com/tkurylik
