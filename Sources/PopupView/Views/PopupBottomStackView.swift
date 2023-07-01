@@ -41,7 +41,7 @@ private extension PopupBottomStackView {
             .padding(.bottom, getContentBottomPadding())
             .padding(.leading, screen.safeArea.left)
             .padding(.trailing, screen.safeArea.right)
-            .fixedSize(horizontal: false, vertical: getFixedSize(for: item))
+            .fixedSize(horizontal: false, vertical: getFixedSize(item))
             .readHeight { saveHeight($0, withAnimation: transitionEntryAnimation, for: item) }
             .frame(height: height, alignment: .top).frame(maxWidth: .infinity)
             .background(getBackgroundColour(for: item), overlayColour: getStackOverlayColour(item), radius: getCornerRadius(item), corners: getCorners())
@@ -51,7 +51,7 @@ private extension PopupBottomStackView {
             .opacity(getOpacity(item))
             .compositingGroup()
             .focusSectionIfAvailable()
-            .align(to: .bottom, config.contentFillsEntireScreen ? nil : popupBottomPadding)
+            .align(to: .bottom, lastPopupConfig.contentFillsEntireScreen ? nil : popupBottomPadding)
             .transition(transition)
             .zIndex(getZIndex(item))
     }
@@ -60,7 +60,7 @@ private extension PopupBottomStackView {
 // MARK: - Gesture Handler
 private extension PopupBottomStackView {
     func onPopupDragGestureChanged(_ value: CGFloat) {
-        if config.dragGestureEnabled ?? globalConfig.bottom.dragGestureEnabled { gestureTranslation = max(0, value) }
+        if lastPopupConfig.dragGestureEnabled ?? globalConfig.bottom.dragGestureEnabled { gestureTranslation = max(0, value) }
     }
     func onPopupDragGestureEnded(_ value: CGFloat) {
         if translationProgress >= gestureClosingThresholdFactor { items.last?.dismiss() }
@@ -100,10 +100,7 @@ private extension PopupBottomStackView {
 
         return max(screen.safeArea.bottom - popupBottomPadding, 0)
     }
-    func getFixedSize(for item: AnyPopup<BottomPopupConfig>) -> Bool {
-        let config = item.configurePopup(popup: .init())
-        return !(config.contentFillsEntireScreen || config.contentFillsWholeHeight)
-    }
+    func getFixedSize(_ item: AnyPopup<BottomPopupConfig>) -> Bool { !(getConfig(item).contentFillsEntireScreen || getConfig(item).contentFillsWholeHeight) }
     func getBackgroundColour(for item: AnyPopup<BottomPopupConfig>) -> Color { item.configurePopup(popup: .init()).backgroundColour ?? globalConfig.bottom.backgroundColour }
 }
 
@@ -112,8 +109,6 @@ private extension PopupBottomStackView {
     var maxHeightStackedFactor: CGFloat { 0.85 }
 
     var isKeyboardVisible: Bool { keyboardManager.height > 0 }
-    var config: BottomPopupConfig { items.last?.configurePopup(popup: .init()) ?? .init() }
-
 
 }
 
