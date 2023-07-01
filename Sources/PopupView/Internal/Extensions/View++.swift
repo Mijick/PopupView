@@ -10,26 +10,6 @@
 
 import SwiftUI
 
-public extension View {
-    func implementPopupView(config: (GlobalConfig) -> GlobalConfig = { $0 }) -> some View {
-    #if os(iOS) || os(macOS)
-        overlay(PopupView(globalConfig: config(.init())))
-    #elseif os(tvOS)
-        PopupView(rootView: self, globalConfig: config(.init()))
-    #endif
-    }
-}
-
-public extension View {
-    /// Triggers every time the popup is at the top of the stack
-    func onFocus(_ popup: some Popup, perform action: @escaping () -> ()) -> some View {
-        onReceive(PopupManager.shared.$views) { views in
-            if views.last?.id == popup.id { action() }
-        }
-    }
-}
-
-
 // MARK: - Alignments
 extension View {
     func align(to edge: Edge, _ value: CGFloat?) -> some View { padding(.init(edge), value).frame(maxHeight: value != nil ? .infinity : nil, alignment: edge.toAlignment()) }
@@ -45,13 +25,7 @@ fileprivate extension Edge {
     }
 }
 
-// MARK: - Others
-extension View {
-    @ViewBuilder func active(if condition: Bool) -> some View {
-        if condition { self }
-    }
-}
-
+// MARK: - Actions
 extension View {
     func focusSectionIfAvailable() -> some View {
     #if os(iOS) || os(macOS)
@@ -60,4 +34,9 @@ extension View {
         focusSection()
     #endif
     }
+}
+
+// MARK: - Others
+extension View {
+    @ViewBuilder func active(if condition: Bool) -> some View { if condition { self } }
 }

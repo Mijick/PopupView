@@ -1,5 +1,5 @@
 //
-//  Popup++.swift of PopupView
+//  AnyPopup.swift of PopupView
 //
 //  Created by Tomasz Kurylik
 //    - Twitter: https://twitter.com/tkurylik
@@ -9,10 +9,6 @@
 
 
 import SwiftUI
-
-public protocol TopPopup: Popup { associatedtype Config = TopPopupConfig }
-public protocol CentrePopup: Popup { associatedtype Config = CentrePopupConfig }
-public protocol BottomPopup: Popup { associatedtype Config = BottomPopupConfig }
 
 struct AnyPopup<Config: Configurable>: Popup, Hashable {
     let id: String
@@ -34,3 +30,8 @@ extension AnyPopup {
     func createContent() -> some View { _body }
     func configurePopup(popup: Config) -> Config { _configBuilder(popup) }
 }
+
+
+public protocol TopPopup: Popup { associatedtype Config = TopPopupConfig }
+public protocol CentrePopup: Popup { associatedtype Config = CentrePopupConfig }
+public protocol BottomPopup: Popup { associatedtype Config = BottomPopupConfig }
