@@ -46,14 +46,14 @@ private extension PopupBottomStackView {
             .frame(height: height, alignment: .top).frame(maxWidth: .infinity)
             .background(getBackgroundColour(for: item), overlayColour: getStackOverlayColour(item), radius: getCornerRadius(item), corners: getCorners())
             .padding(.horizontal, config.popupPadding.horizontal)
-            .offset(y: getOffset(for: item))
+            .offset(y: getOffset(item))
             .scaleEffect(getScale(item), anchor: .top)
-            .opacity(getOpacity(for: item))
+            .opacity(getOpacity(item))
             .compositingGroup()
             .focusSectionIfAvailable()
             .align(to: .bottom, config.contentFillsEntireScreen ? nil : popupBottomPadding)
             .transition(transition)
-            .zIndex(getZIndex(for: item))
+            .zIndex(getZIndex(item))
     }
 }
 
@@ -104,14 +104,10 @@ private extension PopupBottomStackView {
         let config = item.configurePopup(popup: .init())
         return !(config.contentFillsEntireScreen || config.contentFillsWholeHeight)
     }
-    func getOpacity(for item: AnyPopup<BottomPopupConfig>) -> Double { invertedIndex(of: item) <= globalConfig.bottom.stackLimit ? 1 : 0.000000001 }
     func getBackgroundColour(for item: AnyPopup<BottomPopupConfig>) -> Color { item.configurePopup(popup: .init()).backgroundColour ?? globalConfig.bottom.backgroundColour }
-    func getOffset(for item: AnyPopup<BottomPopupConfig>) -> CGFloat { isLast(item) ? gestureTranslation : invertedIndex(of: item).floatValue * offsetFactor }
-    func getZIndex(for item: AnyPopup<BottomPopupConfig>) -> Double { (items.lastIndex(of: item)?.doubleValue ?? 0) + 1 }
 }
 
 private extension PopupBottomStackView {
-    func isLast(_ item: AnyPopup<BottomPopupConfig>) -> Bool { items.last == item }
     func invertedIndex(of item: AnyPopup<BottomPopupConfig>) -> Int { items.count - 1 - index(of: item) }
     func index(of item: AnyPopup<BottomPopupConfig>) -> Int { items.firstIndex(of: item) ?? 0 }
 }
