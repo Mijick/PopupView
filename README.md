@@ -102,7 +102,7 @@ Installation steps:
     
 # Usage
 ### 1. Setup library
-Inside your `@main` structure call the `implementPopupView` method. It takes three optional arguments - *configTop*, *configCentre*, *configBottom*, that can be used to configure some modifiers for all popups in the application.
+Inside your `@main` structure call the `implementPopupView` method. It takes the optional argument - *config*, that can be used to configure some modifiers for all popups in the application.
 ```Swift
   var body: some Scene {
         WindowGroup(content: ContentView().implementPopupView)
