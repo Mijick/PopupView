@@ -9,7 +9,7 @@
 
 
 public extension GlobalConfig {
-    func main(_ configure: (Main) -> Main) -> GlobalConfig { changing(path: \.main, to: configure(.init())) }
+    func main(_ configure: (Common) -> Common) -> GlobalConfig { changing(path: \.common, to: configure(.init())) }
     func top(_ configure: (Top) -> Top) -> GlobalConfig { changing(path: \.top, to: configure(.init())) }
     func centre(_ configure: (Centre) -> Centre) -> GlobalConfig { changing(path: \.centre, to: configure(.init())) }
     func bottom(_ configure: (Bottom) -> Bottom) -> GlobalConfig { changing(path: \.bottom, to: configure(.init())) }
@@ -18,7 +18,7 @@ public extension GlobalConfig {
 
 // MARK: - Internal
 public struct GlobalConfig: Configurable { public init() {}
-    var main: Main = .init()
+    var common: Common = .init()
     var top: Top = .init()
     var centre: Centre = .init()
     var bottom: Bottom = .init()

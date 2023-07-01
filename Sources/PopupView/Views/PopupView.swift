@@ -53,7 +53,7 @@ private extension PopupView {
             createCentrePopupStackView()
             createBottomPopupStackView()
         }
-        .animation(stack.presenting ? globalConfig.main.animation.entry : globalConfig.main.animation.removal, value: stack.views.map(\.id))
+        .animation(stack.presenting ? globalConfig.common.animation.entry : globalConfig.common.animation.removal, value: stack.views.map(\.id))
     }
     func createOverlay() -> some View {
         overlayColour
@@ -76,6 +76,6 @@ private extension PopupView {
 }
 
 private extension PopupView {
-    var overlayColour: Color { globalConfig.main.overlayColour }
+    var overlayColour: Color { globalConfig.common.overlayColour }
     var overlayAnimation: Animation { .easeInOut(duration: 0.44) }
 }

@@ -108,8 +108,8 @@ extension PopupStack {
 
 // MARK: - Animations
 extension PopupStack {
-    var transitionEntryAnimation: Animation { globalConfig.main.animation.entry }
-    var transitionRemovalAnimation: Animation { globalConfig.main.animation.removal }
+    var transitionEntryAnimation: Animation { globalConfig.common.animation.entry }
+    var transitionRemovalAnimation: Animation { globalConfig.common.animation.removal }
 }
 
 // MARK: - Configurables
