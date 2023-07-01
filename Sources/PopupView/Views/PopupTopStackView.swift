@@ -13,9 +13,9 @@ import SwiftUI
 struct PopupTopStackView: PopupStack {
     let items: [AnyPopup<TopPopupConfig>]
     let globalConfig: GlobalConfig
-    @ObservedObject private var screen: ScreenManager = .shared
-    @State private var heights: [AnyPopup<TopPopupConfig>: CGFloat] = [:]
     @State var gestureTranslation: CGFloat = 0
+    @State var heights: [AnyPopup<TopPopupConfig>: CGFloat] = [:]
+    @ObservedObject private var screen: ScreenManager = .shared
 
     
     var body: some View {
@@ -49,13 +49,13 @@ private extension PopupTopStackView {
             .opacity(getOpacity(item))
             .compositingGroup()
             .focusSectionIfAvailable()
-            .align(to: .top, topPadding)
+            .align(to: .top, popupTopPadding)
             .transition(transition)
-            .zIndex(getZIndex(for: item))
+            .zIndex(getZIndex(item))
     }
 }
 
-// MARK: - Gesture Handler
+// MARK: - Gestures
 private extension PopupTopStackView {
     func onPopupDragGestureChanged(_ value: CGFloat) {
         if lastPopupConfig.dragGestureEnabled ?? globalConfig.top.dragGestureEnabled { gestureTranslation = min(0, value) }
@@ -66,46 +66,38 @@ private extension PopupTopStackView {
     }
 }
 
-// MARK: - View Handlers
+// MARK: - View Modifiers
 private extension PopupTopStackView {
     func getCorners() -> RectCorner {
-        switch topPadding {
+        switch popupTopPadding {
             case 0: return [.bottomLeft, .bottomRight]
             default: return .allCorners
         }
     }
     func getBackgroundColour(for item: AnyPopup<TopPopupConfig>) -> Color { getConfig(item).backgroundColour ?? globalConfig.top.backgroundColour }
-
-    // DO REFAKTORYZACJI //
-    func getZIndex(for item: AnyPopup<TopPopupConfig>) -> Double { (items.lastIndex(of: item)?.doubleValue ?? 0) + 1 }
-    //                  //
-
-
     func saveHeight(_ height: CGFloat, for item: AnyPopup<TopPopupConfig>) { heights[item] = height }
 }
 
-private extension PopupTopStackView {
-    var contentTopPadding: CGFloat { lastPopupConfig.contentIgnoresSafeArea ? 0 : max(screen.safeArea.top - topPadding, 0) }
-    var topPadding: CGFloat { lastPopupConfig.popupPadding.top }
+// MARK: - Flags & Values
+extension PopupTopStackView {
+    var contentTopPadding: CGFloat { lastPopupConfig.contentIgnoresSafeArea ? 0 : max(screen.safeArea.top - popupTopPadding, 0) }
+    var popupTopPadding: CGFloat { lastPopupConfig.popupPadding.top }
     var height: CGFloat { heights.first { $0.key == items.last }?.value ?? 0 }
+    var cornerRadius: CGFloat { lastPopupConfig.cornerRadius ?? globalConfig.top.cornerRadius }
+
+    var stackLimit: Int { globalConfig.top.stackLimit }
+    var stackScaleFactor: CGFloat { globalConfig.top.stackScaleFactor }
+    var stackOffsetValue: CGFloat { globalConfig.top.stackOffset }
+    var stackedCornerRadius: CGFloat { cornerRadius * globalConfig.top.stackCornerRadiusMultiplier }
+
+    var translationProgress: CGFloat { abs(gestureTranslation) / height }
+    var gestureClosingThresholdFactor: CGFloat { globalConfig.top.dragGestureProgressToClose }
 
     var transitionAnimation: Animation { globalConfig.main.animation.entry }
     var dragGestureAnimation: Animation { globalConfig.main.animation.removal }
-    var gestureClosingThresholdFactor: CGFloat { globalConfig.top.dragGestureProgressToClose }
     var transition: AnyTransition { .move(edge: .top) }
-}
 
-
-
-extension PopupTopStackView {
-    var stackLimit: Int { globalConfig.top.stackLimit }
-    var translationProgress: CGFloat { abs(gestureTranslation) / height }
-    var stackScaleFactor: CGFloat { globalConfig.top.stackScaleFactor }
-
-    var cornerRadius: CGFloat { lastPopupConfig.cornerRadius ?? globalConfig.top.cornerRadius }
-    var stackedCornerRadius: CGFloat { cornerRadius * globalConfig.top.stackCornerRadiusMultiplier }
     var tapOutsideClosesPopup: Bool { lastPopupConfig.tapOutsideClosesView ?? globalConfig.top.tapOutsideClosesView }
-    var stackOffsetValue: CGFloat { globalConfig.top.stackOffset }
 }
 
 
@@ -226,6 +218,11 @@ extension PopupStack {
 // MARK: - Stack Offset
 extension PopupStack {
     func getOffset(_ item: AnyPopup<Config>) -> CGFloat { isLast(item) ? gestureTranslation : invertedIndex(item).floatValue * stackOffsetValue }
+}
+
+// MARK: - Z Index
+extension PopupStack {
+    func getZIndex(_ item: AnyPopup<Config>) -> Double { index(item).doubleValue + 1 }
 }
 
 
