@@ -55,13 +55,10 @@ fileprivate extension UIScreen {
 fileprivate extension UIScreen {
     static let cornerRadiusKey: String = ["Radius", "Corner", "display", "_"].reversed().joined()
 }
-#endif
-
-
 
 
 // MARK: - macOS Implementation
-#if os(macOS)
+#elseif os(macOS)
 class ScreenManager: ObservableObject {
     @Published private(set) var size: CGSize = NSScreen.size
     @Published private(set) var safeArea: NSEdgeInsets = NSScreen.safeArea
@@ -98,13 +95,10 @@ fileprivate extension NSScreen {
     static var size: CGSize = NSApplication.shared.mainWindow?.frame.size ?? .zero
     static var cornerRadius: CGFloat = 0
 }
-#endif
-
-
 
 
 // MARK: - tvOS Implementation
-#if os(tvOS)
+#elseif os(tvOS)
 class ScreenManager: ObservableObject {
     @Published private(set) var size: CGSize = UIScreen.size
     @Published private(set) var safeArea: UIEdgeInsets = UIScreen.safeArea

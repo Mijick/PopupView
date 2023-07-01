@@ -10,13 +10,16 @@
 
 import SwiftUI
 
+// MARK: - Presenting and Dismissing
 public extension PopupManager {
-
+    
     /// Displays the popup. Stacks previous one
     static func showAndStack(_ popup: some Popup) { performOperation(.insertAndStack(popup)) }
 
     /// Displays the popup. Closes previous one
     static func showAndReplace(_ popup: some Popup) { performOperation(.insertAndReplace(popup)) }
+}
+public extension PopupManager {
 
     /// Dismisses last popup on the stack
     static func dismiss() { performOperation(.removeLast) }
@@ -73,9 +76,7 @@ fileprivate extension [any Popup] {
     }
 }
 private extension [any Popup] {
-    func hideKeyboard() {
-        KeyboardManager.hideKeyboard()
-    }
+    func hideKeyboard() { KeyboardManager.hideKeyboard() }
     mutating func performOperation(_ operation: Operation) {
         switch operation {
             case .insertAndReplace(let popup): replaceLast(popup, if: canBeInserted(popup))

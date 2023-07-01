@@ -11,13 +11,13 @@
 import SwiftUI
 
 public extension View {
-
-#if os(iOS) || os(macOS)
-    func implementPopupView(config: (GlobalConfig) -> GlobalConfig = { $0 }) -> some View { overlay(PopupView(globalConfig: config(.init()))) }
-#elseif os(tvOS)
-    func implementPopupView(config: (GlobalConfig) -> GlobalConfig = { $0 }) -> some View { PopupView(rootView: self, globalConfig: config(.init())) }
-#endif
-    
+    func implementPopupView(config: (GlobalConfig) -> GlobalConfig = { $0 }) -> some View {
+    #if os(iOS) || os(macOS)
+        overlay(PopupView(globalConfig: config(.init())))
+    #elseif os(tvOS)
+        PopupView(rootView: self, globalConfig: config(.init()))
+    #endif
+    }
 }
 
 public extension View {
@@ -53,11 +53,11 @@ extension View {
 }
 
 extension View {
-
-#if os(iOS) || os(macOS)
-    func focusSectionIfAvailable() -> some View { self }
-#elseif os(tvOS)
-    func focusSectionIfAvailable() -> some View { focusSection() }
-#endif
-
+    func focusSectionIfAvailable() -> some View {
+    #if os(iOS) || os(macOS)
+        self
+    #elseif os(tvOS)
+        focusSection()
+    #endif
+    }
 }
