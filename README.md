@@ -25,14 +25,14 @@
 <p align="center">
     <img alt="SwiftUI logo" src="https://github.com/Mijick/PopupView/assets/23524947/4ad7cce0-3efc-473b-bc41-9512aab2b26d.svg"/>
     <img alt="Platforms: iOS, iPadOS, macOS, tvOS" src="https://github.com/Mijick/PopupView/assets/23524947/83f8ebf0-c083-4690-8ce7-4117af7c2e8e.svg"/>
-    <img alt="Release: 1.9.0" src="https://github.com/Mijick/PopupView/assets/23524947/3598ec24-928c-426d-a7b1-2b92662a418c.svg"/>
+    <img alt="Release: 2.0.0" src="https://github.com/Mijick/PopupView/assets/23524947/6d916616-ad05-4079-ba92-4dab8d7c14a8.svg"/>
     <img alt="Compatible: Swift Package Manager, Cocoapods" src="https://github.com/Mijick/PopupView/assets/23524947/b54d3a61-1f4c-4a74-99d4-9b81418a70ae.svg"/>
     <img alt="License: MIT" src="https://github.com/Mijick/PopupView/assets/23524947/e3e47658-8ccd-4532-8121-fbf15853e725.svg"/>
 </p>
 
 <p align="center">
     <a href="https://github.com/Mijick/PopupView/stargazers">
-        <img alt="Stars" src="https://github.com/Mijick/PopupView/assets/23524947/43d335a7-fc5a-4521-bbb8-f183e18ecd94"/>
+        <img alt="Stargazers" src="https://github.com/Mijick/PopupView/assets/23524947/f58b4257-65f2-4a83-ab0a-5b6bc26fe773"/>
     </a>                                                                                                              
     <a href="https://twitter.com/MijickTeam">
         <img alt="Follow us on Twitter" src="https://github.com/Mijick/PopupView/assets/23524947/26c8f5fc-1162-4721-a514-10ef17833021"/>
