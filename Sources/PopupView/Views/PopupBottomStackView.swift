@@ -23,7 +23,7 @@ struct PopupBottomStackView: PopupStack {
         ZStack(alignment: .top, content: createPopupStack)
             .ignoresSafeArea()
             .background(createTapArea())
-            .animation(dragGestureAnimation, value: gestureTranslation)
+            .animation(transitionRemovalAnimation, value: gestureTranslation)
             .onDragGesture(onChanged: onPopupDragGestureChanged, onEnded: onPopupDragGestureEnded)
             .onChange(of: screen.size, perform: onScreenChange)
     }
@@ -42,7 +42,7 @@ private extension PopupBottomStackView {
             .padding(.leading, screen.safeArea.left)
             .padding(.trailing, screen.safeArea.right)
             .fixedSize(horizontal: false, vertical: getFixedSize(for: item))
-            .readHeight { saveHeight($0, withAnimation: transitionAnimation, for: item) }
+            .readHeight { saveHeight($0, withAnimation: transitionEntryAnimation, for: item) }
             .frame(height: height, alignment: .top).frame(maxWidth: .infinity)
             .background(getBackgroundColour(for: item), overlayColour: overlayColour.opacity(getOverlayOpacity(for: item)), radius: getCornerRadius(item), corners: getCorners())
             .padding(.horizontal, config.popupPadding.horizontal)
@@ -75,14 +75,6 @@ private extension PopupBottomStackView {
 
 // MARK: - View Handlers
 private extension PopupBottomStackView {
-    func getCornerRadius(for item: AnyPopup<BottomPopupConfig>) -> CGFloat {
-        if isLast(item) { return min(config.contentFillsEntireScreen ? screen.cornerRadius ?? 32 : .infinity, cornerRadius) }
-        if gestureTranslation.isZero || !isNextToLast(item) { return stackedCornerRadius }
-
-        let difference = cornerRadius - stackedCornerRadius
-        let differenceProgress = difference * translationProgress
-        return stackedCornerRadius + differenceProgress
-    }
     func getCorners() -> RectCorner {
         switch popupBottomPadding {
             case 0: return [.topLeft, .topRight]
@@ -167,13 +159,10 @@ extension PopupBottomStackView {
     var stackLimit: Int { globalConfig.bottom.stackLimit }
     var stackScaleFactor: CGFloat { globalConfig.bottom.stackScaleFactor }
     var stackOffsetValue: CGFloat { -globalConfig.bottom.stackOffset }
-    var stackedCornerRadius: CGFloat { cornerRadius * globalConfig.bottom.stackCornerRadiusMultiplier }
+    var stackCornerRadiusMultiplier: CGFloat { globalConfig.bottom.stackCornerRadiusMultiplier }
 
     var translationProgress: CGFloat { abs(gestureTranslation) / height }
     var gestureClosingThresholdFactor: CGFloat { globalConfig.bottom.dragGestureProgressToClose }
-
-    var transitionAnimation: Animation { globalConfig.main.animation.entry }
-    var dragGestureAnimation: Animation { globalConfig.main.animation.removal }
     var transition: AnyTransition { .move(edge: .bottom) }
 
     var tapOutsideClosesPopup: Bool { config.tapOutsideClosesView ?? globalConfig.bottom.tapOutsideClosesView }
