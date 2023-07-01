@@ -47,7 +47,7 @@ private extension PopupBottomStackView {
             .background(getBackgroundColour(for: item), overlayColour: getStackOverlayColour(item), radius: getCornerRadius(item), corners: getCorners())
             .padding(.horizontal, config.popupPadding.horizontal)
             .offset(y: getOffset(for: item))
-            .scaleEffect(getScale(for: item), anchor: .top)
+            .scaleEffect(getScale(item), anchor: .top)
             .opacity(getOpacity(for: item))
             .compositingGroup()
             .focusSectionIfAvailable()
@@ -81,14 +81,6 @@ private extension PopupBottomStackView {
             default: return .allCorners
         }
     }
-    func getScale(for item: AnyPopup<BottomPopupConfig>) -> CGFloat {
-        if isLast(item) { return 1 }
-        if gestureTranslation.isZero { return  1 - invertedIndex(of: item).floatValue * scaleFactor }
-
-        let scaleValue = invertedIndex(of: item).floatValue * scaleFactor
-        let progressDifference = isNextToLast(item) ? 1 - translationProgress : max(0.7, 1 - translationProgress)
-        return 1 - scaleValue * progressDifference
-    }
     func saveHeight(_ height: CGFloat, withAnimation animation: Animation?, for item: AnyPopup<BottomPopupConfig>) { withAnimation(animation) {
         let config = item.configurePopup(popup: .init())
 
@@ -120,7 +112,6 @@ private extension PopupBottomStackView {
 
 private extension PopupBottomStackView {
     func isLast(_ item: AnyPopup<BottomPopupConfig>) -> Bool { items.last == item }
-    func isNextToLast(_ item: AnyPopup<BottomPopupConfig>) -> Bool { index(of: item) == items.count - 2 }
     func invertedIndex(of item: AnyPopup<BottomPopupConfig>) -> Int { items.count - 1 - index(of: item) }
     func index(of item: AnyPopup<BottomPopupConfig>) -> Int { items.firstIndex(of: item) ?? 0 }
 }
@@ -128,8 +119,6 @@ private extension PopupBottomStackView {
 private extension PopupBottomStackView {
     var maxHeightStackedFactor: CGFloat { 0.85 }
     var offsetFactor: CGFloat { -globalConfig.bottom.stackOffset }
-    var scaleFactor: CGFloat { globalConfig.bottom.stackScaleFactor }
-
 
 
 
