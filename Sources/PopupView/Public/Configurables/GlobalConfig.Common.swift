@@ -12,6 +12,7 @@ import SwiftUI
 
 // MARK: - Overlay
 public extension GlobalConfig.Common {
+    /// Colour of the overlay covering the view behind the popup
     func overlayColour(_ value: Color) -> Self { changing(path: \.overlayColour, to: value) }
 }
 

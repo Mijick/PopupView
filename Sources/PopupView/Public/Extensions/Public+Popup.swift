@@ -12,7 +12,6 @@ import SwiftUI
 
 // MARK: - Presenting and Dismissing
 public extension Popup {
-
     /// Displays the popup. Stacks previous one
     func showAndStack() { PopupManager.showAndStack(AnyPopup<Config>(self)) }
 
@@ -20,7 +19,6 @@ public extension Popup {
     func showAndReplace() { PopupManager.showAndReplace(AnyPopup<Config>(self)) }
 }
 public extension Popup {
-    
     /// Dismisses the last popup on the stack
     func dismiss() { PopupManager.dismiss() }
 
