@@ -108,7 +108,7 @@ private extension PopupBottomStackView {
 extension PopupBottomStackView {
     var popupBottomPadding: CGFloat { lastPopupConfig.popupPadding.bottom }
     var popupHorizontalPadding: CGFloat { lastPopupConfig.popupPadding.horizontal }
-    var height: CGFloat { heights.first { $0.key == items.last }?.value ?? (lastPopupConfig.contentFillsEntireScreen ? screen.size.height : 0) }
+    var height: CGFloat { heights.first { $0.key == items.last }?.value ?? (lastPopupConfig.contentFillsEntireScreen ? screen.size.height : getInitialHeight()) }
     var distanceFromKeyboard: CGFloat { lastPopupConfig.distanceFromKeyboard ?? globalConfig.bottom.distanceFromKeyboard }
     var cornerRadius: CGFloat { let cornerRadius = lastPopupConfig.cornerRadius ?? globalConfig.bottom.cornerRadius; return lastPopupConfig.contentFillsEntireScreen ? min(cornerRadius, screen.cornerRadius ?? 0) : cornerRadius }
     var maxHeightStackedFactor: CGFloat { 0.85 }

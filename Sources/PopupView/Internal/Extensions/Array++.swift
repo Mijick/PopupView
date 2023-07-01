@@ -21,3 +21,6 @@ extension Array {
         }
     }}
 }
+extension Array {
+    var nextToLast: Element? { count >= 2 ? self[count - 2] : nil }
+}

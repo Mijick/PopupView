@@ -82,7 +82,7 @@ private extension PopupTopStackView {
 extension PopupTopStackView {
     var contentTopPadding: CGFloat { lastPopupConfig.contentIgnoresSafeArea ? 0 : max(screen.safeArea.top - popupTopPadding, 0) }
     var popupTopPadding: CGFloat { lastPopupConfig.popupPadding.top }
-    var height: CGFloat { heights.first { $0.key == items.last }?.value ?? 0 }
+    var height: CGFloat { heights.first { $0.key == items.last }?.value ?? getInitialHeight() }
     var cornerRadius: CGFloat { lastPopupConfig.cornerRadius ?? globalConfig.top.cornerRadius }
 
     var stackLimit: Int { globalConfig.top.stackLimit }
