@@ -49,7 +49,7 @@ extension PopupStack {
 extension PopupStack {
     func getCornerRadius(_ item: AnyPopup<Config>) -> CGFloat {
         if isLast(item) { return cornerRadius }
-        if translationProgress.isZero || !isNextToLast(item) { return stackedCornerRadius }
+        if translationProgress.isZero || translationProgress.isNaN || !isNextToLast(item) { return stackedCornerRadius }
 
         let difference = cornerRadius - stackedCornerRadius
         let differenceProgress = difference * translationProgress
