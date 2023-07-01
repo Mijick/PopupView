@@ -45,7 +45,7 @@ private extension PopupBottomStackView {
             .readHeight { saveHeight($0, withAnimation: transitionEntryAnimation, for: item) }
             .frame(height: height, alignment: .top).frame(maxWidth: .infinity)
             .background(getBackgroundColour(for: item), overlayColour: getStackOverlayColour(item), radius: getCornerRadius(item), corners: getCorners())
-            .padding(.horizontal, config.popupPadding.horizontal)
+            .padding(.horizontal, popupHorizontalPadding)
             .offset(y: getOffset(item))
             .scaleEffect(getScale(item), anchor: .top)
             .opacity(getOpacity(item))
@@ -95,8 +95,8 @@ private extension PopupBottomStackView {
         return basicHeight - stackedViewsHeight
     }
     func getContentBottomPadding() -> CGFloat {
-        if isKeyboardVisible { return keyboardManager.height + (config.distanceFromKeyboard ?? globalConfig.bottom.distanceFromKeyboard) }
-        if config.contentIgnoresSafeArea { return 0 }
+        if isKeyboardVisible { return keyboardManager.height + distanceFromKeyboard }
+        if lastPopupConfig.contentIgnoresSafeArea { return 0 }
 
         return max(screen.safeArea.bottom - popupBottomPadding, 0)
     }
@@ -119,8 +119,10 @@ private extension PopupBottomStackView {
 
 // MARK: - Flags & Values
 extension PopupBottomStackView {
-    var popupBottomPadding: CGFloat { config.popupPadding.bottom }
-    var height: CGFloat { heights.first { $0.key == items.last }?.value ?? (config.contentFillsEntireScreen ? screen.size.height : 0) }
+    var popupBottomPadding: CGFloat { lastPopupConfig.popupPadding.bottom }
+    var popupHorizontalPadding: CGFloat { lastPopupConfig.popupPadding.horizontal }
+    var height: CGFloat { heights.first { $0.key == items.last }?.value ?? (lastPopupConfig.contentFillsEntireScreen ? screen.size.height : 0) }
+    var distanceFromKeyboard: CGFloat { lastPopupConfig.distanceFromKeyboard ?? globalConfig.bottom.distanceFromKeyboard }
     var cornerRadius: CGFloat { let cornerRadius = lastPopupConfig.cornerRadius ?? globalConfig.bottom.cornerRadius; return lastPopupConfig.contentFillsEntireScreen ? min(cornerRadius, screen.cornerRadius ?? 0) : cornerRadius }
 
     var stackLimit: Int { globalConfig.bottom.stackLimit }
@@ -132,5 +134,5 @@ extension PopupBottomStackView {
     var gestureClosingThresholdFactor: CGFloat { globalConfig.bottom.dragGestureProgressToClose }
     var transition: AnyTransition { .move(edge: .bottom) }
 
-    var tapOutsideClosesPopup: Bool { config.tapOutsideClosesView ?? globalConfig.bottom.tapOutsideClosesView }
+    var tapOutsideClosesPopup: Bool { lastPopupConfig.tapOutsideClosesView ?? globalConfig.bottom.tapOutsideClosesView }
 }
