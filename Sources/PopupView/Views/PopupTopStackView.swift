@@ -22,8 +22,8 @@ struct PopupTopStackView: PopupStack {
         ZStack(alignment: .bottom, content: createPopupStack)
             .ignoresSafeArea()
             .background(createTapArea())
-            .animation(transitionAnimation, value: heights)
-            .animation(dragGestureAnimation, value: gestureTranslation)
+            .animation(transitionEntryAnimation, value: heights)
+            .animation(transitionRemovalAnimation, value: gestureTranslation)
             .onDragGesture(onChanged: onPopupDragGestureChanged, onEnded: onPopupDragGestureEnded)
     }
 }
@@ -88,13 +88,10 @@ extension PopupTopStackView {
     var stackLimit: Int { globalConfig.top.stackLimit }
     var stackScaleFactor: CGFloat { globalConfig.top.stackScaleFactor }
     var stackOffsetValue: CGFloat { globalConfig.top.stackOffset }
-    var stackedCornerRadius: CGFloat { cornerRadius * globalConfig.top.stackCornerRadiusMultiplier }
+    var stackCornerRadiusMultiplier: CGFloat { globalConfig.top.stackCornerRadiusMultiplier }
 
     var translationProgress: CGFloat { abs(gestureTranslation) / height }
     var gestureClosingThresholdFactor: CGFloat { globalConfig.top.dragGestureProgressToClose }
-
-    var transitionAnimation: Animation { globalConfig.main.animation.entry }
-    var dragGestureAnimation: Animation { globalConfig.main.animation.removal }
     var transition: AnyTransition { .move(edge: .top) }
 
     var tapOutsideClosesPopup: Bool { lastPopupConfig.tapOutsideClosesView ?? globalConfig.top.tapOutsideClosesView }

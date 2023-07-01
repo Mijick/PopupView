@@ -14,13 +14,14 @@ protocol PopupStack: View {
     associatedtype Config: Configurable
 
     var items: [AnyPopup<Config>] { get }
+    var globalConfig: GlobalConfig { get }
     var gestureTranslation: CGFloat { get }
     var translationProgress: CGFloat { get }
     var cornerRadius: CGFloat { get }
 
     var stackLimit: Int { get }
     var stackScaleFactor: CGFloat { get }
-    var stackedCornerRadius: CGFloat { get }
+    var stackCornerRadiusMultiplier: CGFloat { get }
     var stackOffsetValue: CGFloat { get }
 
     var tapOutsideClosesPopup: Bool { get }
@@ -31,7 +32,7 @@ extension PopupStack {
 
     var stackLimit: Int { 1 }
     var stackScaleFactor: CGFloat { 1 }
-    var stackedCornerRadius: CGFloat { 0 }
+    var stackCornerRadiusMultiplier: CGFloat { 0 }
     var stackOffsetValue: CGFloat { 0 }
 }
 
@@ -54,6 +55,9 @@ extension PopupStack {
         let differenceProgress = difference * translationProgress
         return stackedCornerRadius + differenceProgress
     }
+}
+private extension PopupStack {
+    var stackedCornerRadius: CGFloat { cornerRadius * stackCornerRadiusMultiplier }
 }
 
 // MARK: - Scale
@@ -102,11 +106,15 @@ extension PopupStack {
 }
 
 
+// MARK: - Animations
+extension PopupStack {
+    var transitionEntryAnimation: Animation { globalConfig.main.animation.entry }
+    var transitionRemovalAnimation: Animation { globalConfig.main.animation.removal }
+}
+
 // MARK: - Configurables
 extension PopupStack {
     func getConfig(_ item: AnyPopup<Config>) -> Config { item.configurePopup(popup: .init()) }
-}
-extension PopupStack {
     var lastPopupConfig: Config { items.last?.configurePopup(popup: .init()) ?? .init() }
 }
 
@@ -121,4 +129,3 @@ private extension PopupStack {
 private extension PopupStack {
     var remainingTranslationProgress: CGFloat { 1 - translationProgress }
 }
-
