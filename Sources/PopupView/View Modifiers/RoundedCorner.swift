@@ -61,7 +61,7 @@ private extension RoundedCorner {
     }
 }
 
-// MARK: - Rect Corner Structure
+
 struct RectCorner: OptionSet {
     let rawValue: Int
 }

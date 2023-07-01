@@ -8,8 +8,6 @@
 //  Copyright ©2023 Mijick. Licensed under MIT License.
 
 
-import Foundation
-
 public protocol Configurable { init() }
 extension Configurable {
     func changing<T>(path: WritableKeyPath<Self, T>, to value: T) -> Self {

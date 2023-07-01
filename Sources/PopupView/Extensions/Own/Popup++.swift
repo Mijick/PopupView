@@ -16,10 +16,10 @@ public protocol BottomPopup: Popup { associatedtype Config = BottomPopupConfig }
 
 struct AnyPopup<Config: Configurable>: Popup, Hashable {
     let id: String
-
     private let _body: AnyView
     private let _configBuilder: (Config) -> Config
 
+    
     init(_ popup: some Popup) {
         self.id = popup.id
         self._body = AnyView(popup)

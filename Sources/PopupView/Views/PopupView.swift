@@ -17,11 +17,7 @@ struct PopupView: View {
     @ObservedObject private var stack: PopupManager = .shared
 
 
-    var body: some View {
-        createPopupStackView()
-            .frame(maxWidth: .infinity, maxHeight: .infinity)
-            .background(createOverlay())
-    }
+    var body: some View { createBody() }
 }
 
 // MARK: - tvOS Implementation
@@ -38,6 +34,10 @@ struct PopupView: View {
             .overlay(createBody())
     }
 }
+#endif
+
+
+// MARK: - Common Part
 private extension PopupView {
     func createBody() -> some View {
         createPopupStackView()
@@ -45,10 +45,7 @@ private extension PopupView {
             .background(createOverlay())
     }
 }
-#endif
 
-
-// MARK: - Common Part
 private extension PopupView {
     func createPopupStackView() -> some View {
         ZStack {
