@@ -107,16 +107,9 @@ private extension PopupBottomStackView {
     func getBackgroundColour(for item: AnyPopup<BottomPopupConfig>) -> Color { item.configurePopup(popup: .init()).backgroundColour ?? globalConfig.bottom.backgroundColour }
 }
 
-private extension PopupBottomStackView {
-    func invertedIndex(of item: AnyPopup<BottomPopupConfig>) -> Int { items.count - 1 - index(of: item) }
-    func index(of item: AnyPopup<BottomPopupConfig>) -> Int { items.firstIndex(of: item) ?? 0 }
-}
 
 private extension PopupBottomStackView {
     var maxHeightStackedFactor: CGFloat { 0.85 }
-    var offsetFactor: CGFloat { -globalConfig.bottom.stackOffset }
-
-
 
     var isKeyboardVisible: Bool { keyboardManager.height > 0 }
     var config: BottomPopupConfig { items.last?.configurePopup(popup: .init()) ?? .init() }
@@ -124,7 +117,7 @@ private extension PopupBottomStackView {
 
 }
 
-
+// MARK: - Flags & Values
 extension PopupBottomStackView {
     var popupBottomPadding: CGFloat { config.popupPadding.bottom }
     var height: CGFloat { heights.first { $0.key == items.last }?.value ?? (config.contentFillsEntireScreen ? screen.size.height : 0) }
