@@ -1,5 +1,5 @@
 //
-//  Centre.GlobalConfig.swift of PopupView
+//  GlobalConfig.Centre.swift of PopupView
 //
 //  Created by Tomasz Kurylik
 //    - Twitter: https://twitter.com/tkurylik
