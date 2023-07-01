@@ -195,6 +195,7 @@ struct BottomCustomPopup: BottomPopup {
 - By calling one of three static methods of PopupManager:
     - `PopupManager.dismiss()`
     - `PopupManager.dismiss(_ popup: Popup.Type)` where popup is the popup you want to close
+    - `PopupManager.dismissAll(upTo popup: Popup.Type)` where popup is the popup up to which you want to close the popups on the stack
     - `PopupManager.dismissAll()`
     
 <br>
