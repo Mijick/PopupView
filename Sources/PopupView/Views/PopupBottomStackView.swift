@@ -10,13 +10,13 @@
 
 import SwiftUI
 
-struct PopupBottomStackView: View {
+struct PopupBottomStackView: PopupStack {
     let items: [AnyPopup<BottomPopupConfig>]
     let globalConfig: GlobalConfig
+    @State var gestureTranslation: CGFloat = 0
+    @State var heights: [AnyPopup<BottomPopupConfig>: CGFloat] = [:]
     @ObservedObject private var screen: ScreenManager = .shared
     @ObservedObject private var keyboardManager: KeyboardManager = .shared
-    @State private var heights: [AnyPopup<BottomPopupConfig>: CGFloat] = [:]
-    @State private var gestureTranslation: CGFloat = 0
 
     
     var body: some View {
@@ -33,11 +33,6 @@ private extension PopupBottomStackView {
     func createPopupStack() -> some View {
         ForEach(items, id: \.self, content: createPopup)
     }
-    func createTapArea() -> some View {
-        Color.black.opacity(0.00000000001)
-            .onTapGesture(perform: items.last?.dismiss ?? {})
-            .active(if: config.tapOutsideClosesView ?? globalConfig.bottom.tapOutsideClosesView)
-    }
 }
 
 private extension PopupBottomStackView {
@@ -49,7 +44,7 @@ private extension PopupBottomStackView {
             .fixedSize(horizontal: false, vertical: getFixedSize(for: item))
             .readHeight { saveHeight($0, withAnimation: transitionAnimation, for: item) }
             .frame(height: height, alignment: .top).frame(maxWidth: .infinity)
-            .background(getBackgroundColour(for: item), overlayColour: overlayColour.opacity(getOverlayOpacity(for: item)), radius: getCornerRadius(for: item), corners: getCorners())
+            .background(getBackgroundColour(for: item), overlayColour: overlayColour.opacity(getOverlayOpacity(for: item)), radius: getCornerRadius(item), corners: getCorners())
             .padding(.horizontal, config.popupPadding.horizontal)
             .offset(y: getOffset(for: item))
             .scaleEffect(getScale(for: item), anchor: .top)
@@ -148,20 +143,15 @@ private extension PopupBottomStackView {
 }
 
 private extension PopupBottomStackView {
-    var popupBottomPadding: CGFloat { config.popupPadding.bottom }
-    var height: CGFloat { heights.first { $0.key == items.last }?.value ?? defaultHeight }
-    var defaultHeight: CGFloat { config.contentFillsEntireScreen ? screen.size.height : 0 }
     var maxHeightStackedFactor: CGFloat { 0.85 }
     var offsetFactor: CGFloat { -globalConfig.bottom.stackOffset }
     var scaleFactor: CGFloat { globalConfig.bottom.stackScaleFactor }
-    var cornerRadius: CGFloat { config.cornerRadius ?? globalConfig.bottom.cornerRadius }
-    var stackedCornerRadius: CGFloat { cornerRadius * globalConfig.bottom.stackCornerRadiusMultiplier }
+
     var overlayColour: Color { .black }
     var overlayFactor: Double { 1 / globalConfig.bottom.stackLimit.doubleValue * 0.5 }
-    var transitionAnimation: Animation { globalConfig.main.animation.entry }
-    var dragGestureAnimation: Animation { globalConfig.main.animation.removal }
-    var gestureClosingThresholdFactor: CGFloat { globalConfig.bottom.dragGestureProgressToClose }
-    var transition: AnyTransition { .move(edge: .bottom) }
+
+
+
     var isKeyboardVisible: Bool { keyboardManager.height > 0 }
     var config: BottomPopupConfig { items.last?.configurePopup(popup: .init()) ?? .init() }
 
@@ -170,7 +160,21 @@ private extension PopupBottomStackView {
 
 
 extension PopupBottomStackView {
+    var popupBottomPadding: CGFloat { config.popupPadding.bottom }
+    var height: CGFloat { heights.first { $0.key == items.last }?.value ?? (config.contentFillsEntireScreen ? screen.size.height : 0) }
+    var cornerRadius: CGFloat { let cornerRadius = lastPopupConfig.cornerRadius ?? globalConfig.bottom.cornerRadius; return lastPopupConfig.contentFillsEntireScreen ? min(cornerRadius, screen.cornerRadius ?? 0) : cornerRadius }
+
     var stackLimit: Int { globalConfig.bottom.stackLimit }
-    var translationProgress: CGFloat { abs(gestureTranslation) / height }
     var stackScaleFactor: CGFloat { globalConfig.bottom.stackScaleFactor }
+    var stackOffsetValue: CGFloat { -globalConfig.bottom.stackOffset }
+    var stackedCornerRadius: CGFloat { cornerRadius * globalConfig.bottom.stackCornerRadiusMultiplier }
+
+    var translationProgress: CGFloat { abs(gestureTranslation) / height }
+    var gestureClosingThresholdFactor: CGFloat { globalConfig.bottom.dragGestureProgressToClose }
+
+    var transitionAnimation: Animation { globalConfig.main.animation.entry }
+    var dragGestureAnimation: Animation { globalConfig.main.animation.removal }
+    var transition: AnyTransition { .move(edge: .bottom) }
+
+    var tapOutsideClosesPopup: Bool { config.tapOutsideClosesView ?? globalConfig.bottom.tapOutsideClosesView }
 }
