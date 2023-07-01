@@ -21,7 +21,7 @@ struct PopupTopStackView: PopupStack {
     var body: some View {
         ZStack(alignment: .bottom, content: createPopupStack)
             .ignoresSafeArea()
-            .background(createTapArea(if: lastPopupConfig.tapOutsideClosesView ?? globalConfig.top.tapOutsideClosesView))
+            .background(createTapArea())
             .animation(transitionAnimation, value: heights)
             .animation(dragGestureAnimation, value: gestureTranslation)
             .onDragGesture(onChanged: onPopupDragGestureChanged, onEnded: onPopupDragGestureEnded)
@@ -46,7 +46,7 @@ private extension PopupTopStackView {
             .padding(.horizontal, lastPopupConfig.popupPadding.horizontal)
             .offset(y: getOffset(for: item))
             .scaleEffect(getScale(item), anchor: .bottom)
-            .opacity(getOpacity(for: item))
+            .opacity(getOpacity(item))
             .compositingGroup()
             .focusSectionIfAvailable()
             .align(to: .top, topPadding)
@@ -74,10 +74,14 @@ private extension PopupTopStackView {
             default: return .allCorners
         }
     }
-    func getOpacity(for item: AnyPopup<TopPopupConfig>) -> Double { invertedIndex(item) <= globalConfig.top.stackLimit ? 1 : 0.000000001 }
     func getBackgroundColour(for item: AnyPopup<TopPopupConfig>) -> Color { getConfig(item).backgroundColour ?? globalConfig.top.backgroundColour }
+
+    // DO REFAKTORYZACJI //
     func getOffset(for item: AnyPopup<TopPopupConfig>) -> CGFloat { isLast(item) ? gestureTranslation : invertedIndex(item).floatValue * offsetFactor }
     func getZIndex(for item: AnyPopup<TopPopupConfig>) -> Double { (items.lastIndex(of: item)?.doubleValue ?? 0) + 1 }
+    //                  //
+
+
     func saveHeight(_ height: CGFloat, for item: AnyPopup<TopPopupConfig>) { heights[item] = height }
 }
 
@@ -102,6 +106,7 @@ extension PopupTopStackView {
 
     var cornerRadius: CGFloat { lastPopupConfig.cornerRadius ?? globalConfig.top.cornerRadius }
     var stackedCornerRadius: CGFloat { cornerRadius * globalConfig.top.stackCornerRadiusMultiplier }
+    var tapOutsideClosesPopup: Bool { lastPopupConfig.tapOutsideClosesView ?? globalConfig.top.tapOutsideClosesView }
 }
 
 
@@ -134,6 +139,7 @@ protocol PopupStack: View {
     var stackScaleFactor: CGFloat { get }
     var cornerRadius: CGFloat { get }
     var stackedCornerRadius: CGFloat { get }
+    var tapOutsideClosesPopup: Bool { get }
 
 
     associatedtype Config: Configurable
@@ -208,6 +214,11 @@ private extension PopupStack {
     var stackOverlayFactor: CGFloat { 1 / stackLimit.doubleValue * 0.5 }
 }
 
+// MARK: - Stack Opacity
+extension PopupStack {
+    func getOpacity(_ item: AnyPopup<Config>) -> Double { invertedIndex(item) <= stackLimit ? 1 : 0.000000001 }
+}
+
 
 
 
@@ -220,7 +231,7 @@ private extension PopupStack {
 
 
 extension PopupStack {
-    @ViewBuilder func createTapArea(if predicate: Bool) -> some View { if predicate {
+    @ViewBuilder func createTapArea() -> some View { if tapOutsideClosesPopup {
         Color.black.opacity(0.00000000001).onTapGesture(perform: items.last?.dismiss ?? {})
     }}
 }
