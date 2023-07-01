@@ -39,7 +39,6 @@ private extension ScreenManager {
     }
 }
 
-// MARK: - Helpers
 fileprivate extension UIScreen {
     static var safeArea: UIEdgeInsets {
         UIApplication.shared
@@ -85,7 +84,6 @@ private extension ScreenManager {
     }}
 }
 
-// MARK: - Helpers
 fileprivate extension NSScreen {
     static var safeArea: NSEdgeInsets =
         NSApplication.shared
@@ -108,7 +106,6 @@ class ScreenManager: ObservableObject {
     private init() {}
 }
 
-// MARK: - Helpers
 fileprivate extension UIScreen {
     static var safeArea: UIEdgeInsets {
         UIApplication.shared

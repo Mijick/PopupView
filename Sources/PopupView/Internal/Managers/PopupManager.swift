@@ -10,32 +10,6 @@
 
 import SwiftUI
 
-// MARK: - Presenting and Dismissing
-public extension PopupManager {
-    
-    /// Displays the popup. Stacks previous one
-    static func showAndStack(_ popup: some Popup) { performOperation(.insertAndStack(popup)) }
-
-    /// Displays the popup. Closes previous one
-    static func showAndReplace(_ popup: some Popup) { performOperation(.insertAndReplace(popup)) }
-}
-public extension PopupManager {
-
-    /// Dismisses last popup on the stack
-    static func dismiss() { performOperation(.removeLast) }
-
-    /// Dismisses all popups of provided type on the stack.
-    static func dismiss<P: Popup>(_ popup: P.Type) { performOperation(.remove(id: .init(describing: popup))) }
-
-    /// Dismisses all popups on the stack up to the popup with the selected type
-    static func dismissAll<P: Popup>(upTo popup: P.Type) { performOperation(.removeAllUpTo(id: .init(describing: popup))) }
-
-    /// Dismisses all the popups on the stack.
-    static func dismissAll() { performOperation(.removeAll) }
-}
-
-
-// MARK: - Internal
 public class PopupManager: ObservableObject {
     @Published private(set) var views: [any Popup] = []
     private(set) var presenting: Bool = true
@@ -50,18 +24,18 @@ extension PopupManager {
 }
 
 // MARK: - Operations
-fileprivate enum Operation {
+enum StackOperation {
     case insertAndReplace(any Popup), insertAndStack(any Popup)
     case removeLast, remove(id: String), removeAllUpTo(id: String), removeAll
 }
-private extension PopupManager {
-    static func performOperation(_ operation: Operation) { DispatchQueue.main.async {
+extension PopupManager {
+    static func performOperation(_ operation: StackOperation) { DispatchQueue.main.async {
         updateOperationType(operation)
         shared.views.perform(operation)
     }}
 }
 private extension PopupManager {
-    static func updateOperationType(_ operation: Operation) {
+    static func updateOperationType(_ operation: StackOperation) {
         switch operation {
             case .insertAndReplace, .insertAndStack: shared.presenting = true
             case .removeLast, .remove, .removeAllUpTo, .removeAll: shared.presenting = false
@@ -70,14 +44,14 @@ private extension PopupManager {
 }
 
 fileprivate extension [any Popup] {
-    mutating func perform(_ operation: Operation) {
+    mutating func perform(_ operation: StackOperation) {
         hideKeyboard()
         performOperation(operation)
     }
 }
 private extension [any Popup] {
     func hideKeyboard() { KeyboardManager.hideKeyboard() }
-    mutating func performOperation(_ operation: Operation) {
+    mutating func performOperation(_ operation: StackOperation) {
         switch operation {
             case .insertAndReplace(let popup): replaceLast(popup, if: canBeInserted(popup))
             case .insertAndStack(let popup): append(popup, if: canBeInserted(popup))
