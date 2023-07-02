@@ -21,7 +21,7 @@ extension AnimationType {
     }
     var removal: Animation {
         switch self {
-            case .spring: return .interactiveSpring()
+            case .spring: return .interactiveSpring(response: 0.14, dampingFraction: 1, blendDuration: 1)
             case .linear: return .linear(duration: 0.3)
             case .easeInOut: return .easeInOut(duration: 0.3)
         }

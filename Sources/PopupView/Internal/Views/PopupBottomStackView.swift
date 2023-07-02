@@ -63,8 +63,17 @@ private extension PopupBottomStackView {
         if lastPopupConfig.dragGestureEnabled ?? globalConfig.bottom.dragGestureEnabled { gestureTranslation = max(0, value) }
     }
     func onPopupDragGestureEnded(_ value: CGFloat) {
+        dismissLastItemIfNeeded()
+        resetGestureTranslationOnEnd()
+    }
+}
+private extension PopupBottomStackView {
+    func dismissLastItemIfNeeded() {
         if translationProgress >= gestureClosingThresholdFactor { items.last?.dismiss() }
-        gestureTranslation = 0
+    }
+    func resetGestureTranslationOnEnd() {
+        let resetAfter = items.count == 1 && translationProgress >= gestureClosingThresholdFactor ? 0.25 : 0
+        DispatchQueue.main.asyncAfter(deadline: .now() + resetAfter) { gestureTranslation = 0 }
     }
 }
 
