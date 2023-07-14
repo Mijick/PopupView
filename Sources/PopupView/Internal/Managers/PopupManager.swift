@@ -46,7 +46,7 @@ private extension PopupManager {
 
 fileprivate extension PopupManager {
     private func updateActive() {
-        print("====> updateActive \(top.count),  \(bottom.count)")
+//        print("====> updateActive \(top.count),  \(bottom.count)")
         top.forEach { $0.active(top.last == $0) }
         centre.forEach { $0.active(centre.last == $0) }
         bottom.forEach { $0.active(bottom.last == $0) }
@@ -71,24 +71,28 @@ private extension [any Popup] {
             append(popup, if: canBeInserted(popup))
         
         case .removeLast:
-            let removeItem = removeLast()
-            DispatchQueue.main.async {
-                removeItem?.onDismiss?()
-            }
+            guard let removePopup = removeLast() else { return }
+            removePopup.close()
             
         case .remove(let id):
             let removeItems = self.filter { $0.id == id }
             removeAll(where: { $0.id == id })
-            removeItems.forEach { $0.onDismiss?() }
+            removeItems.forEach {
+                $0.close()
+            }
             
         case .removeAllUpTo(let id):
             let removeItems = removeAllUpToElement(where: { $0.id == id })
-            removeItems.forEach { $0.onDismiss?() }
+            removeItems.forEach {
+                $0.close()
+            }
             
         case .removeAll:
             let removeItems = self
             removeAll()
-            removeItems.forEach { $0.onDismiss?() }
+            removeItems.forEach {
+                $0.close()
+            }
         }
     }
 }

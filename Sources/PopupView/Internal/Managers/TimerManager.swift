@@ -16,7 +16,7 @@ public class TimerManager: ObservableObject {
     public func createTimer(id: String) -> WeakTimer {
         let timer = timerDic[id] ?? WeakTimer.scheduledTimer(timeInterval: 0, action: { _ in })
         timerDic[id] = timer
-        print("======> TimerManager create count:\(timerDic.count) id: \(id)")
+//        print("====> TimerManager create count:\(timerDic.count) id: \(id)")
         return timer
     }
     
@@ -34,7 +34,7 @@ public class TimerManager: ObservableObject {
         let timer = timerDic[id]
         timerDic[id]?.destroyTimer()
         timerDic.removeValue(forKey: id)
-        print("======> TimerManager destroy count:\(timerDic.count) id: \(id), timer:\(timer)")
+//        print("====> TimerManager destroy count:\(timerDic.count) id: \(id), timer:\(timer)")
         return timer
     }
 }

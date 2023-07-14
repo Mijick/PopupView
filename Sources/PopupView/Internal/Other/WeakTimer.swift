@@ -32,7 +32,7 @@ public final class WeakTimer {
     }
     
     deinit {
-        print("== deinit WeakTimer ==========")
+//        print("====> deinit WeakTimer ==========")
     }
     
     private init(timeInterval: TimeInterval,

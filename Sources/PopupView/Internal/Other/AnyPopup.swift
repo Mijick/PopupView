@@ -15,15 +15,15 @@ struct AnyPopup<Config: Configurable>: Popup, Hashable {
     private let _body: AnyView
     private let _configBuilder: (Config) -> Config
     
-    var durationTime: Double = 0
-    var onDismiss: (() -> Void)?
+    var _durationTime: Double = 0
+    var _onDismissCallback: (() -> Void)?
     
     init(_ popup: some Popup) {
         self.id = popup.id
         self._body = AnyView(popup)
         self._configBuilder = popup.configurePopup as! (Config) -> Config
-        self.onDismiss = popup.onDismiss
-        self.durationTime = popup.durationTime
+        self._onDismissCallback = popup._onDismissCallback
+        self._durationTime = popup._durationTime
         self.resetTimer()
     }
 }
