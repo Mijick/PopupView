@@ -27,5 +27,5 @@ public extension GlobalConfig.Common {
 public extension GlobalConfig { struct Common: Configurable { public init() {}
     private(set) var overlayColour: Color = .black.opacity(0.44)
 
-    private(set) var animation: AnimationType = .spring
+    private(set) var animation: AnimationType = .init()
 }}

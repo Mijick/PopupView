@@ -16,6 +16,9 @@ struct PopupView: View {
     let globalConfig: GlobalConfig
     @ObservedObject private var stack: PopupManager = .shared
 
+    init(globalConfig: GlobalConfig) {
+        self.globalConfig = globalConfig
+    }
 
     var body: some View { createBody() }
 }

@@ -94,7 +94,10 @@ private extension PopupStack {
 
 // MARK: - Stack Opacity
 extension PopupStack {
-    func getOpacity(_ item: AnyPopup<Config>) -> Double { invertedIndex(item) <= stackLimit ? 1 : 0.000000001 }
+    func getOpacity(_ item: AnyPopup<Config>) -> Double {
+        let index = invertedIndex(item)
+        return index <= stackLimit ? (1.0 / (index + 1).doubleValue) : 0.000000001
+    }
 }
 
 // MARK: - Stack Offset

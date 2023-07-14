@@ -32,6 +32,7 @@ extension PopupManager {
     static func performOperation(_ operation: StackOperation) { DispatchQueue.main.async {
         updateOperationType(operation)
         shared.views.perform(operation)
+        shared.updateActive()
     }}
 }
 private extension PopupManager {
@@ -40,6 +41,15 @@ private extension PopupManager {
             case .insertAndReplace, .insertAndStack: shared.presenting = true
             case .removeLast, .remove, .removeAllUpTo, .removeAll: shared.presenting = false
         }
+    }
+}
+
+fileprivate extension PopupManager {
+    private func updateActive() {
+        print("====> updateActive \(top.count),  \(bottom.count)")
+        top.forEach { $0.active(top.last == $0) }
+        centre.forEach { $0.active(centre.last == $0) }
+        bottom.forEach { $0.active(bottom.last == $0) }
     }
 }
 
@@ -53,12 +63,32 @@ private extension [any Popup] {
     func hideKeyboard() { KeyboardManager.hideKeyboard() }
     mutating func performOperation(_ operation: StackOperation) {
         switch operation {
-            case .insertAndReplace(let popup): replaceLast(popup, if: canBeInserted(popup))
-            case .insertAndStack(let popup): append(popup, if: canBeInserted(popup))
-            case .removeLast: removeLast()
-            case .remove(let id): removeAll(where: { $0.id == id })
-            case .removeAllUpTo(let id): removeAllUpToElement(where: { $0.id == id })
-            case .removeAll: removeAll()
+        case .insertAndReplace(let popup):
+            replaceLast(popup, if: canBeInserted(popup))
+            
+        case .insertAndStack(let popup):
+//            중복될때 타이머 처리 처리
+            append(popup, if: canBeInserted(popup))
+        
+        case .removeLast:
+            let removeItem = removeLast()
+            DispatchQueue.main.async {
+                removeItem?.onDismiss?()
+            }
+            
+        case .remove(let id):
+            let removeItems = self.filter { $0.id == id }
+            removeAll(where: { $0.id == id })
+            removeItems.forEach { $0.onDismiss?() }
+            
+        case .removeAllUpTo(let id):
+            let removeItems = removeAllUpToElement(where: { $0.id == id })
+            removeItems.forEach { $0.onDismiss?() }
+            
+        case .removeAll:
+            let removeItems = self
+            removeAll()
+            removeItems.forEach { $0.onDismiss?() }
         }
     }
 }
