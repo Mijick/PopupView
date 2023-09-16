@@ -14,9 +14,18 @@ import SwiftUI
 public extension Popup {
     /// Displays the popup. Stacks previous one
     func showAndStack() { PopupManager.showAndStack(AnyPopup<Config>(self)) }
+    /// Displays the popup. Stacks previous one
+    func showAndStack() -> some Popup { PopupManager.showAndStack(AnyPopup<Config>(self)); return self }
 
     /// Displays the popup. Closes previous one
     func showAndReplace() { PopupManager.showAndReplace(AnyPopup<Config>(self)) }
+    /// Displays the popup. Closes previous one
+    func showAndReplace() -> some Popup { PopupManager.showAndReplace(AnyPopup<Config>(self)); return self }
+
+    /// Closes popup after n seconds
+    func dismissAfter(_ seconds: Double) { DispatchQueue.main.asyncAfter(deadline: .now() + seconds) {
+        PopupManager.dismiss(Self.self)
+    }}
 }
 
 // MARK: - Available Popups
