@@ -4,17 +4,17 @@
 import PackageDescription
 
 let package = Package(
-    name: "PopupView",
+    name: "MijickPopupView",
     platforms: [
         .iOS(.v14),
         .macOS(.v12),
         .tvOS(.v15)
     ],
     products: [
-        .library(name: "PopupView", targets: ["PopupView"])
+        .library(name: "MijickPopupView", targets: ["MijickPopupView"])
     ],
     targets: [
-        .target(name: "PopupView", dependencies: [], path: "Sources")
+        .target(name: "MijickPopupView", dependencies: [], path: "Sources")
     ],
     swiftLanguageVersions: [.v5]
 )
