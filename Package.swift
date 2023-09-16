@@ -14,7 +14,7 @@ let package = Package(
         .library(name: "PopupView", targets: ["PopupView"])
     ],
     targets: [
-        .target(name: "PopupView", dependencies: [])
+        .target(name: "PopupView", dependencies: [], path: "Sources")
     ],
     swiftLanguageVersions: [.v5]
 )
