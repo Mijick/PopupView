@@ -30,16 +30,16 @@
 </p>
 
 <p align="center">
-    <a href="https://github.com/Mijick/PopupView/stargazers">
-        <img alt="Stargazers" src="https://github.com/Mijick/PopupView/assets/23524947/f58b4257-65f2-4a83-ab0a-5b6bc26fe773"/>
-    </a>                                                                                                              
+    <img alt="Made in Kraków" src="https://github.com/Mijick/Assets/blob/main/PopupView/Labels/Origin.svg"/>
     <a href="https://twitter.com/MijickTeam">
-        <img alt="Follow us on Twitter" src="https://github.com/Mijick/PopupView/assets/23524947/26c8f5fc-1162-4721-a514-10ef17833021"/>
+        <img alt="Follow us on X" src="https://github.com/Mijick/Assets/blob/main/PopupView/Labels/X.svg"/>
     </a>
     <a href=mailto:team@mijick.com?subject=Hello>
-        <img alt="Let's work together" src="https://github.com/Mijick/PopupView/assets/23524947/4491418b-c831-41c7-b7fa-68ae9664a943"/>
-    </a>   
-    <img alt="Made in Kraków" src="https://github.com/Mijick/PopupView/assets/23524947/289bb4f8-6c0e-4e97-afb5-dae0b2688965.svg"/>
+        <img alt="Let's work together" src="https://github.com/Mijick/Assets/blob/main/PopupView/Labels/Work%20with%20us.svg"/>
+    </a>  
+    <a href="https://github.com/Mijick/PopupView/stargazers">
+        <img alt="Stargazers" src="https://github.com/Mijick/Assets/blob/main/PopupView/Labels/Stars.svg"/>
+    </a>                                                                                                               
 </p>
 
 <p align="center">
