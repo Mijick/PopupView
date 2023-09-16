@@ -23,7 +23,7 @@ public extension Popup {
     func showAndReplace() -> some Popup { PopupManager.showAndReplace(AnyPopup<Config>(self)); return self }
 
     /// Closes popup after n seconds
-    func dismissAfter(_ seconds: Double) { DispatchQueue.main.asyncAfter(deadline: .now() + seconds) {
+    func dismissAfter(_ seconds: Double) { DispatchQueue.main.asyncAfter(deadline: .now() + max(0.5, seconds)) {
         PopupManager.dismiss(Self.self)
     }}
 }
