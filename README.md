@@ -2,9 +2,9 @@
 
 <p align="center">
   <picture> 
-    <source media="(prefers-color-scheme: dark)" srcset="https://user-images.githubusercontent.com/23524947/229163179-2033f875-f9cc-46ea-8d27-3a8a04007824.svg">
-    <source media="(prefers-color-scheme: light)" srcset="https://user-images.githubusercontent.com/23524947/229172729-dd4fec15-8f90-4ca8-b59c-7ee109da7370.svg">
-    <img alt="PopupView Logo" src="https://user-images.githubusercontent.com/23524947/229163179-2033f875-f9cc-46ea-8d27-3a8a04007824.svg" width="88%"">
+    <source media="(prefers-color-scheme: dark)" srcset="https://github.com/Mijick/Assets/blob/main/PopupView/Logotype/On%20Dark.svg">
+    <source media="(prefers-color-scheme: light)" srcset="https://github.com/Mijick/Assets/blob/main/PopupView/Logotype/On%20Light.svg">
+    <img alt="PopupView Logo" src="https://github.com/Mijick/Assets/blob/main/PopupView/Logotype/On%20Dark.svg" width="76%"">
   </picture>
 </p>
 
@@ -17,30 +17,29 @@
 </p>
 
 <p align="center">
-    <a href="https://github.com/Mijick/PopupView-Example" rel="nofollow">Try demo we prepared</a>
+    <a href="https://github.com/Mijick/PopupView-Demo" rel="nofollow">Try demo we prepared</a>
 </p>
 
 <br>
 
 <p align="center">
-    <img alt="SwiftUI logo" src="https://github.com/Mijick/PopupView/assets/23524947/4ad7cce0-3efc-473b-bc41-9512aab2b26d.svg"/>
-    <img alt="Platforms: iOS, iPadOS, macOS, tvOS" src="https://github.com/Mijick/PopupView/assets/23524947/83f8ebf0-c083-4690-8ce7-4117af7c2e8e.svg"/>
-    <img alt="Release: 2.0.0" src="https://github.com/Mijick/PopupView/assets/23524947/6d916616-ad05-4079-ba92-4dab8d7c14a8.svg"/>
-    <img alt="Compatible: Swift Package Manager, Cocoapods" src="https://github.com/Mijick/PopupView/assets/23524947/b54d3a61-1f4c-4a74-99d4-9b81418a70ae.svg"/>
-    <img alt="License: MIT" src="https://github.com/Mijick/PopupView/assets/23524947/e3e47658-8ccd-4532-8121-fbf15853e725.svg"/>
+    <img alt="SwiftUI logo" src="https://github.com/Mijick/Assets/blob/main/PopupView/Labels/Language.svg"/>
+    <img alt="Platforms: iOS, iPadOS, macOS, tvOS" src="https://github.com/Mijick/Assets/blob/main/PopupView/Labels/Platforms.svg"/>
+    <img alt="Current Version" src="https://github.com/Mijick/Assets/blob/main/PopupView/Labels/Version.svg"/>
+    <img alt="License: MIT" src="https://github.com/Mijick/Assets/blob/main/PopupView/Labels/License.svg"/>
 </p>
 
 <p align="center">
-    <a href="https://github.com/Mijick/PopupView/stargazers">
-        <img alt="Stargazers" src="https://github.com/Mijick/PopupView/assets/23524947/f58b4257-65f2-4a83-ab0a-5b6bc26fe773"/>
-    </a>                                                                                                              
+    <img alt="Made in Kraków" src="https://github.com/Mijick/Assets/blob/main/PopupView/Labels/Origin.svg"/>
     <a href="https://twitter.com/MijickTeam">
-        <img alt="Follow us on Twitter" src="https://github.com/Mijick/PopupView/assets/23524947/26c8f5fc-1162-4721-a514-10ef17833021"/>
+        <img alt="Follow us on X" src="https://github.com/Mijick/Assets/blob/main/PopupView/Labels/X.svg"/>
     </a>
     <a href=mailto:team@mijick.com?subject=Hello>
-        <img alt="Let's work together" src="https://github.com/Mijick/PopupView/assets/23524947/4491418b-c831-41c7-b7fa-68ae9664a943"/>
-    </a>   
-    <img alt="Made in Kraków" src="https://github.com/Mijick/PopupView/assets/23524947/289bb4f8-6c0e-4e97-afb5-dae0b2688965.svg"/>
+        <img alt="Let's work together" src="https://github.com/Mijick/Assets/blob/main/PopupView/Labels/Work%20with%20us.svg"/>
+    </a>  
+    <a href="https://github.com/Mijick/PopupView/stargazers">
+        <img alt="Stargazers" src="https://github.com/Mijick/Assets/blob/main/PopupView/Labels/Stars.svg"/>
+    </a>                                                                                                               
 </p>
 
 <p align="center">
@@ -167,13 +166,15 @@ struct BottomCustomPopup: BottomPopup {
 ```
 
 ### 5. Present your popup from any place you want!
-Just call `BottomCustomPopup().showAndStack()` from the selected place
+Just call `BottomCustomPopup().showAndStack()` from the selected place. Popup can be closed automatically by adding the dismissAfter modifier.
 ```Swift
 struct SettingsViewModel {
     ...
     func saveSettings() {
         ...
-        BottomCustomPopup().showAndStack()
+        BottomCustomPopup()
+            .showAndStack()
+            .dismissAfter(5)
         ...
     }
     ...
@@ -210,16 +211,19 @@ PopupView is released under the MIT license. See [LICENSE][License] for details.
 
 # Our other open source SwiftUI libraries
 [Navigattie] - Easier and cleaner way of navigating through your app
+<br>
+[GridView] - Lay out your data with no effort
 
 
 [MIT]: https://en.wikipedia.org/wiki/MIT_License
 [SPM]: https://www.swift.org/package-manager
 
-[Demo]: https://github.com/Mijick/PopupView-Example
+[Demo]: https://github.com/Mijick/PopupView-Demo
 [License]: https://github.com/Mijick/PopupView/blob/main/LICENSE
 
 [spm]: https://www.swift.org/package-manager/
 [cocoapods]: https://cocoapods.org/
 [generate_cocoapods]: https://github.com/square/cocoapods-generate
 
-[Navigattie]: https://github.com/Mijick/Navigattie  
+[Navigattie]: https://github.com/Mijick/Navigattie 
+[GridView]: https://github.com/Mijick/GridView
