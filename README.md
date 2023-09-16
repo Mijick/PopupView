@@ -23,11 +23,10 @@
 <br>
 
 <p align="center">
-    <img alt="SwiftUI logo" src="https://github.com/Mijick/PopupView/assets/23524947/4ad7cce0-3efc-473b-bc41-9512aab2b26d.svg"/>
-    <img alt="Platforms: iOS, iPadOS, macOS, tvOS" src="https://github.com/Mijick/PopupView/assets/23524947/83f8ebf0-c083-4690-8ce7-4117af7c2e8e.svg"/>
-    <img alt="Release: 2.0.0" src="https://github.com/Mijick/PopupView/assets/23524947/6d916616-ad05-4079-ba92-4dab8d7c14a8.svg"/>
-    <img alt="Compatible: Swift Package Manager, Cocoapods" src="https://github.com/Mijick/PopupView/assets/23524947/b54d3a61-1f4c-4a74-99d4-9b81418a70ae.svg"/>
-    <img alt="License: MIT" src="https://github.com/Mijick/PopupView/assets/23524947/e3e47658-8ccd-4532-8121-fbf15853e725.svg"/>
+    <img alt="SwiftUI logo" src="https://github.com/Mijick/Assets/blob/main/PopupView/Labels/Language.svg"/>
+    <img alt="Platforms: iOS, iPadOS, macOS, tvOS" src="https://github.com/Mijick/Assets/blob/main/PopupView/Labels/Platforms.svg"/>
+    <img alt="Current Version" src="https://github.com/Mijick/Assets/blob/main/PopupView/Labels/Version.svg"/>
+    <img alt="License: MIT" src="https://github.com/Mijick/Assets/blob/main/PopupView/Labels/License.svg"/>
 </p>
 
 <p align="center">
