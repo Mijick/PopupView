@@ -17,7 +17,7 @@
 </p>
 
 <p align="center">
-    <a href="https://github.com/Mijick/PopupView-Example" rel="nofollow">Try demo we prepared</a>
+    <a href="https://github.com/Mijick/PopupView-Demo" rel="nofollow">Try demo we prepared</a>
 </p>
 
 <br>
@@ -216,7 +216,7 @@ PopupView is released under the MIT license. See [LICENSE][License] for details.
 [MIT]: https://en.wikipedia.org/wiki/MIT_License
 [SPM]: https://www.swift.org/package-manager
 
-[Demo]: https://github.com/Mijick/PopupView-Example
+[Demo]: https://github.com/Mijick/PopupView-Demo
 [License]: https://github.com/Mijick/PopupView/blob/main/LICENSE
 
 [spm]: https://www.swift.org/package-manager/
