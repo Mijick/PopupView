@@ -43,7 +43,7 @@
 </p>
 
 <p align="center">
-    <img alt="Popup Examples" src="https://github.com/Mijick/PopupView/assets/23524947/593d81ff-c3ec-4784-b92a-7e3181156576"/>
+    <img alt="Popup Examples" src="https://github.com/Mijick/Assets/blob/main/PopupView/GIFs/PopupView.gif"/>
 </p>
 
 <br>
