@@ -90,7 +90,7 @@ Installation steps:
 ```
 - Add CocoaPods dependency into your `Podfile`   
 ```Swift
-    pod 'Mijick_PopupView'
+    pod 'MijickPopupView'
 ```
 - Install dependency and generate `.xcworkspace` file
 ```Swift
@@ -213,6 +213,8 @@ PopupView is released under the MIT license. See [LICENSE][License] for details.
 [Navigattie] - Easier and cleaner way of navigating through your app
 <br>
 [GridView] - Lay out your data with no effort
+<br>
+[Timer] - Modern API for Timer
 
 
 [MIT]: https://en.wikipedia.org/wiki/MIT_License
@@ -227,3 +229,4 @@ PopupView is released under the MIT license. See [LICENSE][License] for details.
 
 [Navigattie]: https://github.com/Mijick/Navigattie 
 [GridView]: https://github.com/Mijick/GridView
+[Timer]: https://github.com/Mijick/Timer
