@@ -40,6 +40,12 @@ public extension TopPopupConfig {
     func dragGestureEnabled(_ value: Bool) -> Self { changing(path: \.dragGestureEnabled, to: value) }
 }
 
+// MARK: - Overlay
+public extension TopPopupConfig {
+    /// Hide the overlay
+    func hideOverlay(_ value: Bool) -> Self { changing(path: \.hideOverlay, to: value) }
+}
+
 
 // MARK: - Internal
 public struct TopPopupConfig: Configurable { public init() {}
@@ -51,4 +57,6 @@ public struct TopPopupConfig: Configurable { public init() {}
 
     private(set) var tapOutsideClosesView: Bool? = nil
     private(set) var dragGestureEnabled: Bool? = nil
+    
+    private(set) var hideOverlay: Bool = false
 }

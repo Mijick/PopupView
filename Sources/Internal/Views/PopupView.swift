@@ -40,6 +40,7 @@ struct PopupView: View {
 // MARK: - Common Part
 private extension PopupView {
     func createBody() -> some View {
+        
         createPopupStackView()
             .frame(maxWidth: .infinity, maxHeight: .infinity)
             .background(createOverlay())
@@ -56,10 +57,16 @@ private extension PopupView {
         .animation(stack.presenting ? globalConfig.common.animation.entry : globalConfig.common.animation.removal, value: stack.views.map(\.id))
     }
     func createOverlay() -> some View {
-        overlayColour
-            .ignoresSafeArea()
-            .active(if: !stack.views.isEmpty)
-            .animation(overlayAnimation, value: stack.views.isEmpty)
+        ZStack {
+            if globalConfig.bottom.hideOverlay || globalConfig.top.hideOverlay {
+                EmptyView()
+            } else {
+                overlayColour
+                    .ignoresSafeArea()
+                    .active(if: !stack.views.isEmpty)
+                    .animation(overlayAnimation, value: stack.views.isEmpty)
+            }
+        }
     }
 }
 

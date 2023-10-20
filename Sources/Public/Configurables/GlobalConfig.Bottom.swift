@@ -54,6 +54,11 @@ public extension GlobalConfig.Bottom {
     func minimalDragThresholdToClose(_ value: CGFloat) -> Self { changing(path: \.dragGestureProgressToClose, to: value) }
 }
 
+// MARK: - Overlay
+public extension GlobalConfig.Bottom {
+    /// Hide the overlay
+    func hideOverlay(_ value: Bool) -> Self { changing(path: \.hideOverlay, to: value) }
+}
 
 // MARK: - Internal
 public extension GlobalConfig { struct Bottom: Configurable { public init() {}
@@ -70,4 +75,6 @@ public extension GlobalConfig { struct Bottom: Configurable { public init() {}
     private(set) var tapOutsideClosesView: Bool = false
     private(set) var dragGestureEnabled: Bool = true
     private(set) var dragGestureProgressToClose: CGFloat = 1/3
+    
+    private(set) var hideOverlay: Bool = false
 }}
