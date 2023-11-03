@@ -17,11 +17,15 @@ public extension Popup {
 
     /// Displays the popup. Closes previous one
     @discardableResult func showAndReplace() -> some Popup { PopupManager.showAndReplace(AnyPopup<Config>(self)); return self }
+}
 
+// MARK: - Modifiers
+public extension Popup {
     /// Closes popup after n seconds
-    func dismissAfter(_ seconds: Double) { DispatchQueue.main.asyncAfter(deadline: .now() + max(0.5, seconds)) {
-        PopupManager.dismiss(Self.self)
-    }}
+    @discardableResult func dismissAfter(_ seconds: Double) -> some Popup { DispatchQueue.main.asyncAfter(deadline: .now() + max(0.5, seconds)) { PopupManager.dismiss(Self.self) }; return self }
+
+    /// Hides the overlay for the selected popup
+    @discardableResult func hideOverlay() -> some Popup { PopupManager.hideOverlay(self); return self }
 }
 
 // MARK: - Available Popups
