@@ -58,8 +58,9 @@ private extension PopupView {
     func createOverlay() -> some View {
         overlayColour
             .ignoresSafeArea()
-            .active(if: !stack.views.isEmpty)
-            .animation(overlayAnimation, value: stack.views.isEmpty)
+            .active(if: isOverlayActive)
+            .animation(overlayAnimation, value: isStackEmpty)
+            .animation(overlayAnimation, value: shouldOverlayBeHiddenForCurrentPopup)
     }
 }
 
@@ -73,6 +74,12 @@ private extension PopupView {
     func createBottomPopupStackView() -> some View {
         PopupBottomStackView(items: stack.bottom, globalConfig: globalConfig)
     }
+}
+
+private extension PopupView {
+    var isOverlayActive: Bool { !isStackEmpty && !shouldOverlayBeHiddenForCurrentPopup }
+    var isStackEmpty: Bool { stack.views.isEmpty }
+    var shouldOverlayBeHiddenForCurrentPopup: Bool { stack.popupsWithoutOverlay.contains(stack.views.last?.id ?? "") }
 }
 
 private extension PopupView {

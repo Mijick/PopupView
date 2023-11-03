@@ -13,6 +13,7 @@ import SwiftUI
 public class PopupManager: ObservableObject {
     @Published private(set) var views: [any Popup] = []
     private(set) var presenting: Bool = true
+    private(set) var popupsWithoutOverlay: [String] = []
 
     static let shared: PopupManager = .init()
     private init() {}
@@ -33,14 +34,13 @@ extension PopupManager {
         updateOperationType(operation)
         shared.views.perform(operation)
     }}
+    static func hideOverlay(_ popup: any Popup) { shared.popupsWithoutOverlay.append(popup.id) }
 }
 private extension PopupManager {
-    static func updateOperationType(_ operation: StackOperation) {
-        switch operation {
-            case .insertAndReplace, .insertAndStack: shared.presenting = true
-            case .removeLast, .remove, .removeAllUpTo, .removeAll: shared.presenting = false
-        }
-    }
+    static func updateOperationType(_ operation: StackOperation) { switch operation {
+        case .insertAndReplace, .insertAndStack: shared.presenting = true
+        case .removeLast, .remove, .removeAllUpTo, .removeAll: shared.presenting = false
+    }}
 }
 
 fileprivate extension [any Popup] {
