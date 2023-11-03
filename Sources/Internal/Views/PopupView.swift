@@ -15,6 +15,7 @@ import SwiftUI
 struct PopupView: View {
     let globalConfig: GlobalConfig
     @ObservedObject private var stack: PopupManager = .shared
+    @ObservedObject private var screenManager: ScreenManager = .shared
 
 
     var body: some View { createBody() }
@@ -26,6 +27,7 @@ struct PopupView: View {
     let rootView: any View
     let globalConfig: GlobalConfig
     @ObservedObject private var stack: PopupManager = .shared
+    @ObservedObject private var screenManager: ScreenManager = .shared
 
 
     var body: some View {
@@ -41,6 +43,7 @@ struct PopupView: View {
 private extension PopupView {
     func createBody() -> some View {
         createPopupStackView()
+            .frame(height: screenManager.size.height)
             .frame(maxWidth: .infinity, maxHeight: .infinity)
             .background(createOverlay())
     }
@@ -53,7 +56,7 @@ private extension PopupView {
             createCentrePopupStackView()
             createBottomPopupStackView()
         }
-        .animation(stack.presenting ? globalConfig.common.animation.entry : globalConfig.common.animation.removal, value: stack.views.map(\.id))
+        .animation(stackAnimation, value: stack.views.map(\.id))
     }
     func createOverlay() -> some View {
         overlayColour
@@ -83,6 +86,7 @@ private extension PopupView {
 }
 
 private extension PopupView {
+    var stackAnimation: Animation { stack.presenting ? globalConfig.common.animation.entry : globalConfig.common.animation.removal }
     var overlayColour: Color { globalConfig.common.overlayColour }
     var overlayAnimation: Animation { .easeInOut(duration: 0.44) }
 }

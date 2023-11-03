@@ -65,10 +65,17 @@ class ScreenManager: ObservableObject {
     private var subscription: [AnyCancellable] = []
 
     static let shared: ScreenManager = .init()
-    private init() { subscribeToWindowSizeChangeEvents() }
+    private init() { subscribeToWindowUpdateEvents(); subscribeToWindowSizeChangeEvents() }
 }
 
 private extension ScreenManager {
+    func subscribeToWindowUpdateEvents() {
+        NotificationCenter.default
+            .publisher(for: NSWindow.didUpdateNotification)
+            .receive(on: DispatchQueue.main)
+            .sink(receiveValue: updateScreenValues)
+            .store(in: &subscription)
+    }
     func subscribeToWindowSizeChangeEvents() {
         NotificationCenter.default
             .publisher(for: NSWindow.didResizeNotification)
@@ -90,7 +97,7 @@ fileprivate extension NSScreen {
             .mainWindow?
             .contentView?
             .safeAreaInsets ?? .init(top: 0, left: 0, bottom: 0, right: 0)
-    static var size: CGSize = NSApplication.shared.mainWindow?.frame.size ?? .zero
+    static var size: CGSize = NSScreen.main?.visibleFrame.size ?? .zero
     static var cornerRadius: CGFloat = 0
 }
 
