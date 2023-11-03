@@ -44,7 +44,7 @@ private extension PopupBottomStackView {
             .fixedSize(horizontal: false, vertical: getFixedSize(item))
             .readHeight { saveHeight($0, withAnimation: transitionEntryAnimation, for: item) }
             .frame(height: height, alignment: .top).frame(maxWidth: .infinity)
-            .background(getBackgroundColour(for: item), overlayColour: getStackOverlayColour(item), radius: getCornerRadius(item), corners: getCorners())
+            .background(getBackgroundColour(for: item), overlayColour: getStackOverlayColour(item), radius: getCornerRadius(item), corners: getCorners(), shadow: popupShadow)
             .padding(.horizontal, popupHorizontalPadding)
             .offset(y: getOffset(item))
             .scaleEffect(getScale(item), anchor: .top)
@@ -117,6 +117,7 @@ private extension PopupBottomStackView {
 extension PopupBottomStackView {
     var popupBottomPadding: CGFloat { lastPopupConfig.popupPadding.bottom }
     var popupHorizontalPadding: CGFloat { lastPopupConfig.popupPadding.horizontal }
+    var popupShadow: Shadow { globalConfig.bottom.shadow }
     var height: CGFloat { heights.first { $0.key == items.last }?.value ?? (lastPopupConfig.contentFillsEntireScreen ? screen.size.height : getInitialHeight()) }
     var maxHeight: CGFloat { getMaxHeight() - popupBottomPadding }
     var distanceFromKeyboard: CGFloat { lastPopupConfig.distanceFromKeyboard ?? globalConfig.bottom.distanceFromKeyboard }

@@ -17,6 +17,9 @@ public extension GlobalConfig.Centre {
 
     /// Corner radius of the popup at the top of the stack
     func cornerRadius(_ value: CGFloat) -> Self { changing(path: \.cornerRadius, to: value) }
+
+    /// Applies shadows to the popup
+    func applyShadow(color: Color = .black.opacity(0.16), radius: CGFloat = 16, x: CGFloat = 0, y: CGFloat = 0) -> Self { changing(path: \.shadow, to: .init(color: color, radius: radius, x: x, y: y)) }
 }
 
 // MARK: - Gestures
@@ -42,6 +45,7 @@ public extension GlobalConfig.Centre {
 public extension GlobalConfig { struct Centre: Configurable { public init() {}
     private(set) var backgroundColour: Color = .white
     private(set) var cornerRadius: CGFloat = 24
+    private(set) var shadow: Shadow = .none
 
     private(set) var tapOutsideClosesView: Bool = true
 

@@ -38,7 +38,7 @@ private extension PopupCentreStackView {
             .readHeight(onChange: saveHeight)
             .frame(height: height).frame(maxWidth: .infinity)
             .opacity(contentOpacity)
-            .background(backgroundColour, overlayColour: .clear, radius: cornerRadius, corners: .allCorners)
+            .background(backgroundColour, overlayColour: .clear, radius: cornerRadius, corners: .allCorners, shadow: popupShadow)
             .padding(.horizontal, lastPopupConfig.horizontalPadding)
             .compositingGroup()
             .focusSectionIfAvailable()
@@ -88,6 +88,7 @@ private extension PopupCentreStackView {
 extension PopupCentreStackView {
     var cornerRadius: CGFloat { lastPopupConfig.cornerRadius ?? globalConfig.centre.cornerRadius }
     var contentOpacity: CGFloat { contentIsAnimated ? 0 : 1 }
+    var popupShadow: Shadow { globalConfig.centre.shadow }
     var contentOpacityAnimationTime: CGFloat { globalConfig.centre.contentAnimationTime }
     var backgroundColour: Color { lastPopupConfig.backgroundColour ?? globalConfig.centre.backgroundColour }
 
