@@ -20,7 +20,7 @@ class ScreenManager: ObservableObject {
     private var subscription: [AnyCancellable] = []
 
     static let shared: ScreenManager = .init()
-    private init() { subscribeToScreenOrientationChangeEvents() }
+    private init() { subscribeToScreenOrientationChangeEvents(); updateScreenDetails() }
 }
 
 private extension ScreenManager {
@@ -31,6 +31,10 @@ private extension ScreenManager {
             .sink(receiveValue: updateScreenValues)
             .store(in: &subscription)
     }
+    func updateScreenDetails() { DispatchQueue.main.async {
+        self.size = UIScreen.size
+        self.safeArea = UIScreen.safeArea
+    }}
 }
 private extension ScreenManager {
     func updateScreenValues(_ value: NotificationCenter.Publisher.Output) {
