@@ -47,7 +47,7 @@ private extension PopupCentreStackView {
 private extension PopupCentreStackView {
     var popupView: some View {
         if #available(iOS 15.0, *) { return activeView?.opacity(contentOpacity) }
-        else { return items.last?.body }
+        else { return activeView ?? AnyView(items.last?.body) }
     }
 }
 
