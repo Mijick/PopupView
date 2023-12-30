@@ -34,20 +34,30 @@ struct PopupCentreStackView: PopupStack {
 
 private extension PopupCentreStackView {
     func createPopup() -> some View {
-        popupView
+        if #available(iOS 15, *) { return createPopupForNewPlatforms() }
+        else { return createPopupForOlderPlatforms() }
+    }
+}
+
+private extension PopupCentreStackView {
+    func createPopupForNewPlatforms() -> some View {
+        activeView?
+            .readHeight(onChange: saveHeight)
+            .frame(height: height).frame(maxWidth: .infinity)
+            .opacity(contentOpacity)
+            .background(backgroundColour, overlayColour: .clear, radius: cornerRadius, corners: .allCorners, shadow: popupShadow)
+            .padding(.horizontal, lastPopupConfig.horizontalPadding)
+            .compositingGroup()
+            .focusSectionIfAvailable()
+    }
+    func createPopupForOlderPlatforms() -> some View {
+        items.last?.body
             .readHeight(onChange: saveHeight)
             .frame(height: height).frame(maxWidth: .infinity)
             .background(backgroundColour, overlayColour: .clear, radius: cornerRadius, corners: .allCorners, shadow: popupShadow)
             .padding(.horizontal, lastPopupConfig.horizontalPadding)
             .compositingGroup()
             .focusSectionIfAvailable()
-    }
-}
-
-private extension PopupCentreStackView {
-    var popupView: some View {
-        if #available(iOS 15.0, *) { return activeView?.opacity(contentOpacity) }
-        else { return activeView ?? AnyView(items.last?.body) }
     }
 }
 
