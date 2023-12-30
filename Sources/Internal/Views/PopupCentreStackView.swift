@@ -34,10 +34,26 @@ struct PopupCentreStackView: PopupStack {
 
 private extension PopupCentreStackView {
     func createPopup() -> some View {
+        if #available(iOS 15, *) { return createPopupForNewPlatforms() }
+        else { return createPopupForOlderPlatforms() }
+    }
+}
+
+private extension PopupCentreStackView {
+    func createPopupForNewPlatforms() -> some View {
         activeView?
             .readHeight(onChange: saveHeight)
             .frame(height: height).frame(maxWidth: .infinity)
             .opacity(contentOpacity)
+            .background(backgroundColour, overlayColour: .clear, radius: cornerRadius, corners: .allCorners, shadow: popupShadow)
+            .padding(.horizontal, lastPopupConfig.horizontalPadding)
+            .compositingGroup()
+            .focusSectionIfAvailable()
+    }
+    func createPopupForOlderPlatforms() -> some View {
+        items.last?.body
+            .readHeight(onChange: saveHeight)
+            .frame(height: height).frame(maxWidth: .infinity)
             .background(backgroundColour, overlayColour: .clear, radius: cornerRadius, corners: .allCorners, shadow: popupShadow)
             .padding(.horizontal, lastPopupConfig.horizontalPadding)
             .compositingGroup()
@@ -48,11 +64,6 @@ private extension PopupCentreStackView {
 // MARK: - Logic Modifiers
 private extension PopupCentreStackView {
     func onItemsChange(_ items: [AnyPopup<CentrePopupConfig>]) {
-        handlePopupChange(items)
-    }
-}
-private extension PopupCentreStackView {
-    func handlePopupChange(_ items: [AnyPopup<CentrePopupConfig>]) {
         guard let popup = items.last else { return handleClosingPopup() }
 
         showNewPopup(popup)
