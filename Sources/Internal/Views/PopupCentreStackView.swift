@@ -34,10 +34,9 @@ struct PopupCentreStackView: PopupStack {
 
 private extension PopupCentreStackView {
     func createPopup() -> some View {
-        activeView?
+        popupView
             .readHeight(onChange: saveHeight)
             .frame(height: height).frame(maxWidth: .infinity)
-            .opacity(contentOpacity)
             .background(backgroundColour, overlayColour: .clear, radius: cornerRadius, corners: .allCorners, shadow: popupShadow)
             .padding(.horizontal, lastPopupConfig.horizontalPadding)
             .compositingGroup()
@@ -45,14 +44,16 @@ private extension PopupCentreStackView {
     }
 }
 
+private extension PopupCentreStackView {
+    var popupView: some View {
+        if #available(iOS 15.0, *) { return activeView?.opacity(contentOpacity) }
+        else { return items.last?.body }
+    }
+}
+
 // MARK: - Logic Modifiers
 private extension PopupCentreStackView {
     func onItemsChange(_ items: [AnyPopup<CentrePopupConfig>]) {
-        handlePopupChange(items)
-    }
-}
-private extension PopupCentreStackView {
-    func handlePopupChange(_ items: [AnyPopup<CentrePopupConfig>]) {
         guard let popup = items.last else { return handleClosingPopup() }
 
         showNewPopup(popup)
