@@ -15,7 +15,8 @@ import SwiftUI
 struct PopupView: View {
     let globalConfig: GlobalConfig
     @State private var zIndex: ZIndex = .init()
-    @ObservedObject private var stack: PopupManager = .shared
+    @State private var viewStack: ViewStack = .init()
+    @ObservedObject private var popupManager: PopupManager = .shared
     @ObservedObject private var screenManager: ScreenManager = .shared
 
 
@@ -27,13 +28,13 @@ struct PopupView: View {
 struct PopupView: View {
     let rootView: any View
     let globalConfig: GlobalConfig
-    @ObservedObject private var stack: PopupManager = .shared
+    @ObservedObject private var popupManager: PopupManager = .shared
     @ObservedObject private var screenManager: ScreenManager = .shared
 
 
     var body: some View {
         AnyView(rootView)
-            .disabled(!stack.views.isEmpty)
+            .disabled(!popupManager.views.isEmpty)
             .overlay(createBody())
     }
 }
@@ -47,7 +48,7 @@ private extension PopupView {
             .frame(height: screenManager.size.height)
             .frame(maxWidth: .infinity, maxHeight: .infinity)
             .background(createOverlay())
-            .onChange(of: stack.views.count, perform: onViewsCountChange)
+            .onReceive(popupManager.$views, perform: onViewsCountChange)
     }
 }
 
@@ -58,7 +59,7 @@ private extension PopupView {
             createCentrePopupStackView().zIndex(zIndex.centre)
             createBottomPopupStackView().zIndex(zIndex.bottom)
         }
-        .animation(stackAnimation, value: stack.views.map(\.id))
+        .animation(stackAnimation, value: popupManager.views.map(\.id))
     }
     func createOverlay() -> some View {
         overlayColour
@@ -71,28 +72,31 @@ private extension PopupView {
 
 private extension PopupView {
     func createTopPopupStackView() -> some View {
-        PopupTopStackView(items: stack.top, globalConfig: globalConfig)
+        PopupTopStackView(items: viewStack.top, globalConfig: globalConfig)
     }
     func createCentrePopupStackView() -> some View {
-        PopupCentreStackView(items: stack.centre, globalConfig: globalConfig)
+        PopupCentreStackView(items: viewStack.centre, globalConfig: globalConfig)
     }
     func createBottomPopupStackView() -> some View {
-        PopupBottomStackView(items: stack.bottom, globalConfig: globalConfig)
+        PopupBottomStackView(items: $viewStack.bottom, globalConfig: globalConfig)
     }
 }
 
 private extension PopupView {
-    func onViewsCountChange(_ x: Any) { zIndex.reshuffle(stack.views.last) }
+    func onViewsCountChange(_ views: Published<[Popup]>.Publisher.Output) {
+        viewStack.update(views)
+        zIndex.reshuffle(views.last)
+    }
 }
 
 private extension PopupView {
     var isOverlayActive: Bool { !isStackEmpty && !shouldOverlayBeHiddenForCurrentPopup }
-    var isStackEmpty: Bool { stack.views.isEmpty }
-    var shouldOverlayBeHiddenForCurrentPopup: Bool { stack.popupsWithoutOverlay.contains(stack.views.last?.id ?? "") }
+    var isStackEmpty: Bool { popupManager.views.isEmpty }
+    var shouldOverlayBeHiddenForCurrentPopup: Bool { popupManager.popupsWithoutOverlay.contains(popupManager.views.last?.id ?? "") }
 }
 
 private extension PopupView {
-    var stackAnimation: Animation { stack.presenting ? globalConfig.common.animation.entry : globalConfig.common.animation.removal }
+    var stackAnimation: Animation { popupManager.presenting ? globalConfig.common.animation.entry : globalConfig.common.animation.removal }
     var overlayColour: Color { globalConfig.common.overlayColour }
     var overlayAnimation: Animation { .easeInOut(duration: 0.44) }
 }
@@ -122,4 +126,20 @@ private extension PopupView.ZIndex {
     var top: Double { values[0] }
     var centre: Double { values[1] }
     var bottom: Double { values[2] }
+}
+
+
+
+
+extension PopupView { struct ViewStack {
+    var top: [AnyPopup<TopPopupConfig>] = []
+    var centre: [AnyPopup<CentrePopupConfig>] = []
+    var bottom: [AnyPopup<BottomPopupConfig>] = []
+}}
+extension PopupView.ViewStack {
+    mutating func update(_ views: [any Popup]) {
+        top = views.compactMap { $0 as? AnyPopup<TopPopupConfig> }
+        centre = views.compactMap { $0 as? AnyPopup<CentrePopupConfig> }
+        bottom = views.compactMap { $0 as? AnyPopup<BottomPopupConfig> }
+    }
 }
