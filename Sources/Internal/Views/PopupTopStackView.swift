@@ -14,7 +14,8 @@ struct PopupTopStackView: PopupStack {
     let items: [AnyPopup<TopPopupConfig>]
     let globalConfig: GlobalConfig
     @State var gestureTranslation: CGFloat = 0
-    @State var heights: [AnyPopup<TopPopupConfig>: CGFloat] = [:]
+    @State var heights: [String: CGFloat] = [:]
+    @State var refresher: Bool = true
     @ObservedObject private var screen: ScreenManager = .shared
 
     
@@ -23,8 +24,10 @@ struct PopupTopStackView: PopupStack {
             .ignoresSafeArea()
             .background(createTapArea())
             .animation(transitionEntryAnimation, value: heights)
+            .animation(transitionEntryAnimation, value: refresher)
             .animation(transitionRemovalAnimation, value: gestureTranslation)
             .onDragGesture(onChanged: onPopupDragGestureChanged, onEnded: onPopupDragGestureEnded)
+            .onChange(of: items, perform: onItemsChange)
     }
 }
 
@@ -84,7 +87,12 @@ private extension PopupTopStackView {
         }
     }
     func getBackgroundColour(for item: AnyPopup<TopPopupConfig>) -> Color { getConfig(item).backgroundColour ?? globalConfig.top.backgroundColour }
-    func saveHeight(_ height: CGFloat, for item: AnyPopup<TopPopupConfig>) { heights[item] = height }
+    func saveHeight(_ height: CGFloat, for item: AnyPopup<TopPopupConfig>) { heights[item.id] = height }
+}
+
+// MARK: - Action Modifiers
+private extension PopupTopStackView {
+    func onItemsChange(_ items: [AnyPopup<TopPopupConfig>]) { if items.isEmpty { DispatchQueue.main.asyncAfter(deadline: .now() + 0.6) { self.refresher.toggle() }}}
 }
 
 // MARK: - Flags & Values
@@ -92,7 +100,7 @@ extension PopupTopStackView {
     var contentTopPadding: CGFloat { lastPopupConfig.contentIgnoresSafeArea ? 0 : max(screen.safeArea.top - popupTopPadding, 0) }
     var popupTopPadding: CGFloat { lastPopupConfig.popupPadding.top }
     var popupShadow: Shadow { globalConfig.top.shadow }
-    var height: CGFloat { heights.first { $0.key == items.last }?.value ?? getInitialHeight() }
+    var height: CGFloat { heights.first { $0.key == items.last?.id }?.value ?? getInitialHeight() }
     var cornerRadius: CGFloat { lastPopupConfig.cornerRadius ?? globalConfig.top.cornerRadius }
 
     var stackLimit: Int { globalConfig.top.stackLimit }
