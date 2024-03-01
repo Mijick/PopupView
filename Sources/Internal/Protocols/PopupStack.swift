@@ -14,7 +14,8 @@ protocol PopupStack: View {
     associatedtype Config: Configurable
 
     var items: [AnyPopup<Config>] { get }
-    var heights: [AnyPopup<Config>: CGFloat] { get }
+    var heights: [String: CGFloat] { get }
+    var refresher: Bool { get }
     var globalConfig: GlobalConfig { get }
     var gestureTranslation: CGFloat { get }
     var translationProgress: CGFloat { get }
@@ -28,7 +29,8 @@ protocol PopupStack: View {
     var tapOutsideClosesPopup: Bool { get }
 }
 extension PopupStack {
-    var heights: [AnyPopup<Config>: CGFloat] { [:] }
+    var heights: [String: CGFloat] { [:] }
+    var refresher: Bool { true }
     var gestureTranslation: CGFloat { 0 }
     var translationProgress: CGFloat { 1 }
 
@@ -112,7 +114,7 @@ extension PopupStack {
     func getInitialHeight() -> CGFloat {
         guard let previousView = items.nextToLast else { return 0 }
 
-        let height = heights.filter { $0.key == previousView }.first?.value ?? 0
+        let height = heights.filter { $0.key == previousView.id }.first?.value ?? 0
         return height
     }
 }
