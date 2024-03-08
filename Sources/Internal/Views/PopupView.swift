@@ -15,7 +15,6 @@ import SwiftUI
 struct PopupView: View {
     let globalConfig: GlobalConfig
     @State private var zIndex: ZIndex = .init()
-    @State private var viewStack: ViewStack = .init()
     @ObservedObject private var popupManager: PopupManager = .shared
     @ObservedObject private var screenManager: ScreenManager = .shared
 
@@ -48,7 +47,7 @@ private extension PopupView {
             .frame(height: screenManager.size.height)
             .frame(maxWidth: .infinity, maxHeight: .infinity)
             .background(createOverlay())
-            .onReceive(popupManager.$views, perform: onViewsCountChange)
+            .onChange(of: popupManager.views.count, perform: onViewsCountChange)
     }
 }
 
@@ -72,21 +71,18 @@ private extension PopupView {
 
 private extension PopupView {
     func createTopPopupStackView() -> some View {
-        PopupTopStackView(items: viewStack.top, globalConfig: globalConfig)
+        PopupTopStackView(items: popupManager.views.compactMap { $0 as? AnyPopup<TopPopupConfig> }, globalConfig: globalConfig)
     }
     func createCentrePopupStackView() -> some View {
-        PopupCentreStackView(items: viewStack.centre, globalConfig: globalConfig)
+        PopupCentreStackView(items: popupManager.views.compactMap { $0 as? AnyPopup<CentrePopupConfig> }, globalConfig: globalConfig)
     }
     func createBottomPopupStackView() -> some View {
-        PopupBottomStackView(items: $viewStack.bottom, globalConfig: globalConfig)
+        PopupBottomStackView(items: popupManager.views.compactMap { $0 as? AnyPopup<BottomPopupConfig> }, globalConfig: globalConfig)
     }
 }
 
 private extension PopupView {
-    func onViewsCountChange(_ views: Published<[Popup]>.Publisher.Output) {
-        viewStack.update(views)
-        zIndex.reshuffle(views.last)
-    }
+    func onViewsCountChange(_ count: Int) { zIndex.reshuffle(popupManager.views.last) }
 }
 
 private extension PopupView {
@@ -126,20 +122,4 @@ private extension PopupView.ZIndex {
     var top: Double { values[0] }
     var centre: Double { values[1] }
     var bottom: Double { values[2] }
-}
-
-
-
-
-extension PopupView { struct ViewStack {
-    var top: [AnyPopup<TopPopupConfig>] = []
-    var centre: [AnyPopup<CentrePopupConfig>] = []
-    var bottom: [AnyPopup<BottomPopupConfig>] = []
-}}
-extension PopupView.ViewStack {
-    mutating func update(_ views: [any Popup]) {
-        top = views.compactMap { $0 as? AnyPopup<TopPopupConfig> }
-        centre = views.compactMap { $0 as? AnyPopup<CentrePopupConfig> }
-        bottom = views.compactMap { $0 as? AnyPopup<BottomPopupConfig> }
-    }
 }

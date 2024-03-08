@@ -11,7 +11,7 @@
 import SwiftUI
 
 struct PopupBottomStackView: PopupStack {
-    @Binding var items: [AnyPopup<BottomPopupConfig>]
+    let items: [AnyPopup<BottomPopupConfig>]
     let globalConfig: GlobalConfig
     @State var gestureTranslation: CGFloat = 0
     @State var heights: [String: CGFloat] = [:]
