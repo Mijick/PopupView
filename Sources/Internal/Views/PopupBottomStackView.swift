@@ -15,7 +15,6 @@ struct PopupBottomStackView: PopupStack {
     let globalConfig: GlobalConfig
     @State var gestureTranslation: CGFloat = 0
     @State var heights: [String: CGFloat] = [:]
-    @State var refresher: Bool = true
     @ObservedObject private var screen: ScreenManager = .shared
     @ObservedObject private var keyboardManager: KeyboardManager = .shared
 
@@ -25,9 +24,7 @@ struct PopupBottomStackView: PopupStack {
             .ignoresSafeArea()
             .background(createTapArea())
             .animation(transitionRemovalAnimation, value: gestureTranslation)
-            .animation(transitionEntryAnimation, value: refresher)
             .onDragGesture(onChanged: onPopupDragGestureChanged, onEnded: onPopupDragGestureEnded)
-            .onChange(of: items, perform: onItemsChange)
             .onChange(of: screen.size, perform: onScreenChange)
     }
 }
@@ -82,7 +79,6 @@ private extension PopupBottomStackView {
 
 // MARK: - Action Modifiers
 private extension PopupBottomStackView {
-    func onItemsChange(_ items: [AnyPopup<BottomPopupConfig>]) { if items.isEmpty { DispatchQueue.main.asyncAfter(deadline: .now() + 0.6) { self.refresher.toggle() }}}
     func onScreenChange(_ value: Any) { if let lastItem = items.last { saveHeight(heights[lastItem.id] ?? .infinity, withAnimation: nil, for: lastItem) }}
 }
 

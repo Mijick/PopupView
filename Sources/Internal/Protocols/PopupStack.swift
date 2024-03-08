@@ -15,7 +15,6 @@ protocol PopupStack: View {
 
     var items: [AnyPopup<Config>] { get }
     var heights: [String: CGFloat] { get }
-    var refresher: Bool { get }
     var globalConfig: GlobalConfig { get }
     var gestureTranslation: CGFloat { get }
     var translationProgress: CGFloat { get }
@@ -30,7 +29,6 @@ protocol PopupStack: View {
 }
 extension PopupStack {
     var heights: [String: CGFloat] { [:] }
-    var refresher: Bool { true }
     var gestureTranslation: CGFloat { 0 }
     var translationProgress: CGFloat { 1 }
 
