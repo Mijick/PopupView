@@ -14,7 +14,7 @@ struct PopupTopStackView: PopupStack {
     let items: [AnyPopup<TopPopupConfig>]
     let globalConfig: GlobalConfig
     @State var gestureTranslation: CGFloat = 0
-    @State var heights: [AnyPopup<TopPopupConfig>: CGFloat] = [:]
+    @State var heights: [String: CGFloat] = [:]
     @ObservedObject private var screen: ScreenManager = .shared
 
     
@@ -67,7 +67,7 @@ private extension PopupTopStackView {
 }
 private extension PopupTopStackView {
     func dismissLastItemIfNeeded() {
-        if translationProgress >= gestureClosingThresholdFactor { items.last?.dismiss() }
+        if translationProgress >= gestureClosingThresholdFactor { items.last?.remove() }
     }
     func resetGestureTranslationOnEnd() {
         let resetAfter = items.count == 1 && translationProgress >= gestureClosingThresholdFactor ? 0.25 : 0
@@ -84,7 +84,7 @@ private extension PopupTopStackView {
         }
     }
     func getBackgroundColour(for item: AnyPopup<TopPopupConfig>) -> Color { getConfig(item).backgroundColour ?? globalConfig.top.backgroundColour }
-    func saveHeight(_ height: CGFloat, for item: AnyPopup<TopPopupConfig>) { heights[item] = height }
+    func saveHeight(_ height: CGFloat, for item: AnyPopup<TopPopupConfig>) { heights[item.id] = height }
 }
 
 // MARK: - Flags & Values
@@ -92,7 +92,7 @@ extension PopupTopStackView {
     var contentTopPadding: CGFloat { lastPopupConfig.contentIgnoresSafeArea ? 0 : max(screen.safeArea.top - popupTopPadding, 0) }
     var popupTopPadding: CGFloat { lastPopupConfig.popupPadding.top }
     var popupShadow: Shadow { globalConfig.top.shadow }
-    var height: CGFloat { heights.first { $0.key == items.last }?.value ?? getInitialHeight() }
+    var height: CGFloat { heights.first { $0.key == items.last?.id }?.value ?? getInitialHeight() }
     var cornerRadius: CGFloat { lastPopupConfig.cornerRadius ?? globalConfig.top.cornerRadius }
 
     var stackLimit: Int { globalConfig.top.stackLimit }

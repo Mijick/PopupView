@@ -15,7 +15,7 @@ import SwiftUI
 struct PopupView: View {
     let globalConfig: GlobalConfig
     @State private var zIndex: ZIndex = .init()
-    @ObservedObject private var stack: PopupManager = .shared
+    @ObservedObject private var popupManager: PopupManager = .shared
     @ObservedObject private var screenManager: ScreenManager = .shared
 
 
@@ -27,13 +27,13 @@ struct PopupView: View {
 struct PopupView: View {
     let rootView: any View
     let globalConfig: GlobalConfig
-    @ObservedObject private var stack: PopupManager = .shared
+    @ObservedObject private var popupManager: PopupManager = .shared
     @ObservedObject private var screenManager: ScreenManager = .shared
 
 
     var body: some View {
         AnyView(rootView)
-            .disabled(!stack.views.isEmpty)
+            .disabled(!popupManager.views.isEmpty)
             .overlay(createBody())
     }
 }
@@ -47,7 +47,7 @@ private extension PopupView {
             .frame(height: screenManager.size.height)
             .frame(maxWidth: .infinity, maxHeight: .infinity)
             .background(createOverlay())
-            .onChange(of: stack.views.count, perform: onViewsCountChange)
+            .onChange(of: popupManager.views.count, perform: onViewsCountChange)
     }
 }
 
@@ -58,7 +58,7 @@ private extension PopupView {
             createCentrePopupStackView().zIndex(zIndex.centre)
             createBottomPopupStackView().zIndex(zIndex.bottom)
         }
-        .animation(stackAnimation, value: stack.views.map(\.id))
+        .animation(stackAnimation, value: popupManager.views.map(\.id))
     }
     func createOverlay() -> some View {
         overlayColour
@@ -71,28 +71,31 @@ private extension PopupView {
 
 private extension PopupView {
     func createTopPopupStackView() -> some View {
-        PopupTopStackView(items: stack.top, globalConfig: globalConfig)
+        PopupTopStackView(items: getViews(AnyPopup<TopPopupConfig>.self), globalConfig: globalConfig)
     }
     func createCentrePopupStackView() -> some View {
-        PopupCentreStackView(items: stack.centre, globalConfig: globalConfig)
+        PopupCentreStackView(items: getViews(AnyPopup<CentrePopupConfig>.self), globalConfig: globalConfig)
     }
     func createBottomPopupStackView() -> some View {
-        PopupBottomStackView(items: stack.bottom, globalConfig: globalConfig)
+        PopupBottomStackView(items: getViews(AnyPopup<BottomPopupConfig>.self), globalConfig: globalConfig)
     }
+}
+private extension PopupView {
+    func getViews<T: Popup>(_ type: T.Type) -> [T] { popupManager.views.compactMap { $0 as? T } }
 }
 
 private extension PopupView {
-    func onViewsCountChange(_ x: Any) { zIndex.reshuffle(stack.views.last) }
+    func onViewsCountChange(_ count: Int) { zIndex.reshuffle(popupManager.views.last) }
 }
 
 private extension PopupView {
     var isOverlayActive: Bool { !isStackEmpty && !shouldOverlayBeHiddenForCurrentPopup }
-    var isStackEmpty: Bool { stack.views.isEmpty }
-    var shouldOverlayBeHiddenForCurrentPopup: Bool { stack.popupsWithoutOverlay.contains(stack.views.last?.id ?? "") }
+    var isStackEmpty: Bool { popupManager.views.isEmpty }
+    var shouldOverlayBeHiddenForCurrentPopup: Bool { popupManager.popupsWithoutOverlay.contains(popupManager.views.last?.id ?? "") }
 }
 
 private extension PopupView {
-    var stackAnimation: Animation { stack.presenting ? globalConfig.common.animation.entry : globalConfig.common.animation.removal }
+    var stackAnimation: Animation { popupManager.presenting ? globalConfig.common.animation.entry : globalConfig.common.animation.removal }
     var overlayColour: Color { globalConfig.common.overlayColour }
     var overlayAnimation: Animation { .easeInOut(duration: 0.44) }
 }
