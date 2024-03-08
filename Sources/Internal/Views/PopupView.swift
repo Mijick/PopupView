@@ -71,14 +71,17 @@ private extension PopupView {
 
 private extension PopupView {
     func createTopPopupStackView() -> some View {
-        PopupTopStackView(items: popupManager.views.compactMap { $0 as? AnyPopup<TopPopupConfig> }, globalConfig: globalConfig)
+        PopupTopStackView(items: getViews(AnyPopup<TopPopupConfig>.self), globalConfig: globalConfig)
     }
     func createCentrePopupStackView() -> some View {
-        PopupCentreStackView(items: popupManager.views.compactMap { $0 as? AnyPopup<CentrePopupConfig> }, globalConfig: globalConfig)
+        PopupCentreStackView(items: getViews(AnyPopup<CentrePopupConfig>.self), globalConfig: globalConfig)
     }
     func createBottomPopupStackView() -> some View {
-        PopupBottomStackView(items: popupManager.views.compactMap { $0 as? AnyPopup<BottomPopupConfig> }, globalConfig: globalConfig)
+        PopupBottomStackView(items: getViews(AnyPopup<BottomPopupConfig>.self), globalConfig: globalConfig)
     }
+}
+private extension PopupView {
+    func getViews<T: Popup>(_ type: T.Type) -> [T] { popupManager.views.compactMap { $0 as? T } }
 }
 
 private extension PopupView {
