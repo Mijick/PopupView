@@ -69,7 +69,7 @@ private extension PopupBottomStackView {
 }
 private extension PopupBottomStackView {
     func dismissLastItemIfNeeded() {
-        if translationProgress >= gestureClosingThresholdFactor { items.last?.dismiss() }
+        if translationProgress >= gestureClosingThresholdFactor { items.last?.remove() }
     }
     func resetGestureTranslationOnEnd() {
         let resetAfter = items.count == 1 && translationProgress >= gestureClosingThresholdFactor ? 0.25 : 0
