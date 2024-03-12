@@ -33,9 +33,9 @@ struct PopupCentreStackView: PopupStack {
 }
 
 private extension PopupCentreStackView {
-    func createPopup() -> some View {
-        if #available(iOS 15, *) { return createPopupForNewPlatforms() }
-        else { return createPopupForOlderPlatforms() }
+    @ViewBuilder func createPopup() -> some View {
+        if #available(iOS 15, *) { createPopupForNewPlatforms() }
+        else { createPopupForOlderPlatforms() }
     }
 }
 
