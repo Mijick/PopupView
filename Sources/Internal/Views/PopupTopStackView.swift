@@ -20,7 +20,6 @@ struct PopupTopStackView: PopupStack {
     
     var body: some View {
         ZStack(alignment: .bottom, content: createPopupStack)
-            .ignoresSafeArea()
             .background(createTapArea())
             .animation(transitionEntryAnimation, value: heights)
             .animation(transitionRemovalAnimation, value: gestureTranslation)

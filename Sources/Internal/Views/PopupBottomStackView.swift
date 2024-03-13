@@ -21,11 +21,9 @@ struct PopupBottomStackView: PopupStack {
     
     var body: some View {
         ZStack(alignment: .top, content: createPopupStack)
-            .ignoresSafeArea()
             .background(createTapArea())
             .animation(transitionRemovalAnimation, value: gestureTranslation)
             .onDragGesture(onChanged: onPopupDragGestureChanged, onEnded: onPopupDragGestureEnded)
-            .onChange(of: screen.size, perform: onScreenChange)
     }
 }
 
@@ -51,7 +49,7 @@ private extension PopupBottomStackView {
             .opacity(getOpacity(item))
             .compositingGroup()
             .focusSectionIfAvailable()
-            .align(to: .bottom, lastPopupConfig.contentFillsEntireScreen ? nil : popupBottomPadding)
+            .align(to: .bottom, lastPopupConfig.contentFillsEntireScreen ? 0 : popupBottomPadding)
             .transition(transition)
             .zIndex(getZIndex(item))
     }
@@ -75,11 +73,6 @@ private extension PopupBottomStackView {
         let resetAfter = items.count == 1 && translationProgress >= gestureClosingThresholdFactor ? 0.25 : 0
         DispatchQueue.main.asyncAfter(deadline: .now() + resetAfter) { gestureTranslation = 0 }
     }
-}
-
-// MARK: - Action Modifiers
-private extension PopupBottomStackView {
-    func onScreenChange(_ value: Any) { if let lastItem = items.last { saveHeight(heights[lastItem.id] ?? .infinity, withAnimation: nil, for: lastItem) }}
 }
 
 // MARK: - View Modifiers

@@ -14,8 +14,8 @@ import Combine
 // MARK: -iOS Implementation
 #if os(iOS)
 class ScreenManager: ObservableObject {
-    @Published private(set) var size: CGSize = UIScreen.size
-    @Published private(set) var safeArea: UIEdgeInsets = UIScreen.safeArea
+    @Published var size: CGSize = UIScreen.size
+    @Published var safeArea: UIEdgeInsets = UIScreen.safeArea
     private(set) var cornerRadius: CGFloat? = UIScreen.cornerRadius
     private var subscription: [AnyCancellable] = []
 
@@ -32,14 +32,14 @@ private extension ScreenManager {
             .store(in: &subscription)
     }
     func updateScreenDetails() { DispatchQueue.main.async {
-        self.size = UIScreen.size
-        self.safeArea = UIScreen.safeArea
+//        self.size = UIScreen.size
+//        self.safeArea = UIScreen.safeArea
     }}
 }
 private extension ScreenManager {
     func updateScreenValues(_ value: NotificationCenter.Publisher.Output) {
-        size = UIScreen.size
-        safeArea = UIScreen.safeArea
+        //size = UIScreen.size
+        //safeArea = UIScreen.safeArea
     }
 }
 
@@ -63,8 +63,8 @@ fileprivate extension UIScreen {
 // MARK: - macOS Implementation
 #elseif os(macOS)
 class ScreenManager: ObservableObject {
-    @Published private(set) var size: CGSize = NSScreen.size
-    @Published private(set) var safeArea: NSEdgeInsets = NSScreen.safeArea
+    @Published var size: CGSize = NSScreen.size
+    @Published var safeArea: NSEdgeInsets = NSScreen.safeArea
     private(set) var cornerRadius: CGFloat? = NSScreen.cornerRadius
     private var subscription: [AnyCancellable] = []
 
@@ -82,7 +82,7 @@ private extension ScreenManager {
     }
     func subscribeToWindowSizeChangeEvents() {
         NotificationCenter.default
-            .publisher(for: NSWindow.didResizeNotification)
+            .publisher(for: NSWindow.willEnterFullScreenNotification)
             .receive(on: DispatchQueue.main)
             .sink(receiveValue: updateScreenValues)
             .store(in: &subscription)
@@ -90,8 +90,14 @@ private extension ScreenManager {
 }
 private extension ScreenManager {
     func updateScreenValues(_ value: NotificationCenter.Publisher.Output) { if let window = value.object as? NSWindow, let contentView = window.contentView {
-        size = contentView.frame.size
+
+        // daj fullscreen lub nie i wtedy pobieraj tylko
+
+
+
+        //size = contentView.frame.size
         safeArea = contentView.safeAreaInsets
+        //print(safeArea)
     }}
 }
 
