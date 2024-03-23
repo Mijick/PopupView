@@ -43,29 +43,13 @@ struct PopupView: View {
 // MARK: - Common Part
 private extension PopupView {
     func createBody() -> some View {
-        GeometryReader { reader in
-            createPopupStackView()
-                .frame(height: screenManager.size.height)
-                .frame(maxWidth: .infinity, maxHeight: .infinity)
-                .onChange(of: reader.size) { newValue in
-                    screenManager.size = reader.size
-                    //screenManager.safeArea.top = reader.safeAreaInsets.top
-                    //screenManager.safeArea.left = reader.safeAreaInsets.leading
-                    //screenManager.safeArea.bottom = reader.safeAreaInsets.bottom
-                    //screenManager.safeArea.right = reader.safeAreaInsets.trailing
-
-                    print(screenManager.safeArea)
-                }
-        }
-
-
-        .ignoresSafeArea()
-
-
-
-        .background(createOverlay())
-        .animation(stackAnimation, value: popupManager.views.map(\.id))
-        .onChange(of: popupManager.views.count, perform: onViewsCountChange)
+        createPopupStackView()
+            .ignoresSafeArea()
+            .frame(height: screenManager.size.height)
+            .frame(maxWidth: .infinity, maxHeight: .infinity)
+            .background(createOverlay())
+            .animation(stackAnimation, value: popupManager.views.map(\.id))
+            .onChange(of: popupManager.views.count, perform: onViewsCountChange)
     }
 }
 
@@ -76,7 +60,6 @@ private extension PopupView {
             createCentrePopupStackView().zIndex(zIndex.centre)
             createBottomPopupStackView().zIndex(zIndex.bottom)
         }
-
     }
     func createOverlay() -> some View {
         overlayColour
