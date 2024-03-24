@@ -16,8 +16,8 @@ import Combine
 class ScreenManager: ObservableObject {
     @Published var size: CGSize = .init()
     @Published var safeArea: UIEdgeInsets = .init()
-    private(set) var animationsDisabled: Bool = false
     private(set) var cornerRadius: CGFloat? = UIScreen.cornerRadius
+    private(set) var animationsDisabled: Bool = false
 
     static let shared: ScreenManager = .init()
     private init() {}
@@ -32,8 +32,8 @@ private extension UIScreen {
 class ScreenManager: ObservableObject {
     @Published var size: CGSize = .init()
     @Published var safeArea: NSEdgeInsets = .init()
-    private(set) var animationsDisabled: Bool = false
     private(set) var cornerRadius: CGFloat? = 0
+    private(set) var animationsDisabled: Bool = false
     private var subscription: [AnyCancellable] = []
 
     static let shared: ScreenManager = .init()
@@ -61,24 +61,35 @@ private extension ScreenManager {
 // MARK: - tvOS Implementation
 #elseif os(tvOS)
 class ScreenManager: ObservableObject {
-    @Published private(set) var size: CGSize = UIScreen.size
-    @Published private(set) var safeArea: UIEdgeInsets = UIScreen.safeArea
-    private(set) var cornerRadius: CGFloat? = UIScreen.cornerRadius
+    @Published private(set) var size: CGSize = .init()
+    @Published private(set) var safeArea: UIEdgeInsets = .init()
+    private(set) var cornerRadius: CGFloat? = 0
+    private(set) var animationsDisabled: Bool = false
 
     static let shared: ScreenManager = .init()
     private init() {}
 }
-
-fileprivate extension UIScreen {
-    static var safeArea: UIEdgeInsets {
-        UIApplication.shared
-            .connectedScenes
-            .compactMap { $0 as? UIWindowScene }
-            .flatMap(\.windows)
-            .first(where: \.isKeyWindow)?
-            .safeAreaInsets ?? .zero
-    }
-    static var size: CGSize { UIScreen.main.bounds.size }
-    static var cornerRadius: CGFloat = 0
-}
 #endif
+
+
+// MARK: - Common Implementation
+extension View {
+    func updateScreenSize() -> some View {
+        GeometryReader { reader in
+            onAppear { ScreenManager.update(reader) }
+                .onChange(of: reader.size) { _ in ScreenManager.update(reader) }
+                .onChange(of: reader.safeAreaInsets) { _ in ScreenManager.update(reader) }
+        }
+    }
+}
+fileprivate extension ScreenManager {
+    static func update(_ reader: GeometryProxy) {
+        shared.size.height = reader.size.height + reader.safeAreaInsets.top + reader.safeAreaInsets.bottom
+        shared.size.width = reader.size.width + reader.safeAreaInsets.leading + reader.safeAreaInsets.trailing
+
+        shared.safeArea.top = reader.safeAreaInsets.top
+        shared.safeArea.bottom = reader.safeAreaInsets.bottom
+        shared.safeArea.left = reader.safeAreaInsets.leading
+        shared.safeArea.right = reader.safeAreaInsets.trailing
+    }
+}
