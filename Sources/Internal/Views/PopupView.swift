@@ -27,6 +27,7 @@ struct PopupView: View {
 struct PopupView: View {
     let rootView: any View
     let globalConfig: GlobalConfig
+    @State private var zIndex: ZIndex = .init()
     @ObservedObject private var popupManager: PopupManager = .shared
     @ObservedObject private var screenManager: ScreenManager = .shared
 
@@ -44,9 +45,11 @@ struct PopupView: View {
 private extension PopupView {
     func createBody() -> some View {
         createPopupStackView()
+            .ignoresSafeArea()
             .frame(height: screenManager.size.height)
             .frame(maxWidth: .infinity, maxHeight: .infinity)
             .background(createOverlay())
+            .animation(stackAnimation, value: popupManager.views.map(\.id))
             .onChange(of: popupManager.views.count, perform: onViewsCountChange)
     }
 }
@@ -58,7 +61,6 @@ private extension PopupView {
             createCentrePopupStackView().zIndex(zIndex.centre)
             createBottomPopupStackView().zIndex(zIndex.bottom)
         }
-        .animation(stackAnimation, value: popupManager.views.map(\.id))
     }
     func createOverlay() -> some View {
         overlayColour

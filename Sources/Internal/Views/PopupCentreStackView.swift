@@ -14,6 +14,7 @@ struct PopupCentreStackView: PopupStack {
     let items: [AnyPopup<CentrePopupConfig>]
     let globalConfig: GlobalConfig
     @ObservedObject private var screen: ScreenManager = .shared
+    @ObservedObject private var keyboardManager: KeyboardManager = .shared
     @State private var activeView: AnyView?
     @State private var configTemp: CentrePopupConfig?
     @State private var height: CGFloat?
@@ -22,20 +23,22 @@ struct PopupCentreStackView: PopupStack {
     
     var body: some View {
         createPopup()
+            .align(to: .bottom, keyboardManager.height == 0 ? nil : keyboardManager.height)
             .frame(height: screen.size.height)
             .background(createTapArea())
             .animation(transitionEntryAnimation, value: lastPopupConfig.horizontalPadding)
             .animation(height == nil ? transitionRemovalAnimation : transitionEntryAnimation, value: height)
             .animation(transitionEntryAnimation, value: contentIsAnimated)
+            .animation(transitionEntryAnimation, value: keyboardManager.height)
             .transition(getTransition())
             .onChange(of: items, perform: onItemsChange)
     }
 }
 
 private extension PopupCentreStackView {
-    func createPopup() -> some View {
-        if #available(iOS 15, *) { return createPopupForNewPlatforms() }
-        else { return createPopupForOlderPlatforms() }
+    @ViewBuilder func createPopup() -> some View {
+        if #available(iOS 15, *) { createPopupForNewPlatforms() }
+        else { createPopupForOlderPlatforms() }
     }
 }
 

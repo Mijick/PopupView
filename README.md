@@ -214,6 +214,8 @@ PopupView is released under the MIT license. See [LICENSE][License] for details.
 # Our other open source SwiftUI libraries
 [Navigattie] - Easier and cleaner way of navigating through your app
 <br>
+[CalendarView] - Create your own calendar object in no time
+<br>
 [GridView] - Lay out your data with no effort
 <br>
 [Timer] - Modern API for Timer
@@ -229,6 +231,7 @@ PopupView is released under the MIT license. See [LICENSE][License] for details.
 [cocoapods]: https://cocoapods.org/
 [generate_cocoapods]: https://github.com/square/cocoapods-generate
 
-[Navigattie]: https://github.com/Mijick/Navigattie 
+[Navigattie]: https://github.com/Mijick/Navigattie
+[CalendarView]: https://github.com/Mijick/CalendarView 
 [GridView]: https://github.com/Mijick/GridView
 [Timer]: https://github.com/Mijick/Timer
