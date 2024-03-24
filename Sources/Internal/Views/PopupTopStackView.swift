@@ -15,13 +15,13 @@ struct PopupTopStackView: PopupStack {
     let globalConfig: GlobalConfig
     @State var gestureTranslation: CGFloat = 0
     @State var heights: [String: CGFloat] = [:]
-    @ObservedObject private var screen: ScreenManager = .shared
+    @ObservedObject private var screenManager: ScreenManager = .shared
 
     
     var body: some View {
         ZStack(alignment: .bottom, content: createPopupStack)
             .background(createTapArea())
-            .animation(transitionEntryAnimation, value: heights)
+            .animation(getHeightAnimation(isAnimationDisabled: screenManager.animationsDisabled), value: heights)
             .animation(transitionRemovalAnimation, value: gestureTranslation)
             .onDragGesture(onChanged: onPopupDragGestureChanged, onEnded: onPopupDragGestureEnded)
     }
@@ -37,8 +37,8 @@ private extension PopupTopStackView {
     func createPopup(_ item: AnyPopup<TopPopupConfig>) -> some View {
         item.body
             .padding(.top, contentTopPadding)
-            .padding(.leading, screen.safeArea.left)
-            .padding(.trailing, screen.safeArea.right)
+            .padding(.leading, screenManager.safeArea.left)
+            .padding(.trailing, screenManager.safeArea.right)
             .readHeight { saveHeight($0, for: item) }
             .frame(height: height).frame(maxWidth: .infinity)
             .background(getBackgroundColour(for: item), overlayColour: getStackOverlayColour(item), radius: getCornerRadius(item), corners: getCorners(), shadow: popupShadow)
@@ -88,7 +88,7 @@ private extension PopupTopStackView {
 
 // MARK: - Flags & Values
 extension PopupTopStackView {
-    var contentTopPadding: CGFloat { lastPopupConfig.contentIgnoresSafeArea ? 0 : max(screen.safeArea.top - popupTopPadding, 0) }
+    var contentTopPadding: CGFloat { lastPopupConfig.contentIgnoresSafeArea ? 0 : max(screenManager.safeArea.top - popupTopPadding, 0) }
     var popupTopPadding: CGFloat { lastPopupConfig.popupPadding.top }
     var popupShadow: Shadow { globalConfig.top.shadow }
     var height: CGFloat { heights.first { $0.key == items.last?.id }?.value ?? getInitialHeight() }
