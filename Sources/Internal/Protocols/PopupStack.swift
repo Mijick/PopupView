@@ -120,6 +120,9 @@ extension PopupStack {
 
 // MARK: - Animations
 extension PopupStack {
+    func getHeightAnimation(isAnimationDisabled: Bool) -> Animation? { !isAnimationDisabled ? transitionEntryAnimation : nil }
+}
+extension PopupStack {
     var transitionEntryAnimation: Animation { globalConfig.common.animation.entry }
     var transitionRemovalAnimation: Animation { globalConfig.common.animation.removal }
 }
