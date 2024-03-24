@@ -17,6 +17,7 @@ protocol PopupStack: View {
     var heights: [String: CGFloat] { get }
     var globalConfig: GlobalConfig { get }
     var gestureTranslation: CGFloat { get }
+    var isGestureActive: Bool { get }
     var translationProgress: CGFloat { get }
     var cornerRadius: CGFloat { get }
 
@@ -30,6 +31,7 @@ protocol PopupStack: View {
 extension PopupStack {
     var heights: [String: CGFloat] { [:] }
     var gestureTranslation: CGFloat { 0 }
+    var isGestureActive: Bool { false }
     var translationProgress: CGFloat { 1 }
 
     var stackLimit: Int { 1 }

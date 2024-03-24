@@ -15,6 +15,7 @@ struct PopupBottomStackView: PopupStack {
     let globalConfig: GlobalConfig
     @State var gestureTranslation: CGFloat = 0
     @State var heights: [String: CGFloat] = [:]
+    @GestureState var isGestureActive: Bool = false
     @ObservedObject private var screenManager: ScreenManager = .shared
     @ObservedObject private var keyboardManager: KeyboardManager = .shared
 
@@ -24,7 +25,7 @@ struct PopupBottomStackView: PopupStack {
             .background(createTapArea())
             .animation(getHeightAnimation(isAnimationDisabled: screenManager.animationsDisabled), value: heights)
             .animation(transitionRemovalAnimation, value: gestureTranslation)
-            .onDragGesture(onChanged: onPopupDragGestureChanged, onEnded: onPopupDragGestureEnded)
+            .onDragGesture($isGestureActive, onChanged: onPopupDragGestureChanged, onEnded: onPopupDragGestureEnded)
     }
 }
 
