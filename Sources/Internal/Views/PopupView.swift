@@ -27,6 +27,7 @@ struct PopupView: View {
 struct PopupView: View {
     let rootView: any View
     let globalConfig: GlobalConfig
+    @State private var zIndex: ZIndex = .init()
     @ObservedObject private var popupManager: PopupManager = .shared
     @ObservedObject private var screenManager: ScreenManager = .shared
 
