@@ -51,7 +51,6 @@ private extension PopupTopStackView {
             .focusSectionIfAvailable()
             .align(to: .top, popupTopPadding)
             .transition(transition)
-            .zIndex(getZIndex(item))
     }
 }
 
@@ -84,7 +83,7 @@ private extension PopupTopStackView {
         }
     }
     func getBackgroundColour(for item: AnyPopup<TopPopupConfig>) -> Color { getConfig(item).backgroundColour ?? globalConfig.top.backgroundColour }
-    func saveHeight(_ height: CGFloat, for item: AnyPopup<TopPopupConfig>) { heights[item.id] = height }
+    func saveHeight(_ height: CGFloat, for item: AnyPopup<TopPopupConfig>) { if !isGestureActive { heights[item.id] = height }}
 }
 
 // MARK: - Flags & Values

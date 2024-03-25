@@ -54,7 +54,6 @@ private extension PopupBottomStackView {
             .focusSectionIfAvailable()
             .align(to: .bottom, lastPopupConfig.contentFillsEntireScreen ? 0 : popupBottomPadding)
             .transition(transition)
-            .zIndex(getZIndex(item))
     }
 }
 
@@ -86,13 +85,13 @@ private extension PopupBottomStackView {
             default: return .allCorners
         }
     }
-    func saveHeight(_ height: CGFloat, for item: AnyPopup<BottomPopupConfig>) {
+    func saveHeight(_ height: CGFloat, for item: AnyPopup<BottomPopupConfig>) { if !isGestureActive {
         let config = item.configurePopup(popup: .init())
 
         if config.contentFillsEntireScreen { return heights[item.id] = screenManager.size.height }
         if config.contentFillsWholeHeight { return heights[item.id] = getMaxHeight() }
         return heights[item.id] = min(height, maxHeight)
-    }
+    }}
     func getMaxHeight() -> CGFloat {
         let basicHeight = screenManager.size.height - screenManager.safeArea.top
         let stackedViewsCount = min(max(0, globalConfig.bottom.stackLimit - 1), items.count - 1)
