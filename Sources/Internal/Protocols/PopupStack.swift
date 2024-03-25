@@ -104,11 +104,6 @@ extension PopupStack {
     func getOffset(_ item: AnyPopup<Config>) -> CGFloat { isLast(item) ? gestureTranslation : invertedIndex(item).floatValue * stackOffsetValue }
 }
 
-// MARK: - Z Index
-extension PopupStack {
-    func getZIndex(_ item: AnyPopup<Config>) -> Double { index(item).doubleValue + 1 }
-}
-
 // MARK: - Initial Height
 extension PopupStack {
     func getInitialHeight() -> CGFloat {
