@@ -48,7 +48,6 @@ private extension PopupView {
             .ignoresSafeArea()
             .frame(height: screenManager.size.height)
             .frame(maxWidth: .infinity, maxHeight: .infinity)
-            .background(createOverlay())
             .animation(stackAnimation, value: popupManager.views.map(\.id))
             .onChange(of: popupManager.views.count, perform: onViewsCountChange)
     }
@@ -57,29 +56,28 @@ private extension PopupView {
 private extension PopupView {
     func createPopupStackView() -> some View {
         ZStack {
-            createTopPopupStackView().zIndex(zIndex.top)
-            createCentrePopupStackView().zIndex(zIndex.centre)
-            createBottomPopupStackView().zIndex(zIndex.bottom)
+            createTopPopupStackView()
+            createCentrePopupStackView()
+            createBottomPopupStackView()
         }
-    }
-    func createOverlay() -> some View {
-        overlayColour
-            .ignoresSafeArea()
-            .active(if: isOverlayActive)
-            .animation(overlayAnimation, value: isStackEmpty)
-            .animation(overlayAnimation, value: shouldOverlayBeHiddenForCurrentPopup)
     }
 }
 
 private extension PopupView {
     func createTopPopupStackView() -> some View {
         PopupTopStackView(items: getViews(AnyPopup<TopPopupConfig>.self), globalConfig: globalConfig)
+            .addOverlay(overlayColour, isOverlayActive(AnyPopup<TopPopupConfig>.self))
+            .zIndex(zIndex.top)
     }
     func createCentrePopupStackView() -> some View {
         PopupCentreStackView(items: getViews(AnyPopup<CentrePopupConfig>.self), globalConfig: globalConfig)
+            .addOverlay(overlayColour, isOverlayActive(AnyPopup<CentrePopupConfig>.self))
+            .zIndex(zIndex.centre)
     }
     func createBottomPopupStackView() -> some View {
         PopupBottomStackView(items: getViews(AnyPopup<BottomPopupConfig>.self), globalConfig: globalConfig)
+            .addOverlay(overlayColour, isOverlayActive(AnyPopup<BottomPopupConfig>.self))
+            .zIndex(zIndex.bottom)
     }
 }
 private extension PopupView {
@@ -91,15 +89,15 @@ private extension PopupView {
 }
 
 private extension PopupView {
-    var isOverlayActive: Bool { !isStackEmpty && !shouldOverlayBeHiddenForCurrentPopup }
-    var isStackEmpty: Bool { popupManager.views.isEmpty }
+    func isOverlayActive<P: Popup>(_ type: P.Type) -> Bool { popupManager.views.last is P && !shouldOverlayBeHiddenForCurrentPopup }
+}
+private extension PopupView {
     var shouldOverlayBeHiddenForCurrentPopup: Bool { popupManager.popupsWithoutOverlay.contains(popupManager.views.last?.id ?? "") }
 }
 
 private extension PopupView {
     var stackAnimation: Animation { popupManager.presenting ? globalConfig.common.animation.entry : globalConfig.common.animation.removal }
     var overlayColour: Color { globalConfig.common.overlayColour }
-    var overlayAnimation: Animation { .easeInOut(duration: 0.44) }
 }
 
 
@@ -127,4 +125,13 @@ private extension PopupView.ZIndex {
     var top: Double { values[0] }
     var centre: Double { values[1] }
     var bottom: Double { values[2] }
+}
+
+
+// MARK: - Helpers
+fileprivate extension View {
+    func addOverlay(_ colour: Color, _ active: Bool) -> some View { ZStack {
+        colour.active(if: active)
+        self
+    }}
 }
