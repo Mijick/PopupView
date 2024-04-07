@@ -22,7 +22,17 @@ public extension Popup {
 // MARK: - Modifiers
 public extension Popup {
     /// Closes popup after n seconds
-    @discardableResult func dismissAfter(_ seconds: Double) -> some Popup { DispatchQueue.main.asyncAfter(deadline: .now() + max(0.5, seconds)) { PopupManager.dismiss(Self.self) }; return self }
+    @discardableResult func dismissAfter(_ seconds: Double) -> some Popup {
+        let action = DispatchSource.makeTimerSource(queue: DispatchQueue.main)
+        action.schedule(deadline: .now() + max(0.5, seconds))
+        action.setEventHandler { PopupManager.dismiss(Self.self) }
+        action.resume()
+
+
+
+        PopupManager.shared.dq[id] = action
+        return self
+    }
 
     /// Hides the overlay for the selected popup
     @discardableResult func hideOverlay() -> some Popup { PopupManager.hideOverlay(self); return self }

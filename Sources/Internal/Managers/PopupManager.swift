@@ -14,6 +14,7 @@ public class PopupManager: ObservableObject {
     @Published private(set) var views: [any Popup] = []
     private(set) var presenting: Bool = true
     private(set) var popupsWithoutOverlay: [String] = []
+    var dq: [String: DispatchSourceTimer] = [:]
 
     static let shared: PopupManager = .init()
     private init() {}
@@ -26,6 +27,13 @@ enum StackOperation {
 }
 extension PopupManager {
     static func performOperation(_ operation: StackOperation) { DispatchQueue.main.async {
+        switch operation {
+            case .removeLast: shared.dq.removeValue(forKey: shared.views.last?.id ?? "")
+            default: break
+        }
+
+
+
         updateOperationType(operation)
         shared.views.perform(operation)
     }}
