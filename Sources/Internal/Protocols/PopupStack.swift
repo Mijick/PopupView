@@ -107,11 +107,16 @@ extension PopupStack {
 // MARK: - Initial Height
 extension PopupStack {
     func getInitialHeight() -> CGFloat {
-        guard let previousView = items.nextToLast else { return 0 }
+        guard let previousView = items.nextToLast else { return 30 }
 
-        let height = heights.filter { $0.key == previousView.id }.first?.value ?? 0
+        let height = heights.filter { $0.key == previousView.id }.first?.value ?? 30
         return height
     }
+}
+
+// MARK: - Item ZIndex
+extension PopupStack {
+    func getZIndex(_ item: AnyPopup<Config>) -> Double { .init(items.firstIndex(of: item) ?? 2137) }
 }
 
 
@@ -122,6 +127,7 @@ extension PopupStack {
 extension PopupStack {
     var transitionEntryAnimation: Animation { globalConfig.common.animation.entry }
     var transitionRemovalAnimation: Animation { globalConfig.common.animation.removal }
+    var dragGestureAnimation: Animation { globalConfig.common.animation.dragGesture }
 }
 
 // MARK: - Configurables
