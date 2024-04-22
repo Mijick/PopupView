@@ -24,7 +24,7 @@ struct PopupBottomStackView: PopupStack {
         ZStack(alignment: .top, content: createPopupStack)
             .background(createTapArea())
             .animation(getHeightAnimation(isAnimationDisabled: screenManager.animationsDisabled), value: heights)
-            .animation(transitionRemovalAnimation, value: gestureTranslation)
+            .animation(isGestureActive ? dragGestureAnimation : transitionRemovalAnimation, value: gestureTranslation)
             .onDragGesture($isGestureActive, onChanged: onPopupDragGestureChanged, onEnded: onPopupDragGestureEnded)
     }
 }
@@ -54,6 +54,7 @@ private extension PopupBottomStackView {
             .focusSectionIfAvailable()
             .align(to: .bottom, lastPopupConfig.contentFillsEntireScreen ? 0 : popupBottomPadding)
             .transition(transition)
+            .zIndex(getZIndex(item))
     }
 }
 

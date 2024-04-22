@@ -14,6 +14,7 @@ public class PopupManager: ObservableObject {
     @Published private(set) var views: [any Popup] = []
     private(set) var presenting: Bool = true
     private(set) var popupsWithoutOverlay: [String] = []
+    private(set) var popupsToBeDismissed: [String: DispatchSourceTimer] = [:]
 
     static let shared: PopupManager = .init()
     private init() {}
@@ -26,12 +27,20 @@ enum StackOperation {
 }
 extension PopupManager {
     static func performOperation(_ operation: StackOperation) { DispatchQueue.main.async {
+        removePopupFromStackToBeDismissed(operation)
         updateOperationType(operation)
         shared.views.perform(operation)
     }}
+    static func dismissPopupAfter(_ popup: any Popup, _ seconds: Double) { shared.popupsToBeDismissed[popup.id] = DispatchSource.createAction(deadline: seconds) { performOperation(.remove(id: popup.id)) } }
     static func hideOverlay(_ popup: any Popup) { shared.popupsWithoutOverlay.append(popup.id) }
 }
 private extension PopupManager {
+    static func removePopupFromStackToBeDismissed(_ operation: StackOperation) { switch operation {
+        case .removeLast: shared.popupsToBeDismissed.removeValue(forKey: shared.views.last?.id ?? "")
+        case .remove(let id): shared.popupsToBeDismissed.removeValue(forKey: id)
+        case .removeAllUpTo, .removeAll: shared.popupsToBeDismissed.removeAll()
+        default: break
+    }}
     static func updateOperationType(_ operation: StackOperation) { switch operation {
         case .insertAndReplace, .insertAndStack: shared.presenting = true
         case .removeLast, .remove, .removeAllUpTo, .removeAll: shared.presenting = false
