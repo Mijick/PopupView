@@ -28,6 +28,12 @@ public extension Popup {
     @discardableResult func hideOverlay() -> some Popup { PopupManager.hideOverlay(self); return self }
 }
 
+// MARK: - Dependency Injections
+public extension Popup {
+    /// Supplies an observable object to a view’s hierarchy.
+    func environmentObject<T: ObservableObject>(_ object: T) -> any Popup { AnyPopup<Config>(self, object) }
+}
+
 // MARK: - Available Popups
 public protocol TopPopup: Popup { associatedtype Config = TopPopupConfig }
 public protocol CentrePopup: Popup { associatedtype Config = CentrePopupConfig }

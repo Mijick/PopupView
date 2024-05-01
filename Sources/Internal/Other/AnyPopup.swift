@@ -21,6 +21,11 @@ struct AnyPopup<Config: Configurable>: Popup, Hashable {
         self._body = AnyView(popup)
         self._configBuilder = popup.configurePopup as! (Config) -> Config
     }
+    init(_ popup: some Popup, _ envObject: some ObservableObject) {
+        self.id = popup.id
+        self._body = AnyView(popup.environmentObject(envObject))
+        self._configBuilder = popup.configurePopup as! (Config) -> Config
+    }
 }
 extension AnyPopup {
     func createContent() -> some View { _body }
