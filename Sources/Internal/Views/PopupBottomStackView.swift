@@ -25,6 +25,7 @@ struct PopupBottomStackView: PopupStack {
             .background(createTapArea())
             .animation(getHeightAnimation(isAnimationDisabled: screenManager.animationsDisabled), value: heights)
             .animation(isGestureActive ? dragGestureAnimation : transitionRemovalAnimation, value: gestureTranslation)
+            .animation(.keyboard, value: isKeyboardVisible)
             .onDragGesture($isGestureActive, onChanged: onPopupDragGestureChanged, onEnded: onPopupDragGestureEnded)
     }
 }
@@ -116,7 +117,7 @@ extension PopupBottomStackView {
     var popupHorizontalPadding: CGFloat { lastPopupConfig.popupPadding.horizontal }
     var popupShadow: Shadow { globalConfig.bottom.shadow }
     var height: CGFloat { heights.first { $0.key == items.last?.id }?.value ?? (lastPopupConfig.contentFillsEntireScreen ? screenManager.size.height : getInitialHeight()) }
-    var frameMaxHeight: CGFloat? { lastPopupConfig.contentFillsEntireScreen ? .infinity : height }
+    var frameMaxHeight: CGFloat { lastPopupConfig.contentFillsEntireScreen ? .infinity : height }
     var maxHeight: CGFloat { getMaxHeight() - popupBottomPadding }
     var distanceFromKeyboard: CGFloat { lastPopupConfig.distanceFromKeyboard ?? globalConfig.bottom.distanceFromKeyboard }
     var cornerRadius: CGFloat { let cornerRadius = lastPopupConfig.cornerRadius ?? globalConfig.bottom.cornerRadius; return lastPopupConfig.contentFillsEntireScreen ? min(cornerRadius, screenManager.cornerRadius ?? 0) : cornerRadius }
