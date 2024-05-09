@@ -12,5 +12,5 @@
 import SwiftUI
 
 extension Animation {
-    static var keyboard: Animation { .timingCurve(0.380, 0.700, 0.125, 1.000) }
+    static var keyboard: Animation { .interpolatingSpring(mass: 3, stiffness: 1000, damping: 500, initialVelocity: 6.4) }
 }
