@@ -29,7 +29,7 @@ struct PopupCentreStackView: PopupStack {
             .animation(transitionEntryAnimation, value: lastPopupConfig.horizontalPadding)
             .animation(height == nil ? transitionRemovalAnimation : transitionEntryAnimation, value: height)
             .animation(transitionEntryAnimation, value: contentIsAnimated)
-            .animation(transitionEntryAnimation, value: keyboardManager.height)
+            .animation(.keyboard, value: keyboardManager.height)
             .transition(getTransition())
             .onChange(of: items, perform: onItemsChange)
     }
