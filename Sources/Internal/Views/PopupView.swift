@@ -82,7 +82,9 @@ private extension PopupView {
 }
 
 private extension PopupView {
-    func onViewsCountChange(_ count: Int) { zIndex.reshuffle(popupManager.views.last) }
+    func onViewsCountChange(_ count: Int) { DispatchQueue.main.asyncAfter(deadline: .now() + (!popupManager.presenting && zIndex.centre == 3 ? 0.4 : 0)) {
+        zIndex.reshuffle(popupManager.views.last)
+    }}
 }
 
 private extension PopupView {
