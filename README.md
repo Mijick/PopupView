@@ -218,6 +218,8 @@ PopupView is released under the MIT license. See [LICENSE][License] for details.
 <br>
 [GridView] - Lay out your data with no effort
 <br>
+[CameraView] - The most powerful CameraController. Designed for SwiftUI
+<br>
 [Timer] - Modern API for Timer
 
 
@@ -233,5 +235,6 @@ PopupView is released under the MIT license. See [LICENSE][License] for details.
 
 [Navigattie]: https://github.com/Mijick/Navigattie
 [CalendarView]: https://github.com/Mijick/CalendarView 
+[CameraView]: https://github.com/Mijick/CameraView
 [GridView]: https://github.com/Mijick/GridView
 [Timer]: https://github.com/Mijick/Timer
