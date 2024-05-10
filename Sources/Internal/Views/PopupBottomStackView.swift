@@ -49,7 +49,7 @@ private extension PopupBottomStackView {
             .background(getBackgroundColour(for: item), overlayColour: getStackOverlayColour(item), radius: getCornerRadius(item), corners: getCorners(), shadow: popupShadow)
             .padding(.horizontal, popupHorizontalPadding)
             .offset(y: getOffset(item))
-            .scaleEffect(getScale(item), anchor: .top)
+            .scaleEffect(x: getScale(item))
             .opacity(getOpacity(item))
             .compositingGroup()
             .focusSectionIfAvailable()
