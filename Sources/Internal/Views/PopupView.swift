@@ -16,7 +16,6 @@ struct PopupView: View {
     let globalConfig: GlobalConfig
     @State private var zIndex: ZIndex = .init()
     @ObservedObject private var popupManager: PopupManager = .shared
-    @ObservedObject private var screenManager: ScreenManager = .shared
 
 
     var body: some View { createBody() }
@@ -29,7 +28,6 @@ struct PopupView: View {
     let globalConfig: GlobalConfig
     @State private var zIndex: ZIndex = .init()
     @ObservedObject private var popupManager: PopupManager = .shared
-    @ObservedObject private var screenManager: ScreenManager = .shared
 
 
     var body: some View {
@@ -46,7 +44,6 @@ private extension PopupView {
     func createBody() -> some View {
         createPopupStackView()
             .ignoresSafeArea()
-            .frame(height: screenManager.size.height)
             .frame(maxWidth: .infinity, maxHeight: .infinity)
             .animation(stackAnimation, value: popupManager.views.map(\.id))
             .onChange(of: popupManager.views.count, perform: onViewsCountChange)
