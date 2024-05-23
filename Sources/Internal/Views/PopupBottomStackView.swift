@@ -106,7 +106,7 @@ private extension PopupBottomStackView {
 
         return max(screenManager.safeArea.bottom - popupBottomPadding, 0)
     }
-    func getContentTopPadding() -> CGFloat { lastPopupConfig.contentFillsEntireScreen ? screenManager.safeArea.top : 0 }
+    func getContentTopPadding() -> CGFloat { lastPopupConfig.contentFillsEntireScreen && !lastPopupConfig.contentIgnoresSafeArea ? screenManager.safeArea.top : 0 }
     func getHeight(_ item: AnyPopup<BottomPopupConfig>) -> CGFloat? { getConfig(item).contentFillsEntireScreen ? nil : height }
     func getFixedSize(_ item: AnyPopup<BottomPopupConfig>) -> Bool { !(getConfig(item).contentFillsEntireScreen || getConfig(item).contentFillsWholeHeight || height == maxHeight) }
     func getBackgroundColour(for item: AnyPopup<BottomPopupConfig>) -> Color { item.configurePopup(popup: .init()).backgroundColour ?? globalConfig.bottom.backgroundColour }
