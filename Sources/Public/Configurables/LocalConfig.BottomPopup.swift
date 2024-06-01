@@ -51,6 +51,12 @@ public extension BottomPopupConfig {
     func dragGestureEnabled(_ value: Bool) -> Self { changing(path: \.dragGestureEnabled, to: value) }
 }
 
+// MARK: - Others
+public extension BottomPopupConfig {
+    /// Sets the priority of the popup on the stack
+    func setPriority(_ value: Priority) -> Self { changing(path: \.priority, to: value) }
+}
+
 
 // MARK: - Internal
 public struct BottomPopupConfig: Configurable { public init() {}
@@ -65,4 +71,6 @@ public struct BottomPopupConfig: Configurable { public init() {}
 
     private(set) var tapOutsideClosesView: Bool? = nil
     private(set) var dragGestureEnabled: Bool? = nil
+
+    private(set) var priority: Priority = .normal
 }

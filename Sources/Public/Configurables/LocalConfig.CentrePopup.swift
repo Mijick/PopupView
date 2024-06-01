@@ -28,6 +28,12 @@ public extension CentrePopupConfig {
     func tapOutsideToDismiss(_ value: Bool) -> Self { changing(path: \.tapOutsideClosesView, to: value) }
 }
 
+// MARK: - Others
+public extension CentrePopupConfig {
+    /// Sets the priority of the popup on the stack
+    func setPriority(_ value: Priority) -> Self { changing(path: \.priority, to: value) }
+}
+
 
 // MARK: - Internal
 public struct CentrePopupConfig: Configurable { public init() {}
@@ -36,4 +42,6 @@ public struct CentrePopupConfig: Configurable { public init() {}
     private(set) var horizontalPadding: CGFloat = 12
 
     private(set) var tapOutsideClosesView: Bool? = nil
+
+    private(set) var priority: Priority = .normal
 }
