@@ -11,7 +11,7 @@
 import SwiftUI
 
 // MARK: - iOS / macOS Implementation
-#if os(iOS) || os(macOS)
+#if os(iOS) || os(macOS) || os(visionOS)
 struct PopupView: View {
     let globalConfig: GlobalConfig
     @State private var zIndex: ZIndex = .init()
@@ -46,7 +46,7 @@ private extension PopupView {
             .ignoresSafeArea()
             .frame(maxWidth: .infinity, maxHeight: .infinity)
             .animation(stackAnimation, value: popupManager.views.map(\.id))
-            .onChange(of: popupManager.views.count, perform: onViewsCountChange)
+            .onChange(popupManager.views.count, completion: onViewsCountChange)
     }
 }
 

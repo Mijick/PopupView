@@ -14,10 +14,10 @@ import SwiftUI
 public extension View {
     /// Initialises the library. Use directly with the view in your @main structure
     func implementPopupView(config: (GlobalConfig) -> GlobalConfig = { $0 }) -> some View {
-    #if os(iOS) || os(macOS)
+    #if os(iOS) || os(macOS) || os(visionOS)
         updateScreenSize()
             .frame(maxWidth: .infinity)
-            .overlay(PopupView(globalConfig: config(.init())))
+            .overlay(view: PopupView(globalConfig: config(.init())))
     #elseif os(tvOS)
         PopupView(rootView: updateScreenSize(), globalConfig: config(.init()))
     #endif

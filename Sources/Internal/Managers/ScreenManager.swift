@@ -56,6 +56,17 @@ private extension ScreenManager {
             .store(in: &subscription)
     }
 }
+// MARK: - visionOS Implementation
+#elseif os(visionOS)
+class ScreenManager: ObservableObject {
+    @Published var size: CGSize = .init()
+    @Published var safeArea: UIEdgeInsets = .init()
+    private(set) var cornerRadius: CGFloat? = 0
+    private(set) var animationsDisabled: Bool = false
+    
+    static let shared: ScreenManager = .init()
+    private init() {}
+}
 
 
 // MARK: - tvOS Implementation
