@@ -28,7 +28,7 @@ fileprivate extension Edge {
 // MARK: - Actions
 extension View {
     func focusSectionIfAvailable() -> some View {
-    #if os(iOS) || os(macOS) || os(visionOS)
+    #if os(iOS) || os(macOS) || os(visionOS) || os(watchOS)
         self
     #elseif os(tvOS)
         focusSection()

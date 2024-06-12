@@ -60,7 +60,7 @@ extension KeyboardManager {
 
 
 // MARK: - tvOS Implementation
-#elseif os(tvOS)
+#elseif os(tvOS) || os(watchOS)
 class KeyboardManager: ObservableObject {
     private(set) var height: CGFloat = 0
 

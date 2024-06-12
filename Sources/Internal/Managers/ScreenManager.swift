@@ -68,6 +68,18 @@ class ScreenManager: ObservableObject {
     private init() {}
 }
 
+// MARK: - macOS watchOS
+#elseif os(watchOS)
+class ScreenManager: ObservableObject {
+    @Published var size: CGSize = .init()
+    @Published var safeArea: UIEdgeInsets = .init()
+    private(set) var cornerRadius: CGFloat? = 0
+    private(set) var animationsDisabled: Bool = false
+    private var subscription: [AnyCancellable] = []
+
+    static let shared: ScreenManager = .init()
+    private init() { }
+}
 
 // MARK: - tvOS Implementation
 #elseif os(tvOS)

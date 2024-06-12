@@ -11,7 +11,7 @@
 import SwiftUI
 
 // MARK: - iOS / macOS Implementation
-#if os(iOS) || os(macOS) || os(visionOS)
+#if os(iOS) || os(macOS) || os(visionOS) || os(watchOS)
 struct PopupView: View {
     let globalConfig: GlobalConfig
     @State private var zIndex: ZIndex = .init()

@@ -11,7 +11,7 @@
 import SwiftUI
 
 // MARK: - iOS + macOS Implementation
-#if os(iOS) || os(macOS) || os(visionOS)
+#if os(iOS) || os(macOS) || os(visionOS) || os(watchOS)
 extension View {
     func onTapGesture(perform action: @escaping () -> ()) -> some View { onTapGesture(count: 1, perform: action) }
     func onDragGesture(_ state: GestureState<Bool>, onChanged actionOnChanged: @escaping (CGFloat) -> (), onEnded actionOnEnded: @escaping (CGFloat) -> ()) -> some View { simultaneousGesture(createDragGesture(state, actionOnChanged, actionOnEnded)).onStateChange(state, actionOnEnded) }

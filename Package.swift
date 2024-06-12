@@ -8,7 +8,8 @@ let package = Package(
     platforms: [
         .iOS(.v14),
         .macOS(.v12),
-        .tvOS(.v15)
+        .tvOS(.v15),
+        .watchOS(.v4)
     ],
     products: [
         .library(name: "MijickPopupView", targets: ["MijickPopupView"])
