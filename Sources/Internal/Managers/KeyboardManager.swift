@@ -12,7 +12,7 @@ import SwiftUI
 import Combine
 
 // MARK: -iOS Implementation
-#if os(iOS)
+#if os(iOS) || os(visionOS)
 class KeyboardManager: ObservableObject {
     @Published private(set) var height: CGFloat = 0
     private var subscription: [AnyCancellable] = []
@@ -60,7 +60,7 @@ extension KeyboardManager {
 
 
 // MARK: - tvOS Implementation
-#elseif os(tvOS)
+#elseif os(tvOS) || os(watchOS)
 class KeyboardManager: ObservableObject {
     private(set) var height: CGFloat = 0
 
