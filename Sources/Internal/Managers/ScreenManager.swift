@@ -75,7 +75,6 @@ class ScreenManager: ObservableObject {
     @Published var safeArea: UIEdgeInsets = .init()
     private(set) var cornerRadius: CGFloat? = 0
     private(set) var animationsDisabled: Bool = false
-    private var subscription: [AnyCancellable] = []
 
     static let shared: ScreenManager = .init()
     private init() { }
