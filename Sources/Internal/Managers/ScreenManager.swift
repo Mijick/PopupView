@@ -68,7 +68,7 @@ class ScreenManager: ObservableObject {
     private init() {}
 }
 
-// MARK: - macOS watchOS
+// MARK: - watchOS Implementation
 #elseif os(watchOS)
 class ScreenManager: ObservableObject {
     @Published var size: CGSize = .init()
