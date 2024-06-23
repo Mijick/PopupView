@@ -64,17 +64,17 @@ private extension PopupView {
     func createTopPopupStackView() -> some View {
         PopupTopStackView(items: getViews(AnyPopup<TopPopupConfig>.self), globalConfig: globalConfig)
             .addOverlay(overlayColour, isOverlayActive(AnyPopup<TopPopupConfig>.self))
-            .zIndex(zIndex.top)
+            .zIndex(zIndex.zIndex[.top]!)
     }
     func createCentrePopupStackView() -> some View {
         PopupCentreStackView(items: getViews(AnyPopup<CentrePopupConfig>.self), globalConfig: globalConfig)
             .addOverlay(overlayColour, isOverlayActive(AnyPopup<CentrePopupConfig>.self))
-            .zIndex(zIndex.centre)
+            .zIndex(zIndex.zIndex[.centre]!)
     }
     func createBottomPopupStackView() -> some View {
         PopupBottomStackView(items: getViews(AnyPopup<BottomPopupConfig>.self), globalConfig: globalConfig)
             .addOverlay(overlayColour, isOverlayActive(AnyPopup<BottomPopupConfig>.self))
-            .zIndex(zIndex.bottom)
+            .zIndex(zIndex.zIndex[.bottom]!)
     }
 }
 private extension PopupView {
@@ -82,7 +82,8 @@ private extension PopupView {
 }
 
 private extension PopupView {
-    func onViewsCountChange(_ count: Int) { DispatchQueue.main.asyncAfter(deadline: .now() + (!popupManager.presenting && zIndex.centre == 3 ? 0.4 : 0)) {
+    // jeszcze uwzględnić 3.5
+    func onViewsCountChange(_ count: Int) { DispatchQueue.main.asyncAfter(deadline: .now() + (!popupManager.presenting && zIndex.zIndex[.centre]?.truncatingRemainder(dividingBy: 1) != 0 && zIndex.zIndex[.centre]?.truncatingRemainder(dividingBy: 0.5) == 0 ? 0.4 : 0)) {
         zIndex.reshuffle(popupManager.views.last)
     }}
 }
@@ -104,27 +105,62 @@ private extension PopupView {
 // Purpose: To ensure that the stacks are displayed in the correct order
 // Example: There are three bottom popups on the screen, and the user wants to display the centre one - to make sure they are displayed in the right order, we need to count the indexes; otherwise centre popup would be hidden by the bottom three.
 extension PopupView { struct ZIndex {
-    private var values: [Double] = [1, 1, 1]
+    private(set) var zIndex: [T: Double] = [.bottom: 1, .centre: 1, .top: 1]
+
+
+
+
+
+    enum T { case top, centre, bottom }
+
+
+
 }}
 extension PopupView.ZIndex {
     mutating func reshuffle(_ lastPopup: (any Popup)?) { if let lastPopup {
-        if lastPopup is AnyPopup<TopPopupConfig> { reshuffle(0) }
-        else if lastPopup is AnyPopup<CentrePopupConfig> { reshuffle(1) }
-        else if lastPopup is AnyPopup<BottomPopupConfig> { reshuffle(2) }
-    }}
-}
-private extension PopupView.ZIndex {
-    mutating func reshuffle(_ index: Int) { if values[index] != 3 {
-        values.enumerated().forEach {
-            values[$0.offset] = $0.offset == index ? 3 : max(1, $0.element - 1)
+        if let topPopup = lastPopup as? AnyPopup<TopPopupConfig> {
+            let priority = topPopup.configurePopup(popup: .init()).priority
+            reshuffle(.top, priority)
+        }
+        else if let centrePopup = lastPopup as? AnyPopup<CentrePopupConfig> {
+            let priority = centrePopup.configurePopup(popup: .init()).priority
+            reshuffle(.centre, priority)
+        }
+        else if let bottomPopup = lastPopup as? AnyPopup<BottomPopupConfig> {
+            let priority = bottomPopup.configurePopup(popup: .init()).priority
+            reshuffle(.bottom, priority)
         }
     }}
 }
 private extension PopupView.ZIndex {
-    var top: Double { values[0] }
-    var centre: Double { values[1] }
-    var bottom: Double { values[2] }
+    mutating func reshuffle(_ t: T, _ priority: Priority) {
+        var newIndexes = zIndex.reduce(into: [:]) {
+
+            $0[$1.key] =
+                $1.value.truncatingRemainder(dividingBy: 1) == 0 ? $1.value
+            :   $1.value.truncatingRemainder(dividingBy: 0.5) == 0 ? $1.value - 0.25
+            :   $1.value - 0.0001
+
+
+            // problem jest taki, że zamyka poprzedni popup jeśli jest zasłonięty
+
+        }
+        newIndexes[t] = priority.getIndex()
+        zIndex = newIndexes
+    }
 }
+
+
+
+fileprivate extension Priority {
+    func getIndex() -> Double { switch self {
+        case .lowest: 1.5
+        case .normal: 2.5
+        case .highest: 3.5
+    }}
+}
+
+
 
 
 // MARK: - Helpers
@@ -133,4 +169,26 @@ fileprivate extension View {
         colour.active(if: active)
         self
     }}
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+public enum Priority: Double {
+    case lowest
+    case normal
+    case highest
 }
