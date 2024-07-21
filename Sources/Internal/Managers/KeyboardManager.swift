@@ -21,12 +21,15 @@ class KeyboardManager: ObservableObject {
     private init() { subscribeToKeyboardEvents() }
 }
 extension KeyboardManager {
-    static func hideKeyboard() { UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil) }
+    static func hideKeyboard() { DispatchQueue.main.async {
+        UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
+    }}
 }
 
 private extension KeyboardManager {
     func subscribeToKeyboardEvents() {
         Publishers.Merge(getKeyboardWillOpenPublisher(), createKeyboardWillHidePublisher())
+            .receive(on: DispatchQueue.main)
             .sink { self.height = $0 }
             .store(in: &subscription)
     }
