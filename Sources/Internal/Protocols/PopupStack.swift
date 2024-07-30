@@ -14,7 +14,7 @@ protocol PopupStack: View {
     associatedtype Config: Configurable
 
     var items: [AnyPopup<Config>] { get }
-    var heights: [String: CGFloat] { get }
+    var heights: [ID: CGFloat] { get }
     var globalConfig: GlobalConfig { get }
     var gestureTranslation: CGFloat { get }
     var isGestureActive: Bool { get }
@@ -29,7 +29,7 @@ protocol PopupStack: View {
     var tapOutsideClosesPopup: Bool { get }
 }
 extension PopupStack {
-    var heights: [String: CGFloat] { [:] }
+    var heights: [ID: CGFloat] { [:] }
     var gestureTranslation: CGFloat { 0 }
     var isGestureActive: Bool { false }
     var translationProgress: CGFloat { 1 }

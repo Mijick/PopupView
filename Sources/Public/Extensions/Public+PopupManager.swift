@@ -23,10 +23,10 @@ public extension PopupManager {
     static func dismiss() { performOperation(.removeLast) }
 
     /// Dismisses all popups of provided type on the stack.
-    static func dismiss<P: Popup>(_ popup: P.Type) { performOperation(.remove(id: .init(describing: popup))) }
+    static func dismiss<P: Popup>(_ popup: P.Type) { performOperation(.remove(ID(popup))) }
 
     /// Dismisses all popups on the stack up to the popup with the selected type
-    static func dismissAll<P: Popup>(upTo popup: P.Type) { performOperation(.removeAllUpTo(id: .init(describing: popup))) }
+    static func dismissAll<P: Popup>(upTo popup: P.Type) { performOperation(.removeAllUpTo(ID(popup))) }
 
     /// Dismisses all the popups on the stack.
     static func dismissAll() { performOperation(.removeAll) }

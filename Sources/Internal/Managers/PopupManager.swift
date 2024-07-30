@@ -13,8 +13,8 @@ import SwiftUI
 public class PopupManager: ObservableObject {
     @Published private(set) var views: [any Popup] = []
     private(set) var presenting: Bool = true
-    private(set) var popupsWithoutOverlay: [String] = []
-    private(set) var popupsToBeDismissed: [String: DispatchSourceTimer] = [:]
+    private(set) var popupsWithoutOverlay: [ID] = []
+    private(set) var popupsToBeDismissed: [ID: DispatchSourceTimer] = [:]
 
     static let shared: PopupManager = .init()
     private init() {}
@@ -23,7 +23,7 @@ public class PopupManager: ObservableObject {
 // MARK: - Operations
 enum StackOperation {
     case insertAndReplace(any Popup), insertAndStack(any Popup)
-    case removeLast, remove(id: String), removeAllUpTo(id: String), removeAll
+    case removeLast, remove(ID), removeAllUpTo(ID), removeAll
 }
 extension PopupManager {
     static func performOperation(_ operation: StackOperation) { DispatchQueue.main.async {
@@ -31,12 +31,12 @@ extension PopupManager {
         updateOperationType(operation)
         shared.views.perform(operation)
     }}
-    static func dismissPopupAfter(_ popup: any Popup, _ seconds: Double) { shared.popupsToBeDismissed[popup.id] = DispatchSource.createAction(deadline: seconds) { performOperation(.remove(id: popup.id)) } }
+    static func dismissPopupAfter(_ popup: any Popup, _ seconds: Double) { shared.popupsToBeDismissed[popup.id] = DispatchSource.createAction(deadline: seconds) { performOperation(.remove(popup.id)) } }
     static func hideOverlay(_ popup: any Popup) { shared.popupsWithoutOverlay.append(popup.id) }
 }
 private extension PopupManager {
     static func removePopupFromStackToBeDismissed(_ operation: StackOperation) { switch operation {
-        case .removeLast: shared.popupsToBeDismissed.removeValue(forKey: shared.views.last?.id ?? "")
+        case .removeLast: shared.popupsToBeDismissed.removeValue(forKey: shared.views.last?.id ?? .init())
         case .remove(let id): shared.popupsToBeDismissed.removeValue(forKey: id)
         case .removeAllUpTo, .removeAll: shared.popupsToBeDismissed.removeAll()
         default: break
@@ -60,12 +60,12 @@ private extension [any Popup] {
             case .insertAndReplace(let popup): replaceLast(popup, if: canBeInserted(popup))
             case .insertAndStack(let popup): append(popup, if: canBeInserted(popup))
             case .removeLast: removeLast()
-            case .remove(let id): removeAll(where: { $0.id == id })
-            case .removeAllUpTo(let id): removeAllUpToElement(where: { $0.id == id })
+            case .remove(let id): removeAll(where: { $0.id ~= id })
+            case .removeAllUpTo(let id): removeAllUpToElement(where: { $0.id ~= id })
             case .removeAll: removeAll()
         }
     }
 }
 private extension [any Popup] {
-    func canBeInserted(_ popup: some Popup) -> Bool { !contains(where: { $0.id == popup.id }) }
+    func canBeInserted(_ popup: some Popup) -> Bool { !contains(where: { $0.id ~= popup.id }) }
 }

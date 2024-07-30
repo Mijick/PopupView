@@ -11,7 +11,7 @@
 import SwiftUI
 
 struct AnyPopup<Config: Configurable>: Popup, Hashable {
-    let id: String
+    let id: ID
     private let _body: AnyView
     private let _configBuilder: (Config) -> Config
 
