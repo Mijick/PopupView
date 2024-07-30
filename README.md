@@ -18,6 +18,10 @@
 
 <p align="center">
     <a href="https://github.com/Mijick/PopupView-Demo" rel="nofollow">Try demo we prepared</a>
+    |
+    <a href="https://mijick.notion.site/c95fe641ff684561a4523b9570113516?v=46960f9a652147d4a12fc9dd36cbd4fc" rel="nofollow">Roadmap</a>
+    |
+    <a href="https://github.com/Mijick/PopupView/issues/new" rel="nofollow">Propose a new feature</a>
 </p>
 
 <br>
