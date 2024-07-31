@@ -13,10 +13,9 @@ import SwiftUI
 
 extension View {
     func updateScreenSize() -> some View { GeometryReader { reader in
-        frame(maxWidth: .infinity, maxHeight: .infinity)
+        frame(width: reader.size.width, height: reader.size.height).frame(maxWidth: .infinity, maxHeight: .infinity)
             .onAppear { ScreenManager.update(reader) }
-            .onChange(of: reader.size) { _ in ScreenManager.update(reader) }
-            .onChange(of: reader.safeAreaInsets) { _ in ScreenManager.update(reader) }
+            .onChange(of: reader.frame(in: .global)) { _ in ScreenManager.update(reader) }
     }}
 }
 fileprivate extension ScreenManager {
