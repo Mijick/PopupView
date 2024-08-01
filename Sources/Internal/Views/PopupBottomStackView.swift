@@ -14,7 +14,7 @@ struct PopupBottomStackView: PopupStack {
     let items: [AnyPopup<BottomPopupConfig>]
     let globalConfig: GlobalConfig
     @State var gestureTranslation: CGFloat = 0
-    @State var heights: [String: CGFloat] = [:]
+    @State var heights: [ID: CGFloat] = [:]
     @GestureState var isGestureActive: Bool = false
     @ObservedObject private var screenManager: ScreenManager = .shared
     @ObservedObject private var keyboardManager: KeyboardManager = .shared
