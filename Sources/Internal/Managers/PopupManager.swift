@@ -36,7 +36,7 @@ extension PopupManager {
 }
 private extension PopupManager {
     static func removePopupFromStackToBeDismissed(_ operation: StackOperation) { switch operation {
-        case .removeLast: shared.popupsToBeDismissed.removeValue(forKey: shared.views.last?.id ?? .empty)
+        case .removeLast: shared.popupsToBeDismissed.removeValue(forKey: shared.views.last?.id ?? .init())
         case .remove(let id): shared.popupsToBeDismissed.removeValue(forKey: id)
         case .removeAllUpTo, .removeAll: shared.popupsToBeDismissed.removeAll()
         default: break

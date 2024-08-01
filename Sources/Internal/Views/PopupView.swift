@@ -91,7 +91,7 @@ private extension PopupView {
     func isOverlayActive<P: Popup>(_ type: P.Type) -> Bool { popupManager.views.last is P && !shouldOverlayBeHiddenForCurrentPopup }
 }
 private extension PopupView {
-    var shouldOverlayBeHiddenForCurrentPopup: Bool { popupManager.popupsWithoutOverlay.contains(popupManager.views.last?.id ?? .empty) }
+    var shouldOverlayBeHiddenForCurrentPopup: Bool { popupManager.popupsWithoutOverlay.contains(popupManager.views.last?.id ?? .init()) }
 }
 
 private extension PopupView {
