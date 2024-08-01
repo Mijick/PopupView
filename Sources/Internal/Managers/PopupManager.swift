@@ -13,8 +13,8 @@ import SwiftUI
 public class PopupManager: ObservableObject {
     @Published private(set) var views: [any Popup] = []
     private(set) var presenting: Bool = true
-    private(set) var popupsWithoutOverlay: [String] = []
-    private(set) var popupsToBeDismissed: [String: DispatchSourceTimer] = [:]
+    private(set) var popupsWithoutOverlay: [ID] = []
+    private(set) var popupsToBeDismissed: [ID: DispatchSourceTimer] = [:]
 
     static let shared: PopupManager = .init()
     private init() {}
