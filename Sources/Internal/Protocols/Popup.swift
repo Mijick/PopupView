@@ -28,5 +28,5 @@ public extension Popup {
 
 // MARK: - Helpers
 extension Popup {
-    func remove() { PopupManager.performOperation(.remove(id: id)) }
+    func remove() { PopupManager.performOperation(.remove(id)) }
 }
