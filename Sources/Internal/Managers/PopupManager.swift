@@ -23,7 +23,7 @@ public class PopupManager: ObservableObject {
 // MARK: - Operations
 enum StackOperation {
     case insertAndReplace(any Popup), insertAndStack(any Popup)
-    case removeLast, remove(id: String), removeAllUpTo(id: String), removeAll
+    case removeLast, remove(ID), removeAllUpTo(ID), removeAll
 }
 extension PopupManager {
     static func performOperation(_ operation: StackOperation) { DispatchQueue.main.async {
@@ -31,7 +31,7 @@ extension PopupManager {
         updateOperationType(operation)
         shared.views.perform(operation)
     }}
-    static func dismissPopupAfter(_ popup: any Popup, _ seconds: Double) { shared.popupsToBeDismissed[popup.id] = DispatchSource.createAction(deadline: seconds) { performOperation(.remove(id: popup.id)) } }
+    static func dismissPopupAfter(_ popup: any Popup, _ seconds: Double) { shared.popupsToBeDismissed[popup.id] = DispatchSource.createAction(deadline: seconds) { performOperation(.remove(popup.id)) } }
     static func hideOverlay(_ popup: any Popup) { shared.popupsWithoutOverlay.append(popup.id) }
 }
 private extension PopupManager {
