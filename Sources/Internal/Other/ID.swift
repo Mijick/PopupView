@@ -23,12 +23,12 @@ extension ID {
 }
 
 // MARK: - Equatable
-extension ID: Equatable {
+extension PopupID: Equatable {
     public static func ==(lhs: Self, rhs: Self) -> Bool { getComponent(lhs) == getComponent(rhs) }
 }
 
 // MARK: - Hashing
-extension ID: Hashable {
+extension PopupID: Hashable {
     public func hash(into hasher: inout Hasher) { hasher.combine(Self.getComponent(self)) }
 }
 
