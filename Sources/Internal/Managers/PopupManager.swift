@@ -60,8 +60,8 @@ private extension [any Popup] {
             case .insertAndReplace(let popup): replaceLast(popup, if: canBeInserted(popup))
             case .insertAndStack(let popup): append(popup, if: canBeInserted(popup))
             case .removeLast: removeLast()
-            case .remove(let id): removeAll(where: { $0.id == id })
-            case .removeAllUpTo(let id): removeAllUpToElement(where: { $0.id == id })
+            case .remove(let id): removeAll(where: { $0.id ~= id })
+            case .removeAllUpTo(let id): removeAllUpToElement(where: { $0.id ~= id })
             case .removeAll: removeAll()
         }
     }
