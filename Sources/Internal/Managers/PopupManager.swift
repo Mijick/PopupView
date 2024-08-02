@@ -11,13 +11,23 @@
 import SwiftUI
 
 public class PopupManager: ObservableObject {
-    @Published private(set) var views: [any Popup] = []
+    @Published private(set) var views: [any Popup] = [] { willSet { onViewsChanged(newValue) }}
     private(set) var presenting: Bool = true
     private(set) var popupsWithoutOverlay: [ID] = []
     private(set) var popupsToBeDismissed: [ID: DispatchSourceTimer] = [:]
+    private(set) var popupActionsOnDismiss: [ID: () -> ()] = [:]
 
     static let shared: PopupManager = .init()
     private init() {}
+}
+private extension PopupManager {
+    func onViewsChanged(_ newViews: [any Popup]) { newViews
+        .difference(from: views, by: { $0.id == $1.id })
+        .forEach { switch $0 {
+            case .remove(_, let element, _): popupActionsOnDismiss[element.id]?(); popupActionsOnDismiss.removeValue(forKey: element.id)
+            default: return
+        }}
+    }
 }
 
 // MARK: - Operations
@@ -33,6 +43,7 @@ extension PopupManager {
     }}
     static func dismissPopupAfter(_ popup: any Popup, _ seconds: Double) { shared.popupsToBeDismissed[popup.id] = DispatchSource.createAction(deadline: seconds) { performOperation(.remove(popup.id)) } }
     static func hideOverlay(_ popup: any Popup) { shared.popupsWithoutOverlay.append(popup.id) }
+    static func onPopupDismiss(_ popup: any Popup, _ action: @escaping () -> ()) { shared.popupActionsOnDismiss[popup.id] = action }
 }
 private extension PopupManager {
     static func removePopupFromStackToBeDismissed(_ operation: StackOperation) { switch operation {
