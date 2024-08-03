@@ -109,8 +109,8 @@ Installation steps:
     
 # Usage
 ### 1. Setup library
-There are two ways to initialize the library - the new one and the old one. 
-- Let's start with the latter, which is relatively simpler, but **DOES NOT WORK** with native SwiftUI sheets. Inside your `@main` structure call the `implementPopupView` method. It takes the optional argument - *config*, that can be used to configure some modifiers for all popups in the application.
+The library can be initialised in two ways:
+1. **DOES NOT WORK with SwiftUI sheets**<br>Inside your @main structure call the implementPopupView method. It takes the optional argument - config, that can be used to configure some modifiers for all popups in the application.
 ```Swift
 @main struct PopupView_Main: App {
     var body: some Scene {
@@ -118,7 +118,9 @@ There are two ways to initialize the library - the new one and the old one.
     }
 }
 ```
-- To use MijickPopupView with native SwiftUI sheets, the library must be initialised as follows:
+2. **WORKS with SwiftUI sheets**<br>
+
+
 ```Swift
 @main struct PopupView_Main: App {
     @UIApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
