@@ -109,7 +109,7 @@ Installation steps:
     
 # Usage
 ### 1. Setup library
-The library can be initialised in two ways:
+The library can be initialised in either of two ways:
 1. **DOES NOT WORK with SwiftUI sheets**<br>Inside your @main structure call the implementPopupView method. It takes the optional argument - config, that can be used to configure some modifiers for all popups in the application.
 ```Swift
 @main struct PopupView_Main: App {
@@ -119,8 +119,7 @@ The library can be initialised in two ways:
 }
 ```
 2. **WORKS with SwiftUI sheets**<br>
-
-
+Declare an AppDelegate class conforming to UIApplicationDelegate and add it to the @main structure. 
 ```Swift
 @main struct PopupView_Main: App {
     @UIApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
@@ -131,8 +130,26 @@ The library can be initialised in two ways:
 class AppDelegate: NSObject, UIApplicationDelegate {
     func application(_ application: UIApplication, configurationForConnecting connectingSceneSession: UISceneSession, options: UIScene.ConnectionOptions) -> UISceneConfiguration {
         let sceneConfig = UISceneConfiguration(name: nil, sessionRole: connectingSceneSession.role)
-        sceneConfig.delegateClass = PopupSceneDelegate.self
+        sceneConfig.delegateClass = CustomPopupSceneDelegate.self
         return sceneConfig
+    }
+}
+
+class CustomPopupSceneDelegate: PopupSceneDelegate {
+    override init() {
+        super.init()
+        config = { $0
+            .top { $0
+                .cornerRadius(24)
+                .dragGestureEnabled(true)
+            }
+            .centre { $0
+                .tapOutsideToDismiss(false)
+            }
+            .bottom { $0
+                .stackLimit(5)
+            }
+        }
     }
 }
 ```
