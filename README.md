@@ -109,11 +109,30 @@ Installation steps:
     
 # Usage
 ### 1. Setup library
-Inside your `@main` structure call the `implementPopupView` method. It takes the optional argument - *config*, that can be used to configure some modifiers for all popups in the application.
+There are two ways to initialize the library - the new one and the old one. 
+- Let's start with the latter, which is relatively simpler, but **DOES NOT WORK** with native SwiftUI sheets. Inside your `@main` structure call the `implementPopupView` method. It takes the optional argument - *config*, that can be used to configure some modifiers for all popups in the application.
 ```Swift
-  var body: some Scene {
+@main struct PopupView_Main: App {
+    var body: some Scene {
         WindowGroup(content: ContentView().implementPopupView)
-  }
+    }
+}
+```
+- To use MijickPopupView with native SwiftUI sheets, the library must be initialised as follows:
+```Swift
+@main struct PopupView_Main: App {
+    @UIApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
+
+    var body: some Scene { WindowGroup(content: ContentView.init) }
+}
+
+class AppDelegate: NSObject, UIApplicationDelegate {
+    func application(_ application: UIApplication, configurationForConnecting connectingSceneSession: UISceneSession, options: UIScene.ConnectionOptions) -> UISceneConfiguration {
+        let sceneConfig = UISceneConfiguration(name: nil, sessionRole: connectingSceneSession.role)
+        sceneConfig.delegateClass = PopupSceneDelegate.self
+        return sceneConfig
+    }
+}
 ```
 
 ### 2. Declare a structure of your popup
