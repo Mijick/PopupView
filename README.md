@@ -18,6 +18,10 @@
 
 <p align="center">
     <a href="https://github.com/Mijick/PopupView-Demo" rel="nofollow">Try demo we prepared</a>
+    |
+    <a href="https://mijick.notion.site/c95fe641ff684561a4523b9570113516?v=46960f9a652147d4a12fc9dd36cbd4fc" rel="nofollow">Roadmap</a>
+    |
+    <a href="https://github.com/Mijick/PopupView/issues/new" rel="nofollow">Propose a new feature</a>
 </p>
 
 <br>
@@ -105,11 +109,49 @@ Installation steps:
     
 # Usage
 ### 1. Setup library
-Inside your `@main` structure call the `implementPopupView` method. It takes the optional argument - *config*, that can be used to configure some modifiers for all popups in the application.
+The library can be initialised in either of two ways:
+1. **DOES NOT WORK with SwiftUI sheets**<br>Inside your @main structure call the implementPopupView method. It takes the optional argument - config, that can be used to configure some modifiers for all popups in the application.
 ```Swift
-  var body: some Scene {
+@main struct PopupView_Main: App {
+    var body: some Scene {
         WindowGroup(content: ContentView().implementPopupView)
-  }
+    }
+}
+```
+2. **WORKS with SwiftUI sheets. Only for iOS**<br>
+Declare an AppDelegate class conforming to UIApplicationDelegate and add it to the @main structure. 
+```Swift
+@main struct PopupView_Main: App {
+    @UIApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
+
+    var body: some Scene { WindowGroup(content: ContentView.init) }
+}
+
+class AppDelegate: NSObject, UIApplicationDelegate {
+    func application(_ application: UIApplication, configurationForConnecting connectingSceneSession: UISceneSession, options: UIScene.ConnectionOptions) -> UISceneConfiguration {
+        let sceneConfig = UISceneConfiguration(name: nil, sessionRole: connectingSceneSession.role)
+        sceneConfig.delegateClass = CustomPopupSceneDelegate.self
+        return sceneConfig
+    }
+}
+
+class CustomPopupSceneDelegate: PopupSceneDelegate {
+    override init() {
+        super.init()
+        config = { $0
+            .top { $0
+                .cornerRadius(24)
+                .dragGestureEnabled(true)
+            }
+            .centre { $0
+                .tapOutsideToDismiss(false)
+            }
+            .bottom { $0
+                .stackLimit(5)
+            }
+        }
+    }
+}
 ```
 
 ### 2. Declare a structure of your popup

@@ -11,8 +11,10 @@
 
 import SwiftUI
 
+#if os(iOS)
 open class PopupSceneDelegate: NSObject, UIWindowSceneDelegate {
     open var window: UIWindow?
+    open var config: (GlobalConfig) -> (GlobalConfig) = { _ in .init() }
 }
 
 // MARK: - Creating Popup Scene
@@ -21,7 +23,7 @@ extension PopupSceneDelegate {
         let hostingController = UIHostingController(rootView: Rectangle()
             .fill(Color.clear)
             .frame(maxWidth: .infinity, maxHeight: .infinity)
-            .implementPopupView()
+            .implementPopupView(config: config)
         )
         hostingController.view.backgroundColor = .clear
 
@@ -39,3 +41,4 @@ fileprivate class Window: UIWindow {
         return rootViewController?.view == view ? nil : view
     }
 }
+#endif
