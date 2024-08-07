@@ -229,13 +229,14 @@ extension PopupBottomStackView {
 
 
         if gestureTranslation < 0 {
-            return h1 + abs(gestureTranslation)
+            let h2 = h1 + abs(gestureTranslation) + (dragHeights[items.last!.id] ?? 0)
+            return h2
         }
 
 
 
 
-        return h1
+        return h1 + (dragHeights[items.last!.id] ?? 0)
 
 
 
