@@ -15,6 +15,9 @@ struct PopupBottomStackView: PopupStack {
     let globalConfig: GlobalConfig
     @State var gestureTranslation: CGFloat = 0
     @State var heights: [ID: CGFloat] = [:]
+    @State var dragHeights: [ID: CGFloat] = [:]
+    @State var currentDragHeight: CGFloat = 0
+    @State var done: Bool = false
     @GestureState var isGestureActive: Bool = false
     @ObservedObject private var screenManager: ScreenManager = .shared
     @ObservedObject private var keyboardManager: KeyboardManager = .shared
@@ -25,6 +28,7 @@ struct PopupBottomStackView: PopupStack {
             .background(createTapArea())
             .animation(getHeightAnimation(isAnimationDisabled: screenManager.animationsDisabled), value: heights)
             .animation(isGestureActive ? dragGestureAnimation : transitionRemovalAnimation, value: gestureTranslation)
+            .animation(isGestureActive ? dragGestureAnimation : transitionRemovalAnimation, value: currentDragHeight)
             .animation(.keyboard, value: isKeyboardVisible)
             .onDragGesture($isGestureActive, onChanged: onPopupDragGestureChanged, onEnded: onPopupDragGestureEnded)
     }
@@ -45,7 +49,7 @@ private extension PopupBottomStackView {
             .padding(.trailing, screenManager.safeArea.right)
             .fixedSize(horizontal: false, vertical: getFixedSize(item))
             .readHeight { saveHeight($0, for: item) }
-            .frame(height: getHeight(item), alignment: .top).frame(maxWidth: .infinity, maxHeight: height)
+            .frame(height: getHeight(item)! + (currentDragHeight ?? 0), alignment: .top).frame(maxWidth: .infinity, maxHeight: height + (currentDragHeight ?? 0))
             .background(getBackgroundColour(for: item), overlayColour: getStackOverlayColour(item), radius: getCornerRadius(item), corners: getCorners(), shadow: popupShadow)
             .padding(.horizontal, popupHorizontalPadding)
             .offset(y: getOffset(item))
@@ -59,14 +63,121 @@ private extension PopupBottomStackView {
     }
 }
 
-// MARK: - Gesture
+// MARK: - Gestures
+
+// MARK: On Changed
 private extension PopupBottomStackView {
-    func onPopupDragGestureChanged(_ value: CGFloat) {
-        if lastPopupConfig.dragGestureEnabled ?? globalConfig.bottom.dragGestureEnabled { gestureTranslation = max(0, value) }
+    func onPopupDragGestureChanged(_ value: CGFloat) { guard canDragGestureBeUsed() else { return }
+        updateGestureTranslation(value)
+        updateDragHeight(value)
+
+
+        done = false
+
     }
+}
+private extension PopupBottomStackView {
+    func canDragGestureBeUsed() -> Bool { lastPopupConfig.dragGestureEnabled ?? globalConfig.bottom.dragGestureEnabled }
+    func updateGestureTranslation(_ value: CGFloat) {
+
+        // jeśli currentHeight <= 0
+
+
+
+        let aaa = dragHeights[items.last?.id ?? .init()] ?? 0
+
+
+
+        print(currentDragHeight, gestureTranslation)
+
+        if currentDragHeight <= 0 {
+            gestureTranslation = max(0, value - aaa)
+        }
+
+
+        //
+
+
+
+
+        // jeśli idzie w dół to inaczej się to rozwiązuje
+
+
+    }
+    func updateDragHeight(_ value: CGFloat) {
+        guard gestureTranslation == 0 else { return }
+
+        //print(gestureTranslation, currentDragHeight)
+
+
+        if !lastPopupConfig.dragDetents.isEmpty {
+            currentDragHeight = max(0, (dragHeights[items.last!.id] ?? 0) - value)
+
+
+
+
+
+        }
+
+
+
+    }
+}
+
+// MARK: On Ended
+private extension PopupBottomStackView {
     func onPopupDragGestureEnded(_ value: CGFloat) {
-        dismissLastItemIfNeeded()
+        let a = currentDragHeight == dragHeights[items.last?.id ?? .init()] ?? 0
+        let b = done
+
+//        print(a == b)
+//        if a != b {
+//            print(currentDragHeight)
+//            print(dragHeights[items.last?.id ?? .init()] ?? 0)
+//        }
+
+
+        //guard !a else { return }
+
+
+        guard !done else { return }
+
+
+        done = true
+
+
+
+
+
+        //dismissLastItemIfNeeded()
         resetGestureTranslationOnEnd()
+
+        
+        let currentHeight = heights[items.last!.id] ?? 0
+
+        let newHeights = [currentHeight] + lastPopupConfig.dragDetents.map { switch $0 {
+            case .fixed(let targetHeight): return targetHeight
+            case .fraction(let fraction): return height * fraction
+            case .almostFullscreen: return 600.0
+            case .fullscreen: return 0.0
+        }}.sorted(by: <)
+
+        
+
+
+
+        let chuj = currentHeight + currentDragHeight
+
+
+        //print(currentDragHeight)
+
+        let targetHeight = newHeights.first(where: { $0 > chuj }) ?? newHeights.last!
+
+
+
+        dragHeights[items.last!.id] = targetHeight - currentHeight
+        currentDragHeight = targetHeight - currentHeight
+
     }
 }
 private extension PopupBottomStackView {
