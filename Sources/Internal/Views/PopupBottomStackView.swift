@@ -73,15 +73,6 @@ private extension PopupBottomStackView {
     func updateGestureTranslation(_ value: CGFloat) {
 
 
-        // PROCES:
-        // 1. Wyeliminować currentDragHeight
-
-        // GestureTranslation powinno działać na height i na offset
-        // Na offset działa do momentu 0, potem idzie na height
-
-
-        // 2. Potem przejść na onEnded
-
 
 
 
@@ -114,8 +105,11 @@ private extension PopupBottomStackView {
         
 
 
-        // jeszcze skacze coś
-
+        // PROBLEMY:
+        // 1. SKACZE COŚ
+        // 2. MAKSYMALNY HEIGHT
+        // 3. Zle oblicza przy przejściu do dołu
+        // 4. Zamykanie popupu
 
 
         //dismissLastItemIfNeeded()
@@ -132,7 +126,11 @@ private extension PopupBottomStackView {
 
         
 
-        let currentDragHeight = abs(min(gestureTranslation, 0))
+        let currentDragHeight = -gestureTranslation + (dragHeights[items.last!.id] ?? 0)
+
+
+        let aaa = gestureTranslation < 0
+
 
 
         let chuj = currentHeight + currentDragHeight
@@ -142,7 +140,12 @@ private extension PopupBottomStackView {
 
 
 
-        let targetHeight = newHeights.first(where: { $0 > chuj }) ?? newHeights.last ?? 0
+
+
+        let targetHeight = newHeights.first(where: { aaa ? $0 >= chuj : $0 <= chuj }) ?? newHeights.last ?? 0
+
+
+        print(-gestureTranslation + (dragHeights[items.last!.id] ?? 0))
 
 
         dragHeights[items.last!.id] = targetHeight - currentHeight
