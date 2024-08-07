@@ -16,7 +16,6 @@ struct PopupBottomStackView: PopupStack {
     @State var gestureTranslation: CGFloat = 0
     @State var heights: [ID: CGFloat] = [:]
     @State var dragHeights: [ID: CGFloat] = [:]
-    @State var done: Bool = false
     @GestureState var isGestureActive: Bool = false
     @ObservedObject private var screenManager: ScreenManager = .shared
     @ObservedObject private var keyboardManager: KeyboardManager = .shared
@@ -65,14 +64,9 @@ private extension PopupBottomStackView {
 
 // MARK: On Changed
 private extension PopupBottomStackView {
-    func onPopupDragGestureChanged(_ value: CGFloat) { guard canDragGestureBeUsed() else { return }
+    func onPopupDragGestureChanged(_ value: CGFloat) { if canDragGestureBeUsed() {
         updateGestureTranslation(value)
-        //updateDragHeight(value)
-
-
-        done = false
-
-    }
+    }}
 }
 private extension PopupBottomStackView {
     func canDragGestureBeUsed() -> Bool { lastPopupConfig.dragGestureEnabled ?? globalConfig.bottom.dragGestureEnabled }
@@ -108,23 +102,6 @@ private extension PopupBottomStackView {
 
 
     }
-    func updateDragHeight(_ value: CGFloat) {
-        guard gestureTranslation == 0 else { return }
-
-
-
-        if !lastPopupConfig.dragDetents.isEmpty {
-            //currentDragHeight = max(0, (dragHeights[items.last!.id] ?? 0) - value)
-
-
-
-
-
-        }
-
-
-
-    }
 }
 
 // MARK: On Ended
@@ -132,13 +109,12 @@ private extension PopupBottomStackView {
     func onPopupDragGestureEnded(_ value: CGFloat) {
 
 
+        guard gestureTranslation != 0 else { return }
 
-        guard !done else { return }
-
-
-        done = true
+        
 
 
+        // jeszcze skacze coś
 
 
 
