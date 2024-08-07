@@ -114,7 +114,7 @@ private extension PopupBottomStackView {
 
 
         if !lastPopupConfig.dragDetents.isEmpty {
-            currentDragHeight = max(0, (dragHeights[items.last!.id] ?? 0) - value)
+            //currentDragHeight = max(0, (dragHeights[items.last!.id] ?? 0) - value)
 
 
 
@@ -150,25 +150,27 @@ private extension PopupBottomStackView {
 
         let newHeights = [currentHeight] + lastPopupConfig.dragDetents.map { switch $0 {
             case .fixed(let targetHeight): return targetHeight
-            case .fraction(let fraction): return height * fraction
+            case .fraction(let fraction): return currentHeight * fraction
             case .fullscreen(let stackVisible): return 600.0
         }}.sorted(by: <)
 
         
 
+        let currentDragHeight = abs(min(gestureTranslation, 0))
 
 
         let chuj = currentHeight + currentDragHeight
 
 
-        //print(currentDragHeight)
 
-        let targetHeight = newHeights.first(where: { $0 > chuj }) ?? newHeights.last!
 
+
+
+        let targetHeight = newHeights.first(where: { $0 > chuj }) ?? newHeights.last ?? 0
 
 
         dragHeights[items.last!.id] = targetHeight - currentHeight
-        currentDragHeight = targetHeight - currentHeight
+        gestureTranslation = 0
 
     }
 }
