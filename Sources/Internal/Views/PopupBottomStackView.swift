@@ -49,7 +49,7 @@ private extension PopupBottomStackView {
             .padding(.trailing, screenManager.safeArea.right)
             .fixedSize(horizontal: false, vertical: getFixedSize(item))
             .readHeight { saveHeight($0, for: item) }
-            .frame(height: getHeight(item)! + (currentDragHeight ?? 0), alignment: .top).frame(maxWidth: .infinity, maxHeight: height + (currentDragHeight ?? 0))
+            .frame(height: getHeight(item), alignment: .top).frame(maxWidth: .infinity, maxHeight: height)
             .background(getBackgroundColour(for: item), overlayColour: getStackOverlayColour(item), radius: getCornerRadius(item), corners: getCorners(), shadow: popupShadow)
             .padding(.horizontal, popupHorizontalPadding)
             .offset(y: getOffset(item))
@@ -69,7 +69,7 @@ private extension PopupBottomStackView {
 private extension PopupBottomStackView {
     func onPopupDragGestureChanged(_ value: CGFloat) { guard canDragGestureBeUsed() else { return }
         updateGestureTranslation(value)
-        updateDragHeight(value)
+        //updateDragHeight(value)
 
 
         done = false
@@ -80,7 +80,16 @@ private extension PopupBottomStackView {
     func canDragGestureBeUsed() -> Bool { lastPopupConfig.dragGestureEnabled ?? globalConfig.bottom.dragGestureEnabled }
     func updateGestureTranslation(_ value: CGFloat) {
 
-        // jeśli currentHeight <= 0
+
+        // PROCES:
+        // 1. Wyeliminować currentDragHeight
+
+        // GestureTranslation powinno działać na height i na offset
+        // Na offset działa do momentu 0, potem idzie na height
+
+
+        // 2. Potem przejść na onEnded
+
 
 
 
@@ -88,26 +97,22 @@ private extension PopupBottomStackView {
 
 
 
-        print(currentDragHeight, gestureTranslation)
 
-        if currentDragHeight <= 0 {
+        if !lastPopupConfig.dragDetents.isEmpty {
+            gestureTranslation = value
+        } else {
             gestureTranslation = max(0, value - aaa)
         }
 
 
-        //
 
 
-
-
-        // jeśli idzie w dół to inaczej się to rozwiązuje
 
 
     }
     func updateDragHeight(_ value: CGFloat) {
         guard gestureTranslation == 0 else { return }
 
-        //print(gestureTranslation, currentDragHeight)
 
 
         if !lastPopupConfig.dragDetents.isEmpty {
@@ -127,17 +132,7 @@ private extension PopupBottomStackView {
 // MARK: On Ended
 private extension PopupBottomStackView {
     func onPopupDragGestureEnded(_ value: CGFloat) {
-        let a = currentDragHeight == dragHeights[items.last?.id ?? .init()] ?? 0
-        let b = done
 
-//        print(a == b)
-//        if a != b {
-//            print(currentDragHeight)
-//            print(dragHeights[items.last?.id ?? .init()] ?? 0)
-//        }
-
-
-        //guard !a else { return }
 
 
         guard !done else { return }
@@ -227,7 +222,26 @@ extension PopupBottomStackView {
     var popupBottomPadding: CGFloat { lastPopupConfig.popupPadding.bottom }
     var popupHorizontalPadding: CGFloat { lastPopupConfig.popupPadding.horizontal }
     var popupShadow: Shadow { globalConfig.bottom.shadow }
-    var height: CGFloat { heights.first { $0.key == items.last?.id }?.value ?? (lastPopupConfig.contentFillsEntireScreen ? screenManager.size.height : getInitialHeight()) }
+    var height: CGFloat {
+
+
+        let h1 = heights.first { $0.key == items.last?.id }?.value ?? (lastPopupConfig.contentFillsEntireScreen ? screenManager.size.height : getInitialHeight())
+
+
+        if gestureTranslation < 0 {
+            return h1 + abs(gestureTranslation)
+        }
+
+
+
+
+        return h1
+
+
+
+
+
+    }
     var maxHeight: CGFloat { getMaxHeight() - popupBottomPadding }
     var distanceFromKeyboard: CGFloat { lastPopupConfig.distanceFromKeyboard ?? globalConfig.bottom.distanceFromKeyboard }
     var cornerRadius: CGFloat { let cornerRadius = lastPopupConfig.cornerRadius ?? globalConfig.bottom.cornerRadius; return lastPopupConfig.contentFillsEntireScreen ? min(cornerRadius, screenManager.cornerRadius ?? 0) : cornerRadius }

@@ -101,7 +101,19 @@ extension PopupStack {
 
 // MARK: - Stack Offset
 extension PopupStack {
-    func getOffset(_ item: AnyPopup<Config>) -> CGFloat { isLast(item) ? gestureTranslation : invertedIndex(item).floatValue * stackOffsetValue }
+    func getOffset(_ item: AnyPopup<Config>) -> CGFloat {
+        if isLast(item) {
+            return max(gestureTranslation, 0)
+        }
+
+
+        return invertedIndex(item).floatValue * stackOffsetValue
+
+        //isLast(item) ? gestureTranslation : invertedIndex(item).floatValue * stackOffsetValue
+
+
+
+    }
 }
 
 // MARK: - Initial Height
