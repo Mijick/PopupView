@@ -160,7 +160,6 @@ private extension PopupBottomStackView {
 
 
         dragHeights[items.last!.id] = targetHeight - currentHeight
-        gestureTranslation = 0
 
     }
 }
