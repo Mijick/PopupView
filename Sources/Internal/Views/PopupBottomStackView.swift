@@ -76,7 +76,7 @@ private extension PopupBottomStackView {
 
 
 
-        let aaa = dragHeights[items.last?.id ?? .init()] ?? 0
+        let aaa = getLastDragHeight()
 
 
 
@@ -111,21 +111,19 @@ private extension PopupBottomStackView {
         // 6. Zamykanie popupu
         // 7. Zablokować drag gesture poza krawędzie ekranu
         // 8. Poprawić top padding przy fullscreen stacked false i ignore safe area false
+        // 9. Przy większym przejściu zachowuje się dziwnie
 
 
 
-
-
-        
-
-
-
+        dismissLastItemIfNeeded()
         updateDragHeights()
-        //dismissLastItemIfNeeded()
         resetGestureTranslationOnEnd()
     }
 }
 private extension PopupBottomStackView {
+    func dismissLastItemIfNeeded() { if translationProgress >= gestureClosingThresholdFactor {
+        items.last?.remove()
+    }}
     func updateDragHeights() { if let lastPopupHeight = getLastPopupHeight() {
         let currentPopupHeight = calculateCurrentPopupHeight(lastPopupHeight)
         let popupTargetHeights = calculatePopupTargetHeightsFromDragDetents(lastPopupHeight)
@@ -133,9 +131,6 @@ private extension PopupBottomStackView {
         let targetDragHeight = calculateTargetDragHeight(targetHeight, lastPopupHeight)
 
         updateDragHeight(targetDragHeight)
-    }}
-    func dismissLastItemIfNeeded() { if translationProgress >= gestureClosingThresholdFactor {
-        items.last?.remove()
     }}
     func resetGestureTranslationOnEnd() {
         let resetAfter = items.count == 1 && translationProgress >= gestureClosingThresholdFactor ? 0.25 : 0
@@ -153,7 +148,7 @@ private extension PopupBottomStackView {
         .sorted(by: <)
     }
     func calculateCurrentPopupHeight(_ lastPopupHeight: CGFloat) -> CGFloat {
-        let lastDragHeight = dragHeights[items.last?.id ?? .init()] ?? 0
+        let lastDragHeight = getLastDragHeight()
         let currentDragHeight = lastDragHeight - gestureTranslation
 
         let currentPopupHeight = lastPopupHeight + currentDragHeight
@@ -226,14 +221,14 @@ extension PopupBottomStackView {
 
 
         if gestureTranslation < 0 {
-            let h2 = h1 + abs(gestureTranslation) + (dragHeights[items.last!.id] ?? 0)
+            let h2 = h1 + abs(gestureTranslation) + getLastDragHeight()
             return h2
         }
 
 
 
 
-        return h1 + (dragHeights[items.last!.id] ?? 0)
+        return h1 + getLastDragHeight()
 
 
 
