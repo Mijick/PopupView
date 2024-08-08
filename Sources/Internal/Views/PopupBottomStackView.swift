@@ -113,14 +113,14 @@ private extension PopupBottomStackView {
         // 5. Sprawdzić działanie gdy klawiatura jest widoczna
         // 6. Zamykanie popupu
         // 7. Zablokować drag gesture poza krawędzie ekranu
-        // 8. Poprawić top padding przy fullscreen stacked falses
+        // 8. Poprawić top padding przy fullscreen stacked false i ignore safe area false
 
 
         //dismissLastItemIfNeeded()
         resetGestureTranslationOnEnd()
 
         
-        let currentHeight = heights[items.last!.id] ?? 0
+        let currentHeight = getLastPopupHeight() ?? 0
 
         let newHeights = [currentHeight] + lastPopupConfig.dragDetents.map { switch $0 {
             case .fixed(let targetHeight): return min(getMaxHeight(), targetHeight)

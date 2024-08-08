@@ -126,6 +126,11 @@ extension PopupStack {
     }
 }
 
+// MARK: - Last Popup Height
+extension PopupStack {
+    func getLastPopupHeight() -> CGFloat? { heights[items.last?.id ?? .init()] }
+}
+
 // MARK: - Item ZIndex
 extension PopupStack {
     func getZIndex(_ item: AnyPopup<Config>) -> Double { .init(items.firstIndex(of: item) ?? 2137) }
