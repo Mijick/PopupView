@@ -116,10 +116,24 @@ private extension PopupBottomStackView {
         // 8. Poprawić top padding przy fullscreen stacked false i ignore safe area false
 
 
-        //dismissLastItemIfNeeded()
+
 
 
         
+
+
+
+        updateDragHeights()
+        //dismissLastItemIfNeeded()
+
+        resetGestureTranslationOnEnd()
+    }
+}
+private extension PopupBottomStackView {
+    func dismissLastItemIfNeeded() {
+        if translationProgress >= gestureClosingThresholdFactor { items.last?.remove() }
+    }
+    func updateDragHeights() {
         let currentHeight = getLastPopupHeight() ?? 0
 
         let newHeights = [currentHeight] + lastPopupConfig.dragDetents.map { switch $0 {
@@ -128,7 +142,7 @@ private extension PopupBottomStackView {
             case .fullscreen(let stackVisible): return stackVisible ? getMaxHeight() : screenManager.size.height + screenManager.safeArea.top
         }}.sorted(by: <)
 
-        
+
 
         let currentDragHeight = -gestureTranslation + (dragHeights[items.last!.id] ?? 0)
 
@@ -160,20 +174,6 @@ private extension PopupBottomStackView {
 
 
         dragHeights[items.last!.id] = targetHeight - currentHeight
-
-        resetGestureTranslationOnEnd()
-
-    }
-}
-private extension PopupBottomStackView {
-    
-
-
-
-
-
-    func dismissLastItemIfNeeded() {
-        if translationProgress >= gestureClosingThresholdFactor { items.last?.remove() }
     }
     func resetGestureTranslationOnEnd() {
         let resetAfter = items.count == 1 && translationProgress >= gestureClosingThresholdFactor ? 0.25 : 0
