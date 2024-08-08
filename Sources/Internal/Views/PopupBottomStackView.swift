@@ -127,12 +127,9 @@ private extension PopupBottomStackView {
 }
 private extension PopupBottomStackView {
     func updateDragHeights() { if let lastPopupHeight = getLastPopupHeight() {
-
-        let newHeights = [lastPopupHeight] + lastPopupConfig.dragDetents.map { switch $0 {
-            case .fixed(let targetHeight): return min(getMaxHeight(), targetHeight)
-            case .fraction(let fraction): return min(getMaxHeight(), lastPopupHeight * fraction)
-            case .fullscreen(let stackVisible): return stackVisible ? getMaxHeight() : screenManager.size.height + screenManager.safeArea.top
-        }}.sorted(by: <)
+        let popupTargetHeights = calculatePopupTargetHeightsFromDragDetents(lastPopupHeight)
+            .appending(lastPopupHeight)
+            .sorted(by: <)
 
 
 
@@ -151,7 +148,7 @@ private extension PopupBottomStackView {
 
 
 
-        let targetHeightIndex = newHeights.firstIndex(where: { $0 >= chuj }) ?? 0
+        let targetHeightIndex = popupTargetHeights.firstIndex(where: { $0 >= chuj }) ?? 0
 
 
 
@@ -160,7 +157,7 @@ private extension PopupBottomStackView {
 
 
 
-        let targetHeight = newHeights[index]
+        let targetHeight = popupTargetHeights[index]
 
 
 
@@ -174,6 +171,19 @@ private extension PopupBottomStackView {
         let resetAfter = items.count == 1 && translationProgress >= gestureClosingThresholdFactor ? 0.25 : 0
         DispatchQueue.main.asyncAfter(deadline: .now() + resetAfter) { gestureTranslation = 0 }
     }
+}
+private extension PopupBottomStackView {
+    func calculatePopupTargetHeightsFromDragDetents(_ lastPopupHeight: CGFloat) -> [CGFloat] { lastPopupConfig.dragDetents.map { switch $0 {
+        case .fixed(let targetHeight): min(targetHeight, getMaxHeight())
+        case .fraction(let fraction): min(fraction * lastPopupHeight, getMaxHeight())
+        case .fullscreen(let stackVisible): stackVisible ? getMaxHeight() : screenManager.size.height + screenManager.safeArea.top
+    }}}
+
+
+
+
+
+    // should close popup
 }
 
 // MARK: - View Modifiers

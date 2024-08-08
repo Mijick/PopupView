@@ -10,6 +10,7 @@
 
 import Foundation
 
+// MARK: Mutable
 extension Array {
     @inlinable mutating func append(_ newElement: Element, if prerequisite: Bool) { if prerequisite { append(newElement) } }
     @inlinable mutating func removeAllUpToElement(where predicate: (Element) -> Bool) { if let index = lastIndex(where: predicate) { removeLast(count - index - 1) } }
@@ -21,6 +22,13 @@ extension Array {
         }
     }}
 }
+
+// MARK: Immutable
+extension Array {
+    @inlinable func appending(_ newElement: Element) -> Self { self + [newElement] }
+}
+
+// MARK: Others
 extension Array {
     var nextToLast: Element? { count >= 2 ? self[count - 2] : nil }
 }
