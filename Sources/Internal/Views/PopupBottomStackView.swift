@@ -108,7 +108,6 @@ private extension PopupBottomStackView {
         // 3. Sprawdzić działanie ze stacked popups
         // 4. Sprawdzić działanie gdy popup ma bottom padding
         // 5. Sprawdzić działanie gdy klawiatura jest widoczna
-        // 6. Zamykanie popupu
         // 7. Zablokować drag gesture poza krawędzie ekranu
         // 8. Poprawić top padding przy fullscreen stacked false i ignore safe area false
         // 9. Przy większym przejściu zachowuje się dziwnie
@@ -121,7 +120,7 @@ private extension PopupBottomStackView {
     }
 }
 private extension PopupBottomStackView {
-    func dismissLastItemIfNeeded() { if translationProgress >= gestureClosingThresholdFactor {
+    func dismissLastItemIfNeeded() { if shouldDismissPopup() {
         items.last?.remove()
     }}
     func updateDragHeights() { if let lastPopupHeight = getLastPopupHeight() {
@@ -133,7 +132,7 @@ private extension PopupBottomStackView {
         updateDragHeight(targetDragHeight)
     }}
     func resetGestureTranslationOnEnd() {
-        let resetAfter = items.count == 1 && translationProgress >= gestureClosingThresholdFactor ? 0.25 : 0
+        let resetAfter = items.count == 1 && shouldDismissPopup() ? 0.25 : 0
         DispatchQueue.main.asyncAfter(deadline: .now() + resetAfter) { gestureTranslation = 0 }
     }
 }
@@ -165,15 +164,9 @@ private extension PopupBottomStackView {
     func updateDragHeight(_ targetDragHeight: CGFloat) { if let id = items.last?.id {
         dragHeights[id] = targetDragHeight
     }}
-
-
-
-
-
-    // should close popup
-}
-private extension PopupBottomStackView {
-
+    func shouldDismissPopup() -> Bool {
+        translationProgress >= gestureClosingThresholdFactor
+    }
 }
 
 // MARK: - View Modifiers
