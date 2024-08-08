@@ -118,8 +118,8 @@ private extension PopupBottomStackView {
         let currentHeight = heights[items.last!.id] ?? 0
 
         let newHeights = [currentHeight] + lastPopupConfig.dragDetents.map { switch $0 {
-            case .fixed(let targetHeight): return targetHeight
-            case .fraction(let fraction): return currentHeight * fraction
+            case .fixed(let targetHeight): return min(getMaxHeight(), targetHeight)
+            case .fraction(let fraction): return min(getMaxHeight(), currentHeight * fraction)
             case .fullscreen(let stackVisible): return 600.0
         }}.sorted(by: <)
 
