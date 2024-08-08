@@ -110,12 +110,12 @@ private extension PopupBottomStackView {
 
         // PROBLEMY:
         // 1. SKACZE COŚ
-        // 3. Sprawdzić działanie ze stacked popups
-        // 4. Sprawdzić działanie gdy popup ma bottom padding
-        // 5. Sprawdzić działanie gdy klawiatura jest widoczna
-        // 8. Poprawić top padding przy fullscreen stacked false i ignore safe area false
-        // 9. Przy większym przejściu zachowuje się dziwnie
-        // 10. Nie działa dismiss przy przejściu z maksymalnego rozciągnięcia
+        // 2. Sprawdzić działanie ze stacked popups
+        // 3. Sprawdzić działanie gdy popup ma bottom padding
+        // 4. Sprawdzić działanie gdy klawiatura jest widoczna
+        // 5. Poprawić top padding przy fullscreen stacked false i ignore safe area false
+        // 6. Przy większym przejściu zachowuje się dziwnie
+        // 7. Nie działa dismiss przy przejściu z maksymalnego rozciągnięcia
 
 
 
