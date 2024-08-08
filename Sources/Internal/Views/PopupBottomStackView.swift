@@ -97,10 +97,7 @@ private extension PopupBottomStackView {
 
 // MARK: On Ended
 private extension PopupBottomStackView {
-    func onPopupDragGestureEnded(_ value: CGFloat) {
-
-
-        guard gestureTranslation != 0 else { return }
+    func onPopupDragGestureEnded(_ value: CGFloat) { guard value != 0 else { return }
 
         
 
