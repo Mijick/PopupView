@@ -15,6 +15,7 @@ protocol PopupStack: View {
 
     var items: [AnyPopup<Config>] { get }
     var heights: [ID: CGFloat] { get }
+    var dragHeights: [ID: CGFloat] { get }
     var globalConfig: GlobalConfig { get }
     var gestureTranslation: CGFloat { get }
     var isGestureActive: Bool { get }
@@ -30,6 +31,7 @@ protocol PopupStack: View {
 }
 extension PopupStack {
     var heights: [ID: CGFloat] { [:] }
+    var dragHeights: [ID: CGFloat] { [:] }
     var gestureTranslation: CGFloat { 0 }
     var isGestureActive: Bool { false }
     var translationProgress: CGFloat { 1 }
@@ -129,6 +131,11 @@ extension PopupStack {
 // MARK: - Last Popup Height
 extension PopupStack {
     func getLastPopupHeight() -> CGFloat? { heights[items.last?.id ?? .init()] }
+}
+
+// MARK: - Drag Height Value
+extension PopupStack {
+    func getLastDragHeight() -> CGFloat { dragHeights[items.last?.id ?? .init()] ?? 0 }
 }
 
 // MARK: - Item ZIndex
