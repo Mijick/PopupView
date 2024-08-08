@@ -146,7 +146,7 @@ private extension PopupBottomStackView {
         .map { switch $0 {
             case .fixed(let targetHeight): min(targetHeight, getMaxHeight())
             case .fraction(let fraction): min(fraction * lastPopupHeight, getMaxHeight())
-            case .fullscreen(let stackVisible): stackVisible ? getMaxHeight() : screenManager.size.height + screenManager.safeArea.top
+            case .fullscreen(let stackVisible): stackVisible ? getMaxHeight() : screenManager.size.height
         }}
         .appending(lastPopupHeight)
         .sorted(by: <)
