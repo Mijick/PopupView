@@ -80,11 +80,24 @@ private extension PopupBottomStackView {
     func calculateGestureTranslationWhenDragDetents(_ value: CGFloat) -> CGFloat {
 
 
+        if value < 0 {
+            let bbb = screenManager.size.height + screenManager.safeArea.top - getLastPopupHeight()! - getLastDragHeight()
+            let c = min(0, -bbb)
 
-        value
+            print(c, value)
 
 
-        
+            return max(c, value)
+
+
+
+
+
+
+        }
+
+
+        return value
     }
 }
 
