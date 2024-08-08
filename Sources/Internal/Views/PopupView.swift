@@ -43,6 +43,7 @@ struct PopupView: View {
 private extension PopupView {
     func createBody() -> some View {
         createPopupStackView()
+            .ignoresSafeArea()
             .frame(maxWidth: .infinity, maxHeight: .infinity)
             .ignoresSafeArea()
             .animation(stackAnimation, value: popupManager.views.map(\.id))
