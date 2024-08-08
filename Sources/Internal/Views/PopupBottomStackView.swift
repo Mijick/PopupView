@@ -176,16 +176,14 @@ private extension PopupBottomStackView {
 
 // MARK: - View Modifiers
 private extension PopupBottomStackView {
-    func getCorners() -> RectCorner {
-        switch popupBottomPadding {
-            case 0: return [.topLeft, .topRight]
-            default: return .allCorners
-        }
-    }
+    func getCorners() -> RectCorner { switch popupBottomPadding {
+        case 0: return [.topLeft, .topRight]
+        default: return .allCorners
+    }}
     func saveHeight(_ height: CGFloat, for item: AnyPopup<BottomPopupConfig>) { if !isGestureActive {
         let config = item.configurePopup(popup: .init())
 
-        if config.contentFillsEntireScreen { return heights[item.id] = screenManager.size.height + screenManager.safeArea.top }
+        if config.contentFillsEntireScreen { return heights[item.id] = screenManager.size.height }
         if config.contentFillsWholeHeight { return heights[item.id] = getMaxHeight() }
         return heights[item.id] = min(height, maxHeight)
     }}
