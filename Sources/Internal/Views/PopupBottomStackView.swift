@@ -131,15 +131,7 @@ private extension PopupBottomStackView {
             .appending(lastPopupHeight)
             .sorted(by: <)
 
-
-
-        let currentDragHeight = -gestureTranslation + (dragHeights[items.last!.id] ?? 0)
-
-
-
-
-
-        let chuj = lastPopupHeight + currentDragHeight
+        let currentPopupHeight = calculateCurrentPopupHeight(lastPopupHeight)
 
 
 
@@ -148,7 +140,7 @@ private extension PopupBottomStackView {
 
 
 
-        let targetHeightIndex = popupTargetHeights.firstIndex(where: { $0 >= chuj }) ?? 0
+        let targetHeightIndex = popupTargetHeights.firstIndex(where: { $0 >= currentPopupHeight }) ?? 0
 
 
 
@@ -178,6 +170,13 @@ private extension PopupBottomStackView {
         case .fraction(let fraction): min(fraction * lastPopupHeight, getMaxHeight())
         case .fullscreen(let stackVisible): stackVisible ? getMaxHeight() : screenManager.size.height + screenManager.safeArea.top
     }}}
+    func calculateCurrentPopupHeight(_ lastPopupHeight: CGFloat) -> CGFloat {
+        let lastDragHeight = dragHeights[items.last?.id ?? .init()] ?? 0
+        let currentDragHeight = lastDragHeight - gestureTranslation
+
+        let currentPopupHeight = lastPopupHeight + currentDragHeight
+        return currentPopupHeight
+    }
 
 
 
