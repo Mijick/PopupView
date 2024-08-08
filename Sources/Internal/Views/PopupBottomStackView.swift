@@ -70,28 +70,21 @@ private extension PopupBottomStackView {
 }
 private extension PopupBottomStackView {
     func canDragGestureBeUsed() -> Bool { lastPopupConfig.dragGestureEnabled ?? globalConfig.bottom.dragGestureEnabled }
-    func updateGestureTranslation(_ value: CGFloat) {
+    func updateGestureTranslation(_ value: CGFloat) { switch lastPopupConfig.dragDetents.isEmpty {
+        case true: gestureTranslation = calculateGestureTranslationWhenNoDragDetents(value)
+        case false: gestureTranslation = calculateGestureTranslationWhenDragDetents(value)
+    }}
+}
+private extension PopupBottomStackView {
+    func calculateGestureTranslationWhenNoDragDetents(_ value: CGFloat) -> CGFloat { max(value, 0) }
+    func calculateGestureTranslationWhenDragDetents(_ value: CGFloat) -> CGFloat {
 
 
 
+        value
 
 
-        let aaa = getLastDragHeight()
-
-
-
-
-        if !lastPopupConfig.dragDetents.isEmpty {
-            gestureTranslation = value
-        } else {
-            gestureTranslation = max(0, value - aaa)
-        }
-
-
-
-
-
-
+        
     }
 }
 
@@ -104,13 +97,13 @@ private extension PopupBottomStackView {
 
         // PROBLEMY:
         // 1. SKACZE COŚ
-        // 2. MAKSYMALNY HEIGHT
         // 3. Sprawdzić działanie ze stacked popups
         // 4. Sprawdzić działanie gdy popup ma bottom padding
         // 5. Sprawdzić działanie gdy klawiatura jest widoczna
         // 7. Zablokować drag gesture poza krawędzie ekranu
         // 8. Poprawić top padding przy fullscreen stacked false i ignore safe area false
         // 9. Przy większym przejściu zachowuje się dziwnie
+        // 10. Nie działa dismiss przy przejściu z maksymalnego rozciągnięcia
 
 
 
