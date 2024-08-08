@@ -122,20 +122,15 @@ private extension PopupBottomStackView {
 
         updateDragHeights()
         //dismissLastItemIfNeeded()
-
         resetGestureTranslationOnEnd()
     }
 }
 private extension PopupBottomStackView {
-    func dismissLastItemIfNeeded() {
-        if translationProgress >= gestureClosingThresholdFactor { items.last?.remove() }
-    }
-    func updateDragHeights() {
-        let currentHeight = getLastPopupHeight() ?? 0
+    func updateDragHeights() { if let lastPopupHeight = getLastPopupHeight() {
 
-        let newHeights = [currentHeight] + lastPopupConfig.dragDetents.map { switch $0 {
+        let newHeights = [lastPopupHeight] + lastPopupConfig.dragDetents.map { switch $0 {
             case .fixed(let targetHeight): return min(getMaxHeight(), targetHeight)
-            case .fraction(let fraction): return min(getMaxHeight(), currentHeight * fraction)
+            case .fraction(let fraction): return min(getMaxHeight(), lastPopupHeight * fraction)
             case .fullscreen(let stackVisible): return stackVisible ? getMaxHeight() : screenManager.size.height + screenManager.safeArea.top
         }}.sorted(by: <)
 
@@ -147,7 +142,7 @@ private extension PopupBottomStackView {
 
 
 
-        let chuj = currentHeight + currentDragHeight
+        let chuj = lastPopupHeight + currentDragHeight
 
 
 
@@ -170,8 +165,11 @@ private extension PopupBottomStackView {
 
 
 
-        dragHeights[items.last!.id] = targetHeight - currentHeight
-    }
+        dragHeights[items.last!.id] = targetHeight - lastPopupHeight
+    }}
+    func dismissLastItemIfNeeded() { if translationProgress >= gestureClosingThresholdFactor {
+        items.last?.remove()
+    }}
     func resetGestureTranslationOnEnd() {
         let resetAfter = items.count == 1 && translationProgress >= gestureClosingThresholdFactor ? 0.25 : 0
         DispatchQueue.main.asyncAfter(deadline: .now() + resetAfter) { gestureTranslation = 0 }
