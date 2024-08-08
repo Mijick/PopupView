@@ -108,7 +108,6 @@ private extension PopupBottomStackView {
         // PROBLEMY:
         // 1. SKACZE COŚ
         // 2. MAKSYMALNY HEIGHT
-        // 3. Zle oblicza przy przejściu do dołu
         // 4. Zamykanie popupu
 
 
@@ -129,7 +128,6 @@ private extension PopupBottomStackView {
         let currentDragHeight = -gestureTranslation + (dragHeights[items.last!.id] ?? 0)
 
 
-        let aaa = gestureTranslation < 0
 
 
 
@@ -142,10 +140,18 @@ private extension PopupBottomStackView {
 
 
 
-        let targetHeight = newHeights.first(where: { aaa ? $0 >= chuj : $0 <= chuj }) ?? newHeights.last ?? 0
+        let targetHeightIndex = newHeights.firstIndex(where: { $0 >= chuj }) ?? 0
 
 
-        print(-gestureTranslation + (dragHeights[items.last!.id] ?? 0))
+
+        let index = gestureTranslation < 0 ? targetHeightIndex : max(0, targetHeightIndex - 1)
+
+
+
+
+        let targetHeight = newHeights[index]
+
+
 
 
         dragHeights[items.last!.id] = targetHeight - currentHeight
