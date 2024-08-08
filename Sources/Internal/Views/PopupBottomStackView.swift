@@ -117,7 +117,7 @@ private extension PopupBottomStackView {
 
 
         //dismissLastItemIfNeeded()
-        resetGestureTranslationOnEnd()
+
 
         
         let currentHeight = getLastPopupHeight() ?? 0
@@ -161,9 +161,17 @@ private extension PopupBottomStackView {
 
         dragHeights[items.last!.id] = targetHeight - currentHeight
 
+        resetGestureTranslationOnEnd()
+
     }
 }
 private extension PopupBottomStackView {
+    
+
+
+
+
+
     func dismissLastItemIfNeeded() {
         if translationProgress >= gestureClosingThresholdFactor { items.last?.remove() }
     }
