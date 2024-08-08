@@ -108,7 +108,12 @@ private extension PopupBottomStackView {
         // PROBLEMY:
         // 1. SKACZE COŚ
         // 2. MAKSYMALNY HEIGHT
-        // 4. Zamykanie popupu
+        // 3. Sprawdzić działanie ze stacked popups
+        // 4. Sprawdzić działanie gdy popup ma bottom padding
+        // 5. Sprawdzić działanie gdy klawiatura jest widoczna
+        // 6. Zamykanie popupu
+        // 7. Zablokować drag gesture poza krawędzie ekranu
+        // 8. Poprawić top padding przy fullscreen stacked falses
 
 
         //dismissLastItemIfNeeded()
@@ -120,7 +125,7 @@ private extension PopupBottomStackView {
         let newHeights = [currentHeight] + lastPopupConfig.dragDetents.map { switch $0 {
             case .fixed(let targetHeight): return min(getMaxHeight(), targetHeight)
             case .fraction(let fraction): return min(getMaxHeight(), currentHeight * fraction)
-            case .fullscreen(let stackVisible): return 600.0
+            case .fullscreen(let stackVisible): return stackVisible ? getMaxHeight() : screenManager.size.height + screenManager.safeArea.top
         }}.sorted(by: <)
 
         
