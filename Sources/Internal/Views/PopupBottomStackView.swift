@@ -104,9 +104,9 @@ private extension PopupBottomStackView {
 // MARK: On Ended
 private extension PopupBottomStackView {
     func onPopupDragGestureEnded(_ value: CGFloat) { guard value != 0 else { return }
+        // 6. Max drag height powinien być równy maksymalnemu drag zadeklarowanemu przez uzytkownika
 
 
-        // 5. Poprawić drag indents (żeby wracało i się przyciągało przy odpowiednim threshold)
 
 
 
@@ -118,7 +118,9 @@ private extension PopupBottomStackView {
 
         // 4. Poprawić top padding przy fullscreen stacked false i ignore safe area false
 
-        // 6. Max drag height powinien być równy maksymalnemu drag zadeklarowanemu przez uzytkownika
+        // 7. Refaktoryzacja kodu
+        // 8. Sprawdzić inne typy popupów
+        // 9. Zaimplementować to samo dla top popup
 
 
 
