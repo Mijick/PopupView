@@ -12,7 +12,11 @@ import SwiftUI
 
 // MARK: - Alignments
 extension View {
-    func align(to edge: Edge, _ value: CGFloat?) -> some View { padding(.init(edge), value).frame(maxHeight: value != nil ? .infinity : nil, alignment: edge.toAlignment()) }
+    func align(to edge: Edge, _ value: CGFloat?) -> some View {
+        padding(.init(edge), value)
+            .frame(height: value != nil ? ScreenManager.shared.size.height : nil, alignment: edge.toAlignment())
+            .frame(maxHeight: value != nil ? .infinity : nil, alignment: edge.toAlignment())
+    }
 }
 fileprivate extension Edge {
     func toAlignment() -> Alignment {
