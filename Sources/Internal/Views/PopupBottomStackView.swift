@@ -104,8 +104,9 @@ private extension PopupBottomStackView {
 // MARK: On Ended
 private extension PopupBottomStackView {
     func onPopupDragGestureEnded(_ value: CGFloat) { guard value != 0 else { return }
+        // 6. SKACZE COŚ PRZY SCHODZENIU W DÓŁ
 
-        
+
 
 
         // PROBLEMY:
@@ -114,33 +115,29 @@ private extension PopupBottomStackView {
         // 3. Sprawdzić działanie gdy klawiatura jest widoczna
         // 4. Poprawić top padding przy fullscreen stacked false i ignore safe area false
         // 5. Przy większym przejściu zachowuje się dziwnie
-        // 6. Nie działa dismiss przy przejściu z maksymalnego rozciągnięcia
+
         // 7. Poprawić drag indents (żeby wracało i się przyciągało przy odpowiednim threshold)
         // 8. Max drag height powinien być równy maksymalnemu drag zadeklarowanemu przez uzytkownika
 
 
 
         dismissLastItemIfNeeded()
-        updateDragHeights()
-        resetGestureTranslationOnEnd()
+        updateTranslationValues()
     }
 }
 private extension PopupBottomStackView {
     func dismissLastItemIfNeeded() { if shouldDismissPopup() {
         items.last?.remove()
     }}
-    func updateDragHeights() { if let lastPopupHeight = getLastPopupHeight() {
+    func updateTranslationValues() { if let lastPopupHeight = getLastPopupHeight() {
         let currentPopupHeight = calculateCurrentPopupHeight(lastPopupHeight)
         let popupTargetHeights = calculatePopupTargetHeightsFromDragDetents(lastPopupHeight)
         let targetHeight = calculateTargetPopupHeight(currentPopupHeight, popupTargetHeights)
         let targetDragHeight = calculateTargetDragHeight(targetHeight, lastPopupHeight)
 
+        resetGestureTranslation()
         updateDragHeight(targetDragHeight)
     }}
-    func resetGestureTranslationOnEnd() {
-        let resetAfter = items.count == 1 && shouldDismissPopup() ? 0.25 : 0
-        DispatchQueue.main.asyncAfter(deadline: .now() + resetAfter) { gestureTranslation = 0 }
-    }
 }
 private extension PopupBottomStackView {
     func calculatePopupTargetHeightsFromDragDetents(_ lastPopupHeight: CGFloat) -> [CGFloat] { lastPopupConfig.dragDetents
@@ -170,6 +167,10 @@ private extension PopupBottomStackView {
     func updateDragHeight(_ targetDragHeight: CGFloat) { if let id = items.last?.id {
         dragHeights[id] = targetDragHeight
     }}
+    func resetGestureTranslation() {
+        let resetAfter = items.count == 1 && shouldDismissPopup() ? 0.25 : 0
+        DispatchQueue.main.asyncAfter(deadline: .now() + resetAfter) { gestureTranslation = 0 }
+    }
     func shouldDismissPopup() -> Bool {
         translationProgress >= gestureClosingThresholdFactor
     }
