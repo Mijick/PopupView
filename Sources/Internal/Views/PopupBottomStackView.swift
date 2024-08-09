@@ -104,7 +104,9 @@ private extension PopupBottomStackView {
 // MARK: On Ended
 private extension PopupBottomStackView {
     func onPopupDragGestureEnded(_ value: CGFloat) { guard value != 0 else { return }
-        // 6. Max drag height powinien być równy maksymalnemu drag zadeklarowanemu przez uzytkownika
+        // 6. Max drag height powinien być równy maksymalnemu drag zadeklarowanemu przez uzytkownika + 32
+
+        // 8. Poprawić max dla dragGesture
 
 
 
