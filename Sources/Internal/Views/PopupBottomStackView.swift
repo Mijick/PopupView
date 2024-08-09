@@ -165,7 +165,7 @@ private extension PopupBottomStackView {
         // tutaj trzeba zastosować threshold
 
 
-        let index = popupTargetHeights.firstIndex(where: { $0 >= currentPopupHeight }) ?? 0
+        let index = popupTargetHeights.firstIndex(where: { $0 >= currentPopupHeight }) ?? popupTargetHeights.count - 1
         let popupTargetHeightIndex = gestureTranslation <= 0 ? index : max(0, index - 1)
 
 
