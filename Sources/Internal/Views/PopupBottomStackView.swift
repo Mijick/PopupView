@@ -157,16 +157,38 @@ private extension PopupBottomStackView {
         .appending(lastPopupHeight)
         .sorted(by: <)
     }
-    func calculateCurrentPopupHeight(_ lastPopupHeight: CGFloat) -> CGFloat {
-        let lastDragHeight = getLastDragHeight()
-        let currentDragHeight = lastDragHeight - gestureTranslation
-
-        let currentPopupHeight = lastPopupHeight + currentDragHeight
-        return currentPopupHeight
-    }
     func calculateTargetPopupHeight(_ currentPopupHeight: CGFloat, _ popupTargetHeights: [CGFloat]) -> CGFloat {
+
+
+        // tutaj trzeba zastosować threshold
+
+
         let index = popupTargetHeights.firstIndex(where: { $0 >= currentPopupHeight }) ?? 0
         let popupTargetHeightIndex = gestureTranslation <= 0 ? index : max(0, index - 1)
+
+
+
+
+        let H1 = getLastDragHeight() + (getLastPopupHeight() ?? 0)
+        let H2 = popupTargetHeights[popupTargetHeightIndex]
+
+
+        let ΔH = abs(H1 - H2)
+
+        let aaa = abs(currentPopupHeight - H1)
+        let bbb = aaa / ΔH
+
+
+
+
+        if bbb < gestureClosingThresholdFactor {
+            let aaa = gestureTranslation <= 0 ? max(0, index - 1) : index
+            return popupTargetHeights[aaa]
+        }
+
+
+
+
         return popupTargetHeights[popupTargetHeightIndex]
     }
     func calculateTargetDragHeight(_ targetHeight: CGFloat, _ lastPopupHeight: CGFloat) -> CGFloat {
