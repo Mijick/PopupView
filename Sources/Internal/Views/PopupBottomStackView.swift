@@ -104,8 +104,6 @@ private extension PopupBottomStackView {
 // MARK: On Ended
 private extension PopupBottomStackView {
     func onPopupDragGestureEnded(_ value: CGFloat) { guard value != 0 else { return }
-        // 6. SKACZE COŚ PRZY SCHODZENIU W DÓŁ
-
 
 
 
@@ -113,11 +111,11 @@ private extension PopupBottomStackView {
         // 1. Sprawdzić działanie ze stacked popups
         // 2. Sprawdzić działanie gdy popup ma bottom padding
         // 3. Sprawdzić działanie gdy klawiatura jest widoczna
-        // 4. Poprawić top padding przy fullscreen stacked false i ignore safe area false
-        // 5. Przy większym przejściu zachowuje się dziwnie
 
-        // 7. Poprawić drag indents (żeby wracało i się przyciągało przy odpowiednim threshold)
-        // 8. Max drag height powinien być równy maksymalnemu drag zadeklarowanemu przez uzytkownika
+
+        // 4. Poprawić top padding przy fullscreen stacked false i ignore safe area false
+        // 5. Poprawić drag indents (żeby wracało i się przyciągało przy odpowiednim threshold)
+        // 6. Max drag height powinien być równy maksymalnemu drag zadeklarowanemu przez uzytkownika
 
 
 
