@@ -79,7 +79,6 @@ private extension PopupBottomStackView {
     func calculateGestureTranslationWhenNoDragDetents(_ value: CGFloat) -> CGFloat { max(value, 0) }
     func calculateGestureTranslationWhenDragDetents(_ value: CGFloat) -> CGFloat {
 
-        // PROBLEM JEST WYŁĄCZNIE Z BACKGROUND, A NIE Z CAŁYM POPUPEM -> ON NIE TRZYMA PRZYWIĄZANIA DO BOTTOM SCREEN EDGE
 
         if value < 0 {
             let bbb = screenManager.size.height + screenManager.safeArea.top - getLastPopupHeight()! - getLastDragHeight()
@@ -110,16 +109,14 @@ private extension PopupBottomStackView {
 
 
         // PROBLEMY:
-        // 1. SKACZE COŚ
-        // 2. Sprawdzić działanie ze stacked popups
-        // 3. Sprawdzić działanie gdy popup ma bottom padding
-        // 4. Sprawdzić działanie gdy klawiatura jest widoczna
-        // 5. Poprawić top padding przy fullscreen stacked false i ignore safe area false
-        // 6. Przy większym przejściu zachowuje się dziwnie
-        // 7. Nie działa dismiss przy przejściu z maksymalnego rozciągnięcia
-        // 8. Bottom Padding jest niepoprawny
-        // 9. Poprawić drag indents (żeby wracało i się przyciągało przy odpowiednim threshold)
-        // 10. Max drag height powinien być równy maksymalnemu drag zadeklarowanemu przez uzytkownika
+        // 1. Sprawdzić działanie ze stacked popups
+        // 2. Sprawdzić działanie gdy popup ma bottom padding
+        // 3. Sprawdzić działanie gdy klawiatura jest widoczna
+        // 4. Poprawić top padding przy fullscreen stacked false i ignore safe area false
+        // 5. Przy większym przejściu zachowuje się dziwnie
+        // 6. Nie działa dismiss przy przejściu z maksymalnego rozciągnięcia
+        // 7. Poprawić drag indents (żeby wracało i się przyciągało przy odpowiednim threshold)
+        // 8. Max drag height powinien być równy maksymalnemu drag zadeklarowanemu przez uzytkownika
 
 
 
