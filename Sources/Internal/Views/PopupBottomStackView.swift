@@ -81,7 +81,7 @@ private extension PopupBottomStackView {
 
 
         if value < 0 {
-            let bbb = screenManager.size.height + screenManager.safeArea.top - getLastPopupHeight()! - getLastDragHeight()
+            let bbb = screenManager.size.height - getLastPopupHeight()! - getLastDragHeight()
             let c = min(0, -bbb)
 
             //print(c, value)
@@ -106,7 +106,6 @@ private extension PopupBottomStackView {
     func onPopupDragGestureEnded(_ value: CGFloat) { guard value != 0 else { return }
         // 6. Max drag height powinien być równy maksymalnemu drag zadeklarowanemu przez uzytkownika + 32
 
-        // 8. Poprawić max dla dragGesture
 
 
 
