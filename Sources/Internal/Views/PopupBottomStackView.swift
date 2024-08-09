@@ -79,12 +79,13 @@ private extension PopupBottomStackView {
     func calculateGestureTranslationWhenNoDragDetents(_ value: CGFloat) -> CGFloat { max(value, 0) }
     func calculateGestureTranslationWhenDragDetents(_ value: CGFloat) -> CGFloat {
 
+        // PROBLEM JEST WYŁĄCZNIE Z BACKGROUND, A NIE Z CAŁYM POPUPEM -> ON NIE TRZYMA PRZYWIĄZANIA DO BOTTOM SCREEN EDGE
 
         if value < 0 {
             let bbb = screenManager.size.height + screenManager.safeArea.top - getLastPopupHeight()! - getLastDragHeight()
             let c = min(0, -bbb)
 
-            print(c, value)
+            //print(c, value)
 
 
             return max(c, value)
@@ -116,6 +117,9 @@ private extension PopupBottomStackView {
         // 5. Poprawić top padding przy fullscreen stacked false i ignore safe area false
         // 6. Przy większym przejściu zachowuje się dziwnie
         // 7. Nie działa dismiss przy przejściu z maksymalnego rozciągnięcia
+        // 8. Bottom Padding jest niepoprawny
+        // 9. Poprawić drag indents (żeby wracało i się przyciągało przy odpowiednim threshold)
+        // 10. Max drag height powinien być równy maksymalnemu drag zadeklarowanemu przez uzytkownika
 
 
 
@@ -199,7 +203,56 @@ private extension PopupBottomStackView {
 
         return max(screenManager.safeArea.bottom - popupBottomPadding, 0)
     }
-    func getContentTopPadding() -> CGFloat { lastPopupConfig.contentFillsEntireScreen && !lastPopupConfig.contentIgnoresSafeArea ? screenManager.safeArea.top : 0 }
+    func getContentTopPadding() -> CGFloat {
+
+
+//        print(screenManager.size.height)
+//
+//
+//
+//        if lastPopupConfig.contentFillsEntireScreen && !lastPopupConfig.contentIgnoresSafeArea { return screenManager.safeArea.top }
+//
+//
+//
+//
+//
+//        if height > screenManager.size.height {
+//            let c = min(screenManager.safeArea.top, height - screenManager.size.height)
+//
+//            print(c)
+//
+//
+//
+//            return c
+//
+//
+//
+//
+//            print(screenManager.size.height - height)
+//        }
+//
+//
+//
+//
+//
+//        print(height < screenManager.size.height)
+//
+//
+//
+//
+//
+//
+//        return 0
+
+
+
+        lastPopupConfig.contentFillsEntireScreen && !lastPopupConfig.contentIgnoresSafeArea ? screenManager.safeArea.top : 0
+
+
+
+
+
+    }
     func getHeight(_ item: AnyPopup<BottomPopupConfig>) -> CGFloat? { getConfig(item).contentFillsEntireScreen ? nil : height }
     func getFixedSize(_ item: AnyPopup<BottomPopupConfig>) -> Bool { !(getConfig(item).contentFillsEntireScreen || getConfig(item).contentFillsWholeHeight || height == maxHeight) }
     func getBackgroundColour(for item: AnyPopup<BottomPopupConfig>) -> Color { item.configurePopup(popup: .init()).backgroundColour ?? globalConfig.bottom.backgroundColour }
