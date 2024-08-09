@@ -106,6 +106,9 @@ private extension PopupBottomStackView {
     func onPopupDragGestureEnded(_ value: CGFloat) { guard value != 0 else { return }
 
 
+        // 5. Poprawić drag indents (żeby wracało i się przyciągało przy odpowiednim threshold)
+
+
 
         // PROBLEMY:
         // 1. Sprawdzić działanie ze stacked popups
@@ -114,7 +117,7 @@ private extension PopupBottomStackView {
 
 
         // 4. Poprawić top padding przy fullscreen stacked false i ignore safe area false
-        // 5. Poprawić drag indents (żeby wracało i się przyciągało przy odpowiednim threshold)
+
         // 6. Max drag height powinien być równy maksymalnemu drag zadeklarowanemu przez uzytkownika
 
 
@@ -138,6 +141,13 @@ private extension PopupBottomStackView {
     }}
 }
 private extension PopupBottomStackView {
+    func calculateCurrentPopupHeight(_ lastPopupHeight: CGFloat) -> CGFloat {
+        let lastDragHeight = getLastDragHeight()
+        let currentDragHeight = lastDragHeight - gestureTranslation
+
+        let currentPopupHeight = lastPopupHeight + currentDragHeight
+        return currentPopupHeight
+    }
     func calculatePopupTargetHeightsFromDragDetents(_ lastPopupHeight: CGFloat) -> [CGFloat] { lastPopupConfig.dragDetents
         .map { switch $0 {
             case .fixed(let targetHeight): min(targetHeight, getMaxHeight())
