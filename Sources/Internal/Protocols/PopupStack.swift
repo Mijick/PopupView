@@ -105,7 +105,10 @@ extension PopupStack {
 extension PopupStack {
     func getOffset(_ item: AnyPopup<Config>) -> CGFloat {
         if isLast(item) {
-            return max(gestureTranslation, 0)
+
+            return max(gestureTranslation - getLastDragHeight(), 0)
+
+
         }
 
 

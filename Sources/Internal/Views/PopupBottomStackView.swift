@@ -267,10 +267,11 @@ extension PopupBottomStackView {
         let h1 = heights.first { $0.key == items.last?.id }?.value ?? (lastPopupConfig.contentFillsEntireScreen ? screenManager.size.height : getInitialHeight())
 
 
-        if gestureTranslation < 0 {
-            let h2 = h1 + abs(gestureTranslation) + getLastDragHeight()
+        //if gestureTranslation < 0 {
+            let h2 = h1 + getLastDragHeight() - gestureTranslation
+        return max(h1, h2)
             return h2
-        }
+        //}
 
 
 
