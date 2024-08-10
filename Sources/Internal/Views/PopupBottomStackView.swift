@@ -113,7 +113,6 @@ private extension PopupBottomStackView {
     func onPopupDragGestureEnded(_ value: CGFloat) { guard value != 0 else { return }
 
 
-        // 1. Poprawić top padding przy fullscreen stacked false i ignore safe area false
         // 2. Zaimplementować to samo dla top popup
 
 
@@ -286,9 +285,13 @@ private extension PopupBottomStackView {
         let b = max(0, a)
 
 
+        if lastPopupConfig.contentIgnoresSafeArea { return 0 }
 
 
-        return height >= screenManager.size.height && !lastPopupConfig.contentIgnoresSafeArea ? screenManager.safeArea.top : b
+
+
+
+        return height >= screenManager.size.height ? screenManager.safeArea.top : b
 
 
 
