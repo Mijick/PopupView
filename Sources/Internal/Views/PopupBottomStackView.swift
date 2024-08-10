@@ -81,7 +81,14 @@ private extension PopupBottomStackView {
 
 
         if value < 0 {
-            let bbb = screenManager.size.height - getLastPopupHeight()! - getLastDragHeight()
+            let maxHeight = min(screenManager.size.height, calculatePopupTargetHeightsFromDragDetents(getLastPopupHeight()!).max()! + 32)
+
+            //let maxHeight2 = max(maxHeight, bbb)
+
+
+
+
+            let bbb = maxHeight - getLastPopupHeight()! - getLastDragHeight()
             let c = min(0, -bbb)
 
             //print(c, value)
