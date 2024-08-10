@@ -113,9 +113,8 @@ private extension PopupBottomStackView {
     func onPopupDragGestureEnded(_ value: CGFloat) { guard value != 0 else { return }
 
 
-        // 1. Max drag height powinien być równy maksymalnemu drag zadeklarowanemu przez uzytkownika + 32
-        // 2. Poprawić top padding przy fullscreen stacked false i ignore safe area false
-        // 3. Zaimplementować to samo dla top popup
+        // 1. Poprawić top padding przy fullscreen stacked false i ignore safe area false
+        // 2. Zaimplementować to samo dla top popup
 
 
         // PROBLEMY:
