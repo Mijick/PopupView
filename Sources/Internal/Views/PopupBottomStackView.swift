@@ -280,7 +280,15 @@ private extension PopupBottomStackView {
 
 
 
-        lastPopupConfig.contentFillsEntireScreen && !lastPopupConfig.contentIgnoresSafeArea ? screenManager.safeArea.top : 0
+
+
+        let a = height - (screenManager.size.height - screenManager.safeArea.top)
+        let b = max(0, a)
+
+
+
+
+        return height >= screenManager.size.height && !lastPopupConfig.contentIgnoresSafeArea ? screenManager.safeArea.top : b
 
 
 
@@ -300,12 +308,28 @@ extension PopupBottomStackView {
     var height: CGFloat {
 
 
-        let h1 = heights.first { $0.key == items.last?.id }?.value ?? (lastPopupConfig.contentFillsEntireScreen ? screenManager.size.height : getInitialHeight())
+        let h1 = getLastPopupHeight() ?? (lastPopupConfig.contentFillsEntireScreen ? screenManager.size.height : getInitialHeight())
 
 
         //if gestureTranslation < 0 {
             let h2 = h1 + getLastDragHeight() - gestureTranslation
-        return max(h1, h2)
+
+
+
+        let aaa = max(h1, h2)
+
+        if h1 + getLastDragHeight() > screenManager.size.height && !lastPopupConfig.contentIgnoresSafeArea {
+            return aaa - screenManager.safeArea.top
+        }
+
+        return aaa
+
+
+
+
+
+       // let aaa = max(h1, h2)
+        return min(screenManager.size.height, aaa)
             return h2
         //}
 
