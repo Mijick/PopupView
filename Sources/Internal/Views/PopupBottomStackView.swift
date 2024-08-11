@@ -111,19 +111,6 @@ private extension PopupBottomStackView {
 // MARK: On Ended
 private extension PopupBottomStackView {
     func onPopupDragGestureEnded(_ value: CGFloat) { guard value != 0 else { return }
-
-        // PROBLEMY:
-        // 1. CZASAMI SKACZE OD DOŁU
-
-
-        // TODO:
-        // 1. Zaimplementować to samo dla top popup
-        // 2. Refaktoryzacja kodu
-
-
-
-
-
         dismissLastItemIfNeeded()
         updateTranslationValues()
     }
