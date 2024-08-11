@@ -280,25 +280,6 @@ extension PopupBottomStackView {
         }
 
         return aaa
-
-
-
-
-
-       // let aaa = max(h1, h2)
-        return min(screenManager.size.height, aaa)
-            return h2
-        //}
-
-
-
-
-        return h1 + getLastDragHeight()
-
-
-
-
-
     }
     var maxHeight: CGFloat { getMaxHeight() - popupBottomPadding }
     var distanceFromKeyboard: CGFloat { lastPopupConfig.distanceFromKeyboard ?? globalConfig.bottom.distanceFromKeyboard }
