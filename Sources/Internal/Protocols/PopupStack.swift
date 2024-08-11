@@ -103,21 +103,17 @@ extension PopupStack {
 
 // MARK: - Stack Offset
 extension PopupStack {
-    func getOffset(_ item: AnyPopup<Config>) -> CGFloat {
-        if isLast(item) {
-
-            return max(gestureTranslation - getLastDragHeight(), 0)
-
-
-        }
-
-
-        return invertedIndex(item).floatValue * stackOffsetValue
-
-        //isLast(item) ? gestureTranslation : invertedIndex(item).floatValue * stackOffsetValue
-
-
-
+    func getOffset(_ item: AnyPopup<Config>) -> CGFloat { switch isLast(item) {
+        case true: calculateOffsetForLastItem()
+        case false: calculateOffsetForOtherItems(item)
+    }}
+}
+private extension PopupStack {
+    func calculateOffsetForLastItem() -> CGFloat {
+        max(gestureTranslation - getLastDragHeight(), 0)
+    }
+    func calculateOffsetForOtherItems(_ item: AnyPopup<Config>) -> CGFloat {
+        invertedIndex(item).floatValue * stackOffsetValue
     }
 }
 
