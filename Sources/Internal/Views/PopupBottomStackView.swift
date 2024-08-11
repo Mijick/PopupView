@@ -112,16 +112,18 @@ private extension PopupBottomStackView {
 private extension PopupBottomStackView {
     func onPopupDragGestureEnded(_ value: CGFloat) { guard value != 0 else { return }
 
-
-        // 2. Zaimplementować to samo dla top popup
-
-
         // PROBLEMY:
-        // 1. Sprawdzić działanie ze stacked popups
-        // 2. Sprawdzić działanie gdy popup ma bottom padding
-        // 3. Sprawdzić działanie gdy klawiatura jest widoczna
-        // 4. Sprawdzić inne typy popupów
-        // 5. Refaktoryzacja kodu
+        // 1. CZASAMI SKACZE OD DOŁU
+
+
+        // TODO:
+        // 1. Zaimplementować to samo dla top popup
+        // 2. Refaktoryzacja kodu
+
+
+        // SPRAWDZIĆ:
+        // 1. Sprawdzić działanie gdy popup ma bottom padding
+        // 2. Sprawdzić inne typy popupów
 
 
 
