@@ -114,15 +114,12 @@ private extension PopupBottomStackView {
 
         // PROBLEMY:
         // 1. CZASAMI SKACZE OD DOŁU
+        // 2. TopPopup nie działa
 
 
         // TODO:
         // 1. Zaimplementować to samo dla top popup
         // 2. Refaktoryzacja kodu
-
-
-        // SPRAWDZIĆ:
-        // 1. Sprawdzić inne typy popupów
 
 
 
