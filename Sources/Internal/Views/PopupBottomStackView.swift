@@ -122,8 +122,7 @@ private extension PopupBottomStackView {
 
 
         // SPRAWDZIĆ:
-        // 1. Sprawdzić działanie gdy popup ma bottom padding
-        // 2. Sprawdzić inne typy popupów
+        // 1. Sprawdzić inne typy popupów
 
 
 
@@ -227,7 +226,7 @@ private extension PopupBottomStackView {
         return heights[item.id] = min(height, maxHeight)
     }}
     func getMaxHeight() -> CGFloat {
-        let basicHeight = screenManager.size.height - screenManager.safeArea.top
+        let basicHeight = screenManager.size.height - screenManager.safeArea.top - popupBottomPadding
         let stackedViewsCount = min(max(0, globalConfig.bottom.stackLimit - 1), items.count - 1)
         let stackedViewsHeight = globalConfig.bottom.stackOffset * .init(stackedViewsCount) * maxHeightStackedFactor
         return basicHeight - stackedViewsHeight
