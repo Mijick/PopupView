@@ -235,50 +235,6 @@ private extension PopupBottomStackView {
         return max(screenManager.safeArea.bottom - popupBottomPadding, 0)
     }
     func getContentTopPadding() -> CGFloat {
-
-
-//        print(screenManager.size.height)
-//
-//
-//
-//        if lastPopupConfig.contentFillsEntireScreen && !lastPopupConfig.contentIgnoresSafeArea { return screenManager.safeArea.top }
-//
-//
-//
-//
-//
-//        if height > screenManager.size.height {
-//            let c = min(screenManager.safeArea.top, height - screenManager.size.height)
-//
-//            print(c)
-//
-//
-//
-//            return c
-//
-//
-//
-//
-//            print(screenManager.size.height - height)
-//        }
-//
-//
-//
-//
-//
-//        print(height < screenManager.size.height)
-//
-//
-//
-//
-//
-//
-//        return 0
-
-
-
-
-
         let a = height - (screenManager.size.height - screenManager.safeArea.top)
         let b = max(0, a)
 
