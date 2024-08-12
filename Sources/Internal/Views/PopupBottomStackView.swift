@@ -77,35 +77,25 @@ private extension PopupBottomStackView {
 }
 private extension PopupBottomStackView {
     func calculateGestureTranslationWhenNoDragDetents(_ value: CGFloat) -> CGFloat { max(value, 0) }
-    func calculateGestureTranslationWhenDragDetents(_ value: CGFloat) -> CGFloat {
-
-
-        if value < 0 {
-            let maxHeight = min(screenManager.size.height, calculatePopupTargetHeightsFromDragDetents(getLastPopupHeight()!).max()! + 32)
-
-            //let maxHeight2 = max(maxHeight, bbb)
-
-
-
-
-            let bbb = maxHeight - getLastPopupHeight()! - getLastDragHeight()
-            let c = min(0, -bbb)
-
-            //print(c, value)
-
-
-            return max(c, value)
-
-
-
-
-
-
-        }
-
-
-        return value
+    func calculateGestureTranslationWhenDragDetents(_ value: CGFloat) -> CGFloat { guard value < 0, let lastPopupHeight = getLastPopupHeight() else { return value }
+        let maxHeight = calculateMaxHeightForDragGesture(lastPopupHeight)
+        let dragTranslation = calculateDragTranslation(maxHeight, lastPopupHeight)
+        return max(dragTranslation, value)
     }
+}
+private extension PopupBottomStackView {
+    func calculateMaxHeightForDragGesture(_ lastPopupHeight: CGFloat) -> CGFloat {
+        let maxHeight1 = (calculatePopupTargetHeightsFromDragDetents(lastPopupHeight).max() ?? 0) + dragTranslationThreshold
+        let maxHeight2 = screenManager.size.height
+        return min(maxHeight1, maxHeight2)
+    }
+    func calculateDragTranslation(_ maxHeight: CGFloat, _ lastPopupHeight: CGFloat) -> CGFloat {
+        let translation = maxHeight - lastPopupHeight - getLastDragHeight()
+        return -translation
+    }
+}
+private extension PopupBottomStackView {
+    var dragTranslationThreshold: CGFloat { 32 }
 }
 
 // MARK: On Ended
