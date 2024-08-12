@@ -137,6 +137,7 @@ private extension PopupBottomStackView {
         .sorted(by: <)
     }
     func calculateTargetPopupHeight(_ currentPopupHeight: CGFloat, _ popupTargetHeights: [CGFloat]) -> CGFloat {
+        if currentPopupHeight == screenManager.size.height { return popupTargetHeights.last ?? 0 }
 
 
 
@@ -232,7 +233,7 @@ extension PopupBottomStackView {
         let newHeight = max(lastPopupHeight, dragTranslation)
 
         switch lastPopupHeight + lastDragHeight > screenManager.size.height && !lastPopupConfig.contentIgnoresSafeArea {
-            case true: return newHeight - screenManager.safeArea.top
+            case true: return newHeight == screenManager.size.height ? newHeight : newHeight - screenManager.safeArea.top
             case false: return newHeight
         }
     }
