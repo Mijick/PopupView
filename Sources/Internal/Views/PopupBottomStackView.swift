@@ -95,7 +95,7 @@ private extension PopupBottomStackView {
     }
 }
 private extension PopupBottomStackView {
-    var dragTranslationThreshold: CGFloat { 32 }
+    var dragTranslationThreshold: CGFloat { 8 }
 }
 
 // MARK: On Ended
@@ -209,22 +209,11 @@ private extension PopupBottomStackView {
         return max(screenManager.safeArea.bottom - popupBottomPadding, 0)
     }
     func getContentTopPadding() -> CGFloat {
-        let a = height - (screenManager.size.height - screenManager.safeArea.top)
-        let b = max(0, a)
-
-
         if lastPopupConfig.contentIgnoresSafeArea { return 0 }
 
-
-
-
-
-        return height >= screenManager.size.height ? screenManager.safeArea.top : b
-
-
-
-
-
+        let heightWithoutTopSafeArea = screenManager.size.height - screenManager.safeArea.top
+        let topPadding = height - heightWithoutTopSafeArea
+        return max(topPadding, 0)
     }
     func getHeight(_ item: AnyPopup<BottomPopupConfig>) -> CGFloat? { getConfig(item).contentFillsEntireScreen ? nil : height }
     func getFixedSize(_ item: AnyPopup<BottomPopupConfig>) -> Bool { !(getConfig(item).contentFillsEntireScreen || getConfig(item).contentFillsWholeHeight || height == maxHeight) }
