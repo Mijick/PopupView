@@ -226,22 +226,15 @@ extension PopupBottomStackView {
     var popupHorizontalPadding: CGFloat { lastPopupConfig.popupPadding.horizontal }
     var popupShadow: Shadow { globalConfig.bottom.shadow }
     var height: CGFloat {
+        let lastDragHeight = getLastDragHeight(),
+            lastPopupHeight = getLastPopupHeight() ?? (lastPopupConfig.contentFillsEntireScreen ? screenManager.size.height : getInitialHeight())
+        let dragTranslation = lastPopupHeight + lastDragHeight - gestureTranslation
+        let newHeight = max(lastPopupHeight, dragTranslation)
 
-
-        let h1 = getLastPopupHeight() ?? (lastPopupConfig.contentFillsEntireScreen ? screenManager.size.height : getInitialHeight())
-
-
-        let h2 = h1 + getLastDragHeight() - gestureTranslation
-
-
-
-        let aaa = max(h1, h2)
-
-        if h1 + getLastDragHeight() > screenManager.size.height && !lastPopupConfig.contentIgnoresSafeArea {
-            return aaa - screenManager.safeArea.top
+        switch lastPopupHeight + lastDragHeight > screenManager.size.height && !lastPopupConfig.contentIgnoresSafeArea {
+            case true: return newHeight - screenManager.safeArea.top
+            case false: return newHeight
         }
-
-        return aaa
     }
     var maxHeight: CGFloat { getMaxHeight() - popupBottomPadding }
     var distanceFromKeyboard: CGFloat { lastPopupConfig.distanceFromKeyboard ?? globalConfig.bottom.distanceFromKeyboard }
