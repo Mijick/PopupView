@@ -136,9 +136,7 @@ private extension PopupBottomStackView {
         .appending(lastPopupHeight)
         .sorted(by: <)
     }
-    func calculateTargetPopupHeight(_ currentPopupHeight: CGFloat, _ popupTargetHeights: [CGFloat]) -> CGFloat {
-        if currentPopupHeight == screenManager.size.height { return popupTargetHeights.last ?? 0 }
-
+    func calculateTargetPopupHeight(_ currentPopupHeight: CGFloat, _ popupTargetHeights: [CGFloat]) -> CGFloat { guard currentPopupHeight < screenManager.size.height else { return popupTargetHeights.last ?? 0 }
 
 
         let index = popupTargetHeights.firstIndex(where: { $0 >= currentPopupHeight }) ?? popupTargetHeights.count - 1
