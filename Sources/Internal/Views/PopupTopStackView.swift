@@ -15,6 +15,7 @@ struct PopupTopStackView: PopupStack {
     let globalConfig: GlobalConfig
     @State var gestureTranslation: CGFloat = 0
     @State var heights: [ID: CGFloat] = [:]
+    @State var dragHeights: [ID: CGFloat] = [:]
     @GestureState var isGestureActive: Bool = false
     @ObservedObject private var screenManager: ScreenManager = .shared
 
@@ -41,7 +42,7 @@ private extension PopupTopStackView {
             .padding(.leading, screenManager.safeArea.left)
             .padding(.trailing, screenManager.safeArea.right)
             .readHeight { saveHeight($0, for: item) }
-            .frame(height: height).frame(maxWidth: .infinity)
+            .frame(height: height, alignment: .bottom).frame(maxWidth: .infinity)
             .background(getBackgroundColour(for: item), overlayColour: getStackOverlayColour(item), radius: getCornerRadius(item), corners: getCorners(), shadow: popupShadow)
             .padding(.horizontal, lastPopupConfig.popupPadding.horizontal)
             .offset(y: getOffset(item))
