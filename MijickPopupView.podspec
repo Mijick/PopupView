@@ -5,7 +5,7 @@ Pod::Spec.new do |s|
   PopupView is a free and open-source library dedicated for SwiftUI that makes the process of presenting popups easier and much cleaner.
                                DESC
   
-  s.version               = '2.6.0'
+  s.version               = '2.7.0'
   s.ios.deployment_target = '14.0'
   s.osx.deployment_target = '13.0'
   s.swift_version         = '5.0'

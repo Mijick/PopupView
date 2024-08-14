@@ -15,6 +15,7 @@ protocol PopupStack: View {
 
     var items: [AnyPopup<Config>] { get }
     var heights: [ID: CGFloat] { get }
+    var dragHeights: [ID: CGFloat] { get }
     var globalConfig: GlobalConfig { get }
     var gestureTranslation: CGFloat { get }
     var isGestureActive: Bool { get }
@@ -30,6 +31,7 @@ protocol PopupStack: View {
 }
 extension PopupStack {
     var heights: [ID: CGFloat] { [:] }
+    var dragHeights: [ID: CGFloat] { [:] }
     var gestureTranslation: CGFloat { 0 }
     var isGestureActive: Bool { false }
     var translationProgress: CGFloat { 1 }
@@ -101,7 +103,20 @@ extension PopupStack {
 
 // MARK: - Stack Offset
 extension PopupStack {
-    func getOffset(_ item: AnyPopup<Config>) -> CGFloat { isLast(item) ? gestureTranslation : invertedIndex(item).floatValue * stackOffsetValue }
+    func getOffset(_ item: AnyPopup<Config>) -> CGFloat { switch isLast(item) {
+        case true: calculateOffsetForLastItem()
+        case false: calculateOffsetForOtherItems(item)
+    }}
+}
+private extension PopupStack {
+    func calculateOffsetForLastItem() -> CGFloat { switch items {
+        case _ as [AnyPopup<BottomPopupConfig>]: max(gestureTranslation - getLastDragHeight(), 0)
+        case _ as [AnyPopup<TopPopupConfig>]: min(gestureTranslation + getLastDragHeight(), 0)
+        default: 0
+    }}
+    func calculateOffsetForOtherItems(_ item: AnyPopup<Config>) -> CGFloat {
+        invertedIndex(item).floatValue * stackOffsetValue
+    }
 }
 
 // MARK: - Initial Height
@@ -112,6 +127,16 @@ extension PopupStack {
         let height = heights.filter { $0.key == previousView.id }.first?.value ?? 30
         return height
     }
+}
+
+// MARK: - Last Popup Height
+extension PopupStack {
+    func getLastPopupHeight() -> CGFloat? { heights[items.last?.id ?? .init()] }
+}
+
+// MARK: - Drag Height Value
+extension PopupStack {
+    func getLastDragHeight() -> CGFloat { dragHeights[items.last?.id ?? .init()] ?? 0 }
 }
 
 // MARK: - Item ZIndex

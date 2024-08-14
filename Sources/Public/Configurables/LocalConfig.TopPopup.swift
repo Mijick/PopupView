@@ -38,6 +38,9 @@ public extension TopPopupConfig {
 
     /// Popup can be closed with drag gesture if enabled
     func dragGestureEnabled(_ value: Bool) -> Self { changing(path: \.dragGestureEnabled, to: value) }
+
+    /// Sets available detents for the popupSets the available detents for the enclosing sheet
+    func dragDetents(_ value: [DragDetent]) -> Self { changing(path: \.dragDetents, to: value) }
 }
 
 
@@ -51,4 +54,5 @@ public struct TopPopupConfig: Configurable { public init() {}
 
     private(set) var tapOutsideClosesView: Bool? = nil
     private(set) var dragGestureEnabled: Bool? = nil
+    private(set) var dragDetents: [DragDetent] = []
 }

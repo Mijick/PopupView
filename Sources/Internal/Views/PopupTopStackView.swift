@@ -15,6 +15,7 @@ struct PopupTopStackView: PopupStack {
     let globalConfig: GlobalConfig
     @State var gestureTranslation: CGFloat = 0
     @State var heights: [ID: CGFloat] = [:]
+    @State var dragHeights: [ID: CGFloat] = [:]
     @GestureState var isGestureActive: Bool = false
     @ObservedObject private var screenManager: ScreenManager = .shared
 
@@ -41,7 +42,7 @@ private extension PopupTopStackView {
             .padding(.leading, screenManager.safeArea.left)
             .padding(.trailing, screenManager.safeArea.right)
             .readHeight { saveHeight($0, for: item) }
-            .frame(height: height).frame(maxWidth: .infinity)
+            .frame(height: height, alignment: .bottom).frame(maxWidth: .infinity)
             .background(getBackgroundColour(for: item), overlayColour: getStackOverlayColour(item), radius: getCornerRadius(item), corners: getCorners(), shadow: popupShadow)
             .padding(.horizontal, lastPopupConfig.popupPadding.horizontal)
             .offset(y: getOffset(item))
@@ -56,23 +57,110 @@ private extension PopupTopStackView {
 }
 
 // MARK: - Gestures
+
+// MARK: On Changed
 private extension PopupTopStackView {
-    func onPopupDragGestureChanged(_ value: CGFloat) {
-        if lastPopupConfig.dragGestureEnabled ?? globalConfig.top.dragGestureEnabled { gestureTranslation = min(0, value) }
-    }
-    func onPopupDragGestureEnded(_ value: CGFloat) {
-        dismissLastItemIfNeeded()
-        resetGestureTranslationOnEnd()
+    func onPopupDragGestureChanged(_ value: CGFloat) { if canDragGestureBeUsed() {
+        updateGestureTranslation(value)
+    }}
+}
+private extension PopupTopStackView {
+    func canDragGestureBeUsed() -> Bool { lastPopupConfig.dragGestureEnabled ?? globalConfig.bottom.dragGestureEnabled }
+    func updateGestureTranslation(_ value: CGFloat) { switch lastPopupConfig.dragDetents.isEmpty {
+        case true: gestureTranslation = calculateGestureTranslationWhenNoDragDetents(value)
+        case false: gestureTranslation = calculateGestureTranslationWhenDragDetents(value)
+    }}
+}
+private extension PopupTopStackView {
+    func calculateGestureTranslationWhenNoDragDetents(_ value: CGFloat) -> CGFloat { min(value, 0) }
+    func calculateGestureTranslationWhenDragDetents(_ value: CGFloat) -> CGFloat { guard value > 0, let lastPopupHeight = getLastPopupHeight() else { return value }
+        let maxHeight = calculateMaxHeightForDragGesture(lastPopupHeight)
+        let dragTranslation = calculateDragTranslation(maxHeight, lastPopupHeight)
+        return min(dragTranslation, value)
     }
 }
 private extension PopupTopStackView {
-    func dismissLastItemIfNeeded() {
-        if translationProgress >= gestureClosingThresholdFactor { items.last?.remove() }
+    func calculateMaxHeightForDragGesture(_ lastPopupHeight: CGFloat) -> CGFloat {
+        let maxHeight1 = (calculatePopupTargetHeightsFromDragDetents(lastPopupHeight).max() ?? 0) + dragTranslationThreshold
+        let maxHeight2 = screenManager.size.height
+        return min(maxHeight1, maxHeight2)
     }
-    func resetGestureTranslationOnEnd() {
-        let resetAfter = items.count == 1 && translationProgress >= gestureClosingThresholdFactor ? 0.25 : 0
+    func calculateDragTranslation(_ maxHeight: CGFloat, _ lastPopupHeight: CGFloat) -> CGFloat {
+        let translation = maxHeight - lastPopupHeight - getLastDragHeight()
+        return translation
+    }
+}
+private extension PopupTopStackView {
+    var dragTranslationThreshold: CGFloat { 8 }
+}
+
+// MARK: On Ended
+private extension PopupTopStackView {
+    func onPopupDragGestureEnded(_ value: CGFloat) { guard value != 0 else { return }
+        dismissLastItemIfNeeded()
+        updateTranslationValues()
+    }
+}
+private extension PopupTopStackView {
+    func dismissLastItemIfNeeded() { if shouldDismissPopup() {
+        items.last?.remove()
+    }}
+    func updateTranslationValues() { if let lastPopupHeight = getLastPopupHeight() {
+        let currentPopupHeight = calculateCurrentPopupHeight(lastPopupHeight)
+        let popupTargetHeights = calculatePopupTargetHeightsFromDragDetents(lastPopupHeight)
+        let targetHeight = calculateTargetPopupHeight(currentPopupHeight, popupTargetHeights)
+        let targetDragHeight = calculateTargetDragHeight(targetHeight, lastPopupHeight)
+
+        resetGestureTranslation()
+        updateDragHeight(targetDragHeight)
+    }}
+}
+private extension PopupTopStackView {
+    func calculateCurrentPopupHeight(_ lastPopupHeight: CGFloat) -> CGFloat {
+        let lastDragHeight = getLastDragHeight()
+        let currentDragHeight = lastDragHeight + gestureTranslation
+
+        let currentPopupHeight = lastPopupHeight + currentDragHeight
+        return currentPopupHeight
+    }
+    func calculatePopupTargetHeightsFromDragDetents(_ lastPopupHeight: CGFloat) -> [CGFloat] { lastPopupConfig.dragDetents
+        .map { switch $0 {
+            case .fixed(let targetHeight): min(targetHeight, screenManager.size.height)
+            case .fraction(let fraction): min(fraction * lastPopupHeight, screenManager.size.height)
+            case .fullscreen(let stackVisible): stackVisible ? screenManager.size.height - screenManager.safeArea.bottom : screenManager.size.height
+        }}
+        .appending(lastPopupHeight)
+        .sorted(by: <)
+    }
+    func calculateTargetPopupHeight(_ currentPopupHeight: CGFloat, _ popupTargetHeights: [CGFloat]) -> CGFloat {
+        guard let lastPopupHeight = getLastPopupHeight(),
+              currentPopupHeight < screenManager.size.height
+        else { return popupTargetHeights.last ?? 0 }
+
+        let initialIndex = popupTargetHeights.firstIndex(where: { $0 >= currentPopupHeight }) ?? popupTargetHeights.count - 1,
+            targetIndex = gestureTranslation > 0 ? initialIndex : max(0, initialIndex - 1)
+        let previousPopupHeight = getLastDragHeight() + lastPopupHeight,
+            popupTargetHeight = popupTargetHeights[targetIndex],
+            deltaHeight = abs(previousPopupHeight - popupTargetHeight)
+        let progress = abs(currentPopupHeight - previousPopupHeight) / deltaHeight
+
+        if progress < gestureClosingThresholdFactor {
+            let index = gestureTranslation > 0 ? max(0, initialIndex - 1) : initialIndex
+            return popupTargetHeights[index]
+        }
+        return popupTargetHeights[targetIndex]
+    }
+    func calculateTargetDragHeight(_ targetHeight: CGFloat, _ lastPopupHeight: CGFloat) -> CGFloat {
+        targetHeight - lastPopupHeight
+    }
+    func updateDragHeight(_ targetDragHeight: CGFloat) { if let id = items.last?.id {
+        dragHeights[id] = targetDragHeight
+    }}
+    func resetGestureTranslation() {
+        let resetAfter = items.count == 1 && shouldDismissPopup() ? 0.25 : 0
         DispatchQueue.main.asyncAfter(deadline: .now() + resetAfter) { gestureTranslation = 0 }
     }
+    func shouldDismissPopup() -> Bool { translationProgress >= gestureClosingThresholdFactor }
 }
 
 // MARK: - View Modifiers
@@ -92,7 +180,17 @@ extension PopupTopStackView {
     var contentTopPadding: CGFloat { lastPopupConfig.contentIgnoresSafeArea ? 0 : max(screenManager.safeArea.top - popupTopPadding, 0) }
     var popupTopPadding: CGFloat { lastPopupConfig.popupPadding.top }
     var popupShadow: Shadow { globalConfig.top.shadow }
-    var height: CGFloat { heights.first { $0.key == items.last?.id }?.value ?? getInitialHeight() }
+    var height: CGFloat {
+        let lastDragHeight = getLastDragHeight(),
+            lastPopupHeight = getLastPopupHeight() ?? getInitialHeight()
+        let dragTranslation = lastPopupHeight + lastDragHeight + gestureTranslation - popupTopPadding
+        let newHeight = max(lastPopupHeight, dragTranslation)
+
+        switch lastPopupHeight + lastDragHeight > screenManager.size.height && !lastPopupConfig.contentIgnoresSafeArea {
+            case true: return newHeight == screenManager.size.height ? newHeight : newHeight - screenManager.safeArea.top
+            case false: return newHeight
+        }
+    }
     var cornerRadius: CGFloat { lastPopupConfig.cornerRadius ?? globalConfig.top.cornerRadius }
 
     var stackLimit: Int { globalConfig.top.stackLimit }
@@ -100,7 +198,7 @@ extension PopupTopStackView {
     var stackOffsetValue: CGFloat { globalConfig.top.stackOffset }
     var stackCornerRadiusMultiplier: CGFloat { globalConfig.top.stackCornerRadiusMultiplier }
 
-    var translationProgress: CGFloat { abs(gestureTranslation) / height }
+    var translationProgress: CGFloat { guard let popupHeight = getLastPopupHeight() else { return 0 }; return abs(min(gestureTranslation + getLastDragHeight(), 0)) / popupHeight }
     var gestureClosingThresholdFactor: CGFloat { globalConfig.top.dragGestureProgressToClose }
     var transition: AnyTransition { .move(edge: .top) }
 
