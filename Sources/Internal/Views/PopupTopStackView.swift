@@ -93,7 +93,17 @@ extension PopupTopStackView {
     var contentTopPadding: CGFloat { lastPopupConfig.contentIgnoresSafeArea ? 0 : max(screenManager.safeArea.top - popupTopPadding, 0) }
     var popupTopPadding: CGFloat { lastPopupConfig.popupPadding.top }
     var popupShadow: Shadow { globalConfig.top.shadow }
-    var height: CGFloat { heights.first { $0.key == items.last?.id }?.value ?? getInitialHeight() }
+    var height: CGFloat {
+        let lastDragHeight = getLastDragHeight(),
+            lastPopupHeight = getLastPopupHeight() ?? getInitialHeight()
+        let dragTranslation = lastPopupHeight + lastDragHeight + gestureTranslation
+        let newHeight = max(lastPopupHeight, dragTranslation)
+
+        switch lastPopupHeight + lastDragHeight > screenManager.size.height && !lastPopupConfig.contentIgnoresSafeArea {
+            case true: return newHeight == screenManager.size.height ? newHeight : newHeight - screenManager.safeArea.top
+            case false: return newHeight
+        }
+    }
     var cornerRadius: CGFloat { lastPopupConfig.cornerRadius ?? globalConfig.top.cornerRadius }
 
     var stackLimit: Int { globalConfig.top.stackLimit }
@@ -101,7 +111,7 @@ extension PopupTopStackView {
     var stackOffsetValue: CGFloat { globalConfig.top.stackOffset }
     var stackCornerRadiusMultiplier: CGFloat { globalConfig.top.stackCornerRadiusMultiplier }
 
-    var translationProgress: CGFloat { guard let popupHeight = getLastPopupHeight() else { return 0 }; return min(gestureTranslation + getLastDragHeight(), 0) / popupHeight }
+    var translationProgress: CGFloat { guard let popupHeight = getLastPopupHeight() else { return 0 }; return abs(min(gestureTranslation + getLastDragHeight(), 0)) / popupHeight }
     var gestureClosingThresholdFactor: CGFloat { globalConfig.top.dragGestureProgressToClose }
     var transition: AnyTransition { .move(edge: .top) }
 
