@@ -73,7 +73,7 @@ private extension PopupTopStackView {
 }
 private extension PopupTopStackView {
     func calculateGestureTranslationWhenNoDragDetents(_ value: CGFloat) -> CGFloat { min(value, 0) }
-    func calculateGestureTranslationWhenDragDetents(_ value: CGFloat) -> CGFloat { guard value < 0, let lastPopupHeight = getLastPopupHeight() else { return value }
+    func calculateGestureTranslationWhenDragDetents(_ value: CGFloat) -> CGFloat { guard value > 0, let lastPopupHeight = getLastPopupHeight() else { return value }
         let maxHeight = calculateMaxHeightForDragGesture(lastPopupHeight)
         let dragTranslation = calculateDragTranslation(maxHeight, lastPopupHeight)
         return min(dragTranslation, value)
