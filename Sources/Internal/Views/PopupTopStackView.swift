@@ -101,7 +101,7 @@ extension PopupTopStackView {
     var stackOffsetValue: CGFloat { globalConfig.top.stackOffset }
     var stackCornerRadiusMultiplier: CGFloat { globalConfig.top.stackCornerRadiusMultiplier }
 
-    var translationProgress: CGFloat { abs(gestureTranslation) / height }
+    var translationProgress: CGFloat { guard let popupHeight = getLastPopupHeight() else { return 0 }; return min(gestureTranslation + getLastDragHeight(), 0) / popupHeight }
     var gestureClosingThresholdFactor: CGFloat { globalConfig.top.dragGestureProgressToClose }
     var transition: AnyTransition { .move(edge: .top) }
 
