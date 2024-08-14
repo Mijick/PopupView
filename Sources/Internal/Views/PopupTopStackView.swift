@@ -183,7 +183,7 @@ extension PopupTopStackView {
     var height: CGFloat {
         let lastDragHeight = getLastDragHeight(),
             lastPopupHeight = getLastPopupHeight() ?? getInitialHeight()
-        let dragTranslation = lastPopupHeight + lastDragHeight + gestureTranslation
+        let dragTranslation = lastPopupHeight + lastDragHeight + gestureTranslation - popupTopPadding
         let newHeight = max(lastPopupHeight, dragTranslation)
 
         switch lastPopupHeight + lastDragHeight > screenManager.size.height && !lastPopupConfig.contentIgnoresSafeArea {
