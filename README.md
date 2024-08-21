@@ -114,7 +114,7 @@ The library can be initialised in either of two ways:
 ```Swift
 @main struct PopupView_Main: App {
     var body: some Scene {
-        WindowGroup(content: ContentView().implementPopupView)
+        WindowGroup(content: ContentView().implementPopupView())
     }
 }
 ```
