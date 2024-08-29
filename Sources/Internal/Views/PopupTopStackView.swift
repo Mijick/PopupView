@@ -123,14 +123,20 @@ private extension PopupTopStackView {
         let currentPopupHeight = lastPopupHeight + currentDragHeight
         return currentPopupHeight
     }
-    func calculatePopupTargetHeightsFromDragDetents(_ lastPopupHeight: CGFloat) -> [CGFloat] { lastPopupConfig.dragDetents
-        .map { switch $0 {
-            case .fixed(let targetHeight): min(targetHeight, screenManager.size.height)
-            case .fraction(let fraction): min(fraction * lastPopupHeight, screenManager.size.height)
-            case .fullscreen(let stackVisible): stackVisible ? screenManager.size.height - screenManager.safeArea.bottom : screenManager.size.height
-        }}
-        .appending(lastPopupHeight)
-        .sorted(by: <)
+    func calculatePopupTargetHeightsFromDragDetents(_ lastPopupHeight: CGFloat) -> [CGFloat] {
+        lastPopupConfig.dragDetents
+            .map { detent -> CGFloat in
+                switch detent {
+                case .fixed(let targetHeight):
+                    return min(targetHeight, screenManager.size.height)
+                case .fraction(let fraction):
+                    return min(fraction * lastPopupHeight, screenManager.size.height)
+                case .fullscreen(let stackVisible):
+                    return stackVisible ? screenManager.size.height - screenManager.safeArea.bottom : screenManager.size.height
+                }
+            }
+            .appending(lastPopupHeight)
+            .sorted(by: <)
     }
     func calculateTargetPopupHeight(_ currentPopupHeight: CGFloat, _ popupTargetHeights: [CGFloat]) -> CGFloat {
         guard let lastPopupHeight = getLastPopupHeight(),
