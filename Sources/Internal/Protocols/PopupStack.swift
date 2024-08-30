@@ -110,16 +110,11 @@ extension PopupStack {
 }
 private extension PopupStack {
     func calculateOffsetForLastItem() -> CGFloat {
-        guard let firstItem = items.first else {
-            return 0
-        }
-        
-        switch firstItem {
-        case is AnyPopup<BottomPopupConfig>:
+        if let bottomPopups = items as? [AnyPopup<BottomPopupConfig>] {
             return max(gestureTranslation - getLastDragHeight(), 0)
-        case is AnyPopup<TopPopupConfig>:
+        } else if let topPopups = items as? [AnyPopup<TopPopupConfig>] {
             return min(gestureTranslation + getLastDragHeight(), 0)
-        default:
+        } else {
             return 0
         }
     }
