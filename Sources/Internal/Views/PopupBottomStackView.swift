@@ -157,9 +157,9 @@ private extension PopupBottomStackView {
     func calculateTargetDragHeight(_ targetHeight: CGFloat, _ lastPopupHeight: CGFloat) -> CGFloat {
         targetHeight - lastPopupHeight
     }
-    func updateDragHeight(_ targetDragHeight: CGFloat) { if let id = items.last?.id {
+    func updateDragHeight(_ targetDragHeight: CGFloat) { if let id = items.last?.id { DispatchQueue.main.async {
         dragHeights[id] = targetDragHeight
-    }}
+    }}}
     func resetGestureTranslation() {
         let resetAfter = items.count == 1 && shouldDismissPopup() ? 0.25 : 0
         DispatchQueue.main.asyncAfter(deadline: .now() + resetAfter) { gestureTranslation = 0 }
