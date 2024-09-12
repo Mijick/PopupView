@@ -11,10 +11,9 @@
 import SwiftUI
 
 struct PopupBottomStackView: PopupStack { typealias Config = BottomPopupConfig
-    let items: [AnyPopup]
+    @Binding var items: [AnyPopup]
     let globalConfig: GlobalConfig
     @State var gestureTranslation: CGFloat = 0
-    @State var heights: [ID: CGFloat] = [:]
     @State var dragHeights: [ID: CGFloat] = [:]
     @GestureState var isGestureActive: Bool = false
     @ObservedObject private var screenManager: ScreenManager = .shared
@@ -24,7 +23,7 @@ struct PopupBottomStackView: PopupStack { typealias Config = BottomPopupConfig
     var body: some View {
         ZStack(alignment: .top, content: createPopupStack)
             .background(createTapArea())
-            .animation(getHeightAnimation(isAnimationDisabled: screenManager.animationsDisabled), value: heights)
+            .animation(getHeightAnimation(isAnimationDisabled: screenManager.animationsDisabled), value: items.last?.height)
             .animation(isGestureActive ? .drag : .transition, value: gestureTranslation)
             .animation(.keyboard, value: isKeyboardVisible)
             .onDragGesture($isGestureActive, onChanged: onPopupDragGestureChanged, onEnded: onPopupDragGestureEnded)
@@ -33,29 +32,29 @@ struct PopupBottomStackView: PopupStack { typealias Config = BottomPopupConfig
 
 private extension PopupBottomStackView {
     func createPopupStack() -> some View {
-        ForEach(items, id: \.self, content: createPopup)
+        ForEach($items, id: \.self, content: createPopup)
     }
 }
 
 private extension PopupBottomStackView {
-    func createPopup(_ item: AnyPopup) -> some View {
-        item.body
+    func createPopup(_ item: Binding<AnyPopup>) -> some View {
+        item.wrappedValue.body
             .padding(.top, getContentTopPadding())
             .padding(.bottom, getContentBottomPadding())
             .padding(.leading, screenManager.safeArea.left)
             .padding(.trailing, screenManager.safeArea.right)
-            .fixedSize(horizontal: false, vertical: getFixedSize(item))
+            .fixedSize(horizontal: false, vertical: getFixedSize(item.wrappedValue))
             .readHeight { saveHeight($0, for: item) }
-            .frame(height: getHeight(item), alignment: .top).frame(maxWidth: .infinity, maxHeight: height)
-            .background(getBackgroundColour(for: item), overlayColour: getStackOverlayColour(item), radius: getCornerRadius(item), corners: getCorners(), shadow: popupShadow)
+            .frame(height: getHeight(item.wrappedValue), alignment: .top).frame(maxWidth: .infinity, maxHeight: height)
+            .background(getBackgroundColour(for: item.wrappedValue), overlayColour: getStackOverlayColour(item.wrappedValue), radius: getCornerRadius(item.wrappedValue), corners: getCorners(), shadow: popupShadow)
             .padding(.horizontal, popupHorizontalPadding)
-            .offset(y: getOffset(item))
-            .scaleEffect(x: getScale(item))
+            .offset(y: getOffset(item.wrappedValue))
+            .scaleEffect(x: getScale(item.wrappedValue))
             .compositingGroup()
             .focusSectionIfAvailable()
             .align(to: .bottom, lastPopupConfig.contentFillsEntireScreen ? 0 : popupBottomPadding)
             .transition(transition)
-            .zIndex(getZIndex(item))
+            .zIndex(getZIndex(item.wrappedValue))
     }
 }
 
@@ -173,8 +172,8 @@ private extension PopupBottomStackView {
         case 0: return [.topLeft, .topRight]
         default: return .allCorners
     }}
-    func saveHeight(_ height: CGFloat, for item: AnyPopup) { if !isGestureActive {
-        let config = getConfig(item)
+    func saveHeight(_ height: CGFloat, for item: Binding<AnyPopup>) { if !isGestureActive {
+        let config = getConfig(item.wrappedValue)
         let newHeight = calculateHeight(height, config)
 
         updateHeight(newHeight, item)
@@ -208,8 +207,8 @@ private extension PopupBottomStackView {
         if config.contentFillsWholeHeight { return getMaxHeight() }
         return min(height, maxHeight)
     }
-    func updateHeight(_ newHeight: CGFloat, _ item: AnyPopup) { if heights[item.id] != newHeight { Task { @MainActor in
-        heights[item.id] = newHeight
+    func updateHeight(_ newHeight: CGFloat, _ item: Binding<AnyPopup>) { if item.wrappedValue.height != newHeight { Task { @MainActor in
+        item.wrappedValue.height = newHeight
     }}}
 }
 
