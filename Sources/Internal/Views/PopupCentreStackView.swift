@@ -10,13 +10,12 @@
 
 import SwiftUI
 
-struct PopupCentreStackView: PopupStack {
-    let items: [AnyPopup<CentrePopupConfig>]
+struct PopupCentreStackView: PopupStack { typealias Config = CentrePopupConfig
+    let items: [AnyPopup]
     let globalConfig: GlobalConfig
     @ObservedObject private var screen: ScreenManager = .shared
     @ObservedObject private var keyboardManager: KeyboardManager = .shared
     @State private var activeView: AnyView?
-    @State private var configTemp: CentrePopupConfig?
     @State private var height: CGFloat?
     @State private var contentIsAnimated: Bool = false
 
@@ -66,7 +65,7 @@ private extension PopupCentreStackView {
 
 // MARK: - Logic Modifiers
 private extension PopupCentreStackView {
-    func onItemsChange(_ items: [AnyPopup<CentrePopupConfig>]) {
+    func onItemsChange(_ items: [AnyPopup]) {
         guard let popup = items.last else { return handleClosingPopup() }
 
         showNewPopup(popup)
@@ -74,9 +73,8 @@ private extension PopupCentreStackView {
     }
 }
 private extension PopupCentreStackView {
-    func showNewPopup(_ popup: AnyPopup<CentrePopupConfig>) { DispatchQueue.main.async {
+    func showNewPopup(_ popup: AnyPopup) { DispatchQueue.main.async {
         activeView = AnyView(popup.body)
-        configTemp = popup.configurePopup(popup: .init())
     }}
     func animateContentIfNeeded() { if height != nil {
         contentIsAnimated = true
