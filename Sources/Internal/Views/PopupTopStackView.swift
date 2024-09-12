@@ -10,8 +10,8 @@
 
 import SwiftUI
 
-struct PopupTopStackView: PopupStack {
-    let items: [AnyPopup<TopPopupConfig>]
+struct PopupTopStackView: PopupStack { typealias Config = TopPopupConfig
+    let items: [AnyPopup]
     let globalConfig: GlobalConfig
     @State var gestureTranslation: CGFloat = 0
     @State var heights: [ID: CGFloat] = [:]
@@ -36,7 +36,7 @@ private extension PopupTopStackView {
 }
 
 private extension PopupTopStackView {
-    func createPopup(_ item: AnyPopup<TopPopupConfig>) -> some View {
+    func createPopup(_ item: AnyPopup) -> some View {
         item.body
             .padding(.top, contentTopPadding)
             .padding(.leading, screenManager.safeArea.left)
@@ -103,7 +103,7 @@ private extension PopupTopStackView {
 }
 private extension PopupTopStackView {
     func dismissLastItemIfNeeded() { if shouldDismissPopup() {
-        items.last?.remove()
+        PopupManager.dismissPopup(withID: items.last?.id.value ?? "")
     }}
     func updateTranslationValues() { if let lastPopupHeight = getLastPopupHeight() {
         let currentPopupHeight = calculateCurrentPopupHeight(lastPopupHeight)
@@ -171,8 +171,8 @@ private extension PopupTopStackView {
             default: return .allCorners
         }
     }
-    func getBackgroundColour(for item: AnyPopup<TopPopupConfig>) -> Color { getConfig(item).backgroundColour ?? globalConfig.top.backgroundColour }
-    func saveHeight(_ height: CGFloat, for item: AnyPopup<TopPopupConfig>) { if !isGestureActive { heights[item.id] = height }}
+    func getBackgroundColour(for item: AnyPopup) -> Color { getConfig(item).backgroundColour ?? globalConfig.top.backgroundColour }
+    func saveHeight(_ height: CGFloat, for item: AnyPopup) { if !isGestureActive { heights[item.id] = height }}
 }
 
 // MARK: - Flags & Values
