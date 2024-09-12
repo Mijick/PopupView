@@ -51,7 +51,6 @@ private extension PopupBottomStackView {
             .padding(.horizontal, popupHorizontalPadding)
             .offset(y: getOffset(item))
             .scaleEffect(x: getScale(item))
-            .opacity(getOpacity(item))
             .compositingGroup()
             .focusSectionIfAvailable()
             .align(to: .bottom, lastPopupConfig.contentFillsEntireScreen ? 0 : popupBottomPadding)
@@ -107,7 +106,7 @@ private extension PopupBottomStackView {
 }
 private extension PopupBottomStackView {
     func dismissLastItemIfNeeded() { if shouldDismissPopup() {
-        items.last?.remove()
+        PopupManager.dismissPopup(id: items.last?.id.value ?? "")
     }}
     func updateTranslationValues() { if let lastPopupHeight = getLastPopupHeight() {
         let currentPopupHeight = calculateCurrentPopupHeight(lastPopupHeight)
@@ -201,9 +200,9 @@ private extension PopupBottomStackView {
         let topPadding = height - heightWithoutTopSafeArea
         return max(topPadding, 0)
     }
-    func getHeight(_ item: AnyPopup<BottomPopupConfig>) -> CGFloat? { getConfig(item).contentFillsEntireScreen ? nil : height }
-    func getFixedSize(_ item: AnyPopup<BottomPopupConfig>) -> Bool { !(getConfig(item).contentFillsEntireScreen || getConfig(item).contentFillsWholeHeight || height == maxHeight) }
-    func getBackgroundColour(for item: AnyPopup<BottomPopupConfig>) -> Color { item.configurePopup(popup: .init()).backgroundColour ?? globalConfig.bottom.backgroundColour }
+    func getHeight(_ item: AnyPopup) -> CGFloat? { getConfig(item).contentFillsEntireScreen ? nil : height }
+    func getFixedSize(_ item: AnyPopup) -> Bool { !(getConfig(item).contentFillsEntireScreen || getConfig(item).contentFillsWholeHeight || height == maxHeight) }
+    func getBackgroundColour(for item: AnyPopup) -> Color { getConfig(item).backgroundColour ?? globalConfig.bottom.backgroundColour }
 }
 
 // MARK: - Flags & Values
