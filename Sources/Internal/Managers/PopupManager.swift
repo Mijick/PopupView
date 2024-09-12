@@ -12,6 +12,7 @@ import SwiftUI
 
 public class PopupManager: ObservableObject {
     @Published private(set) var views: [AnyPopup] = [] { willSet { onViewsChanged(newValue) }}
+    private(set) var popupTemp: AnyPopupTemp = .init()
     private(set) var popupsWithoutOverlay: [ID] = []
     private(set) var popupsToBeDismissed: [ID: DispatchSourceTimer] = [:]
     private(set) var popupActionsOnDismiss: [ID: () -> ()] = [:]
@@ -38,6 +39,12 @@ extension PopupManager {
     static func performOperation(_ operation: StackOperation) {
         removePopupFromStackToBeDismissed(operation)
         perform(operation)
+    }
+    static func setTempValue(environmentObject: (any ObservableObject)? = nil) {
+        if let environmentObject { shared.popupTemp.environmentObject = environmentObject }
+    }
+    static func resetTempValues() {
+        shared.popupTemp = .init()
     }
     static func dismissPopupAfter(_ popup: any Popup, _ seconds: Double) { shared.popupsToBeDismissed[popup.id] = DispatchSource.createAction(deadline: seconds) { performOperation(.remove(popup.id)) } }
     static func hideOverlay(_ popup: any Popup) { shared.popupsWithoutOverlay.append(popup.id) }

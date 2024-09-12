@@ -19,12 +19,7 @@ struct AnyPopup: View, Hashable {
     init(_ popup: some Popup) {
         self.id = popup.id
         self.config = popup.configurePopup(popup: .init())
-        self._body = AnyView(popup)
-    }
-    init(_ popup: some Popup, _ envObject: some ObservableObject) {
-        self.id = popup.id
-        self.config = popup.configurePopup(popup: .init())
-        self._body = AnyView(popup.environmentObject(envObject))
+        self._body = popup.erased(with: PopupManager.shared.popupTemp.environmentObject)
     }
     var body: some View { _body }
 }

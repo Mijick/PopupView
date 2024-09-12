@@ -10,6 +10,14 @@
 
 import SwiftUI
 
+// MARK: - Erasing with EnvironmentObject
+extension View {
+    func erased(with object: (any ObservableObject)?) -> AnyView {
+        if let object { AnyView(environmentObject(object)) }
+        else { AnyView(self) }
+    }
+}
+
 // MARK: - Alignments
 extension View {
     func align(to edge: Edge, _ value: CGFloat?) -> some View {

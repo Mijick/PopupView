@@ -25,8 +25,3 @@ public extension Popup {
 
     func configurePopup(popup: Config) -> Config { popup }
 }
-
-// MARK: - Helpers
-extension Popup {
-    func remove() { PopupManager.performOperation(.remove(id)) }
-}
