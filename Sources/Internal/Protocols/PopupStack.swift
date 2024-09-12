@@ -141,7 +141,7 @@ extension PopupStack {
 
 // MARK: - Item ZIndex
 extension PopupStack {
-    func getZIndex(_ item: AnyPopup<Config>) -> Double { .init(items.firstIndex(of: item) ?? 2137) }
+    func getZIndex(_ item: AnyPopup) -> Double { .init(items.firstIndex(of: item) ?? 2137) }
 }
 
 
