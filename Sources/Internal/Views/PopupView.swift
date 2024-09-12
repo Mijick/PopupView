@@ -96,7 +96,7 @@ private extension PopupView {
 }
 
 private extension PopupView {
-    var stackAnimation: Animation { popupManager.presenting ? globalConfig.common.animation.entry : globalConfig.common.animation.removal }
+    var stackAnimation: Animation { globalConfig.common.animation.transition }
     var overlayColour: Color { globalConfig.common.overlayColour }
 }
 

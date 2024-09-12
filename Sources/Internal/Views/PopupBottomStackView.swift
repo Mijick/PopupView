@@ -25,7 +25,7 @@ struct PopupBottomStackView: PopupStack {
         ZStack(alignment: .top, content: createPopupStack)
             .background(createTapArea())
             .animation(getHeightAnimation(isAnimationDisabled: screenManager.animationsDisabled), value: heights)
-            .animation(isGestureActive ? dragGestureAnimation : transitionRemovalAnimation, value: gestureTranslation)
+            .animation(isGestureActive ? dragGestureAnimation : transitionAnimation, value: gestureTranslation)
             .animation(.keyboard, value: isKeyboardVisible)
             .onDragGesture($isGestureActive, onChanged: onPopupDragGestureChanged, onEnded: onPopupDragGestureEnded)
     }

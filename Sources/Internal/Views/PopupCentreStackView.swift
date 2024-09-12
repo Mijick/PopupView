@@ -26,9 +26,9 @@ struct PopupCentreStackView: PopupStack {
             .align(to: .bottom, keyboardManager.height == 0 ? nil : keyboardManager.height)
             .frame(height: screen.size.height)
             .background(createTapArea())
-            .animation(transitionEntryAnimation, value: lastPopupConfig.horizontalPadding)
-            .animation(height == nil ? transitionRemovalAnimation : transitionEntryAnimation, value: height)
-            .animation(transitionEntryAnimation, value: contentIsAnimated)
+            .animation(transitionAnimation, value: lastPopupConfig.horizontalPadding)
+            .animation(transitionAnimation, value: height)
+            .animation(transitionAnimation, value: contentIsAnimated)
             .animation(.keyboard, value: keyboardManager.height)
             .transition(getTransition())
             .onChange(of: items, perform: onItemsChange)
@@ -94,7 +94,7 @@ private extension PopupCentreStackView {
     func getTransition() -> AnyTransition {
         .scale(scale: items.isEmpty ? globalConfig.centre.transitionExitScale : globalConfig.centre.transitionEntryScale)
         .combined(with: .opacity)
-        .animation(height == nil || items.isEmpty ? transitionRemovalAnimation : nil)
+        .animation(height == nil || items.isEmpty ? transitionAnimation : nil)
     }
 }
 
