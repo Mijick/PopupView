@@ -29,3 +29,9 @@ extension AnyPopup {
     static func == (lhs: AnyPopup, rhs: AnyPopup) -> Bool { lhs.id == rhs.id }
     func hash(into hasher: inout Hasher) { hasher.combine(id) }
 }
+
+
+// MARK: - Temporary Values
+extension AnyPopup { struct Temp {
+    var environmentObject: (any ObservableObject)? = nil
+}}

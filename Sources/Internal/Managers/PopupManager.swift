@@ -15,7 +15,7 @@ public class PopupManager: ObservableObject {
     private(set) var popupsWithoutOverlay: [ID] = []
     private(set) var popupsToBeDismissed: [ID: DispatchSourceTimer] = [:]
     private(set) var popupActionsOnDismiss: [ID: () -> ()] = [:]
-    private var popupTemp: AnyPopupTemp = .init()
+    private var popupTemp: AnyPopup.Temp = .init()
 
     static let shared: PopupManager = .init()
     private init() {}
@@ -43,7 +43,7 @@ extension PopupManager {
     static func setTempValue(environmentObject: (any ObservableObject)? = nil) {
         if let environmentObject { shared.popupTemp.environmentObject = environmentObject }
     }
-    static func readAndResetTempValues() -> AnyPopupTemp {
+    static func readAndResetTempValues() -> AnyPopup.Temp {
         let temp = shared.popupTemp
         shared.popupTemp = .init()
         return temp
