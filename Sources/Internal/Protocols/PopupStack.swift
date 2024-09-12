@@ -129,7 +129,7 @@ extension PopupStack {
 
 // MARK: - Last Popup Height
 extension PopupStack {
-    func getLastPopupHeight() -> CGFloat? { heights[items.last?.id ?? .init()] }
+    func getLastPopupHeight() -> CGFloat? { items.last?.height }
 }
 
 // MARK: - Drag Height Value
