@@ -13,6 +13,7 @@ import SwiftUI
 struct AnyPopup: View, Hashable {
     let id: ID
     let config: any Configurable
+    let dismissTimer: DispatchSourceTimer?
     let isOverlayHidden: Bool
     let onDismiss: () -> ()
     private let _body: AnyView
@@ -21,6 +22,7 @@ struct AnyPopup: View, Hashable {
     init(_ popup: some Popup) { let temp = PopupManager.readAndResetTempValues()
         self.id = popup.id
         self.config = popup.configurePopup(popup: .init())
+        self.dismissTimer = temp.dismissTimer
         self.isOverlayHidden = temp.isOverlayHidden
         self.onDismiss = temp.onDismiss
         self._body = popup.erased(with: temp.environmentObject)
@@ -38,6 +40,7 @@ extension AnyPopup {
 // MARK: - Temporary Values
 extension AnyPopup { struct Temp {
     var environmentObject: (any ObservableObject)? = nil
+    var dismissTimer: DispatchSourceTimer? = nil
     var isOverlayHidden: Bool = false
     var onDismiss: () -> () = {}
 }}

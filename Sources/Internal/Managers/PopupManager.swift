@@ -12,7 +12,6 @@ import SwiftUI
 
 public class PopupManager: ObservableObject {
     @Published private(set) var views: [AnyPopup] = [] { willSet { onViewsChanged(newValue) }}
-    private(set) var popupsToBeDismissed: [ID: DispatchSourceTimer] = [:]
     private var popupTemp: AnyPopup.Temp = .init()
 
     static let shared: PopupManager = .init()
@@ -34,12 +33,12 @@ enum StackOperation {
     case removeLast, remove(ID), removeAllUpTo(ID), removeAll
 }
 extension PopupManager {
-    static func performOperation(_ operation: StackOperation) {
-        removePopupFromStackToBeDismissed(operation)
-        perform(operation)
-    }
-    static func setTempValue(environmentObject: (any ObservableObject)? = nil, isOverlayHidden: Bool? = nil, onDismiss: (() -> ())? = nil) {
+    static func performOperation(_ operation: StackOperation) { Task { @MainActor in
+        shared.views.perform(operation)
+    }}
+    static func setTempValue(environmentObject: (any ObservableObject)? = nil, dismissProperties: (popup: any Popup, seconds: Double)? = nil, isOverlayHidden: Bool? = nil, onDismiss: (() -> ())? = nil) {
         if let environmentObject { shared.popupTemp.environmentObject = environmentObject }
+        if let dismissProperties { shared.popupTemp.dismissTimer = DispatchSource.createAction(deadline: dismissProperties.seconds) { performOperation(.remove(dismissProperties.popup.id)) } }
         if let isOverlayHidden { shared.popupTemp.isOverlayHidden = isOverlayHidden }
         if let onDismiss { shared.popupTemp.onDismiss = onDismiss }
     }
@@ -48,18 +47,6 @@ extension PopupManager {
         shared.popupTemp = .init()
         return temp
     }
-    static func dismissPopupAfter(_ popup: any Popup, _ seconds: Double) { shared.popupsToBeDismissed[popup.id] = DispatchSource.createAction(deadline: seconds) { performOperation(.remove(popup.id)) } }
-}
-private extension PopupManager {
-    static func removePopupFromStackToBeDismissed(_ operation: StackOperation) { switch operation {
-        case .removeLast: shared.popupsToBeDismissed.removeValue(forKey: shared.views.last?.id ?? .init())
-        case .remove(let id): shared.popupsToBeDismissed.removeValue(forKey: id)
-        case .removeAllUpTo, .removeAll: shared.popupsToBeDismissed.removeAll()
-        default: break
-    }}
-    static func perform(_ operation: StackOperation) { Task { @MainActor in
-        shared.views.perform(operation)
-    }}
 }
 
 fileprivate extension [AnyPopup] {

@@ -22,7 +22,7 @@ public extension Popup {
 // MARK: - Modifiers
 public extension Popup {
     /// Closes popup after n seconds
-    @discardableResult func dismissAfter(_ seconds: Double) -> some Popup { PopupManager.dismissPopupAfter(self, seconds); return self }
+    @discardableResult func dismissAfter(_ seconds: Double) -> some Popup { PopupManager.setTempValue(dismissProperties: (self, seconds)); return self }
 
     /// Hides the overlay for the selected popup
     @discardableResult func hideOverlay() -> some Popup { PopupManager.setTempValue(isOverlayHidden: true); return self }
