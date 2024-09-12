@@ -10,8 +10,8 @@
 
 import SwiftUI
 
-struct PopupBottomStackView: PopupStack {
-    let items: [AnyPopup<BottomPopupConfig>]
+struct PopupBottomStackView: PopupStack { typealias Config = BottomPopupConfig
+    let items: [AnyPopup]
     let globalConfig: GlobalConfig
     @State var gestureTranslation: CGFloat = 0
     @State var heights: [ID: CGFloat] = [:]
@@ -38,7 +38,7 @@ private extension PopupBottomStackView {
 }
 
 private extension PopupBottomStackView {
-    func createPopup(_ item: AnyPopup<BottomPopupConfig>) -> some View {
+    func createPopup(_ item: AnyPopup) -> some View {
         item.body
             .padding(.top, getContentTopPadding())
             .padding(.bottom, getContentBottomPadding())

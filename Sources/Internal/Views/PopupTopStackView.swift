@@ -103,7 +103,7 @@ private extension PopupTopStackView {
 }
 private extension PopupTopStackView {
     func dismissLastItemIfNeeded() { if shouldDismissPopup() {
-        PopupManager.dismissPopup(withID: items.last?.id.value ?? "")
+        PopupManager.dismissPopup(id: items.last?.id.value ?? "")
     }}
     func updateTranslationValues() { if let lastPopupHeight = getLastPopupHeight() {
         let currentPopupHeight = calculateCurrentPopupHeight(lastPopupHeight)
