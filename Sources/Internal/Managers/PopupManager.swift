@@ -11,7 +11,7 @@
 import SwiftUI
 
 public class PopupManager: ObservableObject {
-    @Published private(set) var views: [AnyPopup] = [] { willSet { onViewsChanged(newValue) }}
+    @Published var views: [AnyPopup] = [] { willSet { onViewsChanged(newValue) }}
     private var popupTemp: AnyPopup.Temp = .init()
 
     static let shared: PopupManager = .init()

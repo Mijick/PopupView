@@ -219,7 +219,7 @@ extension PopupBottomStackView {
     var popupShadow: Shadow { globalConfig.bottom.shadow }
     var height: CGFloat {
         let lastDragHeight = getLastDragHeight(),
-            lastPopupHeight = getLastPopupHeight() ?? (lastPopupConfig.contentFillsEntireScreen ? screenManager.size.height : getInitialHeight())
+            lastPopupHeight = getLastPopupHeight() ?? (lastPopupConfig.contentFillsEntireScreen ? screenManager.size.height : 0)
         let dragTranslation = lastPopupHeight + lastDragHeight - gestureTranslation
         let newHeight = max(lastPopupHeight, dragTranslation)
 

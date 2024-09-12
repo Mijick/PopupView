@@ -117,16 +117,6 @@ private extension PopupStack {
     }
 }
 
-// MARK: - Initial Height
-extension PopupStack {
-    func getInitialHeight() -> CGFloat {
-        guard let previousView = items.nextToLast else { return 30 }
-
-        let height = heights.filter { $0.key == previousView.id }.first?.value ?? 30
-        return height
-    }
-}
-
 // MARK: - Last Popup Height
 extension PopupStack {
     func getLastPopupHeight() -> CGFloat? { items.last?.height }
