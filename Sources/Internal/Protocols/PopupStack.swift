@@ -104,16 +104,20 @@ extension PopupStack {
 // MARK: - Stack Offset
 extension PopupStack {
     func getOffset(_ item: AnyPopup<Config>) -> CGFloat { switch isLast(item) {
-        case true: calculateOffsetForLastItem()
-        case false: calculateOffsetForOtherItems(item)
+        case true: return calculateOffsetForLastItem()
+        case false: return calculateOffsetForOtherItems(item)
     }}
 }
 private extension PopupStack {
-    func calculateOffsetForLastItem() -> CGFloat { switch items {
-        case _ as [AnyPopup<BottomPopupConfig>]: max(gestureTranslation - getLastDragHeight(), 0)
-        case _ as [AnyPopup<TopPopupConfig>]: min(gestureTranslation + getLastDragHeight(), 0)
-        default: 0
-    }}
+    func calculateOffsetForLastItem() -> CGFloat {
+        if let bottomPopups = items as? [AnyPopup<BottomPopupConfig>] {
+            return max(gestureTranslation - getLastDragHeight(), 0)
+        } else if let topPopups = items as? [AnyPopup<TopPopupConfig>] {
+            return min(gestureTranslation + getLastDragHeight(), 0)
+        } else {
+            return 0
+        }
+    }
     func calculateOffsetForOtherItems(_ item: AnyPopup<Config>) -> CGFloat {
         invertedIndex(item).floatValue * stackOffsetValue
     }
