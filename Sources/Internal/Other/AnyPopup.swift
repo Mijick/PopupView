@@ -10,26 +10,23 @@
 
 import SwiftUI
 
-struct AnyPopup<Config: Configurable>: Popup, Hashable {
+struct AnyPopup: View, Hashable {
     let id: ID
+    let config: any Configurable
     private let _body: AnyView
-    private let _configBuilder: (Config) -> Config
 
     
     init(_ popup: some Popup) {
         self.id = popup.id
+        self.config = popup.configurePopup(popup: .init())
         self._body = AnyView(popup)
-        self._configBuilder = popup.configurePopup as! (Config) -> Config
     }
     init(_ popup: some Popup, _ envObject: some ObservableObject) {
         self.id = popup.id
+        self.config = popup.configurePopup(popup: .init())
         self._body = AnyView(popup.environmentObject(envObject))
-        self._configBuilder = popup.configurePopup as! (Config) -> Config
     }
-}
-extension AnyPopup {
-    func createContent() -> some View { _body }
-    func configurePopup(popup: Config) -> Config { _configBuilder(popup) }
+    var body: some View { _body }
 }
 
 // MARK: - Hashable
