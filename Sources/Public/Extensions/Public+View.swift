@@ -26,16 +26,16 @@ public extension View {
 
 // MARK: - Dismissing Popups
 public extension View {
-    /// Dismisses last popup on the stack
+    /// Dismisses the last popup on the stack
     func dismiss() { PopupManager.dismiss() }
 
-    /// Dismisses all popups of provided type on the stack.
-    func dismiss<P: Popup>(_ popup: P.Type) { PopupManager.dismiss(popup) }
+    /// Dismisses all the popups of provided type on the stack
+    func dismissPopup<P: Popup>(_ popup: P.Type) { PopupManager.dismissPopup(popup) }
 
-    /// Dismisses all popups on the stack up to the popup with the selected type
+    /// Dismisses all the popups on the stack up to the popup with the selected type
     func dismissAll<P: Popup>(upTo popup: P.Type) { PopupManager.dismissAll(upTo: popup) }
 
-    /// Dismisses all the popups on the stack.
+    /// Dismisses all the popups on the stack
     func dismissAll() { PopupManager.dismissAll() }
 }
 
