@@ -63,18 +63,18 @@ private extension PopupView {
 
 private extension PopupView {
     func createTopPopupStackView() -> some View {
-        PopupTopStackView(items: getViews(AnyPopup<TopPopupConfig>.self), globalConfig: globalConfig)
-            .addOverlay(overlayColour, isOverlayActive(AnyPopup<TopPopupConfig>.self))
+        PopupTopStackView(items: getViews(TopPopupConfig.self), globalConfig: globalConfig)
+            .addOverlay(overlayColour, isOverlayActive(TopPopupConfig.self))
             .zIndex(zIndex.top)
     }
     func createCentrePopupStackView() -> some View {
-        PopupCentreStackView(items: getViews(AnyPopup<CentrePopupConfig>.self), globalConfig: globalConfig)
-            .addOverlay(overlayColour, isOverlayActive(AnyPopup<CentrePopupConfig>.self))
+        PopupCentreStackView(items: getViews(CentrePopupConfig.self), globalConfig: globalConfig)
+            .addOverlay(overlayColour, isOverlayActive(CentrePopupConfig.self))
             .zIndex(zIndex.centre)
     }
     func createBottomPopupStackView() -> some View {
-        PopupBottomStackView(items: getViews(AnyPopup<BottomPopupConfig>.self), globalConfig: globalConfig)
-            .addOverlay(overlayColour, isOverlayActive(AnyPopup<BottomPopupConfig>.self))
+        PopupBottomStackView(items: getViews(BottomPopupConfig.self), globalConfig: globalConfig)
+            .addOverlay(overlayColour, isOverlayActive(BottomPopupConfig.self))
             .zIndex(zIndex.bottom)
     }
 }
@@ -108,10 +108,10 @@ extension PopupView { struct ZIndex {
     private var values: [Double] = [1, 1, 1]
 }}
 extension PopupView.ZIndex {
-    mutating func reshuffle(_ lastPopup: (any Popup)?) { if let lastPopup {
-        if lastPopup is AnyPopup<TopPopupConfig> { reshuffle(0) }
-        else if lastPopup is AnyPopup<CentrePopupConfig> { reshuffle(1) }
-        else if lastPopup is AnyPopup<BottomPopupConfig> { reshuffle(2) }
+    mutating func reshuffle(_ lastConfig: (any Configurable)?) { if let lastConfig {
+        if lastConfig is TopPopupConfig { reshuffle(0) }
+        else if lastConfig is CentrePopupConfig { reshuffle(1) }
+        else if lastConfig is BottomPopupConfig { reshuffle(2) }
     }}
 }
 private extension PopupView.ZIndex {
