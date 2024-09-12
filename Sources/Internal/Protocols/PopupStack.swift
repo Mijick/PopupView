@@ -109,12 +109,12 @@ extension PopupStack {
     }}
 }
 private extension PopupStack {
-    func calculateOffsetForLastItem() -> CGFloat { switch items {
-        case _ as [AnyPopup<BottomPopupConfig>]: max(gestureTranslation - getLastDragHeight(), 0)
-        case _ as [AnyPopup<TopPopupConfig>]: min(gestureTranslation + getLastDragHeight(), 0)
+    func calculateOffsetForLastItem() -> CGFloat { switch Config.self {
+        case is BottomPopupConfig.Type: max(gestureTranslation - getLastDragHeight(), 0)
+        case is TopPopupConfig.Type: min(gestureTranslation + getLastDragHeight(), 0)
         default: 0
     }}
-    func calculateOffsetForOtherItems(_ item: AnyPopup<Config>) -> CGFloat {
+    func calculateOffsetForOtherItems(_ item: AnyPopup) -> CGFloat {
         invertedIndex(item).floatValue * stackOffsetValue
     }
 }
@@ -156,8 +156,8 @@ extension PopupStack {
 
 // MARK: - Configurables
 extension PopupStack {
-    func getConfig(_ item: AnyPopup<Config>) -> Config { item.configurePopup(popup: .init()) }
-    var lastPopupConfig: Config { items.last?.configurePopup(popup: .init()) ?? .init() }
+    func getConfig(_ item: AnyPopup) -> Config { (item.config as? Config) ?? .init() }
+    var lastPopupConfig: Config { (items.last?.config as? Config) ?? .init() }
 }
 
 
