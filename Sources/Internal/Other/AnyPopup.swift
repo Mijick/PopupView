@@ -14,6 +14,7 @@ struct AnyPopup: View, Hashable {
     let id: ID
     let config: any Configurable
     let isOverlayHidden: Bool
+    let onDismiss: () -> ()
     private let _body: AnyView
 
     
@@ -21,6 +22,7 @@ struct AnyPopup: View, Hashable {
         self.id = popup.id
         self.config = popup.configurePopup(popup: .init())
         self.isOverlayHidden = temp.isOverlayHidden
+        self.onDismiss = temp.onDismiss
         self._body = popup.erased(with: temp.environmentObject)
     }
     var body: some View { _body }
@@ -37,4 +39,5 @@ extension AnyPopup {
 extension AnyPopup { struct Temp {
     var environmentObject: (any ObservableObject)? = nil
     var isOverlayHidden: Bool = false
+    var onDismiss: () -> () = {}
 }}

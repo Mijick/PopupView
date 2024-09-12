@@ -31,7 +31,7 @@ public extension Popup {
     @discardableResult func setEnvironmentObject<T: ObservableObject>(_ object: T) -> some Popup { PopupManager.setTempValue(environmentObject: object); return self }
 
     /// Action to be executed after popups is dismissed
-    @discardableResult func onDismiss(_ action: @escaping () -> ()) -> some Popup { PopupManager.onPopupDismiss(self, action); return self }
+    @discardableResult func onDismiss(_ action: @escaping () -> ()) -> some Popup { PopupManager.setTempValue(onDismiss: action); return self }
 }
 
 // MARK: - Available Popups
