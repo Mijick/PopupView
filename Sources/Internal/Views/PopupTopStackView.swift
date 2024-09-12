@@ -24,7 +24,7 @@ struct PopupTopStackView: PopupStack { typealias Config = TopPopupConfig
         ZStack(alignment: .bottom, content: createPopupStack)
             .background(createTapArea())
             .animation(getHeightAnimation(isAnimationDisabled: screenManager.animationsDisabled), value: heights)
-            .animation(isGestureActive ? dragGestureAnimation : transitionAnimation, value: gestureTranslation)
+            .animation(isGestureActive ? .drag : .transition, value: gestureTranslation)
             .onDragGesture($isGestureActive, onChanged: onPopupDragGestureChanged, onEnded: onPopupDragGestureEnded)
     }
 }

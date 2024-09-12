@@ -46,7 +46,7 @@ private extension PopupView {
             .ignoresSafeArea()
             .frame(maxWidth: .infinity, maxHeight: .infinity)
             .ignoresSafeArea()
-            .animation(stackAnimation, value: popupManager.views.map(\.id))
+            .animation(.transition, value: popupManager.views.map(\.id))
             .onChange(popupManager.views.count, completion: onViewsCountChange)
     }
 }
