@@ -11,7 +11,7 @@
 import SwiftUI
 
 public class PopupManager: ObservableObject {
-    @Published private(set) var views: [any Popup] = [] { willSet { onViewsChanged(newValue) }}
+    @Published private(set) var views: [AnyPopup] = [] { willSet { onViewsChanged(newValue) }}
     private(set) var popupsWithoutOverlay: [ID] = []
     private(set) var popupsToBeDismissed: [ID: DispatchSourceTimer] = [:]
     private(set) var popupActionsOnDismiss: [ID: () -> ()] = [:]
@@ -20,7 +20,7 @@ public class PopupManager: ObservableObject {
     private init() {}
 }
 private extension PopupManager {
-    func onViewsChanged(_ newViews: [any Popup]) { newViews
+    func onViewsChanged(_ newViews: [AnyPopup]) { newViews
         .difference(from: views, by: { $0.id == $1.id })
         .forEach { switch $0 {
             case .remove(_, let element, _): popupActionsOnDismiss[element.id]?(); popupActionsOnDismiss.removeValue(forKey: element.id)
@@ -31,7 +31,7 @@ private extension PopupManager {
 
 // MARK: - Operations
 enum StackOperation {
-    case insertAndReplace(any Popup), insertAndStack(any Popup)
+    case insertAndReplace(AnyPopup), insertAndStack(AnyPopup)
     case removeLast, remove(ID), removeAllUpTo(ID), removeAll
 }
 extension PopupManager {
@@ -55,13 +55,13 @@ private extension PopupManager {
     }}
 }
 
-fileprivate extension [any Popup] {
+fileprivate extension [AnyPopup] {
     @MainActor mutating func perform(_ operation: StackOperation) {
         hideKeyboard()
         performOperation(operation)
     }
 }
-private extension [any Popup] {
+private extension [AnyPopup] {
     @MainActor func hideKeyboard() { KeyboardManager.hideKeyboard() }
     mutating func performOperation(_ operation: StackOperation) {
         switch operation {
@@ -74,6 +74,6 @@ private extension [any Popup] {
         }
     }
 }
-private extension [any Popup] {
-    func canBeInserted(_ popup: some Popup) -> Bool { !contains(where: { $0.id ~= popup.id }) }
+private extension [AnyPopup] {
+    func canBeInserted(_ popup: AnyPopup) -> Bool { !contains(where: { $0.id ~= popup.id }) }
 }

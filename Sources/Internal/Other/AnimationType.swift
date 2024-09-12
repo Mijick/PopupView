@@ -17,5 +17,5 @@ extension AnimationType {
         case .linear: return .linear(duration: 0.4)
         case .easeInOut: return .easeInOut(duration: 0.4)
     }}
-    var dragGesture: Animation { .linear(duration: 0.02) }
+    var dragGesture: Animation { .linear(duration: 0) }
 }
