@@ -12,7 +12,6 @@ import SwiftUI
 
 public class PopupManager: ObservableObject {
     @Published private(set) var views: [AnyPopup] = [] { willSet { onViewsChanged(newValue) }}
-    private(set) var popupsWithoutOverlay: [ID] = []
     private(set) var popupsToBeDismissed: [ID: DispatchSourceTimer] = [:]
     private(set) var popupActionsOnDismiss: [ID: () -> ()] = [:]
     private var popupTemp: AnyPopup.Temp = .init()
@@ -40,8 +39,9 @@ extension PopupManager {
         removePopupFromStackToBeDismissed(operation)
         perform(operation)
     }
-    static func setTempValue(environmentObject: (any ObservableObject)? = nil) {
+    static func setTempValue(environmentObject: (any ObservableObject)? = nil, isOverlayHidden: Bool? = nil) {
         if let environmentObject { shared.popupTemp.environmentObject = environmentObject }
+        if let isOverlayHidden { shared.popupTemp.isOverlayHidden = isOverlayHidden }
     }
     static func readAndResetTempValues() -> AnyPopup.Temp {
         let temp = shared.popupTemp
@@ -49,7 +49,6 @@ extension PopupManager {
         return temp
     }
     static func dismissPopupAfter(_ popup: any Popup, _ seconds: Double) { shared.popupsToBeDismissed[popup.id] = DispatchSource.createAction(deadline: seconds) { performOperation(.remove(popup.id)) } }
-    static func hideOverlay(_ popup: any Popup) { shared.popupsWithoutOverlay.append(popup.id) }
     static func onPopupDismiss(_ popup: any Popup, _ action: @escaping () -> ()) { shared.popupActionsOnDismiss[popup.id] = action }
 }
 private extension PopupManager {
@@ -72,7 +71,7 @@ fileprivate extension [AnyPopup] {
 }
 private extension [AnyPopup] {
     @MainActor func hideKeyboard() { KeyboardManager.hideKeyboard() }
-    mutating func performOperation(_ operation: StackOperation) {
+    @MainActor mutating func performOperation(_ operation: StackOperation) {
         switch operation {
             case .insertAndReplace(let popup): replaceLast(popup, if: canBeInserted(popup))
             case .insertAndStack(let popup): append(popup, if: canBeInserted(popup))

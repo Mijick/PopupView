@@ -25,7 +25,7 @@ public extension Popup {
     @discardableResult func dismissAfter(_ seconds: Double) -> some Popup { PopupManager.dismissPopupAfter(self, seconds); return self }
 
     /// Hides the overlay for the selected popup
-    @discardableResult func hideOverlay() -> some Popup { PopupManager.hideOverlay(self); return self }
+    @discardableResult func hideOverlay() -> some Popup { PopupManager.setTempValue(isOverlayHidden: true); return self }
 
     /// Supplies an observable object to a view’s hierarchy
     @discardableResult func setEnvironmentObject<T: ObservableObject>(_ object: T) -> some Popup { PopupManager.setTempValue(environmentObject: object); return self }
