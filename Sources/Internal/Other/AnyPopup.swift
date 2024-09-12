@@ -16,10 +16,10 @@ struct AnyPopup: View, Hashable {
     private let _body: AnyView
 
     
-    init(_ popup: some Popup) {
+    init(_ popup: some Popup) { let temp = PopupManager.readAndResetTempValues()
         self.id = popup.id
         self.config = popup.configurePopup(popup: .init())
-        self._body = popup.erased(with: PopupManager.shared.popupTemp.environmentObject)
+        self._body = popup.erased(with: temp.environmentObject)
     }
     var body: some View { _body }
 }

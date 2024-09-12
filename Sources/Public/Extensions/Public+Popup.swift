@@ -13,10 +13,10 @@ import SwiftUI
 // MARK: - Presenting
 public extension Popup {
     /// Displays the popup. Stacks previous one
-    @discardableResult func showAndStack() -> some Popup { PopupManager.showAndStack(AnyPopup<Config>(self)); return self }
+    func showAndStack() { PopupManager.showAndStack(self) }
 
     /// Displays the popup. Closes previous one
-    @discardableResult func showAndReplace() -> some Popup { PopupManager.showAndReplace(AnyPopup<Config>(self)); return self }
+    func showAndReplace() { PopupManager.showAndReplace(self) }
 }
 
 // MARK: - Modifiers
@@ -28,10 +28,10 @@ public extension Popup {
     @discardableResult func hideOverlay() -> some Popup { PopupManager.hideOverlay(self); return self }
 
     /// Supplies an observable object to a view’s hierarchy
-    @discardableResult func environmentObject<T: ObservableObject>(_ object: T) -> any Popup { AnyPopup<Config>(self, object) }
+    @discardableResult func setEnvironmentObject<T: ObservableObject>(_ object: T) -> some Popup { PopupManager.setTempValue(environmentObject: object); return self }
 
     /// Action to be executed after popups is dismissed
-    @discardableResult func onDismiss(_ action: @escaping () -> ()) -> any Popup { PopupManager.onPopupDismiss(self, action); return self }
+    @discardableResult func onDismiss(_ action: @escaping () -> ()) -> some Popup { PopupManager.onPopupDismiss(self, action); return self }
 }
 
 // MARK: - Available Popups
