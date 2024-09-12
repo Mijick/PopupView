@@ -20,9 +20,9 @@ public class PopupManager: ObservableObject {
 }
 private extension PopupManager {
     func onViewsChanged(_ newViews: [AnyPopup]) { newViews
-        .difference(from: views, by: { $0.id == $1.id })
+        .difference(from: views)
         .forEach { switch $0 {
-            case .remove(_, let element, _): popupActionsOnDismiss[element.id]?(); popupActionsOnDismiss.removeValue(forKey: element.id)
+            case .remove(_, let element, _): element.onDismiss()
             default: return
         }}
     }
