@@ -12,7 +12,6 @@ import SwiftUI
 
 public class PopupManager: ObservableObject {
     @Published private(set) var views: [any Popup] = [] { willSet { onViewsChanged(newValue) }}
-    private(set) var presenting: Bool = true
     private(set) var popupsWithoutOverlay: [ID] = []
     private(set) var popupsToBeDismissed: [ID: DispatchSourceTimer] = [:]
     private(set) var popupActionsOnDismiss: [ID: () -> ()] = [:]
@@ -36,11 +35,10 @@ enum StackOperation {
     case removeLast, remove(ID), removeAllUpTo(ID), removeAll
 }
 extension PopupManager {
-    static func performOperation(_ operation: StackOperation) { DispatchQueue.main.async {
+    static func performOperation(_ operation: StackOperation) {
         removePopupFromStackToBeDismissed(operation)
-        updateOperationType(operation)
-        shared.views.perform(operation)
-    }}
+        perform(operation)
+    }
     static func dismissPopupAfter(_ popup: any Popup, _ seconds: Double) { shared.popupsToBeDismissed[popup.id] = DispatchSource.createAction(deadline: seconds) { performOperation(.remove(popup.id)) } }
     static func hideOverlay(_ popup: any Popup) { shared.popupsWithoutOverlay.append(popup.id) }
     static func onPopupDismiss(_ popup: any Popup, _ action: @escaping () -> ()) { shared.popupActionsOnDismiss[popup.id] = action }
@@ -52,20 +50,19 @@ private extension PopupManager {
         case .removeAllUpTo, .removeAll: shared.popupsToBeDismissed.removeAll()
         default: break
     }}
-    static func updateOperationType(_ operation: StackOperation) { switch operation {
-        case .insertAndReplace, .insertAndStack: shared.presenting = true
-        case .removeLast, .remove, .removeAllUpTo, .removeAll: shared.presenting = false
+    static func perform(_ operation: StackOperation) { Task { @MainActor in
+        shared.views.perform(operation)
     }}
 }
 
 fileprivate extension [any Popup] {
-    mutating func perform(_ operation: StackOperation) {
+    @MainActor mutating func perform(_ operation: StackOperation) {
         hideKeyboard()
         performOperation(operation)
     }
 }
 private extension [any Popup] {
-    func hideKeyboard() { KeyboardManager.hideKeyboard() }
+    @MainActor func hideKeyboard() { KeyboardManager.hideKeyboard() }
     mutating func performOperation(_ operation: StackOperation) {
         switch operation {
             case .insertAndReplace(let popup): replaceLast(popup, if: canBeInserted(popup))
