@@ -156,13 +156,12 @@ private extension PopupBottomStackView {
     func calculateTargetDragHeight(_ targetHeight: CGFloat, _ lastPopupHeight: CGFloat) -> CGFloat {
         targetHeight - lastPopupHeight
     }
-    func updateDragHeight(_ targetDragHeight: CGFloat) { if let id = items.last?.id { DispatchQueue.main.async {
+    func updateDragHeight(_ targetDragHeight: CGFloat) { if let id = items.last?.id { Task { @MainActor in
         dragHeights[id] = targetDragHeight
     }}}
-    func resetGestureTranslation() {
-        let resetAfter = items.count == 1 && shouldDismissPopup() ? 0.25 : 0
-        DispatchQueue.main.asyncAfter(deadline: .now() + resetAfter) { gestureTranslation = 0 }
-    }
+    func resetGestureTranslation() { Task { @MainActor in
+        gestureTranslation = 0
+    }}
     func shouldDismissPopup() -> Bool {
         translationProgress >= gestureClosingThresholdFactor
     }
@@ -174,12 +173,11 @@ private extension PopupBottomStackView {
         case 0: return [.topLeft, .topRight]
         default: return .allCorners
     }}
-    func saveHeight(_ height: CGFloat, for item: AnyPopup<BottomPopupConfig>) { if !isGestureActive {
-        let config = item.configurePopup(popup: .init())
+    func saveHeight(_ height: CGFloat, for item: AnyPopup) { if !isGestureActive {
+        let config = getConfig(item)
+        let newHeight = calculateHeight(height, config)
 
-        if config.contentFillsEntireScreen { return heights[item.id] = screenManager.size.height }
-        if config.contentFillsWholeHeight { return heights[item.id] = getMaxHeight() }
-        return heights[item.id] = min(height, maxHeight)
+        updateHeight(newHeight, item)
     }}
     func getMaxHeight() -> CGFloat {
         let basicHeight = screenManager.size.height - screenManager.safeArea.top - popupBottomPadding
@@ -203,6 +201,16 @@ private extension PopupBottomStackView {
     func getHeight(_ item: AnyPopup) -> CGFloat? { getConfig(item).contentFillsEntireScreen ? nil : height }
     func getFixedSize(_ item: AnyPopup) -> Bool { !(getConfig(item).contentFillsEntireScreen || getConfig(item).contentFillsWholeHeight || height == maxHeight) }
     func getBackgroundColour(for item: AnyPopup) -> Color { getConfig(item).backgroundColour ?? globalConfig.bottom.backgroundColour }
+}
+private extension PopupBottomStackView {
+    func calculateHeight(_ height: CGFloat, _ config: BottomPopupConfig) -> CGFloat {
+        if config.contentFillsEntireScreen { return screenManager.size.height }
+        if config.contentFillsWholeHeight { return getMaxHeight() }
+        return min(height, maxHeight)
+    }
+    func updateHeight(_ newHeight: CGFloat, _ item: AnyPopup) { if heights[item.id] != newHeight { Task { @MainActor in
+        heights[item.id] = newHeight
+    }}}
 }
 
 // MARK: - Flags & Values
