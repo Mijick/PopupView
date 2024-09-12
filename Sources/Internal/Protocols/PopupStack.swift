@@ -13,7 +13,7 @@ import SwiftUI
 protocol PopupStack: View {
     associatedtype Config: Configurable
 
-    var items: [AnyPopup<Config>] { get }
+    var items: [AnyPopup] { get }
     var heights: [ID: CGFloat] { get }
     var dragHeights: [ID: CGFloat] { get }
     var globalConfig: GlobalConfig { get }
@@ -53,7 +53,7 @@ extension PopupStack {
 
 // MARK: - Corner Radius
 extension PopupStack {
-    func getCornerRadius(_ item: AnyPopup<Config>) -> CGFloat {
+    func getCornerRadius(_ item: AnyPopup) -> CGFloat {
         if isLast(item) { return cornerRadius }
         if translationProgress.isZero || translationProgress.isNaN || !isNextToLast(item) { return stackedCornerRadius }
 
@@ -68,7 +68,7 @@ private extension PopupStack {
 
 // MARK: - Scale
 extension PopupStack {
-    func getScale(_ item: AnyPopup<Config>) -> CGFloat {
+    func getScale(_ item: AnyPopup) -> CGFloat {
         let scaleValue = invertedIndex(item).floatValue * stackScaleFactor
         let progressDifference = isNextToLast(item) ? remainingTranslationProgress : max(0.7, remainingTranslationProgress)
         let scale = 1 - scaleValue * progressDifference
@@ -78,13 +78,13 @@ extension PopupStack {
 
 // MARK: - Stack Overlay Colour
 extension PopupStack {
-    func getStackOverlayColour(_ item: AnyPopup<Config>) -> Color {
+    func getStackOverlayColour(_ item: AnyPopup) -> Color {
         let opacity = calculateStackOverlayOpacity(item)
         return stackOverlayColour.opacity(opacity)
     }
 }
 private extension PopupStack {
-    func calculateStackOverlayOpacity(_ item: AnyPopup<Config>) -> Double {
+    func calculateStackOverlayOpacity(_ item: AnyPopup) -> Double {
         let overlayValue = invertedIndex(item).doubleValue * stackOverlayFactor
         let remainingTranslationProgressValue = isNextToLast(item) ? remainingTranslationProgress : max(0.6, remainingTranslationProgress)
         let opacity = overlayValue * remainingTranslationProgressValue
@@ -98,12 +98,12 @@ private extension PopupStack {
 
 // MARK: - Stack Opacity
 extension PopupStack {
-    func getOpacity(_ item: AnyPopup<Config>) -> Double { invertedIndex(item) <= stackLimit ? 1 : 0.000000001 }
+    func getOpacity(_ item: AnyPopup) -> Double { invertedIndex(item) <= stackLimit ? 1 : 0.000000001 }
 }
 
 // MARK: - Stack Offset
 extension PopupStack {
-    func getOffset(_ item: AnyPopup<Config>) -> CGFloat { switch isLast(item) {
+    func getOffset(_ item: AnyPopup) -> CGFloat { switch isLast(item) {
         case true: calculateOffsetForLastItem()
         case false: calculateOffsetForOtherItems(item)
     }}
@@ -163,10 +163,10 @@ extension PopupStack {
 
 // MARK: - Helpers
 private extension PopupStack {
-    func isLast(_ item: AnyPopup<Config>) -> Bool { items.last == item }
-    func isNextToLast(_ item: AnyPopup<Config>) -> Bool { invertedIndex(item) == 1 }
-    func invertedIndex(_ item: AnyPopup<Config>) -> Int { items.count - 1 - index(item) }
-    func index(_ item: AnyPopup<Config>) -> Int { items.firstIndex(of: item) ?? 0 }
+    func isLast(_ item: AnyPopup) -> Bool { items.last == item }
+    func isNextToLast(_ item: AnyPopup) -> Bool { invertedIndex(item) == 1 }
+    func invertedIndex(_ item: AnyPopup) -> Int { items.count - 1 - index(item) }
+    func index(_ item: AnyPopup) -> Int { items.firstIndex(of: item) ?? 0 }
 }
 private extension PopupStack {
     var remainingTranslationProgress: CGFloat { 1 - translationProgress }
