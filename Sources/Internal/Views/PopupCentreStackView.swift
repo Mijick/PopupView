@@ -37,7 +37,7 @@ private extension PopupCentreStackView {
 private extension PopupCentreStackView {
     func createPopup(_ item: Binding<AnyPopup>) -> some View {
         item.wrappedValue.body
-            .readHeight { saveHeight($0, item) }
+            .onHeightChange { saveHeight($0, item) }
             .frame(height: getHeight()).frame(maxWidth: .infinity, maxHeight: getHeight())
             .background(backgroundColour, overlayColour: .clear, radius: cornerRadius, corners: .allCorners, shadow: popupShadow)
             .padding(.horizontal, lastPopupConfig.horizontalPadding)

@@ -43,7 +43,7 @@ private extension PopupBottomStackView {
             .padding(.leading, screenManager.safeArea.left)
             .padding(.trailing, screenManager.safeArea.right)
             .fixedSize(horizontal: false, vertical: getFixedSize(item.wrappedValue))
-            .readHeight { saveHeight($0, for: item) }
+            .onHeightChange { saveHeight($0, for: item) }
             .frame(height: getHeight(item.wrappedValue), alignment: .top).frame(maxWidth: .infinity, maxHeight: height)
             .background(getBackgroundColour(for: item.wrappedValue), overlayColour: getStackOverlayColour(item.wrappedValue), radius: getCornerRadius(item.wrappedValue), corners: getCorners(), shadow: popupShadow)
             .padding(.horizontal, popupHorizontalPadding)

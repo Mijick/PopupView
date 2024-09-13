@@ -41,7 +41,7 @@ private extension PopupTopStackView {
             .padding(.top, contentTopPadding)
             .padding(.leading, screenManager.safeArea.left)
             .padding(.trailing, screenManager.safeArea.right)
-            .readHeight { saveHeight($0, for: item) }
+            .onHeightChange { saveHeight($0, for: item) }
             .frame(height: height, alignment: .bottom).frame(maxWidth: .infinity)
             .background(getBackgroundColour(for: item), overlayColour: getStackOverlayColour(item), radius: getCornerRadius(item), corners: getCorners(), shadow: popupShadow)
             .padding(.horizontal, lastPopupConfig.popupPadding.horizontal)
