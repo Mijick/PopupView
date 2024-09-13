@@ -68,7 +68,7 @@ public extension GlobalConfig { struct Bottom: Configurable { public init() {}
 
     private(set) var stackCornerRadiusMultiplier: CGFloat = 0.6
     private(set) var stackOffset: CGFloat = 8
-    private(set) var stackScaleFactor: CGFloat = 0.1
+    private(set) var stackScaleFactor: CGFloat = 0.05
     private(set) var stackLimit: Int = 4
 
     private(set) var tapOutsideClosesView: Bool = false
