@@ -57,9 +57,10 @@ private extension PopupCentreStackView {
     func getOpacity(_ item: Binding<AnyPopup>) -> CGFloat {
         items.last == item.wrappedValue ? 1 : 0
     }
-    func getHeight() -> CGFloat {
-        items.last?.height == 0 ? getInitialHeight() : items.last?.height ?? getInitialHeight()
-    }
+    func getHeight() -> CGFloat { switch items.last?.height {
+        case 0: getInitialHeight()
+        default: items.last?.height ?? 0
+    }}
     func getTransition() -> AnyTransition {
         .scale(scale: items.isEmpty ? globalConfig.centre.transitionExitScale : globalConfig.centre.transitionEntryScale)
         .combined(with: .opacity)
