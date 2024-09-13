@@ -21,6 +21,7 @@ struct PopupCentreStackView: PopupStack { typealias Config = CentrePopupConfig
     var body: some View {
         createPopup()
             .align(to: .bottom, keyboardManager.height == 0 ? nil : keyboardManager.height)
+            .transition(getTransition())
             .frame(maxWidth: .infinity, maxHeight: screen.size.height)
             .background(createTapArea())
             .animation(.transition, value: lastPopupConfig.horizontalPadding)
@@ -33,7 +34,7 @@ private extension PopupCentreStackView {
     func createPopup() -> some View {
         items.last?.body
             .readHeight(onChange: saveHeight)
-            .frame(height: height, alignment: .bottom).frame(maxWidth: .infinity, maxHeight: height)
+            .frame(height: height).frame(maxWidth: .infinity, maxHeight: height)
             .background(backgroundColour, overlayColour: .clear, radius: cornerRadius, corners: .allCorners, shadow: popupShadow)
             .padding(.horizontal, lastPopupConfig.horizontalPadding)
             .compositingGroup()
