@@ -15,7 +15,6 @@ struct PopupCentreStackView: PopupStack { typealias Config = CentrePopupConfig
     let globalConfig: GlobalConfig
     @ObservedObject private var screen: ScreenManager = .shared
     @ObservedObject private var keyboardManager: KeyboardManager = .shared
-    @State private var activeView: AnyView?
     @State private var height: CGFloat?
     @State private var contentIsAnimated: Bool = false
 
@@ -52,21 +51,16 @@ private extension PopupCentreStackView {
     func onItemsChange(_ items: [AnyPopup]) {
         guard let popup = items.last else { return handleClosingPopup() }
 
-        showNewPopup(popup)
         animateContentIfNeeded()
     }
 }
 private extension PopupCentreStackView {
-    func showNewPopup(_ popup: AnyPopup) { DispatchQueue.main.async {
-        activeView = AnyView(popup.body)
-    }}
     func animateContentIfNeeded() { if height != nil {
         contentIsAnimated = true
         DispatchQueue.main.asyncAfter(deadline: .now() + contentOpacityAnimationTime) { contentIsAnimated = false }
     }}
     func handleClosingPopup() { DispatchQueue.main.async {
         height = nil
-        activeView = nil
     }}
 }
 
