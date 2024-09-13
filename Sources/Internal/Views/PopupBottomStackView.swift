@@ -270,6 +270,13 @@ struct PopupH: PopupStack { typealias Config = BottomPopupConfig
 
 
 extension PopupH {
+    var popupBottomPadding: CGFloat { lastPopupConfig.popupPadding.bottom }
+    var popupHorizontalPadding: CGFloat { lastPopupConfig.popupPadding.horizontal }
+    var popupShadow: Shadow { getGlobalConfig().shadow }
+
+
+
+
     var stackLimit: Int { getGlobalConfig().stackLimit }
     var stackScaleFactor: CGFloat { getGlobalConfig().stackScaleFactor }
     var stackOffsetValue: CGFloat { getGlobalConfig().stackOffset * getOffsetMultiplier() }
