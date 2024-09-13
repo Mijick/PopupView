@@ -39,7 +39,6 @@ private extension PopupCentreStackView {
             .padding(.horizontal, lastPopupConfig.horizontalPadding)
             .compositingGroup()
             .focusSectionIfAvailable()
-            .id(items.isEmpty)
     }
 }
 
