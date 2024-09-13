@@ -18,7 +18,8 @@ struct PopupCentreStackView: PopupStack { typealias Config = CentrePopupConfig
 
     
     var body: some View {
-        createPopupStack()
+        ZStack(content: createPopupStack)
+            .id(items.isEmpty)
             .transition(getTransition())
             .frame(maxWidth: .infinity, maxHeight: screen.size.height)
             .background(createTapArea())
@@ -37,7 +38,7 @@ private extension PopupCentreStackView {
     func createPopup(_ item: Binding<AnyPopup>) -> some View {
         item.wrappedValue.body
             .readHeight { saveHeight($0, item) }
-            .frame(height: items.last?.height == 0 ? getInitialHeight() : items.last?.height ?? getInitialHeight()).frame(maxWidth: .infinity, maxHeight: items.last?.height == 0 ? getInitialHeight() : items.last?.height ?? getInitialHeight())
+            .frame(height: getHeight()).frame(maxWidth: .infinity, maxHeight: getHeight())
             .background(backgroundColour, overlayColour: .clear, radius: cornerRadius, corners: .allCorners, shadow: popupShadow)
             .padding(.horizontal, lastPopupConfig.horizontalPadding)
             .opacity(getOpacity(item))
@@ -55,6 +56,9 @@ private extension PopupCentreStackView {
     }}}
     func getOpacity(_ item: Binding<AnyPopup>) -> CGFloat {
         items.last == item.wrappedValue ? 1 : 0
+    }
+    func getHeight() -> CGFloat {
+        items.last?.height == 0 ? getInitialHeight() : items.last?.height ?? getInitialHeight()
     }
     func getTransition() -> AnyTransition {
         .scale(scale: items.isEmpty ? globalConfig.centre.transitionExitScale : globalConfig.centre.transitionEntryScale)
