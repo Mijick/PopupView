@@ -15,47 +15,50 @@ struct PopupCentreStackView: PopupStack { typealias Config = CentrePopupConfig
     let globalConfig: GlobalConfig
     @ObservedObject private var screen: ScreenManager = .shared
     @ObservedObject private var keyboardManager: KeyboardManager = .shared
-    @State private var height: CGFloat?
 
     
     var body: some View {
-        createPopup()
-            .align(to: .bottom, keyboardManager.height == 0 ? nil : keyboardManager.height)
+        createPopupStack()
             .transition(getTransition())
             .frame(maxWidth: .infinity, maxHeight: screen.size.height)
             .background(createTapArea())
             .animation(.transition, value: lastPopupConfig.horizontalPadding)
-            .animation(.transition, value: height)
+            .animation(.transition, value: items)
+            .animation(.transition, value: items.last?.height)
             .animation(.keyboard, value: keyboardManager.height)
-            .onChange(of: items, perform: onItemsChange)
     }
 }
 private extension PopupCentreStackView {
-    func createPopup() -> some View {
-        items.last?.body
-            .readHeight(onChange: saveHeight)
-            .frame(height: height).frame(maxWidth: .infinity, maxHeight: height)
+    func createPopupStack() -> some View {
+        ForEach($items, id: \.self, content: createPopup)
+    }
+}
+private extension PopupCentreStackView {
+    func createPopup(_ item: Binding<AnyPopup>) -> some View {
+        item.wrappedValue.body
+            .readHeight { saveHeight($0, item) }
+            .frame(height: items.last?.height == 0 ? getInitialHeight() : items.last?.height ?? getInitialHeight()).frame(maxWidth: .infinity, maxHeight: items.last?.height == 0 ? getInitialHeight() : items.last?.height ?? getInitialHeight())
             .background(backgroundColour, overlayColour: .clear, radius: cornerRadius, corners: .allCorners, shadow: popupShadow)
             .padding(.horizontal, lastPopupConfig.horizontalPadding)
+            .opacity(getOpacity(item))
             .compositingGroup()
             .focusSectionIfAvailable()
+            .align(to: .bottom, keyboardManager.height == 0 ? nil : keyboardManager.height)
+            .zIndex(2137)
     }
-}
-
-// MARK: - Logic Modifiers
-private extension PopupCentreStackView {
-    func onItemsChange(_ items: [AnyPopup]) { if items.isEmpty {
-        height = nil
-    }}
 }
 
 // MARK: - View Modifiers
 private extension PopupCentreStackView {
-    func saveHeight(_ value: CGFloat) { if value != height { Task { @MainActor in height = value }}}
+    func saveHeight(_ newHeight: CGFloat, _ item: Binding<AnyPopup>) { if item.wrappedValue.height != newHeight { Task { @MainActor in
+        item.wrappedValue.height = newHeight
+    }}}
+    func getOpacity(_ item: Binding<AnyPopup>) -> CGFloat {
+        items.last == item.wrappedValue ? 1 : 0
+    }
     func getTransition() -> AnyTransition {
         .scale(scale: items.isEmpty ? globalConfig.centre.transitionExitScale : globalConfig.centre.transitionEntryScale)
         .combined(with: .opacity)
-        .animation(height == nil || items.isEmpty ? .transition : nil)
     }
 }
 
