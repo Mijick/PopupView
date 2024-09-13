@@ -49,6 +49,7 @@ private extension PopupBottomStackView {
             .padding(.horizontal, popupHorizontalPadding)
             .offset(y: getOffset(item.wrappedValue))
             .scaleEffect(x: getScale(item.wrappedValue))
+            .opacity(getOpacity(item.wrappedValue))
             .compositingGroup()
             .focusSectionIfAvailable()
             .align(to: .bottom, lastPopupConfig.contentFillsEntireScreen ? 0 : popupBottomPadding)
