@@ -245,3 +245,88 @@ extension PopupBottomStackView {
 
     var tapOutsideClosesPopup: Bool { lastPopupConfig.tapOutsideClosesView ?? globalConfig.bottom.tapOutsideClosesView }
 }
+
+
+
+
+struct PopupH: PopupStack { typealias Config = BottomPopupConfig
+    @Binding var items: [AnyPopup]
+    let globalConfig: GlobalConfig
+    let edge: Edge
+    @State var gestureTranslation: CGFloat = 0
+    @GestureState var isGestureActive: Bool = false
+    @ObservedObject private var screenManager: ScreenManager = .shared
+    @ObservedObject private var keyboardManager: KeyboardManager = .shared
+
+    var body: some View {
+        EmptyView()
+    }
+}
+
+
+
+
+
+
+
+extension PopupH {
+    var stackLimit: Int { getGlobalConfig().stackLimit }
+    var stackScaleFactor: CGFloat { getGlobalConfig().stackScaleFactor }
+    var stackOffsetValue: CGFloat { getGlobalConfig().stackOffset * getOffsetMultiplier() }
+    var stackCornerRadiusMultiplier: CGFloat { getGlobalConfig().stackCornerRadiusMultiplier }
+
+
+
+
+    var cornerRadius: CGFloat {
+        let cornerRadius = lastPopupConfig.cornerRadius ?? getGlobalConfig().cornerRadius
+        return lastPopupConfig.contentFillsEntireScreen ? min(cornerRadius, screenManager.cornerRadius ?? 0) : cornerRadius
+    }
+
+    var translationProgress: CGFloat { guard let popupHeight = getLastPopupHeight() else { return 0 }
+        let translationProgress = calculateTranslationProgress(popupHeight)
+        return translationProgress
+    }
+    var gestureClosingThresholdFactor: CGFloat { getGlobalConfig().dragGestureProgressToClose }
+
+
+    var tapOutsideClosesPopup: Bool { lastPopupConfig.tapOutsideClosesView ?? getGlobalConfig().tapOutsideClosesView }
+}
+
+
+
+
+
+
+
+
+extension PopupH { enum Edge {
+    case top
+    case bottom
+}}
+private extension PopupH {
+    func getOffsetMultiplier() -> CGFloat { switch edge {
+        case .top: 1
+        case .bottom: -1
+    }}
+
+
+    func calculateTranslationProgress(_ popupHeight: CGFloat) -> CGFloat { switch edge {
+        case .top: abs(min(gestureTranslation + getLastDragHeight(), 0)) / popupHeight
+        case .bottom: max(gestureTranslation - getLastDragHeight(), 0) / popupHeight
+    }}
+
+
+    func getTransition() -> AnyTransition { switch edge {
+        case .top: .move(edge: .top)
+        case .bottom: .move(edge: .bottom)
+    }}
+
+
+
+    // TODO: POPRAWIĆ
+    func getGlobalConfig() -> GlobalConfig.Bottom { switch edge {
+        case .top: globalConfig.bottom
+        case .bottom: globalConfig.bottom
+    }}
+}
