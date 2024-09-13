@@ -16,7 +16,6 @@ struct PopupCentreStackView: PopupStack { typealias Config = CentrePopupConfig
     @ObservedObject private var screen: ScreenManager = .shared
     @ObservedObject private var keyboardManager: KeyboardManager = .shared
     @State private var height: CGFloat?
-    @State private var contentIsAnimated: Bool = false
 
     
     var body: some View {
@@ -27,7 +26,6 @@ struct PopupCentreStackView: PopupStack { typealias Config = CentrePopupConfig
             .background(createTapArea())
             .animation(.transition, value: lastPopupConfig.horizontalPadding)
             .animation(.transition, value: height)
-            .animation(.transition, value: contentIsAnimated)
             .animation(.keyboard, value: keyboardManager.height)
             .onChange(of: items, perform: onItemsChange)
     }
@@ -37,7 +35,6 @@ private extension PopupCentreStackView {
         items.last?.body
             .readHeight(onChange: saveHeight)
             .frame(height: height).frame(maxWidth: .infinity, maxHeight: height)
-            .opacity(contentOpacity)
             .background(backgroundColour, overlayColour: .clear, radius: cornerRadius, corners: .allCorners, shadow: popupShadow)
             .padding(.horizontal, lastPopupConfig.horizontalPadding)
             .compositingGroup()
@@ -77,9 +74,7 @@ private extension PopupCentreStackView {
 // MARK: - Flags & Values
 extension PopupCentreStackView {
     var cornerRadius: CGFloat { lastPopupConfig.cornerRadius ?? globalConfig.centre.cornerRadius }
-    var contentOpacity: CGFloat { contentIsAnimated ? 0 : 1 }
     var popupShadow: Shadow { globalConfig.centre.shadow }
-    var contentOpacityAnimationTime: CGFloat { globalConfig.centre.contentAnimationTime }
     var backgroundColour: Color { lastPopupConfig.backgroundColour ?? globalConfig.centre.backgroundColour }
 
     var tapOutsideClosesPopup: Bool { lastPopupConfig.tapOutsideClosesView ?? globalConfig.bottom.tapOutsideClosesView }
