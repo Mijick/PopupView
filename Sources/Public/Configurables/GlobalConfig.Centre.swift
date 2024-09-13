@@ -30,9 +30,6 @@ public extension GlobalConfig.Centre {
 
 // MARK: - Animations
 public extension GlobalConfig.Centre {
-    /// Time to animate content while presenting new popup
-    func contentAnimationTime(_ value: CGFloat) -> Self { changing(path: \.contentAnimationTime, to: value) }
-
     /// Scale of the initial state of the popup animation while opening
     func transitionEntryScale(_ value: CGFloat) -> Self { changing(path: \.transitionEntryScale, to: value) }
 
@@ -49,7 +46,6 @@ public extension GlobalConfig { struct Centre: Configurable { public init() {}
 
     private(set) var tapOutsideClosesView: Bool = true
 
-    private(set) var contentAnimationTime: CGFloat = 0.1
     private(set) var transitionEntryScale: CGFloat = 1.1
     private(set) var transitionExitScale: CGFloat = 0.86
 }}
