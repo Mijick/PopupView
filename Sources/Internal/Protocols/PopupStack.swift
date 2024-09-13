@@ -115,9 +115,17 @@ private extension PopupStack {
     }
 }
 
+// MARK: - Initial Height
+extension PopupStack {
+    func getInitialHeight() -> CGFloat { items.nextToLast?.height ?? 30 }
+}
+
 // MARK: - Last Popup Height
 extension PopupStack {
-    func getLastPopupHeight() -> CGFloat? { items.last?.height }
+    func getLastPopupHeight() -> CGFloat? {
+        let height = items.last?.height ?? 0
+        return height == 0 ? getInitialHeight() : height
+    }
 }
 
 // MARK: - Drag Height Value

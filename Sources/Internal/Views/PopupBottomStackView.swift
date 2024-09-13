@@ -22,7 +22,7 @@ struct PopupBottomStackView: PopupStack { typealias Config = BottomPopupConfig
     var body: some View {
         ZStack(alignment: .top, content: createPopupStack)
             .background(createTapArea())
-            .animation(getHeightAnimation(isAnimationDisabled: screenManager.animationsDisabled), value: items.last?.height)
+            .animation(getHeightAnimation(isAnimationDisabled: screenManager.animationsDisabled), value: items.map(\.height))
             .animation(isGestureActive ? .drag : .transition, value: gestureTranslation)
             .animation(.keyboard, value: isKeyboardVisible)
             .onDragGesture($isGestureActive, onChanged: onPopupDragGestureChanged, onEnded: onPopupDragGestureEnded)
@@ -154,8 +154,8 @@ private extension PopupBottomStackView {
     func calculateTargetDragHeight(_ targetHeight: CGFloat, _ lastPopupHeight: CGFloat) -> CGFloat {
         targetHeight - lastPopupHeight
     }
-    func updateDragHeight(_ targetDragHeight: CGFloat) { if let id = items.last?.id { Task { @MainActor in
-        dragHeights[id] = targetDragHeight
+    func updateDragHeight(_ targetDragHeight: CGFloat) { Task { @MainActor in if !items.isEmpty {
+        items[items.count - 1].dragHeight = targetDragHeight
     }}}
     func resetGestureTranslation() { Task { @MainActor in
         gestureTranslation = 0
@@ -218,7 +218,7 @@ extension PopupBottomStackView {
     var popupShadow: Shadow { globalConfig.bottom.shadow }
     var height: CGFloat {
         let lastDragHeight = getLastDragHeight(),
-            lastPopupHeight = getLastPopupHeight() ?? (lastPopupConfig.contentFillsEntireScreen ? screenManager.size.height : 0)
+            lastPopupHeight = getLastPopupHeight() ?? (lastPopupConfig.contentFillsEntireScreen ? screenManager.size.height : getInitialHeight())
         let dragTranslation = lastPopupHeight + lastDragHeight - gestureTranslation
         let newHeight = max(lastPopupHeight, dragTranslation)
 

@@ -13,20 +13,22 @@ import SwiftUI
 struct AnyPopup: View, Hashable {
     let id: ID
     let config: any Configurable
-    var height: CGFloat
     let dismissTimer: DispatchSourceTimer?
     let isOverlayHidden: Bool
     let onDismiss: () -> ()
+    var height: CGFloat
+    var dragHeight: CGFloat
     private let _body: AnyView
 
     
     init(_ popup: some Popup) { let temp = PopupManager.readAndResetTempValues()
         self.id = popup.id
         self.config = popup.configurePopup(popup: .init())
-        self.height = 0
         self.dismissTimer = temp.dismissTimer
         self.isOverlayHidden = temp.isOverlayHidden
         self.onDismiss = temp.onDismiss
+        self.height = 0
+        self.dragHeight = 0
         self._body = popup.erased(with: temp.environmentObject)
     }
     var body: some View { _body }
