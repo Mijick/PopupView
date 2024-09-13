@@ -45,25 +45,14 @@ private extension PopupCentreStackView {
 
 // MARK: - Logic Modifiers
 private extension PopupCentreStackView {
-    func onItemsChange(_ items: [AnyPopup]) {
-        guard let popup = items.last else { return handleClosingPopup() }
-
-        animateContentIfNeeded()
-    }
-}
-private extension PopupCentreStackView {
-    func animateContentIfNeeded() { if height != nil {
-        contentIsAnimated = true
-        DispatchQueue.main.asyncAfter(deadline: .now() + contentOpacityAnimationTime) { contentIsAnimated = false }
-    }}
-    func handleClosingPopup() { DispatchQueue.main.async {
+    func onItemsChange(_ items: [AnyPopup]) { if items.isEmpty {
         height = nil
     }}
 }
 
 // MARK: - View Modifiers
 private extension PopupCentreStackView {
-    func saveHeight(_ value: CGFloat) { DispatchQueue.main.async { height = items.isEmpty ? nil : value } }
+    func saveHeight(_ value: CGFloat) { if value != height { Task { @MainActor in height = value }}}
     func getTransition() -> AnyTransition {
         .scale(scale: items.isEmpty ? globalConfig.centre.transitionExitScale : globalConfig.centre.transitionEntryScale)
         .combined(with: .opacity)
