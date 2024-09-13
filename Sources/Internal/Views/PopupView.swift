@@ -79,24 +79,26 @@ private extension PopupView {
     }
 }
 private extension PopupView {
-    func getViews<T: Popup>(_ type: T.Type) -> [T] { popupManager.views.compactMap { $0 as? T } }
+    func getViews<C: Configurable>(_ type: C.Type) -> Binding<[AnyPopup]> { .init(
+        get: { popupManager.views.filter { $0.config is C } },
+        set: { $0.forEach { item in if let index = popupManager.views.firstIndex(of: item) { popupManager.views[index] = item }}}
+    )}
 }
 
 private extension PopupView {
-    func onViewsCountChange(_ count: Int) { DispatchQueue.main.asyncAfter(deadline: .now() + (!popupManager.presenting && zIndex.centre == 3 ? 0.4 : 0)) {
-        zIndex.reshuffle(popupManager.views.last)
-    }}
+    func onViewsCountChange(_ count: Int) {
+        zIndex.reshuffle(popupManager.views.last?.config)
+    }
 }
 
 private extension PopupView {
-    func isOverlayActive<P: Popup>(_ type: P.Type) -> Bool { popupManager.views.last is P && !shouldOverlayBeHiddenForCurrentPopup }
+    func isOverlayActive<C: Configurable>(_ type: C.Type) -> Bool { popupManager.views.last?.config is C && !shouldOverlayBeHiddenForCurrentPopup }
 }
 private extension PopupView {
-    var shouldOverlayBeHiddenForCurrentPopup: Bool { popupManager.popupsWithoutOverlay.contains(popupManager.views.last?.id ?? .init()) }
+    var shouldOverlayBeHiddenForCurrentPopup: Bool { popupManager.views.last?.isOverlayHidden ?? false }
 }
 
 private extension PopupView {
-    var stackAnimation: Animation { globalConfig.common.animation.transition }
     var overlayColour: Color { globalConfig.common.overlayColour }
 }
 
