@@ -154,9 +154,9 @@ private extension PopupBottomStackView {
     func calculateTargetDragHeight(_ targetHeight: CGFloat, _ lastPopupHeight: CGFloat) -> CGFloat {
         targetHeight - lastPopupHeight
     }
-    func updateDragHeight(_ targetDragHeight: CGFloat) { Task { @MainActor in if !items.isEmpty {
-        items[items.count - 1].dragHeight = targetDragHeight
-    }}}
+    func updateDragHeight(_ targetDragHeight: CGFloat) { Task { @MainActor in
+        items.lastElement?.dragHeight = targetDragHeight
+    }}
     func resetGestureTranslation() { Task { @MainActor in
         gestureTranslation = 0
     }}

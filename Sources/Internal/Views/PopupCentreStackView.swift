@@ -11,7 +11,7 @@
 import SwiftUI
 
 struct PopupCentreStackView: PopupStack { typealias Config = CentrePopupConfig
-    let items: [AnyPopup]
+    @Binding var items: [AnyPopup]
     let globalConfig: GlobalConfig
     @ObservedObject private var screen: ScreenManager = .shared
     @ObservedObject private var keyboardManager: KeyboardManager = .shared
@@ -88,7 +88,7 @@ private extension PopupCentreStackView {
 
 // MARK: - View Modifiers
 private extension PopupCentreStackView {
-    func saveHeight(_ value: CGFloat) { height = items.isEmpty ? nil : value }
+    func saveHeight(_ value: CGFloat) { DispatchQueue.main.async { height = items.isEmpty ? nil : value } }
     func getTransition() -> AnyTransition {
         .scale(scale: items.isEmpty ? globalConfig.centre.transitionExitScale : globalConfig.centre.transitionEntryScale)
         .combined(with: .opacity)
