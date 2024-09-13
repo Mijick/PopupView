@@ -33,16 +33,8 @@ struct PopupCentreStackView: PopupStack { typealias Config = CentrePopupConfig
             .onChange(of: items, perform: onItemsChange)
     }
 }
-
 private extension PopupCentreStackView {
-    @ViewBuilder func createPopup() -> some View {
-        if #available(iOS 15, *) { createPopupForNewPlatforms() }
-        else { createPopupForOlderPlatforms() }
-    }
-}
-
-private extension PopupCentreStackView {
-    func createPopupForNewPlatforms() -> some View {
+    func createPopup() -> some View {
         items.last?.body
             .readHeight(onChange: saveHeight)
             .frame(height: height).frame(maxWidth: .infinity, maxHeight: height)
@@ -51,15 +43,7 @@ private extension PopupCentreStackView {
             .padding(.horizontal, lastPopupConfig.horizontalPadding)
             .compositingGroup()
             .focusSectionIfAvailable()
-    }
-    func createPopupForOlderPlatforms() -> some View {
-        items.last?.body
-            .readHeight(onChange: saveHeight)
-            .frame(height: height).frame(maxWidth: .infinity)
-            .background(backgroundColour, overlayColour: .clear, radius: cornerRadius, corners: .allCorners, shadow: popupShadow)
-            .padding(.horizontal, lastPopupConfig.horizontalPadding)
-            .compositingGroup()
-            .focusSectionIfAvailable()
+            .id(items.isEmpty)
     }
 }
 
