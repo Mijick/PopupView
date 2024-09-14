@@ -258,11 +258,20 @@ struct PopupH: PopupStack { typealias Config = BottomPopupConfig
     @ObservedObject private var screenManager: ScreenManager = .shared
     @ObservedObject private var keyboardManager: KeyboardManager = .shared
 
+
     var body: some View {
         EmptyView()
     }
 }
+private extension PopupH {
 
+}
+private extension PopupH {
+
+}
+private extension PopupH {
+
+}
 
 
 
