@@ -13,7 +13,7 @@ import SwiftUI
 // MARK: - Content Customisation
 public extension BottomPopupConfig {
     /// Whether content should ignore safe area
-    func contentIgnoresSafeArea(_ value: Bool) -> Self { changing(path: \.contentIgnoresSafeArea, to: value) }
+    func ignoresSafeArea(edges: Edge.Set) -> Self { changing(path: \.ignoredSafeAreaEdges, to: edges) }
 
     /// Whether the content should take up the entire height of the screen.
     /// Stacked items will be visible.
@@ -57,14 +57,14 @@ public extension BottomPopupConfig {
 
 // MARK: - Internal
 public struct BottomPopupConfig: Configurable { public init() {}
-    private(set) var contentIgnoresSafeArea: Bool = false
+    private(set) var ignoredSafeAreaEdges: Edge.Set = []
     private(set) var contentFillsWholeHeight: Bool = false
     private(set) var contentFillsEntireScreen: Bool = false
     private(set) var distanceFromKeyboard: CGFloat? = nil
 
     private(set) var backgroundColour: Color? = nil
     private(set) var cornerRadius: CGFloat? = nil
-    private(set) var popupPadding: (vertical: CGFloat, horizontal: CGFloat) = (0, 0)
+    private(set) var popupPadding: (top: CGFloat, bottom: CGFloat, horizontal: CGFloat) = (0, 0, 0)
 
     private(set) var tapOutsideClosesView: Bool? = nil
     private(set) var dragGestureEnabled: Bool? = nil

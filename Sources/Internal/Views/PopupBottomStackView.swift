@@ -290,7 +290,7 @@ private extension PopupH {
             .opacity(getOpacity(item.wrappedValue))
             .compositingGroup()
             .focusSectionIfAvailable()
-            .align(to: getPopupAlignment(), lastPopupConfig.contentFillsEntireScreen ? 0 : popupVerticalPadding)
+            .align(to: getPopupAlignment(), lastPopupConfig.contentFillsEntireScreen ? 0 : getPopupPadding())
             .transition(getTransition())
             .zIndex(getZIndex(item.wrappedValue))
     }
@@ -407,7 +407,7 @@ private extension PopupH {
 
 // MARK: - View Modifiers
 private extension PopupH {
-    func getCorners() -> RectCorner { switch popupVerticalPadding {
+    func getCorners() -> RectCorner { switch getPopupPadding() {
         case 0: return getPopupRectCorners()
         default: return .allCorners
     }}
@@ -418,21 +418,20 @@ private extension PopupH {
         updateHeight(newHeight, item)
     }}
     func getMaxHeight() -> CGFloat {
-        let basicHeight = screenManager.size.height - getKeySafeArea() - popupVerticalPadding
+        let basicHeight = screenManager.size.height - getKeySafeArea() - getPopupPadding()
         let stackedViewsCount = min(max(0, getGlobalConfig().stackLimit - 1), items.count - 1)
         let stackedViewsHeight = getGlobalConfig().stackOffset * .init(stackedViewsCount) * maxHeightStackedFactor
         return basicHeight - stackedViewsHeight
     }
-
-
-
-    // OD TEGO ZACZĄĆ
     func getContentBottomPadding() -> CGFloat {
         if isKeyboardVisible { return keyboardManager.height + distanceFromKeyboard }
-        if lastPopupConfig.contentIgnoresSafeArea { return 0 }
+        if lastPopupConfig.ignoredSafeAreaEdges.contains(.bottom) { return 0 }
 
         return max(screenManager.safeArea.bottom - popupBottomPadding, 0)
     }
+
+
+    // OD TEGO ZACZĄĆ
     func getContentTopPadding() -> CGFloat {
         if lastPopupConfig.contentIgnoresSafeArea { return 0 }
 
@@ -457,13 +456,14 @@ private extension PopupH {
 
 
 extension PopupH {
-    var popupVerticalPadding: CGFloat { lastPopupConfig.popupPadding.vertical }
+    var popupTopPadding: CGFloat { lastPopupConfig.popupPadding.top }
+    var popupBottomPadding: CGFloat { lastPopupConfig.popupPadding.bottom }
     var popupHorizontalPadding: CGFloat { lastPopupConfig.popupPadding.horizontal }
     var popupShadow: Shadow { getGlobalConfig().shadow }
 
 
 
-    var maxHeight: CGFloat { getMaxHeight() - popupVerticalPadding }
+    var maxHeight: CGFloat { getMaxHeight() - popupTopPadding - popupBottomPadding }
     var distanceFromKeyboard: CGFloat { lastPopupConfig.distanceFromKeyboard ?? getGlobalConfig().distanceFromKeyboard }
     var maxHeightStackedFactor: CGFloat { 0.85 }
     var isKeyboardVisible: Bool { keyboardManager.height > 0 }
@@ -529,6 +529,10 @@ private extension PopupH {
     func getPopupAlignment() -> Alignment { switch edge {
         case .top: .top
         case .bottom: .bottom
+    }}
+    func getPopupPadding() -> CGFloat { switch edge {
+        case .top: popupTopPadding
+        case .bottom: popupBottomPadding
     }}
     func getKeySafeArea() -> CGFloat { switch edge {
         case .top: screenManager.safeArea.bottom
