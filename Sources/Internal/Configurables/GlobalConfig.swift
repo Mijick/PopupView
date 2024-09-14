@@ -11,7 +11,7 @@
 
 import SwiftUI
 
-public class GlobalConfig: Configurable { public required init() {}
+public class GlobalConfig {
     var backgroundColour: Color = .white
     var cornerRadius: CGFloat = 28
     var shadow: Shadow = .none

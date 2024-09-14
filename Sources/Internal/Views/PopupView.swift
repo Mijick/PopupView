@@ -13,7 +13,6 @@ import SwiftUI
 // MARK: - iOS / macOS Implementation
 #if os(iOS) || os(macOS) || os(visionOS) || os(watchOS)
 struct PopupView: View {
-    let globalConfig: ConfigContainer
     @State private var zIndex: ZIndex = .init()
     @ObservedObject private var popupManager: PopupManager = .shared
 
@@ -25,7 +24,6 @@ struct PopupView: View {
 #elseif os(tvOS)
 struct PopupView: View {
     let rootView: any View
-    let globalConfig: ConfigContainer
     @State private var zIndex: ZIndex = .init()
     @ObservedObject private var popupManager: PopupManager = .shared
 
@@ -63,17 +61,17 @@ private extension PopupView {
 
 private extension PopupView {
     func createTopPopupStackView() -> some View {
-        PopupStackView(items: getViews(TopPopupConfig.self), globalConfig: globalConfig, edge: .top)
+        PopupStackView(items: getViews(TopPopupConfig.self), edge: .top)
             .addOverlay(overlayColour, isOverlayActive(TopPopupConfig.self))
             .zIndex(zIndex.top)
     }
     func createCentrePopupStackView() -> some View {
-        PopupCentreStackView(items: getViews(CentrePopupConfig.self), globalConfig: globalConfig)
+        PopupCentreStackView(items: getViews(CentrePopupConfig.self))
             .addOverlay(overlayColour, isOverlayActive(CentrePopupConfig.self))
             .zIndex(zIndex.centre)
     }
     func createBottomPopupStackView() -> some View {
-        PopupStackView(items: getViews(BottomPopupConfig.self), globalConfig: globalConfig, edge: .bottom)
+        PopupStackView(items: getViews(BottomPopupConfig.self), edge: .bottom)
             .addOverlay(overlayColour, isOverlayActive(BottomPopupConfig.self))
             .zIndex(zIndex.bottom)
     }

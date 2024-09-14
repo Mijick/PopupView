@@ -12,7 +12,6 @@ import SwiftUI
 
 struct PopupCentreStackView: PopupStack { typealias Config = CentrePopupConfig
     @Binding var items: [AnyPopup]
-    let globalConfig: ConfigContainer
     @ObservedObject private var screen: ScreenManager = .shared
     @ObservedObject private var keyboardManager: KeyboardManager = .shared
 
@@ -62,16 +61,16 @@ private extension PopupCentreStackView {
         default: items.last?.height ?? 0
     }}
     func getTransition() -> AnyTransition {
-        .scale(scale: items.isEmpty ? globalConfig.centre.transitionExitScale : globalConfig.centre.transitionEntryScale)
+        .scale(scale: items.isEmpty ? ConfigContainer.centre.transitionExitScale : ConfigContainer.centre.transitionEntryScale)
         .combined(with: .opacity)
     }
 }
 
 // MARK: - Flags & Values
 extension PopupCentreStackView {
-    var cornerRadius: CGFloat { lastPopupConfig.cornerRadius ?? globalConfig.centre.cornerRadius }
-    var popupShadow: Shadow { globalConfig.centre.shadow }
-    var backgroundColour: Color { lastPopupConfig.backgroundColour ?? globalConfig.centre.backgroundColour }
+    var cornerRadius: CGFloat { lastPopupConfig.cornerRadius ?? ConfigContainer.centre.cornerRadius }
+    var popupShadow: Shadow { ConfigContainer.centre.shadow }
+    var backgroundColour: Color { lastPopupConfig.backgroundColour ?? ConfigContainer.centre.backgroundColour }
 
-    var tapOutsideClosesPopup: Bool { lastPopupConfig.tapOutsideClosesView ?? globalConfig.centre.tapOutsideClosesView }
+    var tapOutsideClosesPopup: Bool { lastPopupConfig.tapOutsideClosesView ?? ConfigContainer.centre.tapOutsideClosesView }
 }

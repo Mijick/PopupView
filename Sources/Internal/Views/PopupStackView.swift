@@ -13,7 +13,6 @@ import SwiftUI
 
 struct PopupStackView<Config: LocalConfig.Vertical>: PopupStack {
     @Binding var items: [AnyPopup]
-    let globalConfig: ConfigContainer
     let edge: Edge
     @State var gestureTranslation: CGFloat = 0
     @GestureState var isGestureActive: Bool = false
@@ -340,8 +339,8 @@ private extension PopupStackView {
 
     // TODO: POPRAWIĆ
     func getGlobalConfig() -> GlobalConfig.Vertical { switch edge {
-        case .top: globalConfig.vertical
-        case .bottom: globalConfig.vertical
+        case .top: ConfigContainer.vertical
+        case .bottom: ConfigContainer.vertical
     }}
 }
 
