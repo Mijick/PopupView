@@ -14,17 +14,6 @@ protocol PopupStack: View {
     associatedtype Config: LocalConfig
 
     var items: [AnyPopup] { get }
-
-
-    var tapOutsideClosesPopup: Bool { get }
-}
-
-
-// MARK: - Tapable Area
-extension PopupStack {
-    @ViewBuilder func createTapArea() -> some View { if tapOutsideClosesPopup {
-        Color.black.opacity(0.00000000001).onTapGesture(perform: items.last?.dismiss ?? {})
-    }}
 }
 
 

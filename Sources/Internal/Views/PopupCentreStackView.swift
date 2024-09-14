@@ -21,7 +21,6 @@ struct PopupCentreStackView: PopupStack { typealias Config = CentrePopupConfig
             .id(items.isEmpty)
             .transition(getTransition())
             .frame(maxWidth: .infinity, maxHeight: screen.size.height)
-            .background(createTapArea())
             .animation(.transition, value: lastPopupConfig.horizontalPadding)
             .animation(.transition, value: items)
             .animation(.transition, value: items.last?.height)

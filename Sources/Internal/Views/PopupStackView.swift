@@ -22,7 +22,6 @@ struct PopupStackView<Config: LocalConfig.Vertical>: PopupStack {
 
     var body: some View {
         ZStack(alignment: getStackAlignment(), content: createPopupStack)
-            .background(createTapArea())
             .animation(getHeightAnimation(isAnimationDisabled: screenManager.animationsDisabled), value: items.map(\.height))
             .animation(isGestureActive ? .drag : .transition, value: gestureTranslation)
             .animation(.keyboard, value: isKeyboardVisible)
