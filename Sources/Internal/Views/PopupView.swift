@@ -56,24 +56,19 @@ private extension PopupView {
             createCentrePopupStackView()
             createBottomPopupStackView()
         }
+        .addOverlay(overlayColour)
     }
 }
 
 private extension PopupView {
     func createTopPopupStackView() -> some View {
-        PopupStackView(items: getViews(TopPopupConfig.self), edge: .top)
-            .addOverlay(overlayColour, isOverlayActive(TopPopupConfig.self))
-            .zIndex(zIndex.top)
+        PopupStackView(items: getViews(TopPopupConfig.self), edge: .top).zIndex(zIndex.top)
     }
     func createCentrePopupStackView() -> some View {
-        PopupCentreStackView(items: getViews(CentrePopupConfig.self))
-            .addOverlay(overlayColour, isOverlayActive(CentrePopupConfig.self))
-            .zIndex(zIndex.centre)
+        PopupCentreStackView(items: getViews(CentrePopupConfig.self)).zIndex(zIndex.centre)
     }
     func createBottomPopupStackView() -> some View {
-        PopupStackView(items: getViews(BottomPopupConfig.self), edge: .bottom)
-            .addOverlay(overlayColour, isOverlayActive(BottomPopupConfig.self))
-            .zIndex(zIndex.bottom)
+        PopupStackView(items: getViews(BottomPopupConfig.self), edge: .bottom).zIndex(zIndex.bottom)
     }
 }
 private extension PopupView {
@@ -90,14 +85,7 @@ private extension PopupView {
 }
 
 private extension PopupView {
-    func isOverlayActive<C: LocalConfig>(_ type: C.Type) -> Bool { popupManager.views.last?.config is C && !shouldOverlayBeHiddenForCurrentPopup }
-}
-private extension PopupView {
-    var shouldOverlayBeHiddenForCurrentPopup: Bool { popupManager.views.last?.isOverlayHidden ?? false }
-}
-
-private extension PopupView {
-    var overlayColour: Color { globalConfig.common.overlayColour }
+    var overlayColour: Color { popupManager.views.last?.config.overlayColour ?? .clear }
 }
 
 
@@ -130,8 +118,8 @@ private extension PopupView.ZIndex {
 
 // MARK: - Helpers
 fileprivate extension View {
-    func addOverlay(_ colour: Color, _ active: Bool) -> some View { ZStack {
-        colour.active(if: active)
+    func addOverlay(_ colour: Color?) -> some View { ZStack {
+        if let colour { colour }
         self
     }}
 }
