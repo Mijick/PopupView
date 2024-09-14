@@ -344,3 +344,129 @@ private extension PopupStackView {
         case .bottom: globalConfig.bottom
     }}
 }
+
+
+
+
+// MARK: - Corner Radius
+extension PopupStackView {
+    func getCornerRadius(_ item: AnyPopup) -> CGFloat {
+        if isLast(item) { return cornerRadius }
+        if translationProgress.isZero || translationProgress.isNaN || !isNextToLast(item) { return stackedCornerRadius }
+
+        let difference = cornerRadius - stackedCornerRadius
+        let differenceProgress = difference * translationProgress
+        return stackedCornerRadius + differenceProgress
+    }
+}
+private extension PopupStackView {
+    var stackedCornerRadius: CGFloat { cornerRadius * stackCornerRadiusMultiplier }
+}
+
+
+
+
+// MARK: - Helpers
+private extension PopupStackView {
+    func isLast(_ item: AnyPopup) -> Bool { items.last == item }
+    func isNextToLast(_ item: AnyPopup) -> Bool { invertedIndex(item) == 1 }
+    func invertedIndex(_ item: AnyPopup) -> Int { items.count - 1 - index(item) }
+    func index(_ item: AnyPopup) -> Int { items.firstIndex(of: item) ?? 0 }
+}
+private extension PopupStackView {
+    var remainingTranslationProgress: CGFloat { 1 - translationProgress }
+}
+
+
+
+
+// MARK: - Scale
+extension PopupStackView {
+    func getScale(_ item: AnyPopup) -> CGFloat {
+        let scaleValue = invertedIndex(item).floatValue * stackScaleFactor
+        let progressDifference = isNextToLast(item) ? remainingTranslationProgress : max(0.7, remainingTranslationProgress)
+        let scale = 1 - scaleValue * progressDifference
+        return min(1, scale)
+    }
+}
+
+
+
+// MARK: - Stack Overlay Colour
+extension PopupStackView {
+    func getStackOverlayColour(_ item: AnyPopup) -> Color {
+        let opacity = calculateStackOverlayOpacity(item)
+        return stackOverlayColour.opacity(opacity)
+    }
+}
+private extension PopupStackView {
+    func calculateStackOverlayOpacity(_ item: AnyPopup) -> Double {
+        let overlayValue = invertedIndex(item).doubleValue * stackOverlayFactor
+        let remainingTranslationProgressValue = isNextToLast(item) ? remainingTranslationProgress : max(0.6, remainingTranslationProgress)
+        let opacity = overlayValue * remainingTranslationProgressValue
+        return max(0, opacity)
+    }
+}
+private extension PopupStackView {
+    var stackOverlayColour: Color { .black }
+    var stackOverlayFactor: CGFloat { 1 / stackLimit.doubleValue * 0.5 }
+}
+
+// MARK: - Stack Opacity
+extension PopupStackView {
+    func getOpacity(_ item: AnyPopup) -> Double { invertedIndex(item) <= stackLimit ? 1 : 0.000000001 }
+}
+
+
+// MARK: - Last Popup Height
+extension PopupStackView {
+    func getLastPopupHeight() -> CGFloat? {
+        let height = items.last?.height ?? 0
+        return height == 0 ? getInitialHeight() : height
+    }
+}
+
+
+
+
+// MARK: - Animations
+extension PopupStackView {
+    func getHeightAnimation(isAnimationDisabled: Bool) -> Animation? { !isAnimationDisabled ? .transition : nil }
+}
+
+
+
+// MARK: - Item ZIndex
+extension PopupStackView {
+    func getZIndex(_ item: AnyPopup) -> Double { .init(items.firstIndex(of: item) ?? 2137) }
+}
+
+
+
+
+
+// MARK: - Stack Offset
+extension PopupStackView {
+    func getOffset(_ item: AnyPopup) -> CGFloat { switch isLast(item) {
+        case true: calculateOffsetForLastItem()
+        case false: calculateOffsetForOtherItems(item)
+    }}
+}
+private extension PopupStackView {
+    // tutaj jest błąd
+    func calculateOffsetForLastItem() -> CGFloat { switch Config.self {
+        case is BottomPopupConfig.Type: max(gestureTranslation - getLastDragHeight(), 0)
+        case is TopPopupConfig.Type: min(gestureTranslation + getLastDragHeight(), 0)
+        default: 0
+    }}
+    func calculateOffsetForOtherItems(_ item: AnyPopup) -> CGFloat {
+        invertedIndex(item).floatValue * stackOffsetValue
+    }
+}
+
+
+
+// MARK: - Drag Height Value
+extension PopupStackView {
+    func getLastDragHeight() -> CGFloat { items.last?.dragHeight ?? 0 }
+}
