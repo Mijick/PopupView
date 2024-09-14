@@ -336,13 +336,13 @@ private extension PopupH {
 }
 
 // MARK: On Ended
-private extension PopupBottomStackView {
+private extension PopupH {
     func onPopupDragGestureEnded(_ value: CGFloat) { guard value != 0 else { return }
         dismissLastItemIfNeeded()
         updateTranslationValues()
     }
 }
-private extension PopupBottomStackView {
+private extension PopupH {
     func dismissLastItemIfNeeded() { if shouldDismissPopup() {
         PopupManager.dismissPopup(id: items.last?.id.value ?? "")
     }}
@@ -356,18 +356,17 @@ private extension PopupBottomStackView {
         updateDragHeight(targetDragHeight)
     }}
 }
-
-
-
-// OD TEGO ZACZĄĆ
-private extension PopupBottomStackView {
+private extension PopupH {
     func calculateCurrentPopupHeight(_ lastPopupHeight: CGFloat) -> CGFloat {
         let lastDragHeight = getLastDragHeight()
-        let currentDragHeight = lastDragHeight - gestureTranslation
+        let currentDragHeight = lastDragHeight + gestureTranslation * getDragTranslationMultiplier()
 
         let currentPopupHeight = lastPopupHeight + currentDragHeight
         return currentPopupHeight
     }
+
+
+    // OD TEGO ZACZĄĆ
     func calculatePopupTargetHeightsFromDragDetents(_ lastPopupHeight: CGFloat) -> [CGFloat] { lastPopupConfig.dragDetents
             .map { switch $0 {
                 case .fixed(let targetHeight): min(targetHeight, getMaxHeight())
