@@ -20,21 +20,20 @@ extension View {
 
 // MARK: - Alignments
 extension View {
-    func align(to edge: Edge, _ value: CGFloat?) -> some View {
-        padding(.init(edge), value)
-            .frame(height: value != nil ? ScreenManager.shared.size.height : nil, alignment: edge.toAlignment())
-            .frame(maxHeight: value != nil ? .infinity : nil, alignment: edge.toAlignment())
+    func align(to alignment: Alignment, _ value: CGFloat?) -> some View {
+        padding(alignment.toEdge(), value)
+            .frame(height: value != nil ? ScreenManager.shared.size.height : nil, alignment: alignment)
+            .frame(maxHeight: value != nil ? .infinity : nil, alignment: alignment)
     }
 }
-fileprivate extension Edge {
-    func toAlignment() -> Alignment {
-        switch self {
-            case .top: return .top
-            case .bottom: return .bottom
-            case .leading: return .leading
-            case .trailing: return .trailing
-        }
-    }
+fileprivate extension Alignment {
+    func toEdge() -> Edge.Set { switch self {
+        case .top: .top
+        case .bottom: .bottom
+        case .leading: .leading
+        case .trailing: .trailing
+        default: .init()
+    }}
 }
 
 // MARK: - Actions
