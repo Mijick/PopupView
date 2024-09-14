@@ -32,9 +32,16 @@ public extension LocalConfig.Vertical {
     class Bottom: LocalConfig.Vertical {}
 }
 
+// MARK: - Centre
+public extension LocalConfig { class Centre: LocalConfig {
+    var horizontalPadding: CGFloat = 12
+}}
+
+
 
 
 
 
 public typealias TopPopupConfig = LocalConfig.Vertical.Top
+public typealias CentrePopupConfig = LocalConfig.Centre
 public typealias BottomPopupConfig = LocalConfig.Vertical.Bottom
