@@ -12,7 +12,7 @@
 import SwiftUI
 
 // MARK: - Content Customisation
-public extension LocalConfig {
+public extension LocalConfig.Vertical {
     /// Whether content should ignore safe area
     func ignoresSafeArea(edges: Edge.Set) -> Self { self.ignoredSafeAreaEdges = edges; return self }
 
@@ -29,7 +29,7 @@ public extension LocalConfig {
 }
 
 // MARK: - Popup Customisation
-public extension LocalConfig {
+public extension LocalConfig.Vertical {
     /// Background colour of the popup
     func backgroundColour(_ value: Color) -> Self { self.backgroundColour = value; return self }
 
@@ -47,7 +47,7 @@ public extension LocalConfig {
 }
 
 // MARK: - Gestures
-public extension LocalConfig {
+public extension LocalConfig.Vertical {
     /// Dismisses the active popup when tapped outside its area if enabled
     func tapOutsideToDismiss(_ value: Bool) -> Self { self.tapOutsideClosesView = value; return self }
 

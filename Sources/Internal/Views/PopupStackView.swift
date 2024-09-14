@@ -11,7 +11,7 @@
 
 import SwiftUI
 
-struct PopupStackView<Config: LocalConfig>: PopupStack {
+struct PopupStackView<Config: LocalConfig.Vertical>: PopupStack {
     @Binding var items: [AnyPopup]
     let globalConfig: GlobalConfig
     let edge: Edge
@@ -206,7 +206,7 @@ private extension PopupStackView {
     func getBackgroundColour(for item: AnyPopup) -> Color { getConfig(item).backgroundColour ?? getGlobalConfig().backgroundColour }
 }
 private extension PopupStackView {
-    func calculateHeight(_ height: CGFloat, _ config: LocalConfig) -> CGFloat {
+    func calculateHeight(_ height: CGFloat, _ config: LocalConfig.Vertical) -> CGFloat {
         if config.contentFillsEntireScreen { return screenManager.size.height }
         if config.contentFillsWholeHeight { return getMaxHeight() }
         return min(height, maxHeight)

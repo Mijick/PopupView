@@ -11,23 +11,30 @@
 
 import SwiftUI
 
-// MARK: Available Subclasses
-public class TopPopupConfig: LocalConfig {}
-public class BottomPopupConfig: LocalConfig {}
-
-
-// MARK: Internal
 public class LocalConfig: Configurable { required public init() {}
+    var backgroundColour: Color? = nil
+    var cornerRadius: CGFloat? = nil
+    var tapOutsideClosesView: Bool? = nil
+}
+
+// MARK: - Vertical
+public extension LocalConfig { class Vertical: LocalConfig {
     var ignoredSafeAreaEdges: Edge.Set = []
     var contentFillsWholeHeight: Bool = false
     var contentFillsEntireScreen: Bool = false
     var distanceFromKeyboard: CGFloat? = nil
-
-    var backgroundColour: Color? = nil
-    var cornerRadius: CGFloat? = nil
     var popupPadding: (top: CGFloat, bottom: CGFloat, horizontal: CGFloat) = (0, 0, 0)
-
-    var tapOutsideClosesView: Bool? = nil
     var dragGestureEnabled: Bool? = nil
     var dragDetents: [DragDetent] = []
+}}
+public extension LocalConfig.Vertical {
+    class Top: LocalConfig.Vertical {}
+    class Bottom: LocalConfig.Vertical {}
 }
+
+
+
+
+
+public typealias TopPopupConfig = LocalConfig.Vertical.Top
+public typealias BottomPopupConfig = LocalConfig.Vertical.Bottom
