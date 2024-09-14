@@ -277,6 +277,12 @@ extension PopupH {
 
 
 
+    var distanceFromKeyboard: CGFloat { lastPopupConfig.distanceFromKeyboard ?? getGlobalConfig().distanceFromKeyboard }
+    var maxHeightStackedFactor: CGFloat { 0.85 }
+    var isKeyboardVisible: Bool { keyboardManager.height > 0 }
+
+
+
     var stackLimit: Int { getGlobalConfig().stackLimit }
     var stackScaleFactor: CGFloat { getGlobalConfig().stackScaleFactor }
     var stackOffsetValue: CGFloat { getGlobalConfig().stackOffset * getOffsetMultiplier() }
