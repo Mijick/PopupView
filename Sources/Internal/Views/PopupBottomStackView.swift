@@ -431,9 +431,9 @@ private extension PopupH {
     }
 
 
-    // OD TEGO ZACZĄĆ
+    // TODO: MOGĄ BYĆ PROBLEMY
     func getContentTopPadding() -> CGFloat {
-        if lastPopupConfig.contentIgnoresSafeArea { return 0 }
+        if lastPopupConfig.ignoredSafeAreaEdges.contains(.top) { return 0 }
 
         let heightWithoutTopSafeArea = screenManager.size.height - screenManager.safeArea.top
         let topPadding = height - heightWithoutTopSafeArea
@@ -441,7 +441,7 @@ private extension PopupH {
     }
     func getHeight(_ item: AnyPopup) -> CGFloat? { getConfig(item).contentFillsEntireScreen ? nil : height }
     func getFixedSize(_ item: AnyPopup) -> Bool { !(getConfig(item).contentFillsEntireScreen || getConfig(item).contentFillsWholeHeight || height == maxHeight) }
-    func getBackgroundColour(for item: AnyPopup) -> Color { getConfig(item).backgroundColour ?? globalConfig.bottom.backgroundColour }
+    func getBackgroundColour(for item: AnyPopup) -> Color { getConfig(item).backgroundColour ?? getGlobalConfig().backgroundColour }
 }
 private extension PopupH {
     func calculateHeight(_ height: CGFloat, _ config: BottomPopupConfig) -> CGFloat {
