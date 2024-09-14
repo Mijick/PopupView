@@ -12,10 +12,10 @@
 import SwiftUI
 
 public class LocalConfig { required init() {}
-    var backgroundColour: Color? = nil
-    var cornerRadius: CGFloat? = nil
-    var tapOutsideClosesView: Bool? = nil
-    var overlayColour: Color? = nil
+    var backgroundColour: Color = .clear
+    var cornerRadius: CGFloat = 0
+    var tapOutsideClosesView: Bool = false
+    var overlayColour: Color = .clear
 }
 
 // MARK: - Vertical
@@ -36,6 +36,16 @@ public extension LocalConfig.Vertical {
 // MARK: - Centre
 public extension LocalConfig { class Centre: LocalConfig {
     var horizontalPadding: CGFloat = 12
+
+
+    required init() {
+        super.init()
+
+        self.backgroundColour = ConfigContainer.centre.backgroundColour
+        self.cornerRadius = ConfigContainer.centre.cornerRadius
+        self.tapOutsideClosesView = ConfigContainer.centre.tapOutsideClosesView
+        self.overlayColour = ConfigContainer.centre.overlayColour
+    }
 }}
 
 
