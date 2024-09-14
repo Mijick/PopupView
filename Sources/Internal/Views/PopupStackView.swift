@@ -66,8 +66,8 @@ private extension PopupStackView {
     }}
 }
 private extension PopupStackView {
-    func canDragGestureBeUsed() -> Bool { lastPopupConfig.dragGestureEnabled }
-    func updateGestureTranslation(_ value: CGFloat) { switch lastPopupConfig.dragDetents.isEmpty {
+    func canDragGestureBeUsed() -> Bool { getConfig(items.last).dragGestureEnabled }
+    func updateGestureTranslation(_ value: CGFloat) { switch getConfig(items.last).dragDetents.isEmpty {
         case true: gestureTranslation = calculateGestureTranslationWhenNoDragDetents(value)
         case false: gestureTranslation = calculateGestureTranslationWhenDragDetents(value)
     }}
@@ -216,23 +216,23 @@ private extension PopupStackView {
 
 
 extension PopupStackView {
-    var popupTopPadding: CGFloat { lastPopupConfig.popupPadding.top }
-    var popupBottomPadding: CGFloat { lastPopupConfig.popupPadding.bottom }
-    var popupHorizontalPadding: CGFloat { lastPopupConfig.popupPadding.horizontal }
+    var popupTopPadding: CGFloat { getConfig(items.last).popupPadding.top }
+    var popupBottomPadding: CGFloat { getConfig(items.last).popupPadding.bottom }
+    var popupHorizontalPadding: CGFloat { getConfig(items.last).popupPadding.horizontal }
     var popupShadow: Shadow { getGlobalConfig().shadow }
 
 
     // TODO: MOGĄ BYĆ PROBLEMY
     var height: CGFloat {
         let lastDragHeight = getLastDragHeight(),
-            lastPopupHeight = getLastPopupHeight() ?? (lastPopupConfig.contentFillsEntireScreen ? screenManager.size.height : getInitialHeight())
+            lastPopupHeight = getLastPopupHeight() ?? (getConfig(items.last).contentFillsEntireScreen ? screenManager.size.height : getInitialHeight())
         let dragTranslation = lastPopupHeight + lastDragHeight + gestureTranslation * getDragTranslationMultiplier() - popupTopPadding - popupBottomPadding
         let newHeight = max(lastPopupHeight, dragTranslation)
 
         switch lastPopupHeight + lastDragHeight > screenManager.size.height {
-            case true where lastPopupConfig.ignoredSafeAreaEdges.contains([.top, .bottom]): return newHeight - screenManager.safeArea.top - screenManager.safeArea.bottom
-            case true where lastPopupConfig.ignoredSafeAreaEdges.contains(.top): return newHeight - screenManager.safeArea.top
-            case true where lastPopupConfig.ignoredSafeAreaEdges.contains(.bottom): return newHeight - screenManager.safeArea.bottom
+            case true where getConfig(items.last).ignoredSafeAreaEdges.contains([.top, .bottom]): return newHeight - screenManager.safeArea.top - screenManager.safeArea.bottom
+            case true where getConfig(items.last).ignoredSafeAreaEdges.contains(.top): return newHeight - screenManager.safeArea.top
+            case true where getConfig(items.last).ignoredSafeAreaEdges.contains(.bottom): return newHeight - screenManager.safeArea.bottom
             default: return newHeight
         }
     }
