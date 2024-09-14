@@ -50,7 +50,7 @@ private extension PopupStackView {
             .opacity(getOpacity(item.wrappedValue))
             .compositingGroup()
             .focusSectionIfAvailable()
-            .align(to: getPopupAlignment(), lastPopupConfig.contentFillsEntireScreen ? 0 : getPopupPadding())
+            .align(to: getPopupAlignment(), getConfig(items.last).contentFillsEntireScreen ? 0 : getPopupPadding())
             .transition(getTransition())
             .zIndex(getZIndex(item.wrappedValue))
     }
@@ -124,7 +124,7 @@ private extension PopupStackView {
         let currentPopupHeight = lastPopupHeight + currentDragHeight
         return currentPopupHeight
     }
-    func calculatePopupTargetHeightsFromDragDetents(_ lastPopupHeight: CGFloat) -> [CGFloat] { lastPopupConfig.dragDetents
+    func calculatePopupTargetHeightsFromDragDetents(_ lastPopupHeight: CGFloat) -> [CGFloat] { getConfig(items.last).dragDetents
             .map { switch $0 {
                 case .fixed(let targetHeight): min(targetHeight, getMaxHeight())
                 case .fraction(let fraction): min(fraction * lastPopupHeight, getMaxHeight())
@@ -185,7 +185,7 @@ private extension PopupStackView {
     }
     func getContentBottomPadding() -> CGFloat {
         if isKeyboardVisible { return keyboardManager.height + distanceFromKeyboard }
-        if lastPopupConfig.ignoredSafeAreaEdges.contains(.bottom) { return 0 }
+        if getConfig(items.last).ignoredSafeAreaEdges.contains(.bottom) { return 0 }
 
         return max(screenManager.safeArea.bottom - popupBottomPadding, 0)
     }
@@ -193,7 +193,7 @@ private extension PopupStackView {
 
     // TODO: MOGĄ BYĆ PROBLEMY
     func getContentTopPadding() -> CGFloat {
-        if lastPopupConfig.ignoredSafeAreaEdges.contains(.top) { return 0 }
+        if getConfig(items.last).ignoredSafeAreaEdges.contains(.top) { return 0 }
 
         let heightWithoutTopSafeArea = screenManager.size.height - screenManager.safeArea.top
         let topPadding = height - heightWithoutTopSafeArea
