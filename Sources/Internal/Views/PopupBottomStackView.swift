@@ -186,12 +186,12 @@ private extension PopupBottomStackView {
     }
     func getContentBottomPadding() -> CGFloat {
         if isKeyboardVisible { return keyboardManager.height + distanceFromKeyboard }
-        if lastPopupConfig.contentIgnoresSafeArea { return 0 }
+        //if lastPopupConfig.contentIgnoresSafeArea { return 0 }
 
         return max(screenManager.safeArea.bottom - popupBottomPadding, 0)
     }
     func getContentTopPadding() -> CGFloat {
-        if lastPopupConfig.contentIgnoresSafeArea { return 0 }
+        //if lastPopupConfig.contentIgnoresSafeArea { return 0 }
 
         let heightWithoutTopSafeArea = screenManager.size.height - screenManager.safeArea.top
         let topPadding = height - heightWithoutTopSafeArea
@@ -214,7 +214,7 @@ private extension PopupBottomStackView {
 
 // MARK: - Flags & Values
 extension PopupBottomStackView {
-    var popupBottomPadding: CGFloat { lastPopupConfig.popupPadding.vertical }
+    var popupBottomPadding: CGFloat { lastPopupConfig.popupPadding.bottom }
     var popupHorizontalPadding: CGFloat { lastPopupConfig.popupPadding.horizontal }
     var popupShadow: Shadow { globalConfig.bottom.shadow }
     var height: CGFloat {
@@ -223,7 +223,7 @@ extension PopupBottomStackView {
         let dragTranslation = lastPopupHeight + lastDragHeight - gestureTranslation
         let newHeight = max(lastPopupHeight, dragTranslation)
 
-        switch lastPopupHeight + lastDragHeight > screenManager.size.height && !lastPopupConfig.contentIgnoresSafeArea {
+        switch lastPopupHeight + lastDragHeight > screenManager.size.height /*&& !lastPopupConfig.contentIgnoresSafeArea*/ {
             case true: return newHeight == screenManager.size.height ? newHeight : newHeight - screenManager.safeArea.top
             case false: return newHeight
         }

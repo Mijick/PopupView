@@ -36,7 +36,10 @@ public extension BottomPopupConfig {
     func cornerRadius(_ value: CGFloat) -> Self { changing(path: \.cornerRadius, to: value) }
 
     /// Distance of the entire popup (including its background) from the bottom edge
-    func verticalPadding(_ value: CGFloat) -> Self { changing(path: \.popupPadding.vertical, to: value) }
+    func topPadding(_ value: CGFloat) -> Self { changing(path: \.popupPadding.top, to: value) }
+
+    /// Distance of the entire popup (including its background) from the bottom edge
+    func bottomPadding(_ value: CGFloat) -> Self { changing(path: \.popupPadding.bottom, to: value) }
 
     /// Distance of the entire popup (including its background) from the horizontal edges
     func horizontalPadding(_ value: CGFloat) -> Self { changing(path: \.popupPadding.horizontal, to: value) }
