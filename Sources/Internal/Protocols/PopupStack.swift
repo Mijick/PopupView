@@ -25,10 +25,3 @@ protocol PopupStack: View {
 extension PopupStack {
     func getInitialHeight() -> CGFloat { items.nextToLast?.height ?? 30 }
 }
-
-
-// MARK: - Configurables
-extension PopupStack {
-    func getConfig(_ item: AnyPopup) -> Config { (item.config as? Config) ?? .init() }
-    var lastPopupConfig: Config { (items.last?.config as? Config) ?? .init() }
-}

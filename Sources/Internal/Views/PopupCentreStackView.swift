@@ -21,7 +21,7 @@ struct PopupCentreStackView: PopupStack { typealias Config = CentrePopupConfig
             .id(items.isEmpty)
             .transition(getTransition())
             .frame(maxWidth: .infinity, maxHeight: screen.size.height)
-            .animation(.transition, value: lastPopupConfig.horizontalPadding)
+            .animation(.transition, value: config.horizontalPadding)
             .animation(.transition, value: items)
             .animation(.transition, value: items.last?.height)
             .animation(.keyboard, value: keyboardManager.height)
@@ -38,7 +38,7 @@ private extension PopupCentreStackView {
             .onHeightChange { saveHeight($0, item) }
             .frame(height: getHeight()).frame(maxWidth: .infinity, maxHeight: getHeight())
             .background(backgroundColour, overlayColour: .clear, radius: cornerRadius, corners: .allCorners, shadow: popupShadow)
-            .padding(.horizontal, lastPopupConfig.horizontalPadding)
+            .padding(.horizontal, config.horizontalPadding)
             .opacity(getOpacity(item))
             .compositingGroup()
             .focusSectionIfAvailable()
@@ -67,9 +67,8 @@ private extension PopupCentreStackView {
 
 // MARK: - Flags & Values
 extension PopupCentreStackView {
-    var cornerRadius: CGFloat { lastPopupConfig.cornerRadius }
+    var cornerRadius: CGFloat { config.cornerRadius }
     var popupShadow: Shadow { ConfigContainer.centre.shadow }
-    var backgroundColour: Color { lastPopupConfig.backgroundColour }
-
-    var tapOutsideClosesPopup: Bool { lastPopupConfig.tapOutsideClosesView }
+    var backgroundColour: Color { config.backgroundColour }
+    var config: Config { items.last.getConfig() }
 }

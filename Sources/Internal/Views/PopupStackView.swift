@@ -240,7 +240,7 @@ extension PopupStackView {
 
 
     var maxHeight: CGFloat { getMaxHeight() - popupTopPadding - popupBottomPadding }
-    var distanceFromKeyboard: CGFloat { lastPopupConfig.distanceFromKeyboard }
+    var distanceFromKeyboard: CGFloat { getConfig(items.last).distanceFromKeyboard }
     var maxHeightStackedFactor: CGFloat { 0.85 }
     var isKeyboardVisible: Bool { keyboardManager.height > 0 }
 
@@ -255,8 +255,8 @@ extension PopupStackView {
 
 
     var cornerRadius: CGFloat {
-        let cornerRadius = lastPopupConfig.cornerRadius
-        return lastPopupConfig.contentFillsEntireScreen ? min(cornerRadius, screenManager.cornerRadius ?? 0) : cornerRadius
+        let cornerRadius = getConfig(items.last).cornerRadius
+        return getConfig(items.last).contentFillsEntireScreen ? min(cornerRadius, screenManager.cornerRadius ?? 0) : cornerRadius
     }
 
     var translationProgress: CGFloat { guard let popupHeight = getLastPopupHeight() else { return 0 }
@@ -264,9 +264,6 @@ extension PopupStackView {
         return translationProgress
     }
     var gestureClosingThresholdFactor: CGFloat { getGlobalConfig().dragGestureProgressToClose }
-
-
-    var tapOutsideClosesPopup: Bool { lastPopupConfig.tapOutsideClosesView }
 }
 
 
@@ -465,4 +462,19 @@ private extension PopupStackView {
 // MARK: - Drag Height Value
 extension PopupStackView {
     func getLastDragHeight() -> CGFloat { items.last?.dragHeight ?? 0 }
+
+
+    func getConfig(_ item: AnyPopup?) -> Config { item.getConfig() }
 }
+
+
+
+
+
+
+extension AnyPopup? {
+    func getConfig<Config: LocalConfig>() -> Config {
+        (self?.config as? Config) ?? .init()
+    }
+}
+
