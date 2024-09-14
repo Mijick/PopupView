@@ -23,10 +23,22 @@ public extension LocalConfig { class Vertical: LocalConfig {
     var ignoredSafeAreaEdges: Edge.Set = []
     var contentFillsWholeHeight: Bool = false
     var contentFillsEntireScreen: Bool = false
-    var distanceFromKeyboard: CGFloat? = nil
+    var distanceFromKeyboard: CGFloat = 0
     var popupPadding: (top: CGFloat, bottom: CGFloat, horizontal: CGFloat) = (0, 0, 0)
-    var dragGestureEnabled: Bool? = nil
+    var dragGestureEnabled: Bool = false
     var dragDetents: [DragDetent] = []
+
+
+    required init() {
+        super.init()
+
+        self.backgroundColour = ConfigContainer.vertical.backgroundColour
+        self.cornerRadius = ConfigContainer.vertical.cornerRadius
+        self.tapOutsideClosesView = ConfigContainer.vertical.tapOutsideClosesView
+        self.overlayColour = ConfigContainer.vertical.overlayColour
+        self.distanceFromKeyboard = ConfigContainer.vertical.distanceFromKeyboard
+        self.dragGestureEnabled = ConfigContainer.vertical.dragGestureEnabled
+    }
 }}
 public extension LocalConfig.Vertical {
     class Top: LocalConfig.Vertical {}
