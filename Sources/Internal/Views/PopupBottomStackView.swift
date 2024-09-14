@@ -337,6 +337,14 @@ extension PopupH { enum Edge {
     case bottom
 }}
 private extension PopupH {
+    func getStackAlignment() -> Alignment { switch edge {
+        case .top: .bottom
+        case .bottom: .top
+    }}
+    func getPopupAlignment() -> Alignment { switch edge {
+        case .top: .top
+        case .bottom: .bottom
+    }}
     func getKeySafeArea() -> CGFloat { switch edge {
         case .top: screenManager.safeArea.bottom
         case .bottom: screenManager.safeArea.top
