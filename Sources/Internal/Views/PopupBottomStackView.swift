@@ -260,14 +260,40 @@ struct PopupH: PopupStack { typealias Config = BottomPopupConfig
 
 
     var body: some View {
-        EmptyView()
+        ZStack(alignment: getStackAlignment(), content: createPopupStack)
+            .background(createTapArea())
+            .animation(getHeightAnimation(isAnimationDisabled: screenManager.animationsDisabled), value: items.map(\.height))
+            .animation(isGestureActive ? .drag : .transition, value: gestureTranslation)
+            .animation(.keyboard, value: isKeyboardVisible)
+            .onDragGesture($isGestureActive, onChanged: onPopupDragGestureChanged, onEnded: onPopupDragGestureEnded)
     }
 }
 private extension PopupH {
-
+    func createPopupStack() -> some View {
+        ForEach($items, id: \.self, content: createPopup)
+    }
 }
 private extension PopupH {
-
+    func createPopup(_ item: Binding<AnyPopup>) -> some View {
+        item.wrappedValue.body
+            .padding(.top, getContentTopPadding())
+            .padding(.bottom, getContentBottomPadding())
+            .padding(.leading, screenManager.safeArea.left)
+            .padding(.trailing, screenManager.safeArea.right)
+            .fixedSize(horizontal: false, vertical: getFixedSize(item.wrappedValue))
+            .onHeightChange { saveHeight($0, for: item) }
+            .frame(height: getHeight(item.wrappedValue), alignment: getStackAlignment()).frame(maxWidth: .infinity, maxHeight: height)
+            .background(getBackgroundColour(for: item.wrappedValue), overlayColour: getStackOverlayColour(item.wrappedValue), radius: getCornerRadius(item.wrappedValue), corners: getCorners(), shadow: popupShadow)
+            .padding(.horizontal, popupHorizontalPadding)
+            .offset(y: getOffset(item.wrappedValue))
+            .scaleEffect(x: getScale(item.wrappedValue))
+            .opacity(getOpacity(item.wrappedValue))
+            .compositingGroup()
+            .focusSectionIfAvailable()
+            .align(to: getPopupAlignment(), lastPopupConfig.contentFillsEntireScreen ? 0 : popupVerticalPadding)
+            .transition(getTransition())
+            .zIndex(getZIndex(item.wrappedValue))
+    }
 }
 private extension PopupH {
 
