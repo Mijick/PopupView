@@ -364,9 +364,6 @@ private extension PopupH {
         let currentPopupHeight = lastPopupHeight + currentDragHeight
         return currentPopupHeight
     }
-
-
-    // OD TEGO ZACZĄĆ
     func calculatePopupTargetHeightsFromDragDetents(_ lastPopupHeight: CGFloat) -> [CGFloat] { lastPopupConfig.dragDetents
             .map { switch $0 {
                 case .fixed(let targetHeight): min(targetHeight, getMaxHeight())
@@ -382,14 +379,14 @@ private extension PopupH {
         else { return popupTargetHeights.last ?? 0 }
 
         let initialIndex = popupTargetHeights.firstIndex(where: { $0 >= currentPopupHeight }) ?? popupTargetHeights.count - 1,
-            targetIndex = gestureTranslation <= 0 ? initialIndex : max(0, initialIndex - 1)
+            targetIndex = gestureTranslation * getDragTranslationMultiplier() > 0 ? initialIndex : max(0, initialIndex - 1)
         let previousPopupHeight = getLastDragHeight() + lastPopupHeight,
             popupTargetHeight = popupTargetHeights[targetIndex],
             deltaHeight = abs(previousPopupHeight - popupTargetHeight)
         let progress = abs(currentPopupHeight - previousPopupHeight) / deltaHeight
 
         if progress < gestureClosingThresholdFactor {
-            let index = gestureTranslation <= 0 ? max(0, initialIndex - 1) : initialIndex
+            let index = gestureTranslation * getDragTranslationMultiplier() > 0 ? max(0, initialIndex - 1) : initialIndex
             return popupTargetHeights[index]
         }
         return popupTargetHeights[targetIndex]
