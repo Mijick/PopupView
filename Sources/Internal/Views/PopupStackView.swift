@@ -339,9 +339,9 @@ private extension PopupStackView {
 
 
     // TODO: POPRAWIĆ
-    func getGlobalConfig() -> ConfigContainer.Bottom { switch edge {
-        case .top: globalConfig.bottom
-        case .bottom: globalConfig.bottom
+    func getGlobalConfig() -> GlobalConfig.Vertical { switch edge {
+        case .top: globalConfig.vertical
+        case .bottom: globalConfig.vertical
     }}
 }
 

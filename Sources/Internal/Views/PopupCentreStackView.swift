@@ -73,5 +73,5 @@ extension PopupCentreStackView {
     var popupShadow: Shadow { globalConfig.centre.shadow }
     var backgroundColour: Color { lastPopupConfig.backgroundColour ?? globalConfig.centre.backgroundColour }
 
-    var tapOutsideClosesPopup: Bool { lastPopupConfig.tapOutsideClosesView ?? globalConfig.bottom.tapOutsideClosesView }
+    var tapOutsideClosesPopup: Bool { lastPopupConfig.tapOutsideClosesView ?? globalConfig.centre.tapOutsideClosesView }
 }
