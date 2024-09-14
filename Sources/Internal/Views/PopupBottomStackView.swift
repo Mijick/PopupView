@@ -312,16 +312,12 @@ private extension PopupH {
         case false: gestureTranslation = calculateGestureTranslationWhenDragDetents(value)
     }}
 }
-
-
-
-// OD TEGO ZACZĄĆ
 private extension PopupH {
-    func calculateGestureTranslationWhenNoDragDetents(_ value: CGFloat) -> CGFloat { max(value, 0) }
-    func calculateGestureTranslationWhenDragDetents(_ value: CGFloat) -> CGFloat { guard value < 0, let lastPopupHeight = getLastPopupHeight() else { return value }
+    func calculateGestureTranslationWhenNoDragDetents(_ value: CGFloat) -> CGFloat { getDragExtremeValue(value, 0) }
+    func calculateGestureTranslationWhenDragDetents(_ value: CGFloat) -> CGFloat { guard value * getDragTranslationMultiplier() > 0, let lastPopupHeight = getLastPopupHeight() else { return value }
         let maxHeight = calculateMaxHeightForDragGesture(lastPopupHeight)
         let dragTranslation = calculateDragTranslation(maxHeight, lastPopupHeight)
-        return max(dragTranslation, value)
+        return getDragExtremeValue(dragTranslation, value)
     }
 }
 private extension PopupH {
@@ -332,7 +328,7 @@ private extension PopupH {
     }
     func calculateDragTranslation(_ maxHeight: CGFloat, _ lastPopupHeight: CGFloat) -> CGFloat {
         let translation = maxHeight - lastPopupHeight - getLastDragHeight()
-        return -translation
+        return translation * getDragTranslationMultiplier()
     }
 }
 private extension PopupH {
@@ -406,6 +402,18 @@ extension PopupH { enum Edge {
     case bottom
 }}
 private extension PopupH {
+    func getDragExtremeValue(_ value1: CGFloat, _ value2: CGFloat) -> CGFloat { switch edge {
+        case .top: min(value1, value2)
+        case .bottom: max(value1, value2)
+    }}
+    func getDragTranslationMultiplier() -> CGFloat { switch edge {
+        case .top: 1
+        case .bottom: -1
+    }}
+
+
+
+
     func getStackAlignment() -> Alignment { switch edge {
         case .top: .bottom
         case .bottom: .top
