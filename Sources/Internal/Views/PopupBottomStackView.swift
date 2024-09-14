@@ -214,7 +214,7 @@ private extension PopupBottomStackView {
 
 // MARK: - Flags & Values
 extension PopupBottomStackView {
-    var popupBottomPadding: CGFloat { lastPopupConfig.popupPadding.bottom }
+    var popupBottomPadding: CGFloat { lastPopupConfig.popupPadding.vertical }
     var popupHorizontalPadding: CGFloat { lastPopupConfig.popupPadding.horizontal }
     var popupShadow: Shadow { globalConfig.bottom.shadow }
     var height: CGFloat {
@@ -270,7 +270,7 @@ struct PopupH: PopupStack { typealias Config = BottomPopupConfig
 
 
 extension PopupH {
-    var popupBottomPadding: CGFloat { lastPopupConfig.popupPadding.bottom }
+    var popupVerticalPadding: CGFloat { lastPopupConfig.popupPadding.vertical }
     var popupHorizontalPadding: CGFloat { lastPopupConfig.popupPadding.horizontal }
     var popupShadow: Shadow { getGlobalConfig().shadow }
 
