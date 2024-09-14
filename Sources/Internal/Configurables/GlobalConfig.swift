@@ -11,7 +11,7 @@
 
 import SwiftUI
 
-public class GlobalConfig111: Configurable { public required init() {}
+public class GlobalConfig: Configurable { public required init() {}
     var backgroundColour: Color = .white
     var cornerRadius: CGFloat = 28
     var shadow: Shadow = .none
@@ -20,7 +20,7 @@ public class GlobalConfig111: Configurable { public required init() {}
 }
 
 // MARK: Vertical
-public extension GlobalConfig111 { class Vertical: GlobalConfig111 {
+public extension GlobalConfig { class Vertical: GlobalConfig {
     var distanceFromKeyboard: CGFloat = 8
     var stackCornerRadiusMultiplier: CGFloat = 0.6
     var stackOffset: CGFloat = 8
@@ -31,10 +31,7 @@ public extension GlobalConfig111 { class Vertical: GlobalConfig111 {
 }}
 
 // MARK: Centre
-public extension GlobalConfig111 { class Centre: GlobalConfig111 {
+public extension GlobalConfig { class Centre: GlobalConfig {
     var transitionEntryScale: CGFloat = 1.16
     var transitionExitScale: CGFloat = 0.82
 }}
-
-// MARK: Shared
-public extension GlobalConfig111 { class Shared: GlobalConfig111 {}}

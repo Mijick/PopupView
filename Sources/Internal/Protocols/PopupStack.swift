@@ -11,7 +11,7 @@
 import SwiftUI
 
 protocol PopupStack: View {
-    associatedtype Config: Configurable
+    associatedtype Config: LocalConfig
 
     var items: [AnyPopup] { get }
 

@@ -11,7 +11,7 @@
 import SwiftUI
 
 // MARK: - Popup Customisation
-public extension GlobalConfig.Top {
+public extension ConfigContainer.Top {
     /// Background colour of the popup
     func backgroundColour(_ value: Color) -> Self { changing(path: \.backgroundColour, to: value) }
 
@@ -23,7 +23,7 @@ public extension GlobalConfig.Top {
 }
 
 // MARK: - Stack Customisation
-public extension GlobalConfig.Top {
+public extension ConfigContainer.Top {
     /// Corner radius multiplier for popups on the stack.
     /// For example **value** = 0.5 means that the stacked popups will be have a corner radius equal to activeCornerRadius * 0.5.
     func stackCornerRadiusMultiplier(_ value: CGFloat) -> Self { changing(path: \.stackCornerRadiusMultiplier, to: value) }
@@ -40,7 +40,7 @@ public extension GlobalConfig.Top {
 }
 
 // MARK: - Gestures
-public extension GlobalConfig.Top {
+public extension ConfigContainer.Top {
     /// Dismisses the active popup when tapped outside its area if enabled
     func tapOutsideToDismiss(_ value: Bool) -> Self { changing(path: \.tapOutsideClosesView, to: value) }
 
@@ -53,7 +53,7 @@ public extension GlobalConfig.Top {
 
 
 // MARK: - Internal
-public extension GlobalConfig { struct Top: Configurable { public init() {}
+public extension ConfigContainer { struct Top: Configurable { public init() {}
     private(set) var backgroundColour: Color = .white
     private(set) var cornerRadius: CGFloat = 24
     private(set) var shadow: Shadow = .none

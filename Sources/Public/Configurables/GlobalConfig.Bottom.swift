@@ -11,13 +11,13 @@
 import SwiftUI
 
 // MARK: - Content Customisation
-public extension GlobalConfig.Bottom {
+public extension ConfigContainer.Bottom {
     /// Distance between content and keyboard (if present)
     func distanceFromKeyboard(_ value: CGFloat) -> Self { changing(path: \.distanceFromKeyboard, to: value) }
 }
 
 // MARK: - Popup Customisation
-public extension GlobalConfig.Bottom {
+public extension ConfigContainer.Bottom {
     /// Background colour of the popup
     func backgroundColour(_ value: Color) -> Self { changing(path: \.backgroundColour, to: value) }
 
@@ -29,7 +29,7 @@ public extension GlobalConfig.Bottom {
 }
 
 // MARK: - Stack Customisation
-public extension GlobalConfig.Bottom {
+public extension ConfigContainer.Bottom {
     /// Corner radius multiplier for popups on the stack.
     /// For example **value** = 0.5 means that the stacked popups will be have a corner radius equal to activeCornerRadius * 0.5.
     func stackCornerRadiusMultiplier(_ value: CGFloat) -> Self { changing(path: \.stackCornerRadiusMultiplier, to: value) }
@@ -46,7 +46,7 @@ public extension GlobalConfig.Bottom {
 }
 
 // MARK: - Gestures
-public extension GlobalConfig.Bottom {
+public extension ConfigContainer.Bottom {
     /// Dismisses the active popup when tapped outside its area if enabled
     func tapOutsideToDismiss(_ value: Bool) -> Self { changing(path: \.tapOutsideClosesView, to: value) }
 
@@ -59,7 +59,7 @@ public extension GlobalConfig.Bottom {
 
 
 // MARK: - Internal
-public extension GlobalConfig { struct Bottom: Configurable { public init() {}
+public extension ConfigContainer { struct Bottom: Configurable { public init() {}
     private(set) var distanceFromKeyboard: CGFloat = 8
 
     private(set) var backgroundColour: Color = .white

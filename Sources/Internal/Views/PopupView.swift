@@ -13,7 +13,7 @@ import SwiftUI
 // MARK: - iOS / macOS Implementation
 #if os(iOS) || os(macOS) || os(visionOS) || os(watchOS)
 struct PopupView: View {
-    let globalConfig: GlobalConfig
+    let globalConfig: ConfigContainer
     @State private var zIndex: ZIndex = .init()
     @ObservedObject private var popupManager: PopupManager = .shared
 
@@ -25,7 +25,7 @@ struct PopupView: View {
 #elseif os(tvOS)
 struct PopupView: View {
     let rootView: any View
-    let globalConfig: GlobalConfig
+    let globalConfig: ConfigContainer
     @State private var zIndex: ZIndex = .init()
     @ObservedObject private var popupManager: PopupManager = .shared
 

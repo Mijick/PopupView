@@ -13,7 +13,7 @@ import SwiftUI
 // MARK: - Initialising
 public extension View {
     /// Initialises the library. Use directly with the view in your @main structure
-    func implementPopupView(config: (GlobalConfig) -> GlobalConfig = { $0 }) -> some View {
+    func implementPopupView(config: (ConfigContainer) -> ConfigContainer = { $0 }) -> some View {
     #if os(iOS) || os(macOS) || os(visionOS) || os(watchOS)
         updateScreenSize()
             .frame(maxWidth: .infinity)

@@ -11,7 +11,7 @@
 import SwiftUI
 
 // MARK: - Popup Customisation
-public extension GlobalConfig.Centre {
+public extension ConfigContainer.Centre {
     /// Background colour of the popup
     func backgroundColour(_ value: Color) -> Self { changing(path: \.backgroundColour, to: value) }
 
@@ -23,13 +23,13 @@ public extension GlobalConfig.Centre {
 }
 
 // MARK: - Gestures
-public extension GlobalConfig.Centre {
+public extension ConfigContainer.Centre {
     /// Dismisses the active popup when tapped outside its area if enabled
     func tapOutsideToDismiss(_ value: Bool) -> Self { changing(path: \.tapOutsideClosesView, to: value) }
 }
 
 // MARK: - Animations
-public extension GlobalConfig.Centre {
+public extension ConfigContainer.Centre {
     /// Scale of the initial state of the popup animation while opening
     func transitionEntryScale(_ value: CGFloat) -> Self { changing(path: \.transitionEntryScale, to: value) }
 
@@ -39,7 +39,7 @@ public extension GlobalConfig.Centre {
 
 
 // MARK: - Internal
-public extension GlobalConfig { struct Centre: Configurable { public init() {}
+public extension ConfigContainer { struct Centre: Configurable { public init() {}
     private(set) var backgroundColour: Color = .white
     private(set) var cornerRadius: CGFloat = 24
     private(set) var shadow: Shadow = .none

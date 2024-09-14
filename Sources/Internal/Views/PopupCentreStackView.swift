@@ -12,7 +12,7 @@ import SwiftUI
 
 struct PopupCentreStackView: PopupStack { typealias Config = CentrePopupConfig
     @Binding var items: [AnyPopup]
-    let globalConfig: GlobalConfig
+    let globalConfig: ConfigContainer
     @ObservedObject private var screen: ScreenManager = .shared
     @ObservedObject private var keyboardManager: KeyboardManager = .shared
 
