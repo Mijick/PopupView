@@ -249,7 +249,7 @@ extension PopupBottomStackView {
 
 
 
-struct PopupH: PopupStack { typealias Config = BottomPopupConfig
+struct PopupH<Config: LocalConfig>: PopupStack {
     @Binding var items: [AnyPopup]
     let globalConfig: GlobalConfig
     let edge: Edge
@@ -444,7 +444,7 @@ private extension PopupH {
     func getBackgroundColour(for item: AnyPopup) -> Color { getConfig(item).backgroundColour ?? getGlobalConfig().backgroundColour }
 }
 private extension PopupH {
-    func calculateHeight(_ height: CGFloat, _ config: BottomPopupConfig) -> CGFloat {
+    func calculateHeight(_ height: CGFloat, _ config: LocalConfig) -> CGFloat {
         if config.contentFillsEntireScreen { return screenManager.size.height }
         if config.contentFillsWholeHeight { return getMaxHeight() }
         return min(height, maxHeight)
