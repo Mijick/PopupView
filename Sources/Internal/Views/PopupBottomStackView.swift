@@ -408,17 +408,53 @@ private extension PopupH {
 
 
 
+// OD TEGO ZACZĄĆ
 
+// MARK: - View Modifiers
+private extension PopupH {
+    func getCorners() -> RectCorner { switch popupBottomPadding {
+        case 0: return [.topLeft, .topRight]
+        default: return .allCorners
+    }}
+    func saveHeight(_ height: CGFloat, for item: Binding<AnyPopup>) { if !isGestureActive {
+        let config = getConfig(item.wrappedValue)
+        let newHeight = calculateHeight(height, config)
 
-extension PopupH {
+        updateHeight(newHeight, item)
+    }}
     func getMaxHeight() -> CGFloat {
         let basicHeight = screenManager.size.height - getKeySafeArea() - popupVerticalPadding
         let stackedViewsCount = min(max(0, getGlobalConfig().stackLimit - 1), items.count - 1)
         let stackedViewsHeight = getGlobalConfig().stackOffset * .init(stackedViewsCount) * maxHeightStackedFactor
         return basicHeight - stackedViewsHeight
     }
-}
+    func getContentBottomPadding() -> CGFloat {
+        if isKeyboardVisible { return keyboardManager.height + distanceFromKeyboard }
+        if lastPopupConfig.contentIgnoresSafeArea { return 0 }
 
+        return max(screenManager.safeArea.bottom - popupBottomPadding, 0)
+    }
+    func getContentTopPadding() -> CGFloat {
+        if lastPopupConfig.contentIgnoresSafeArea { return 0 }
+
+        let heightWithoutTopSafeArea = screenManager.size.height - screenManager.safeArea.top
+        let topPadding = height - heightWithoutTopSafeArea
+        return max(topPadding, 0)
+    }
+    func getHeight(_ item: AnyPopup) -> CGFloat? { getConfig(item).contentFillsEntireScreen ? nil : height }
+    func getFixedSize(_ item: AnyPopup) -> Bool { !(getConfig(item).contentFillsEntireScreen || getConfig(item).contentFillsWholeHeight || height == maxHeight) }
+    func getBackgroundColour(for item: AnyPopup) -> Color { getConfig(item).backgroundColour ?? globalConfig.bottom.backgroundColour }
+}
+private extension PopupBottomStackView {
+    func calculateHeight(_ height: CGFloat, _ config: BottomPopupConfig) -> CGFloat {
+        if config.contentFillsEntireScreen { return screenManager.size.height }
+        if config.contentFillsWholeHeight { return getMaxHeight() }
+        return min(height, maxHeight)
+    }
+    func updateHeight(_ newHeight: CGFloat, _ item: Binding<AnyPopup>) { if item.wrappedValue.height != newHeight { Task { @MainActor in
+        item.wrappedValue.height = newHeight
+    }}}
+}
 
 
 extension PopupH {
