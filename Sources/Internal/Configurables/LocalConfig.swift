@@ -11,7 +11,7 @@
 
 import SwiftUI
 
-public class LocalConfig: Configurable { required public init() {}
+public class LocalConfig { required init() {}
     var backgroundColour: Color? = nil
     var cornerRadius: CGFloat? = nil
     var tapOutsideClosesView: Bool? = nil

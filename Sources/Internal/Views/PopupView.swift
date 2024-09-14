@@ -77,7 +77,7 @@ private extension PopupView {
     }
 }
 private extension PopupView {
-    func getViews<C: Configurable>(_ type: C.Type) -> Binding<[AnyPopup]> { .init(
+    func getViews<C: LocalConfig>(_ type: C.Type) -> Binding<[AnyPopup]> { .init(
         get: { popupManager.views.filter { $0.config is C } },
         set: { $0.forEach { item in if let index = popupManager.views.firstIndex(of: item) { popupManager.views[index] = item }}}
     )}
@@ -90,7 +90,7 @@ private extension PopupView {
 }
 
 private extension PopupView {
-    func isOverlayActive<C: Configurable>(_ type: C.Type) -> Bool { popupManager.views.last?.config is C && !shouldOverlayBeHiddenForCurrentPopup }
+    func isOverlayActive<C: LocalConfig>(_ type: C.Type) -> Bool { popupManager.views.last?.config is C && !shouldOverlayBeHiddenForCurrentPopup }
 }
 private extension PopupView {
     var shouldOverlayBeHiddenForCurrentPopup: Bool { popupManager.views.last?.isOverlayHidden ?? false }
@@ -108,7 +108,7 @@ extension PopupView { struct ZIndex {
     private var values: [Double] = [1, 1, 1]
 }}
 extension PopupView.ZIndex {
-    mutating func reshuffle(_ lastConfig: (any Configurable)?) { if let lastConfig {
+    mutating func reshuffle(_ lastConfig: (LocalConfig)?) { if let lastConfig {
         if lastConfig is TopPopupConfig { reshuffle(0) }
         else if lastConfig is CentrePopupConfig { reshuffle(1) }
         else if lastConfig is BottomPopupConfig { reshuffle(2) }

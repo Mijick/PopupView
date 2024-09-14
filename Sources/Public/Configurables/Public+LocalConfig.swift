@@ -60,7 +60,7 @@ public extension LocalConfig.Vertical {
 public extension CentrePopupConfig {
 
     /// Distance of the entire popup (including its background) from the horizontal edges
-    func horizontalPadding(_ value: CGFloat) -> Self { changing(path: \.horizontalPadding, to: value) }
+    func horizontalPadding(_ value: CGFloat) -> Self { self.horizontalPadding = value; return self }
 }
 
 
