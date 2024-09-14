@@ -50,12 +50,14 @@ private extension PopupView {
 }
 
 private extension PopupView {
+    // PROBLEM: OVERLAY MA PRZYKRYWAĆ RÓWNIEŻ POZOSTAŁE WIDOKI
     func createPopupStackView() -> some View {
         ZStack {
             createTopPopupStackView()
             createCentrePopupStackView()
             createBottomPopupStackView()
         }
+        .background(createTapArea())
         .addOverlay(overlayColour)
     }
 }
@@ -70,6 +72,9 @@ private extension PopupView {
     func createBottomPopupStackView() -> some View {
         PopupStackView(items: getViews(BottomPopupConfig.self), edge: .bottom).zIndex(zIndex.bottom)
     }
+    @ViewBuilder func createTapArea() -> some View { if tapOutsideClosesPopup {
+        Color.black.opacity(0.00000000001).onTapGesture(perform: PopupManager.dismiss)
+    }}
 }
 private extension PopupView {
     func getViews<C: LocalConfig>(_ type: C.Type) -> Binding<[AnyPopup]> { .init(
@@ -85,6 +90,7 @@ private extension PopupView {
 }
 
 private extension PopupView {
+    var tapOutsideClosesPopup: Bool { popupManager.views.last?.config.tapOutsideClosesView ?? false }
     var overlayColour: Color { popupManager.views.last?.config.overlayColour ?? .clear }
 }
 
