@@ -295,9 +295,52 @@ private extension PopupH {
             .zIndex(getZIndex(item.wrappedValue))
     }
 }
-private extension PopupH {
 
+
+// MARK: - Gestures
+
+// MARK: On Changed
+private extension PopupH {
+    func onPopupDragGestureChanged(_ value: CGFloat) { if canDragGestureBeUsed() {
+        updateGestureTranslation(value)
+    }}
 }
+private extension PopupH {
+    func canDragGestureBeUsed() -> Bool { lastPopupConfig.dragGestureEnabled ?? getGlobalConfig().dragGestureEnabled }
+    func updateGestureTranslation(_ value: CGFloat) { switch lastPopupConfig.dragDetents.isEmpty {
+        case true: gestureTranslation = calculateGestureTranslationWhenNoDragDetents(value)
+        case false: gestureTranslation = calculateGestureTranslationWhenDragDetents(value)
+    }}
+}
+
+
+
+// OD TEGO ZACZĄĆ
+private extension PopupH {
+    func calculateGestureTranslationWhenNoDragDetents(_ value: CGFloat) -> CGFloat { max(value, 0) }
+    func calculateGestureTranslationWhenDragDetents(_ value: CGFloat) -> CGFloat { guard value < 0, let lastPopupHeight = getLastPopupHeight() else { return value }
+        let maxHeight = calculateMaxHeightForDragGesture(lastPopupHeight)
+        let dragTranslation = calculateDragTranslation(maxHeight, lastPopupHeight)
+        return max(dragTranslation, value)
+    }
+}
+private extension PopupH {
+    func calculateMaxHeightForDragGesture(_ lastPopupHeight: CGFloat) -> CGFloat {
+        let maxHeight1 = (calculatePopupTargetHeightsFromDragDetents(lastPopupHeight).max() ?? 0) + dragTranslationThreshold
+        let maxHeight2 = screenManager.size.height
+        return min(maxHeight1, maxHeight2)
+    }
+    func calculateDragTranslation(_ maxHeight: CGFloat, _ lastPopupHeight: CGFloat) -> CGFloat {
+        let translation = maxHeight - lastPopupHeight - getLastDragHeight()
+        return -translation
+    }
+}
+private extension PopupH {
+    var dragTranslationThreshold: CGFloat { 8 }
+}
+
+
+
 
 
 
