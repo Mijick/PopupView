@@ -14,28 +14,9 @@ protocol PopupStack: View {
     associatedtype Config: Configurable
 
     var items: [AnyPopup] { get }
-    var globalConfig: GlobalConfig { get }
-    var gestureTranslation: CGFloat { get }
-    var isGestureActive: Bool { get }
-    var translationProgress: CGFloat { get }
-    var cornerRadius: CGFloat { get }
 
-    var stackLimit: Int { get }
-    var stackScaleFactor: CGFloat { get }
-    var stackCornerRadiusMultiplier: CGFloat { get }
-    var stackOffsetValue: CGFloat { get }
 
     var tapOutsideClosesPopup: Bool { get }
-}
-extension PopupStack {
-    var gestureTranslation: CGFloat { 0 }
-    var isGestureActive: Bool { false }
-    var translationProgress: CGFloat { 1 }
-
-    var stackLimit: Int { 1 }
-    var stackScaleFactor: CGFloat { 1 }
-    var stackCornerRadiusMultiplier: CGFloat { 0 }
-    var stackOffsetValue: CGFloat { 0 }
 }
 
 

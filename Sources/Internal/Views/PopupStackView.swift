@@ -453,11 +453,9 @@ extension PopupStackView {
     }}
 }
 private extension PopupStackView {
-    // tutaj jest błąd
-    func calculateOffsetForLastItem() -> CGFloat { switch Config.self {
-        case is BottomPopupConfig.Type: max(gestureTranslation - getLastDragHeight(), 0)
-        case is TopPopupConfig.Type: min(gestureTranslation + getLastDragHeight(), 0)
-        default: 0
+    func calculateOffsetForLastItem() -> CGFloat { switch edge {
+        case .top: min(gestureTranslation + getLastDragHeight(), 0)
+        case .bottom: max(gestureTranslation - getLastDragHeight(), 0)
     }}
     func calculateOffsetForOtherItems(_ item: AnyPopup) -> CGFloat {
         invertedIndex(item).floatValue * stackOffsetValue
