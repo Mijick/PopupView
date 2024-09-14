@@ -63,7 +63,7 @@ private extension PopupView {
 
 private extension PopupView {
     func createTopPopupStackView() -> some View {
-        PopupH(items: getViews(TopPopupConfig.self), globalConfig: globalConfig, edge: .top)
+        PopupStackView(items: getViews(TopPopupConfig.self), globalConfig: globalConfig, edge: .top)
             .addOverlay(overlayColour, isOverlayActive(TopPopupConfig.self))
             .zIndex(zIndex.top)
     }
@@ -73,7 +73,7 @@ private extension PopupView {
             .zIndex(zIndex.centre)
     }
     func createBottomPopupStackView() -> some View {
-        PopupH(items: getViews(BottomPopupConfig.self), globalConfig: globalConfig, edge: .bottom)
+        PopupStackView(items: getViews(BottomPopupConfig.self), globalConfig: globalConfig, edge: .bottom)
             .addOverlay(overlayColour, isOverlayActive(BottomPopupConfig.self))
             .zIndex(zIndex.bottom)
     }
