@@ -411,11 +411,6 @@ private extension PopupH {
         case 0: return getPopupRectCorners()
         default: return .allCorners
     }}
-
-
-    // OD TEGO ZACZĄĆ
-
-
     func saveHeight(_ height: CGFloat, for item: Binding<AnyPopup>) { if !isGestureActive {
         let config = getConfig(item.wrappedValue)
         let newHeight = calculateHeight(height, config)
@@ -428,6 +423,10 @@ private extension PopupH {
         let stackedViewsHeight = getGlobalConfig().stackOffset * .init(stackedViewsCount) * maxHeightStackedFactor
         return basicHeight - stackedViewsHeight
     }
+
+
+
+    // OD TEGO ZACZĄĆ
     func getContentBottomPadding() -> CGFloat {
         if isKeyboardVisible { return keyboardManager.height + distanceFromKeyboard }
         if lastPopupConfig.contentIgnoresSafeArea { return 0 }
@@ -445,7 +444,7 @@ private extension PopupH {
     func getFixedSize(_ item: AnyPopup) -> Bool { !(getConfig(item).contentFillsEntireScreen || getConfig(item).contentFillsWholeHeight || height == maxHeight) }
     func getBackgroundColour(for item: AnyPopup) -> Color { getConfig(item).backgroundColour ?? globalConfig.bottom.backgroundColour }
 }
-private extension PopupBottomStackView {
+private extension PopupH {
     func calculateHeight(_ height: CGFloat, _ config: BottomPopupConfig) -> CGFloat {
         if config.contentFillsEntireScreen { return screenManager.size.height }
         if config.contentFillsWholeHeight { return getMaxHeight() }
