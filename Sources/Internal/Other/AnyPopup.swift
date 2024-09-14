@@ -14,7 +14,6 @@ struct AnyPopup: View, Hashable {
     let id: ID
     let config: LocalConfig
     let dismissTimer: DispatchSourceTimer?
-    let isOverlayHidden: Bool
     let onDismiss: () -> ()
     var height: CGFloat
     var dragHeight: CGFloat
@@ -25,7 +24,6 @@ struct AnyPopup: View, Hashable {
         self.id = popup.id
         self.config = popup.configurePopup(popup: .init())
         self.dismissTimer = temp.dismissTimer
-        self.isOverlayHidden = temp.isOverlayHidden
         self.onDismiss = temp.onDismiss
         self.height = 0
         self.dragHeight = 0
@@ -45,6 +43,5 @@ extension AnyPopup {
 extension AnyPopup { struct Temp {
     var environmentObject: (any ObservableObject)? = nil
     var dismissTimer: DispatchSourceTimer? = nil
-    var isOverlayHidden: Bool = false
     var onDismiss: () -> () = {}
 }}

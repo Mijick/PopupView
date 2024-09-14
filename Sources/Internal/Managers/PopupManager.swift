@@ -36,10 +36,9 @@ extension PopupManager {
     static func performOperation(_ operation: StackOperation) { Task { @MainActor in
         shared.views.perform(operation)
     }}
-    static func setTempValue(environmentObject: (any ObservableObject)? = nil, dismissProperties: (popup: any Popup, seconds: Double)? = nil, isOverlayHidden: Bool? = nil, onDismiss: (() -> ())? = nil) {
+    static func setTempValue(environmentObject: (any ObservableObject)? = nil, dismissProperties: (popup: any Popup, seconds: Double)? = nil, onDismiss: (() -> ())? = nil) {
         if let environmentObject { shared.popupTemp.environmentObject = environmentObject }
         if let dismissProperties { shared.popupTemp.dismissTimer = DispatchSource.createAction(deadline: dismissProperties.seconds) { performOperation(.remove(dismissProperties.popup.id)) } }
-        if let isOverlayHidden { shared.popupTemp.isOverlayHidden = isOverlayHidden }
         if let onDismiss { shared.popupTemp.onDismiss = onDismiss }
     }
     static func readAndResetTempValues() -> AnyPopup.Temp {
