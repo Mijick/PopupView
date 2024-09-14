@@ -1,31 +1,15 @@
 //
-//  LocalConfig.BottomPopup.swift of PopupView
+//  Public+LocalConfig.swift of MijickPopupView
 //
 //  Created by Tomasz Kurylik
 //    - Twitter: https://twitter.com/tkurylik
 //    - Mail: tomasz.kurylik@mijick.com
+//    - GitHub: https://github.com/FulcrumOne
 //
-//  Copyright ©2023 Mijick. Licensed under MIT License.
+//  Copyright ©2024 Mijick. Licensed under MIT License.
 
 
 import SwiftUI
-
-
-// MARK: - Internal
-public class BottomPopupConfig: LocalConfig {}
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 // MARK: - Content Customisation
 public extension LocalConfig {
@@ -72,21 +56,4 @@ public extension LocalConfig {
 
     /// Sets available detents for the popupSets the available detents for the enclosing sheet
     func dragDetents(_ value: [DragDetent]) -> Self { self.dragDetents = value; return self }
-}
-
-
-// MARK: - Internal
-public class LocalConfig: Configurable { required public init() {}
-    private(set) var ignoredSafeAreaEdges: Edge.Set = []
-    private(set) var contentFillsWholeHeight: Bool = false
-    private(set) var contentFillsEntireScreen: Bool = false
-    private(set) var distanceFromKeyboard: CGFloat? = nil
-
-    private(set) var backgroundColour: Color? = nil
-    private(set) var cornerRadius: CGFloat? = nil
-    private(set) var popupPadding: (top: CGFloat, bottom: CGFloat, horizontal: CGFloat) = (0, 0, 0)
-
-    private(set) var tapOutsideClosesView: Bool? = nil
-    private(set) var dragGestureEnabled: Bool? = nil
-    private(set) var dragDetents: [DragDetent] = []
 }
