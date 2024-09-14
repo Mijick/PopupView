@@ -13,7 +13,28 @@ import SwiftUI
 
 // MARK: - Vertical
 public extension GlobalConfig.Vertical {
+    /// Distance between content and keyboard (if present)
+    func distanceFromKeyboard(_ value: CGFloat) -> Self { self.distanceFromKeyboard = value; return self }
 
+    /// Corner radius multiplier for popups on the stack.
+    /// For example **value** = 0.5 means that the stacked popups will be have a corner radius equal to activeCornerRadius * 0.5.
+    func stackCornerRadiusMultiplier(_ value: CGFloat) -> Self { self.stackCornerRadiusMultiplier = value; return self }
+
+    /// Distance between popups on the stack
+    func stackOffset(_ value: CGFloat) -> Self { self.stackOffset = value; return self }
+
+    /// Scale factor of subsequent popups on the stack.
+    /// For example, for **value** = 0.1, the next popup on the stack will have a size of 0.9 of the active popup, and the one after next 0.8.
+    func stackScale(_ value: CGFloat) -> Self { self.stackScaleFactor = value; return self }
+
+    /// Maximum number of popups on the stack
+    func stackLimit(_ value: Int) -> Self { self.stackLimit = value; return self }
+
+    /// Popup can be closed with drag gesture if enabled
+    func dragGestureEnabled(_ value: Bool) -> Self { self.dragGestureEnabled = value; return self }
+
+    /// Minimal threshold of a drag gesture to close the active popup
+    func minimalDragThresholdToClose(_ value: CGFloat) -> Self { self.dragGestureProgressToClose = value; return self }
 }
 
 
