@@ -67,7 +67,7 @@ private extension PopupStackView {
     }}
 }
 private extension PopupStackView {
-    func canDragGestureBeUsed() -> Bool { lastPopupConfig.dragGestureEnabled ?? getGlobalConfig().dragGestureEnabled }
+    func canDragGestureBeUsed() -> Bool { lastPopupConfig.dragGestureEnabled }
     func updateGestureTranslation(_ value: CGFloat) { switch lastPopupConfig.dragDetents.isEmpty {
         case true: gestureTranslation = calculateGestureTranslationWhenNoDragDetents(value)
         case false: gestureTranslation = calculateGestureTranslationWhenDragDetents(value)
@@ -202,7 +202,7 @@ private extension PopupStackView {
     }
     func getHeight(_ item: AnyPopup) -> CGFloat? { getConfig(item).contentFillsEntireScreen ? nil : height }
     func getFixedSize(_ item: AnyPopup) -> Bool { !(getConfig(item).contentFillsEntireScreen || getConfig(item).contentFillsWholeHeight || height == maxHeight) }
-    func getBackgroundColour(for item: AnyPopup) -> Color { getConfig(item).backgroundColour ?? getGlobalConfig().backgroundColour }
+    func getBackgroundColour(for item: AnyPopup) -> Color { getConfig(item).backgroundColour }
 }
 private extension PopupStackView {
     func calculateHeight(_ height: CGFloat, _ config: LocalConfig.Vertical) -> CGFloat {
@@ -241,7 +241,7 @@ extension PopupStackView {
 
 
     var maxHeight: CGFloat { getMaxHeight() - popupTopPadding - popupBottomPadding }
-    var distanceFromKeyboard: CGFloat { lastPopupConfig.distanceFromKeyboard ?? getGlobalConfig().distanceFromKeyboard }
+    var distanceFromKeyboard: CGFloat { lastPopupConfig.distanceFromKeyboard }
     var maxHeightStackedFactor: CGFloat { 0.85 }
     var isKeyboardVisible: Bool { keyboardManager.height > 0 }
 
@@ -256,7 +256,7 @@ extension PopupStackView {
 
 
     var cornerRadius: CGFloat {
-        let cornerRadius = lastPopupConfig.cornerRadius ?? getGlobalConfig().cornerRadius
+        let cornerRadius = lastPopupConfig.cornerRadius
         return lastPopupConfig.contentFillsEntireScreen ? min(cornerRadius, screenManager.cornerRadius ?? 0) : cornerRadius
     }
 
@@ -267,7 +267,7 @@ extension PopupStackView {
     var gestureClosingThresholdFactor: CGFloat { getGlobalConfig().dragGestureProgressToClose }
 
 
-    var tapOutsideClosesPopup: Bool { lastPopupConfig.tapOutsideClosesView ?? getGlobalConfig().tapOutsideClosesView }
+    var tapOutsideClosesPopup: Bool { lastPopupConfig.tapOutsideClosesView }
 }
 
 

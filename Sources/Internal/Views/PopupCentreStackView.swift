@@ -68,9 +68,9 @@ private extension PopupCentreStackView {
 
 // MARK: - Flags & Values
 extension PopupCentreStackView {
-    var cornerRadius: CGFloat { lastPopupConfig.cornerRadius ?? ConfigContainer.centre.cornerRadius }
+    var cornerRadius: CGFloat { lastPopupConfig.cornerRadius }
     var popupShadow: Shadow { ConfigContainer.centre.shadow }
-    var backgroundColour: Color { lastPopupConfig.backgroundColour ?? ConfigContainer.centre.backgroundColour }
+    var backgroundColour: Color { lastPopupConfig.backgroundColour }
 
-    var tapOutsideClosesPopup: Bool { lastPopupConfig.tapOutsideClosesView ?? ConfigContainer.centre.tapOutsideClosesView }
+    var tapOutsideClosesPopup: Bool { lastPopupConfig.tapOutsideClosesView }
 }
