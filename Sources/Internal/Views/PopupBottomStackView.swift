@@ -462,6 +462,22 @@ extension PopupH {
     var popupShadow: Shadow { getGlobalConfig().shadow }
 
 
+    // TODO: MOGĄ BYĆ PROBLEMY
+    var height: CGFloat {
+        let lastDragHeight = getLastDragHeight(),
+            lastPopupHeight = getLastPopupHeight() ?? (lastPopupConfig.contentFillsEntireScreen ? screenManager.size.height : getInitialHeight())
+        let dragTranslation = lastPopupHeight + lastDragHeight + gestureTranslation * getDragTranslationMultiplier() - popupTopPadding - popupBottomPadding
+        let newHeight = max(lastPopupHeight, dragTranslation)
+
+        switch lastPopupHeight + lastDragHeight > screenManager.size.height {
+            case true where lastPopupConfig.ignoredSafeAreaEdges.contains([.top, .bottom]): return newHeight - screenManager.safeArea.top - screenManager.safeArea.bottom
+            case true where lastPopupConfig.ignoredSafeAreaEdges.contains(.top): return newHeight - screenManager.safeArea.top
+            case true where lastPopupConfig.ignoredSafeAreaEdges.contains(.bottom): return newHeight - screenManager.safeArea.bottom
+            default: return newHeight
+        }
+    }
+
+
 
     var maxHeight: CGFloat { getMaxHeight() - popupTopPadding - popupBottomPadding }
     var distanceFromKeyboard: CGFloat { lastPopupConfig.distanceFromKeyboard ?? getGlobalConfig().distanceFromKeyboard }
