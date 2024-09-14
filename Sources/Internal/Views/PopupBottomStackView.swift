@@ -405,17 +405,17 @@ private extension PopupH {
     }
 }
 
-
-
-
-// OD TEGO ZACZĄĆ
-
 // MARK: - View Modifiers
 private extension PopupH {
-    func getCorners() -> RectCorner { switch popupBottomPadding {
-        case 0: return [.topLeft, .topRight]
+    func getCorners() -> RectCorner { switch popupVerticalPadding {
+        case 0: return getPopupRectCorners()
         default: return .allCorners
     }}
+
+
+    // OD TEGO ZACZĄĆ
+
+
     func saveHeight(_ height: CGFloat, for item: Binding<AnyPopup>) { if !isGestureActive {
         let config = getConfig(item.wrappedValue)
         let newHeight = calculateHeight(height, config)
@@ -515,6 +515,11 @@ private extension PopupH {
         case .bottom: -1
     }}
 
+
+    func getPopupRectCorners() -> RectCorner { switch edge {
+        case .top: [.bottomLeft, .bottomRight]
+        case .bottom: [.topLeft, .topRight]
+    }}
 
 
 
