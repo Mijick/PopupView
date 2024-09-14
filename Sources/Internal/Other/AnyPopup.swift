@@ -12,7 +12,7 @@ import SwiftUI
 
 struct AnyPopup: View, Hashable {
     let id: ID
-    let config: any Configurable
+    let config: LocalConfig
     let dismissTimer: DispatchSourceTimer?
     let isOverlayHidden: Bool
     let onDismiss: () -> ()

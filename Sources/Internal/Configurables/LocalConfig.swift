@@ -15,6 +15,7 @@ public class LocalConfig: Configurable { required public init() {}
     var backgroundColour: Color? = nil
     var cornerRadius: CGFloat? = nil
     var tapOutsideClosesView: Bool? = nil
+    var overlayColour: Color? = nil
 }
 
 // MARK: - Vertical

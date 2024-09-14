@@ -11,7 +11,7 @@
 import SwiftUI
 
 public protocol Popup: View {
-    associatedtype Config: Configurable
+    associatedtype Config: LocalConfig
     associatedtype V: View
 
     var id: ID { get }

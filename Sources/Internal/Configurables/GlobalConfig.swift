@@ -29,6 +29,10 @@ public extension GlobalConfig { class Vertical: GlobalConfig {
     var dragGestureEnabled: Bool = true
     var dragGestureProgressToClose: CGFloat = 1/3
 }}
+public extension GlobalConfig {
+    class Top: GlobalConfig.Vertical {}
+    class Bottom: GlobalConfig.Vertical {}
+}
 
 // MARK: Centre
 public extension GlobalConfig { class Centre: GlobalConfig {
