@@ -10,7 +10,7 @@
 
 import SwiftUI
 
-struct PopupCentreStackView: PopupStack { typealias Config = CentrePopupConfig
+struct PopupCentreStackView: View {
     @Binding var items: [AnyPopup]
     @ObservedObject private var screen: ScreenManager = .shared
     @ObservedObject private var keyboardManager: KeyboardManager = .shared
@@ -63,6 +63,7 @@ private extension PopupCentreStackView {
         .scale(scale: items.isEmpty ? ConfigContainer.centre.transitionExitScale : ConfigContainer.centre.transitionEntryScale)
         .combined(with: .opacity)
     }
+    func getInitialHeight() -> CGFloat { items.nextToLast?.height ?? 30 }
 }
 
 // MARK: - Flags & Values
@@ -70,5 +71,5 @@ extension PopupCentreStackView {
     var cornerRadius: CGFloat { config.cornerRadius }
     var popupShadow: Shadow { ConfigContainer.centre.shadow }
     var backgroundColour: Color { config.backgroundColour }
-    var config: Config { items.last.getConfig() }
+    var config: CentrePopupConfig { items.last.getConfig() }
 }

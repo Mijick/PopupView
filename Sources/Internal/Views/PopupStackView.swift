@@ -11,7 +11,7 @@
 
 import SwiftUI
 
-struct PopupStackView<Config: LocalConfig.Vertical>: PopupStack {
+struct PopupStackView<Config: LocalConfig.Vertical>: View {
     @Binding var items: [AnyPopup]
     let edge: Edge
     @State var gestureTranslation: CGFloat = 0
@@ -465,6 +465,7 @@ extension PopupStackView {
 
 
     func getConfig(_ item: AnyPopup?) -> Config { item.getConfig() }
+    func getInitialHeight() -> CGFloat { items.nextToLast?.height ?? 30 }
 }
 
 
