@@ -268,6 +268,16 @@ struct PopupH: PopupStack { typealias Config = BottomPopupConfig
 
 
 
+extension PopupH {
+    func getMaxHeight() -> CGFloat {
+        let basicHeight = screenManager.size.height - getKeySafeArea() - popupVerticalPadding
+        let stackedViewsCount = min(max(0, getGlobalConfig().stackLimit - 1), items.count - 1)
+        let stackedViewsHeight = getGlobalConfig().stackOffset * .init(stackedViewsCount) * maxHeightStackedFactor
+        return basicHeight - stackedViewsHeight
+    }
+}
+
+
 
 extension PopupH {
     var popupVerticalPadding: CGFloat { lastPopupConfig.popupPadding.vertical }
@@ -276,7 +286,7 @@ extension PopupH {
 
 
 
-
+    var maxHeight: CGFloat { getMaxHeight() - popupVerticalPadding }
     var distanceFromKeyboard: CGFloat { lastPopupConfig.distanceFromKeyboard ?? getGlobalConfig().distanceFromKeyboard }
     var maxHeightStackedFactor: CGFloat { 0.85 }
     var isKeyboardVisible: Bool { keyboardManager.height > 0 }
@@ -318,6 +328,13 @@ extension PopupH { enum Edge {
     case bottom
 }}
 private extension PopupH {
+    func getKeySafeArea() -> CGFloat { switch edge {
+        case .top: screenManager.safeArea.bottom
+        case .bottom: screenManager.safeArea.top
+    }}
+
+
+
     func getOffsetMultiplier() -> CGFloat { switch edge {
         case .top: 1
         case .bottom: -1
