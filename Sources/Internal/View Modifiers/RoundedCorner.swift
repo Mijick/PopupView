@@ -17,8 +17,25 @@ extension View {
     }
 }
 private extension View {
-    func createRoundedCorner(_ colour: Color, _ radius: CGFloat, _ corners: RectCorner) -> some View { RoundedCorner(radius: radius, corners: corners).fill(colour) }
+    func createRoundedCorner(_ colour: Color, _ radius: CGFloat, _ corners: RectCorner) -> some View { createShape(radius, corners).fill(colour) }
     func createShadow(_ shadowAttributes: Shadow) -> some View { shadow(color: shadowAttributes.color, radius: shadowAttributes.radius, x: shadowAttributes.x, y: shadowAttributes.y) }
+}
+private extension View {
+    func createShape(_ radius: CGFloat, _ corners: RectCorner) -> some Shape {
+        if #available(iOS 16.0, macOS 13, tvOS 16, watchOS 9.0, *) {
+            let values = getValues(corners, radius)
+            return UnevenRoundedRectangle(topLeadingRadius: values.topLeft, bottomLeadingRadius: values.bottomLeft, bottomTrailingRadius: values.bottomRight, topTrailingRadius: values.topRight, style: .continuous)
+        }
+        return RoundedCorner(radius: radius, corners: corners)
+    }
+}
+private extension View {
+    func getValues(_ corners: RectCorner, _ radius: CGFloat) -> (topLeft: CGFloat, topRight: CGFloat, bottomLeft: CGFloat, bottomRight: CGFloat) { (
+        topLeft: corners.contains(.topLeft) ? radius : 0,
+        topRight: corners.contains(.topRight) ? radius : 0,
+        bottomLeft: corners.contains(.bottomLeft) ? radius : 0,
+        bottomRight: corners.contains(.bottomRight) ? radius : 0
+    )}
 }
 
 // MARK: - Implementation
