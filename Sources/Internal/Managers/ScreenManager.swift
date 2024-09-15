@@ -83,8 +83,8 @@ class ScreenManager: ObservableObject {
 // MARK: - tvOS Implementation
 #elseif os(tvOS)
 class ScreenManager: ObservableObject {
-    @Published private(set) var size: CGSize = .init()
-    @Published private(set) var safeArea: UIEdgeInsets = .init()
+    @Published var size: CGSize = .init()
+    @Published var safeArea: UIEdgeInsets = .init()
     private(set) var cornerRadius: CGFloat? = 0
     private(set) var animationsDisabled: Bool = false
 

@@ -37,6 +37,6 @@ private extension View {
 #elseif os(tvOS)
 extension View {
     func onTapGesture(perform action: () -> ()) -> some View { self }
-    func onDragGesture(onChanged actionOnChanged: (CGFloat) -> (), onEnded actionOnEnded: (CGFloat) -> ()) -> some View { self }
+    func onDragGesture(_ state: GestureState<Bool>, onChanged actionOnChanged: @escaping (CGFloat) -> (), onEnded actionOnEnded: @escaping (CGFloat) -> ()) -> some View { self }
 }
 #endif
