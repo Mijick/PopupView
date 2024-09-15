@@ -1,5 +1,5 @@
 //
-//  Public+LocalConfig.swift of MijickPopupView
+//  Public+LocalConfig.swift of MijickPopups
 //
 //  Created by Tomasz Kurylik
 //    - Twitter: https://twitter.com/tkurylik

@@ -4,7 +4,7 @@
 import PackageDescription
 
 let package = Package(
-    name: "MijickPopupView",
+    name: "MijickPopups",
     platforms: [
         .iOS(.v14),
         .macOS(.v12),
@@ -12,10 +12,10 @@ let package = Package(
         .watchOS(.v4)
     ],
     products: [
-        .library(name: "MijickPopupView", targets: ["MijickPopupView"])
+        .library(name: "MijickPopups", targets: ["MijickPopups"])
     ],
     targets: [
-        .target(name: "MijickPopupView", dependencies: [], path: "Sources")
+        .target(name: "MijickPopups", dependencies: [], path: "Sources")
     ],
     swiftLanguageVersions: [.v5]
 )
