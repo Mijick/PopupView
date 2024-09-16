@@ -14,8 +14,8 @@ import SwiftUI
 struct PopupStackView<Config: LocalConfig.Vertical>: View {
     @Binding var items: [AnyPopup]
     let edge: PopupEdge
-    @State var gestureTranslation: CGFloat = 0
-    @GestureState var isGestureActive: Bool = false
+    @State private var gestureTranslation: CGFloat = 0
+    @GestureState private var isGestureActive: Bool = false
     @ObservedObject private var screenManager: ScreenManager = .shared
     @ObservedObject private var keyboardManager: KeyboardManager = .shared
 
