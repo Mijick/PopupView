@@ -22,6 +22,7 @@ struct PopupStackView<Config: LocalConfig.Vertical>: View {
 
     var body: some View {
         ZStack(alignment: getStackAlignment(), content: createPopupStack)
+            .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: getVVV())
             .animation(getHeightAnimation(isAnimationDisabled: screenManager.animationsDisabled), value: items.map(\.height))
             .animation(isGestureActive ? .drag : .transition, value: gestureTranslation)
             .animation(.keyboard, value: isKeyboardVisible)
@@ -311,6 +312,10 @@ private extension PopupStackView {
     func getStackAlignment() -> Alignment { switch edge {
         case .top: .bottom
         case .bottom: .top
+    }}
+    func getVVV() -> Alignment { switch edge {
+        case .top: .top
+        case .bottom: .bottom
     }}
     func getPopupAlignment() -> Edge.Set { switch edge {
         case .top: .top
