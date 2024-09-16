@@ -197,7 +197,6 @@ private extension PopupStackView {
     }
 
 
-    // TODO: MUSZĄ BYĆ LICZONE OSOBNO DLA BOTTOM I OSOBNO DLA TOP
     func getContentTopPadding(height: CGFloat) -> CGFloat {
         if getConfig(items.last).ignoredSafeAreaEdges.contains(.top) { return 0 }
 
