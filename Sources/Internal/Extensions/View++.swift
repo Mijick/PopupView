@@ -49,9 +49,6 @@ extension View {
 
 // MARK: - Others
 extension View {
-    @ViewBuilder func active(if condition: Bool) -> some View { if condition { self } }
-}
-extension View {
     func onChange<T: Equatable>(_ value: T, completion: @escaping (T) -> Void) -> some View {
     #if os(visionOS)
         onChange(of: value) { completion(value) }
