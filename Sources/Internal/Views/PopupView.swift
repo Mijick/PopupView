@@ -52,6 +52,7 @@ private extension PopupView {
 
 private extension PopupView {
     // PROBLEM: OVERLAY MA PRZYKRYWAĆ RÓWNIEŻ POZOSTAŁE WIDOKI
+    // PROBLEM: CZASAMI BACKGROUND BOTTOM POPUP STACK NIE PRZYKRYWA CALOSCI
     func createPopupStackView() -> some View {
         ZStack {
             overlayColour
