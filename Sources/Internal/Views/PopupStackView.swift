@@ -37,7 +37,8 @@ private extension PopupStackView {
 private extension PopupStackView {
     func createPopup(_ item: Binding<AnyPopup>) -> some View {
         let config = getConfig(item.wrappedValue),
-            lastItemConfig = getConfig(items.last)
+            lastItemConfig = getConfig(items.last),
+            height = height
 
 
 
@@ -48,7 +49,7 @@ private extension PopupStackView {
             .padding(.trailing, screenManager.safeArea.right)
             .fixedSize(horizontal: false, vertical: getFixedSize(item.wrappedValue))
             .onHeightChange { saveHeight($0, for: item) }
-            .frame(height: getHeight(item.wrappedValue), alignment: getStackAlignment()).frame(maxWidth: .infinity, maxHeight: height)
+            .frame(height: getHeight(config: config, height: height), alignment: getStackAlignment()).frame(maxWidth: .infinity, maxHeight: height)
             .background(getBackgroundColour(for: item.wrappedValue), overlayColour: getStackOverlayColour(item.wrappedValue), radius: getCornerRadius(item.wrappedValue), corners: getCorners(), shadow: popupShadow)
             .padding(.horizontal, popupHorizontalPadding)
             .offset(y: getOffset(item.wrappedValue))
@@ -213,7 +214,7 @@ private extension PopupStackView {
             case .bottom: calculateContentPaddingForSameEdge(.bottom)
         }
     }
-    func getHeight(_ item: AnyPopup) -> CGFloat? { getConfig(item).contentFillsEntireScreen ? nil : height }
+    func getHeight(config: Config, height: CGFloat) -> CGFloat? { config.contentFillsEntireScreen ? nil : height }
     func getFixedSize(_ item: AnyPopup) -> Bool { !(getConfig(item).contentFillsEntireScreen || getConfig(item).contentFillsWholeHeight || height == maxHeight) }
     func getBackgroundColour(for item: AnyPopup) -> Color { getConfig(item).backgroundColour }
 }
