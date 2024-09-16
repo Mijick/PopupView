@@ -49,7 +49,8 @@ private extension PopupStackView {
             .padding(.trailing, screenManager.safeArea.right)
             .fixedSize(horizontal: false, vertical: getFixedSize(config: config, height: height))
             .onHeightChange { saveHeight($0, for: item) }
-            .frame(height: getHeight(config: config, height: height), alignment: getStackAlignment()).frame(maxWidth: .infinity, maxHeight: height)
+            .frame(height: getHeight(config: config, height: height), alignment: getStackAlignment())
+            .frame(maxWidth: .infinity, maxHeight: height)
             .background(getBackgroundColour(for: item.wrappedValue), overlayColour: getStackOverlayColour(item.wrappedValue), radius: getCornerRadius(item.wrappedValue), corners: getCorners(), shadow: popupShadow)
             .padding(.horizontal, popupHorizontalPadding)
             .offset(y: getOffset(item.wrappedValue))
