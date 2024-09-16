@@ -49,11 +49,11 @@ private extension PopupStackView {
             .offset(y: getOffset(item.wrappedValue))
             .scaleEffect(x: getScale(item.wrappedValue))
             .opacity(getOpacity(item.wrappedValue))
-            .compositingGroup()
             .focusSectionIfAvailable()
             .padding(getPopupAlignment(), getConfig(items.last).contentFillsEntireScreen ? 0 : getPopupPadding())
             .transition(getTransition())
             .zIndex(getZIndex(item.wrappedValue))
+            .compositingGroup()
     }
 }
 
