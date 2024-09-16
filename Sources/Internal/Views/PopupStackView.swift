@@ -236,24 +236,7 @@ extension PopupStackView {
     var popupShadow: Shadow { getGlobalConfig().shadow }
 
 
-    // TODO: MOGĄ BYĆ PROBLEMY
-    var height: CGFloat {
-        let lastDragHeight = getLastDragHeight(),
-            lastPopupHeight = getLastPopupHeight() ?? (getConfig(items.last).contentFillsEntireScreen ? screenManager.size.height : getInitialHeight())
-        let dragTranslation = lastPopupHeight + lastDragHeight + gestureTranslation * getDragTranslationMultiplier() - popupTopPadding - popupBottomPadding
-        let newHeight = max(lastPopupHeight, dragTranslation)
 
-        switch lastPopupHeight + lastDragHeight > screenManager.size.height {
-            case true where getConfig(items.last).ignoredSafeAreaEdges.contains([.top, .bottom]): return newHeight - screenManager.safeArea.top - screenManager.safeArea.bottom
-            case true where getConfig(items.last).ignoredSafeAreaEdges.contains(.top): return newHeight - screenManager.safeArea.top
-            case true where getConfig(items.last).ignoredSafeAreaEdges.contains(.bottom): return newHeight - screenManager.safeArea.bottom
-            default: return newHeight
-        }
-    }
-
-
-
-    var maxHeight: CGFloat { getMaxHeight() - popupTopPadding - popupBottomPadding }
     var distanceFromKeyboard: CGFloat { getConfig(items.last).distanceFromKeyboard }
     var maxHeightStackedFactor: CGFloat { 0.85 }
     var isKeyboardVisible: Bool { keyboardManager.height > 0 }
@@ -268,10 +251,7 @@ extension PopupStackView {
 
 
 
-    var cornerRadius: CGFloat {
-        let cornerRadius = getConfig(items.last).cornerRadius
-        return getConfig(items.last).contentFillsEntireScreen ? 0 : cornerRadius
-    }
+
 
     var translationProgress: CGFloat { guard let popupHeight = getLastPopupHeight() else { return 0 }
         let translationProgress = calculateTranslationProgress(popupHeight)
@@ -302,10 +282,7 @@ private extension PopupStackView {
     }}
 
 
-    func getPopupRectCorners() -> RectCorner { switch edge {
-        case .top: [.bottomLeft, .bottomRight]
-        case .bottom: [.topLeft, .topRight]
-    }}
+
 
 
 
@@ -344,44 +321,12 @@ private extension PopupStackView {
     }}
 
 
-    func getTransition() -> AnyTransition { switch edge {
-        case .top: .move(edge: .top)
-        case .bottom: .move(edge: .bottom)
-    }}
-
-
-
-    // TODO: POPRAWIĆ
-    func getGlobalConfig() -> GlobalConfig.Vertical { switch edge {
-        case .top: ConfigContainer.vertical
-        case .bottom: ConfigContainer.vertical
-    }}
-
 
     func getSafeAreaValue(_ edge: PopupEdge) -> CGFloat { switch edge {
         case .top: screenManager.safeArea.top
         case .bottom: screenManager.safeArea.bottom
     }}
 }
-
-
-
-
-// MARK: - Corner Radius
-extension PopupStackView {
-    func getCornerRadius(_ item: AnyPopup) -> CGFloat {
-        if isLast(item) { return cornerRadius }
-        if translationProgress.isZero || translationProgress.isNaN || !isNextToLast(item) { return stackedCornerRadius }
-
-        let difference = cornerRadius - stackedCornerRadius
-        let differenceProgress = difference * translationProgress
-        return stackedCornerRadius + differenceProgress
-    }
-}
-private extension PopupStackView {
-    var stackedCornerRadius: CGFloat { cornerRadius * stackCornerRadiusMultiplier }
-}
-
 
 
 
@@ -437,23 +382,6 @@ extension PopupStackView {
 }
 
 
-// MARK: - Last Popup Height
-extension PopupStackView {
-    func getLastPopupHeight() -> CGFloat? {
-        let height = items.last?.height ?? 0
-        return height == 0 ? getInitialHeight() : height
-    }
-}
-
-
-
-
-// MARK: - Animations
-extension PopupStackView {
-    func getHeightAnimation(isAnimationDisabled: Bool) -> Animation? { !isAnimationDisabled ? .transition : nil }
-}
-
-
 
 // MARK: - Item ZIndex
 extension PopupStackView {
@@ -483,23 +411,72 @@ private extension PopupStackView {
 
 
 
-// MARK: - Drag Height Value
+// MARK: - Config Related
 extension PopupStackView {
-    func getLastDragHeight() -> CGFloat { items.last?.dragHeight ?? 0 }
-
-
     func getConfig(_ item: AnyPopup?) -> Config { item.getConfig() }
-    func getInitialHeight() -> CGFloat { items.nextToLast?.height ?? 30 }
+    func getGlobalConfig() -> GlobalConfig.Vertical { switch edge {
+        case .top: ConfigContainer.vertical
+        case .bottom: ConfigContainer.vertical
+    }}
 }
-
-
-
-
-
-
 extension AnyPopup? {
     func getConfig<Config: LocalConfig>() -> Config {
         (self?.config as? Config) ?? .init()
     }
 }
 
+// MARK: - Height Related
+extension PopupStackView {
+    func getInitialHeight() -> CGFloat { items.nextToLast?.height ?? 30 }
+    func getLastDragHeight() -> CGFloat { items.last?.dragHeight ?? 0 }
+    func getLastPopupHeight() -> CGFloat? {
+        let height = items.last?.height ?? 0
+        return height == 0 ? getInitialHeight() : height
+    }
+    var maxHeight: CGFloat { getMaxHeight() - popupTopPadding - popupBottomPadding }
+    var height: CGFloat {
+        let lastDragHeight = getLastDragHeight(),
+            lastPopupHeight = getLastPopupHeight() ?? (getConfig(items.last).contentFillsEntireScreen ? screenManager.size.height : getInitialHeight())
+        let dragTranslation = lastPopupHeight + lastDragHeight + gestureTranslation * getDragTranslationMultiplier() - popupTopPadding - popupBottomPadding
+        let newHeight = max(lastPopupHeight, dragTranslation)
+
+        switch lastPopupHeight + lastDragHeight > screenManager.size.height {
+            case true where getConfig(items.last).ignoredSafeAreaEdges.contains([.top, .bottom]): return newHeight - screenManager.safeArea.top - screenManager.safeArea.bottom
+            case true where getConfig(items.last).ignoredSafeAreaEdges.contains(.top): return newHeight - screenManager.safeArea.top
+            case true where getConfig(items.last).ignoredSafeAreaEdges.contains(.bottom): return newHeight - screenManager.safeArea.bottom
+            default: return newHeight
+        }
+    }
+}
+
+// MARK: - Animation Related
+extension PopupStackView {
+    func getHeightAnimation(isAnimationDisabled: Bool) -> Animation? { !isAnimationDisabled ? .transition : nil }
+    func getTransition() -> AnyTransition { switch edge {
+        case .top: .move(edge: .top)
+        case .bottom: .move(edge: .bottom)
+    }}
+}
+
+// MARK: - Corner Radius Related
+extension PopupStackView {
+    func getCornerRadius(_ item: AnyPopup) -> CGFloat {
+        if isLast(item) { return cornerRadius }
+        if translationProgress.isZero || translationProgress.isNaN || !isNextToLast(item) { return stackedCornerRadius }
+
+        let difference = cornerRadius - stackedCornerRadius
+        let differenceProgress = difference * translationProgress
+        return stackedCornerRadius + differenceProgress
+    }
+    var cornerRadius: CGFloat {
+        let cornerRadius = getConfig(items.last).cornerRadius
+        return getConfig(items.last).contentFillsEntireScreen ? 0 : cornerRadius
+    }
+    func getPopupRectCorners() -> RectCorner { switch edge {
+        case .top: [.bottomLeft, .bottomRight]
+        case .bottom: [.topLeft, .topRight]
+    }}
+}
+private extension PopupStackView {
+    var stackedCornerRadius: CGFloat { cornerRadius * stackCornerRadiusMultiplier }
+}
