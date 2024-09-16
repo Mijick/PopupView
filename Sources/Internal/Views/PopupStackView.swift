@@ -178,12 +178,7 @@ private extension PopupStackView {
 
         updateHeight(newHeight, item)
     }}
-    func getMaxHeight() -> CGFloat {
-        let basicHeight = screenManager.size.height - getKeySafeArea() - getPopupPadding()
-        let stackedViewsCount = min(max(0, getGlobalConfig().stackLimit - 1), items.count - 1)
-        let stackedViewsHeight = getGlobalConfig().stackOffset * .init(stackedViewsCount) * maxHeightStackedFactor
-        return basicHeight - stackedViewsHeight
-    }
+
 
 
     func calculateContentPaddingForOppositeEdge(_ edge: PopupEdge) -> CGFloat {
@@ -446,6 +441,12 @@ extension PopupStackView {
             case true where getConfig(items.last).ignoredSafeAreaEdges.contains(.bottom): return newHeight - screenManager.safeArea.bottom
             default: return newHeight
         }
+    }
+    func getMaxHeight() -> CGFloat {
+        let basicHeight = screenManager.size.height - getKeySafeArea() - getPopupPadding()
+        let stackedViewsCount = min(max(0, getGlobalConfig().stackLimit - 1), items.count - 1)
+        let stackedViewsHeight = getGlobalConfig().stackOffset * .init(stackedViewsCount) * maxHeightStackedFactor
+        return basicHeight - stackedViewsHeight
     }
 }
 
