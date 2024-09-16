@@ -11,11 +11,11 @@
 import SwiftUI
 
 extension View {
-    func onHeightChange(perform action: @escaping (CGFloat) -> ()) -> some View { modifier(SizeChangeModifier(onHeightChange: action)) }
+    func onHeightChange(perform action: @escaping (CGFloat) -> ()) -> some View { modifier(Modifier(onHeightChange: action)) }
 }
 
 // MARK: - Implementation
-fileprivate struct SizeChangeModifier: ViewModifier {
+fileprivate struct Modifier: ViewModifier {
     let onHeightChange: (CGFloat) -> ()
 
     func body(content: Content) -> some View { content.background(
