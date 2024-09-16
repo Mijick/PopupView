@@ -42,7 +42,7 @@ private extension PopupCentreStackView {
             .opacity(getOpacity(item))
             .compositingGroup()
             .focusSectionIfAvailable()
-            .align(to: .bottom, keyboardManager.height == 0 ? nil : keyboardManager.height)
+            .padding(.bottom, keyboardManager.height == 0 ? nil : keyboardManager.height)
             .zIndex(2137)
     }
 }

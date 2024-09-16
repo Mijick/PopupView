@@ -18,24 +18,6 @@ extension View {
     }
 }
 
-// MARK: - Alignments
-extension View {
-    func align(to alignment: Alignment, _ value: CGFloat?) -> some View {
-        padding(alignment.toEdge(), value)
-            .frame(height: value != nil ? ScreenManager.shared.size.height : nil, alignment: alignment)
-            .frame(maxHeight: value != nil ? .infinity : nil, alignment: alignment)
-    }
-}
-fileprivate extension Alignment {
-    func toEdge() -> Edge.Set { switch self {
-        case .top: .top
-        case .bottom: .bottom
-        case .leading: .leading
-        case .trailing: .trailing
-        default: .init()
-    }}
-}
-
 // MARK: - Actions
 extension View {
     func focusSectionIfAvailable() -> some View {

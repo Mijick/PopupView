@@ -50,7 +50,7 @@ private extension PopupStackView {
             .opacity(getOpacity(item.wrappedValue))
             .compositingGroup()
             .focusSectionIfAvailable()
-            .align(to: getPopupAlignment(), getConfig(items.last).contentFillsEntireScreen ? 0 : getPopupPadding())
+            .padding(getPopupAlignment(), getConfig(items.last).contentFillsEntireScreen ? 0 : getPopupPadding())
             .transition(getTransition())
             .zIndex(getZIndex(item.wrappedValue))
     }
@@ -312,7 +312,7 @@ private extension PopupStackView {
         case .top: .bottom
         case .bottom: .top
     }}
-    func getPopupAlignment() -> Alignment { switch edge {
+    func getPopupAlignment() -> Edge.Set { switch edge {
         case .top: .top
         case .bottom: .bottom
     }}
