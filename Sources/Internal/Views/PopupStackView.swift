@@ -36,7 +36,12 @@ private extension PopupStackView {
 }
 private extension PopupStackView {
     func createPopup(_ item: Binding<AnyPopup>) -> some View {
-        item.wrappedValue.body
+        let config = getConfig(item.wrappedValue),
+            lastItemConfig = getConfig(items.last)
+
+
+
+        return item.wrappedValue.body
             .padding(.top, getContentTopPadding())
             .padding(.bottom, getContentBottomPadding())
             .padding(.leading, screenManager.safeArea.left)
@@ -50,7 +55,7 @@ private extension PopupStackView {
             .scaleEffect(x: getScale(item.wrappedValue))
             .opacity(getOpacity(item.wrappedValue))
             .focusSectionIfAvailable()
-            .padding(getPopupAlignment(), getConfig(items.last).contentFillsEntireScreen ? 0 : getPopupPadding())
+            .padding(getPopupAlignment(), lastItemConfig.contentFillsEntireScreen ? 0 : getPopupPadding())
             .transition(getTransition())
             .zIndex(getZIndex(item.wrappedValue))
             .compositingGroup()
