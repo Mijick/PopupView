@@ -269,7 +269,7 @@ extension PopupStackView {
 
     var cornerRadius: CGFloat {
         let cornerRadius = getConfig(items.last).cornerRadius
-        return getConfig(items.last).contentFillsEntireScreen ? min(cornerRadius, screenManager.cornerRadius ?? 0) : cornerRadius
+        return getConfig(items.last).contentFillsEntireScreen ? 0 : cornerRadius
     }
 
     var translationProgress: CGFloat { guard let popupHeight = getLastPopupHeight() else { return 0 }

@@ -16,14 +16,10 @@ import Combine
 class ScreenManager: ObservableObject {
     @Published var size: CGSize = .init()
     @Published var safeArea: UIEdgeInsets = .init()
-    private(set) var cornerRadius: CGFloat? = UIScreen.cornerRadius
     private(set) var animationsDisabled: Bool = false
 
     static let shared: ScreenManager = .init()
     private init() {}
-}
-private extension UIScreen {
-    static var cornerRadius: CGFloat? = main.value(forKey: ["Radius", "Corner", "display", "_"].reversed().joined()) as? CGFloat
 }
 
 
@@ -32,7 +28,6 @@ private extension UIScreen {
 class ScreenManager: ObservableObject {
     @Published var size: CGSize = .init()
     @Published var safeArea: NSEdgeInsets = .init()
-    private(set) var cornerRadius: CGFloat? = 0
     private(set) var animationsDisabled: Bool = false
     private var subscription: [AnyCancellable] = []
 
@@ -61,7 +56,6 @@ private extension ScreenManager {
 class ScreenManager: ObservableObject {
     @Published var size: CGSize = .init()
     @Published var safeArea: UIEdgeInsets = .init()
-    private(set) var cornerRadius: CGFloat? = 0
     private(set) var animationsDisabled: Bool = false
     
     static let shared: ScreenManager = .init()
@@ -73,7 +67,6 @@ class ScreenManager: ObservableObject {
 class ScreenManager: ObservableObject {
     @Published var size: CGSize = .init()
     @Published var safeArea: UIEdgeInsets = .init()
-    private(set) var cornerRadius: CGFloat? = 0
     private(set) var animationsDisabled: Bool = false
 
     static let shared: ScreenManager = .init()
@@ -85,7 +78,6 @@ class ScreenManager: ObservableObject {
 class ScreenManager: ObservableObject {
     @Published var size: CGSize = .init()
     @Published var safeArea: UIEdgeInsets = .init()
-    private(set) var cornerRadius: CGFloat? = 0
     private(set) var animationsDisabled: Bool = false
 
     static let shared: ScreenManager = .init()
