@@ -43,8 +43,8 @@ private extension PopupStackView {
 
 
         return item.wrappedValue.body
-            .padding(.top, getContentTopPadding())
-            .padding(.bottom, getContentBottomPadding())
+            .padding(.top, getContentTopPadding(height: height))
+            .padding(.bottom, getContentBottomPadding(height: height))
             .padding(.leading, screenManager.safeArea.left)
             .padding(.trailing, screenManager.safeArea.right)
             .fixedSize(horizontal: false, vertical: getFixedSize(config: config, height: height))
@@ -187,7 +187,7 @@ private extension PopupStackView {
 
 
 
-    func calculateContentPaddingForOppositeEdge(_ edge: PopupEdge) -> CGFloat {
+    func calculateContentPaddingForOppositeEdge(_ edge: PopupEdge, height: CGFloat) -> CGFloat {
         max(getSafeAreaValue(edge) + height - screenManager.size.height, 0)
 
     }
@@ -197,20 +197,20 @@ private extension PopupStackView {
 
 
     // TODO: MUSZĄ BYĆ LICZONE OSOBNO DLA BOTTOM I OSOBNO DLA TOP
-    func getContentTopPadding() -> CGFloat {
+    func getContentTopPadding(height: CGFloat) -> CGFloat {
         if getConfig(items.last).ignoredSafeAreaEdges.contains(.top) { return 0 }
 
         return switch edge {
             case .top: calculateContentPaddingForSameEdge(.top)
-            case .bottom: calculateContentPaddingForOppositeEdge(.top)
+            case .bottom: calculateContentPaddingForOppositeEdge(.top, height: height)
         }
     }
-    func getContentBottomPadding() -> CGFloat {
+    func getContentBottomPadding(height: CGFloat) -> CGFloat {
         if isKeyboardVisible { return keyboardManager.height + distanceFromKeyboard }
         if getConfig(items.last).ignoredSafeAreaEdges.contains(.bottom) { return 0 }
 
         return switch edge {
-            case .top: calculateContentPaddingForOppositeEdge(.bottom)
+            case .top: calculateContentPaddingForOppositeEdge(.bottom, height: height)
             case .bottom: calculateContentPaddingForSameEdge(.bottom)
         }
     }
