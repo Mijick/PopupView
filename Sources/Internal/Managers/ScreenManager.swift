@@ -11,8 +11,7 @@
 import SwiftUI
 import Combine
 
-// MARK: -iOS Implementation
-#if os(iOS)
+#if os(iOS) || os(watchOS) || os(tvOS) || os(visionOS)
 class ScreenManager: ObservableObject {
     @Published var size: CGSize = .init()
     @Published var safeArea: UIEdgeInsets = .init()
@@ -22,8 +21,6 @@ class ScreenManager: ObservableObject {
     private init() {}
 }
 
-
-// MARK: - macOS Implementation
 #elseif os(macOS)
 class ScreenManager: ObservableObject {
     @Published var size: CGSize = .init()
@@ -51,36 +48,5 @@ private extension ScreenManager {
             .store(in: &subscription)
     }
 }
-// MARK: - visionOS Implementation
-#elseif os(visionOS)
-class ScreenManager: ObservableObject {
-    @Published var size: CGSize = .init()
-    @Published var safeArea: UIEdgeInsets = .init()
-    private(set) var animationsDisabled: Bool = false
-    
-    static let shared: ScreenManager = .init()
-    private init() {}
-}
 
-// MARK: - watchOS Implementation
-#elseif os(watchOS)
-class ScreenManager: ObservableObject {
-    @Published var size: CGSize = .init()
-    @Published var safeArea: UIEdgeInsets = .init()
-    private(set) var animationsDisabled: Bool = false
-
-    static let shared: ScreenManager = .init()
-    private init() { }
-}
-
-// MARK: - tvOS Implementation
-#elseif os(tvOS)
-class ScreenManager: ObservableObject {
-    @Published var size: CGSize = .init()
-    @Published var safeArea: UIEdgeInsets = .init()
-    private(set) var animationsDisabled: Bool = false
-
-    static let shared: ScreenManager = .init()
-    private init() {}
-}
 #endif
