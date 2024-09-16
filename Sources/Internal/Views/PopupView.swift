@@ -54,11 +54,11 @@ private extension PopupView {
     // PROBLEM: OVERLAY MA PRZYKRYWAĆ RÓWNIEŻ POZOSTAŁE WIDOKI
     func createPopupStackView() -> some View {
         ZStack {
+            overlayColour
             createTopPopupStackView()
             createCentrePopupStackView()
             createBottomPopupStackView()
         }
-        .addOverlay(overlayColour)
     }
 }
 
@@ -119,13 +119,4 @@ private extension PopupView.ZIndex {
     var top: Double { values[0] }
     var centre: Double { values[1] }
     var bottom: Double { values[2] }
-}
-
-
-// MARK: - Helpers
-fileprivate extension View {
-    func addOverlay(_ colour: Color?) -> some View { ZStack {
-        if let colour { colour }
-        self
-    }}
 }
