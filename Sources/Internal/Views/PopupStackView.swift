@@ -429,7 +429,7 @@ extension PopupStackView {
     func getInitialHeight() -> CGFloat { items.nextToLast?.height ?? 30 }
     func getLastDragHeight() -> CGFloat { items.last?.dragHeight ?? 0 }
     func getLastPopupHeight() -> CGFloat? {
-        let height = items.last?.height ?? 0
+        let height = items.last?.height
         return height == 0 ? getInitialHeight() : height
     }
     var maxHeight: CGFloat { getMaxHeight() - popupTopPadding - popupBottomPadding }
