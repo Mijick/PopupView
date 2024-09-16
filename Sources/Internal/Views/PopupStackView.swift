@@ -219,7 +219,7 @@ private extension PopupStackView {
     func getBackgroundColour(for item: AnyPopup) -> Color { getConfig(item).backgroundColour }
 }
 private extension PopupStackView {
-    func calculateHeight(_ height: CGFloat, _ config: LocalConfig.Vertical) -> CGFloat {
+    func calculateHeight(_ height: CGFloat, _ config: Config) -> CGFloat {
         if config.contentFillsEntireScreen { return screenManager.size.height }
         if config.contentFillsWholeHeight { return getMaxHeight() }
         return min(height, maxHeight)
