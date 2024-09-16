@@ -397,7 +397,7 @@ private extension PopupStackView {
 // MARK: - Scale
 extension PopupStackView {
     func getScale(_ item: AnyPopup) -> CGFloat {
-        let scaleValue = invertedIndex(item).floatValue * stackScaleFactor
+        let scaleValue = .init(invertedIndex(item)) * stackScaleFactor
         let progressDifference = isNextToLast(item) ? remainingTranslationProgress : max(0.7, remainingTranslationProgress)
         let scale = 1 - scaleValue * progressDifference
         return min(1, scale)
@@ -415,7 +415,7 @@ extension PopupStackView {
 }
 private extension PopupStackView {
     func calculateStackOverlayOpacity(_ item: AnyPopup) -> Double {
-        let overlayValue = invertedIndex(item).doubleValue * stackOverlayFactor
+        let overlayValue = .init(invertedIndex(item)) * stackOverlayFactor
         let remainingTranslationProgressValue = isNextToLast(item) ? remainingTranslationProgress : max(0.6, remainingTranslationProgress)
         let opacity = overlayValue * remainingTranslationProgressValue
         return max(0, opacity)
@@ -423,7 +423,7 @@ private extension PopupStackView {
 }
 private extension PopupStackView {
     var stackOverlayColour: Color { .black }
-    var stackOverlayFactor: CGFloat { 1 / stackLimit.doubleValue * 0.5 }
+    var stackOverlayFactor: CGFloat { 1 / .init(stackLimit) * 0.5 }
 }
 
 // MARK: - Stack Opacity
@@ -472,7 +472,7 @@ private extension PopupStackView {
         case .bottom: max(gestureTranslation - getLastDragHeight(), 0)
     }}
     func calculateOffsetForOtherItems(_ item: AnyPopup) -> CGFloat {
-        invertedIndex(item).floatValue * stackOffsetValue
+        .init(invertedIndex(item)) * stackOffsetValue
     }
 }
 
