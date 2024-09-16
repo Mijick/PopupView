@@ -41,7 +41,6 @@ private extension PopupStackView {
             height = height
 
 
-
         return item.wrappedValue.body
             .padding(.top, getContentTopPadding(height: height))
             .padding(.bottom, getContentBottomPadding(height: height))
@@ -49,7 +48,7 @@ private extension PopupStackView {
             .padding(.trailing, screenManager.safeArea.right)
             .fixedSize(horizontal: false, vertical: getFixedSize(config: config, height: height))
             .onHeightChange { saveHeight($0, for: item) }
-            .frame(height: getHeight(config: config, height: height), alignment: getStackAlignment())
+            .frame(height: height, alignment: getStackAlignment())
             .frame(maxWidth: .infinity, maxHeight: height)
             .background(getBackgroundColour(for: item.wrappedValue), overlayColour: getStackOverlayColour(item.wrappedValue), radius: getCornerRadius(item.wrappedValue), corners: getCorners(), shadow: popupShadow)
             .padding(.horizontal, popupHorizontalPadding)
@@ -214,7 +213,6 @@ private extension PopupStackView {
             case .bottom: calculateContentPaddingForSameEdge(.bottom)
         }
     }
-    func getHeight(config: Config, height: CGFloat) -> CGFloat? { config.contentFillsEntireScreen ? nil : height }
     func getFixedSize(config: Config, height: CGFloat) -> Bool { !(config.contentFillsEntireScreen || config.contentFillsWholeHeight || height == maxHeight) }
     func getBackgroundColour(for item: AnyPopup) -> Color { getConfig(item).backgroundColour }
 }
