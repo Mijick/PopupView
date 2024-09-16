@@ -183,21 +183,22 @@ private extension PopupStackView {
         let stackedViewsHeight = getGlobalConfig().stackOffset * .init(stackedViewsCount) * maxHeightStackedFactor
         return basicHeight - stackedViewsHeight
     }
-    func getContentBottomPadding() -> CGFloat {
-        if isKeyboardVisible { return keyboardManager.height + distanceFromKeyboard }
-        if getConfig(items.last).ignoredSafeAreaEdges.contains(.bottom) { return 0 }
-
-        return max(screenManager.safeArea.bottom - popupBottomPadding, 0)
-    }
 
 
-    // TODO: MOGĄ BYĆ PROBLEMY
+
+    // TODO: MUSZĄ BYĆ LICZONE OSOBNO DLA BOTTOM I OSOBNO DLA TOP
     func getContentTopPadding() -> CGFloat {
         if getConfig(items.last).ignoredSafeAreaEdges.contains(.top) { return 0 }
 
         let heightWithoutTopSafeArea = screenManager.size.height - screenManager.safeArea.top
         let topPadding = height - heightWithoutTopSafeArea
         return max(topPadding, 0)
+    }
+    func getContentBottomPadding() -> CGFloat {
+        if isKeyboardVisible { return keyboardManager.height + distanceFromKeyboard }
+        if getConfig(items.last).ignoredSafeAreaEdges.contains(.bottom) { return 0 }
+
+        return max(screenManager.safeArea.bottom - popupBottomPadding, 0)
     }
     func getHeight(_ item: AnyPopup) -> CGFloat? { getConfig(item).contentFillsEntireScreen ? nil : height }
     func getFixedSize(_ item: AnyPopup) -> Bool { !(getConfig(item).contentFillsEntireScreen || getConfig(item).contentFillsWholeHeight || height == maxHeight) }
