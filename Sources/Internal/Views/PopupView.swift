@@ -45,6 +45,7 @@ private extension PopupView {
             .frame(maxWidth: .infinity, maxHeight: .infinity)
             .ignoresSafeArea()
             .animation(.transition, value: popupManager.views)
+            .onTapGesture(perform: onTap)
             .onChange(popupManager.views.count, completion: onViewsCountChange)
     }
 }
@@ -57,7 +58,6 @@ private extension PopupView {
             createCentrePopupStackView()
             createBottomPopupStackView()
         }
-        .background(createTapArea())
         .addOverlay(overlayColour)
     }
 }
@@ -72,9 +72,6 @@ private extension PopupView {
     func createBottomPopupStackView() -> some View {
         PopupStackView(items: getViews(BottomPopupConfig.self), edge: .bottom).zIndex(zIndex.bottom)
     }
-    @ViewBuilder func createTapArea() -> some View { if tapOutsideClosesPopup {
-        Color.black.opacity(0.00000000001).onTapGesture(perform: PopupManager.dismiss)
-    }}
 }
 private extension PopupView {
     func getViews<C: LocalConfig>(_ type: C.Type) -> Binding<[AnyPopup]> { .init(
@@ -87,6 +84,9 @@ private extension PopupView {
     func onViewsCountChange(_ count: Int) {
         zIndex.reshuffle(popupManager.views.last?.config)
     }
+    func onTap() { if tapOutsideClosesPopup {
+        PopupManager.dismiss()
+    }}
 }
 
 private extension PopupView {
