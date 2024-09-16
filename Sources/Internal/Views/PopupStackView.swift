@@ -13,7 +13,7 @@ import SwiftUI
 
 struct PopupStackView<Config: LocalConfig.Vertical>: View {
     @Binding var items: [AnyPopup]
-    let edge: Edge
+    let edge: PopupEdge
     @State var gestureTranslation: CGFloat = 0
     @GestureState var isGestureActive: Bool = false
     @ObservedObject private var screenManager: ScreenManager = .shared
@@ -185,20 +185,32 @@ private extension PopupStackView {
     }
 
 
+    func calculateContentPaddingForOppositeEdge(_ edge: PopupEdge) -> CGFloat {
+        max(getSafeAreaValue(edge) + height - screenManager.size.height, 0)
+
+    }
+    func calculateContentPaddingForSameEdge(_ edge: PopupEdge) -> CGFloat {
+        max(getSafeAreaValue(edge) - (edge == .top ? popupTopPadding : popupBottomPadding), 0)
+    }
+
 
     // TODO: MUSZĄ BYĆ LICZONE OSOBNO DLA BOTTOM I OSOBNO DLA TOP
     func getContentTopPadding() -> CGFloat {
         if getConfig(items.last).ignoredSafeAreaEdges.contains(.top) { return 0 }
 
-        let heightWithoutTopSafeArea = screenManager.size.height - screenManager.safeArea.top
-        let topPadding = height - heightWithoutTopSafeArea
-        return max(topPadding, 0)
+        return switch edge {
+            case .top: calculateContentPaddingForSameEdge(.top)
+            case .bottom: calculateContentPaddingForOppositeEdge(.top)
+        }
     }
     func getContentBottomPadding() -> CGFloat {
         if isKeyboardVisible { return keyboardManager.height + distanceFromKeyboard }
         if getConfig(items.last).ignoredSafeAreaEdges.contains(.bottom) { return 0 }
 
-        return max(screenManager.safeArea.bottom - popupBottomPadding, 0)
+        return switch edge {
+            case .top: calculateContentPaddingForOppositeEdge(.bottom)
+            case .bottom: calculateContentPaddingForSameEdge(.bottom)
+        }
     }
     func getHeight(_ item: AnyPopup) -> CGFloat? { getConfig(item).contentFillsEntireScreen ? nil : height }
     func getFixedSize(_ item: AnyPopup) -> Bool { !(getConfig(item).contentFillsEntireScreen || getConfig(item).contentFillsWholeHeight || height == maxHeight) }
@@ -274,7 +286,7 @@ extension PopupStackView {
 
 
 
-extension PopupStackView { enum Edge {
+extension PopupStackView { enum PopupEdge {
     case top
     case bottom
 }}
@@ -338,6 +350,12 @@ private extension PopupStackView {
     func getGlobalConfig() -> GlobalConfig.Vertical { switch edge {
         case .top: ConfigContainer.vertical
         case .bottom: ConfigContainer.vertical
+    }}
+
+
+    func getSafeAreaValue(_ edge: PopupEdge) -> CGFloat { switch edge {
+        case .top: screenManager.safeArea.top
+        case .bottom: screenManager.safeArea.bottom
     }}
 }
 
