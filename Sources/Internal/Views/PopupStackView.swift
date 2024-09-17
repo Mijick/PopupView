@@ -43,10 +43,7 @@ private extension PopupStackView {
 
 
         return item.wrappedValue.body
-            .padding(.top, getContentTopPadding(height: height ?? 0))
-            .padding(.bottom, getContentBottomPadding(height: height ?? 0))
-            .padding(.leading, screenManager.safeArea.leading)
-            .padding(.trailing, screenManager.safeArea.trailing)
+            .padding(calculateBodyPadding(popupHeight: height ?? 0, popupConfig: config))
             .fixedSize(horizontal: false, vertical: getFixedSize(config: config, height: height ?? 0))
             .onHeightChange { saveHeight($0, for: item) }
             .frame(height: height, alignment: getStackAlignment())
@@ -65,24 +62,31 @@ private extension PopupStackView {
 }
 
 // MARK: - Popup Body Paddings
-// Kiedy się je stosuje?
-// 1. Safe Area
-// 2. Keyboard distance
-// 3. Drag Indicies
 private extension PopupStackView {
-    func calculateBodyPadding(config: Config) -> EdgeInsets { .init(
-        top: calculateTopBodyPadding(),
+    func calculateBodyPadding(popupHeight: CGFloat, popupConfig: Config) -> EdgeInsets { .init(
+        top: calculateTopBodyPadding(popupHeight: popupHeight, popupConfig: popupConfig),
         leading: calculateLeadingBodyPadding(),
-        bottom: calculateBottomBodyPadding(),
+        bottom: calculateBottomBodyPadding(popupHeight: popupHeight, popupConfig: popupConfig),
         trailing: calculateTrailingBodyPadding()
     )}
 }
 private extension PopupStackView {
-    func calculateTopBodyPadding() -> CGFloat {
-        0
+    func calculateTopBodyPadding(popupHeight: CGFloat, popupConfig: Config) -> CGFloat {
+        if popupConfig.ignoredSafeAreaEdges.contains(.top) { return 0 }
+
+        return switch edge {
+            case .top: calculateVerticalPaddingAdhereEdge(safeAreaHeight: screenManager.safeArea.top, popupPadding: popupTopPadding)
+            case .bottom: calculateVerticalPaddingCounterEdge(popupHeight: popupHeight, safeArea: screenManager.safeArea.top)
+        }
     }
-    func calculateBottomBodyPadding() -> CGFloat {
-        0
+    func calculateBottomBodyPadding(popupHeight: CGFloat, popupConfig: Config) -> CGFloat {
+        if isKeyboardVisible { return keyboardManager.height + distanceFromKeyboard }
+        if popupConfig.ignoredSafeAreaEdges.contains(.bottom) { return 0 }
+
+        return switch edge {
+            case .top: calculateVerticalPaddingCounterEdge(popupHeight: popupHeight, safeArea: screenManager.safeArea.bottom)
+            case .bottom: calculateVerticalPaddingAdhereEdge(safeAreaHeight: screenManager.safeArea.bottom, popupPadding: popupBottomPadding)
+        }
     }
     func calculateLeadingBodyPadding() -> CGFloat {
         screenManager.safeArea.leading
@@ -91,6 +95,18 @@ private extension PopupStackView {
         screenManager.safeArea.trailing
     }
 }
+private extension PopupStackView {
+    func calculateVerticalPaddingCounterEdge(popupHeight: CGFloat, safeArea: CGFloat) -> CGFloat {
+        let paddingValueCandidate = safeArea + popupHeight - screenManager.size.height
+        return max(paddingValueCandidate, 0)
+    }
+    func calculateVerticalPaddingAdhereEdge(safeAreaHeight: CGFloat, popupPadding: CGFloat) -> CGFloat {
+        let paddingValueCandidate = safeAreaHeight - popupPadding
+        return max(paddingValueCandidate, 0)
+    }
+}
+
+
 private extension PopupStackView {
     func calculateContentPaddingForOppositeEdge(_ edge: PopupEdge, height: CGFloat) -> CGFloat {
         max(getSafeAreaValue(edge) + height - screenManager.size.height, 0)
