@@ -20,12 +20,12 @@ fileprivate struct Modifier: ViewModifier {
 
     func body(content: Content) -> some View { content.background(
         GeometryReader { geometry in Color.clear
-            .preference(key: HeightPreferenceKey.self, value: geometry.size.height)
-            .onPreferenceChange(HeightPreferenceKey.self, perform: onHeightChange)
+            .preference(key: SizePreferenceKey.self, value: geometry.size)
+            .onPreferenceChange(SizePreferenceKey.self) { onHeightChange($0.height) }
         }
     )}
-    struct HeightPreferenceKey: PreferenceKey {
-        static var defaultValue: CGFloat = .zero
-        static func reduce(value: inout CGFloat, nextValue: () -> CGFloat) { value = nextValue() }
+    struct SizePreferenceKey: PreferenceKey {
+        static var defaultValue: CGSize = .zero
+        static func reduce(value: inout CGSize, nextValue: () -> CGSize) { value = nextValue() }
     }
 }
