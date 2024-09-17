@@ -23,7 +23,6 @@ struct PopupStackView<Config: LocalConfig.Vertical>: View {
     var body: some View {
         ZStack(alignment: getStackAlignment(), content: createPopupStack)
             .frame(height: screenManager.size.height, alignment: getVVV())
-            .frame(maxWidth: .infinity)
             .animation(getHeightAnimation(isAnimationDisabled: screenManager.animationsDisabled), value: items.map(\.height))
             .animation(isGestureActive ? .drag : .transition, value: gestureTranslation)
             .animation(.keyboard, value: isKeyboardVisible)
@@ -47,7 +46,7 @@ private extension PopupStackView {
             .fixedSize(horizontal: false, vertical: getFixedSize(config: config, height: height ?? 0))
             .onHeightChange { saveHeight($0, for: item) }
             .frame(height: height, alignment: getStackAlignment())
-            .frame(maxWidth: .infinity, maxHeight: height)
+            .frame(maxWidth: .infinity)
             .background(getBackgroundColour(for: item.wrappedValue), overlayColour: getStackOverlayColour(item.wrappedValue), radius: getCornerRadius(item.wrappedValue), corners: getCorners(), shadow: popupShadow)
             .padding(.horizontal, popupHorizontalPadding)
             .offset(y: getOffset(item.wrappedValue))
