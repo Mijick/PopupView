@@ -38,15 +38,15 @@ private extension PopupStackView {
     func createPopup(_ item: Binding<AnyPopup>) -> some View {
         let config = getConfig(item.wrappedValue),
             lastItemConfig = getConfig(items.last),
-            height = height
+            height = calculateHeight(for: item.wrappedValue)
 
 
         return item.wrappedValue.body
-            .padding(.top, getContentTopPadding(height: height))
-            .padding(.bottom, getContentBottomPadding(height: height))
+            .padding(.top, getContentTopPadding(height: height ?? 0))
+            .padding(.bottom, getContentBottomPadding(height: height ?? 0))
             .padding(.leading, screenManager.safeArea.left)
             .padding(.trailing, screenManager.safeArea.right)
-            .fixedSize(horizontal: false, vertical: getFixedSize(config: config, height: height))
+            .fixedSize(horizontal: false, vertical: getFixedSize(config: config, height: height ?? 0))
             .onHeightChange { saveHeight($0, for: item) }
             .frame(height: height, alignment: getStackAlignment())
             .frame(maxWidth: .infinity, maxHeight: height)
