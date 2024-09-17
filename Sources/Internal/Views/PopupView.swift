@@ -63,13 +63,13 @@ private extension PopupView {
 
 private extension PopupView {
     func createTopPopupStackView() -> some View {
-        PopupStackView(items: getViews(TopPopupConfig.self), edge: .top).zIndex(zIndex.top)
+        PopupStackView(items: getViews(TopPopupConfig.self), itemsAlignment: .top).zIndex(zIndex.top)
     }
     func createCentrePopupStackView() -> some View {
         PopupCentreStackView(items: getViews(CentrePopupConfig.self)).zIndex(zIndex.centre)
     }
     func createBottomPopupStackView() -> some View {
-        PopupStackView(items: getViews(BottomPopupConfig.self), edge: .bottom).zIndex(zIndex.bottom)
+        PopupStackView(items: getViews(BottomPopupConfig.self), itemsAlignment: .bottom).zIndex(zIndex.bottom)
     }
 }
 private extension PopupView {
