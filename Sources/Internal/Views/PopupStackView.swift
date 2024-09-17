@@ -94,11 +94,29 @@ private extension PopupStackView {
 // MARK: - Popup Height
 private extension PopupStackView {
     func calculateHeight(for item: AnyPopup) -> CGFloat {
-        height
+        let lastDragHeight = getLastDragHeight(),
+            lastPopupHeight = getLastPopupHeight() ?? (getConfig(items.last).heightMode == .fullscreen ? screenManager.size.height : getInitialHeight())
+        let dragTranslation = lastPopupHeight + lastDragHeight + gestureTranslation * getDragTranslationMultiplier() - popupTopPadding - popupBottomPadding
+        let newHeight = max(lastPopupHeight, dragTranslation)
+
+        switch lastPopupHeight + lastDragHeight > screenManager.size.height {
+            case true where getConfig(items.last).ignoredSafeAreaEdges.contains([.top, .bottom]): return newHeight - screenManager.safeArea.top - screenManager.safeArea.bottom
+            case true where getConfig(items.last).ignoredSafeAreaEdges.contains(.top): return newHeight - screenManager.safeArea.top
+            case true where getConfig(items.last).ignoredSafeAreaEdges.contains(.bottom): return newHeight - screenManager.safeArea.bottom
+            default: return newHeight
+        }
     }
 }
 private extension PopupStackView {
 
+
+    func calculateContentPaddingForOppositeEdge(_ edge: PopupEdge, height: CGFloat) -> CGFloat {
+        max(getSafeAreaValue(edge) + height - screenManager.size.height, 0)
+
+    }
+    func calculateContentPaddingForSameEdge(_ edge: PopupEdge) -> CGFloat {
+        max(getSafeAreaValue(edge) - (edge == .top ? popupTopPadding : popupBottomPadding), 0)
+    }
 }
 
 
@@ -118,13 +136,7 @@ private extension PopupStackView {
 
 
 
-    func calculateContentPaddingForOppositeEdge(_ edge: PopupEdge, height: CGFloat) -> CGFloat {
-        max(getSafeAreaValue(edge) + height - screenManager.size.height, 0)
 
-    }
-    func calculateContentPaddingForSameEdge(_ edge: PopupEdge) -> CGFloat {
-        max(getSafeAreaValue(edge) - (edge == .top ? popupTopPadding : popupBottomPadding), 0)
-    }
 
 
     func getContentTopPadding(height: CGFloat) -> CGFloat {
