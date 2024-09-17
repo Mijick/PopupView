@@ -22,7 +22,8 @@ struct PopupStackView<Config: LocalConfig.Vertical>: View {
 
     var body: some View {
         ZStack(alignment: getStackAlignment(), content: createPopupStack)
-            .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: getVVV())
+            .frame(height: screenManager.size.height, alignment: getVVV())
+            .frame(maxWidth: .infinity)
             .animation(getHeightAnimation(isAnimationDisabled: screenManager.animationsDisabled), value: items.map(\.height))
             .animation(isGestureActive ? .drag : .transition, value: gestureTranslation)
             .animation(.keyboard, value: isKeyboardVisible)
@@ -99,6 +100,20 @@ private extension PopupStackView {
         let newHeight = max(activePopupHeight, dragTranslation)
 
         switch activePopupHeight + lastDragHeight > screenManager.size.height {
+            case true where getConfig(items.last).ignoredSafeAreaEdges.contains([.top, .bottom]): return newHeight - screenManager.safeArea.top - screenManager.safeArea.bottom
+            case true where getConfig(items.last).ignoredSafeAreaEdges.contains(.top): return newHeight - screenManager.safeArea.top
+            case true where getConfig(items.last).ignoredSafeAreaEdges.contains(.bottom): return newHeight - screenManager.safeArea.bottom
+            default: return newHeight
+        }
+    }
+
+    var height: CGFloat {
+        let lastDragHeight = getLastDragHeight(),
+            lastPopupHeight = getLastPopupHeight() ?? (getConfig(items.last).heightMode == .fullscreen ? screenManager.size.height : getInitialHeight())
+        let dragTranslation = lastPopupHeight + lastDragHeight + gestureTranslation * getDragTranslationMultiplier() - popupTopPadding - popupBottomPadding
+        let newHeight = max(lastPopupHeight, dragTranslation)
+
+        switch lastPopupHeight + lastDragHeight > screenManager.size.height {
             case true where getConfig(items.last).ignoredSafeAreaEdges.contains([.top, .bottom]): return newHeight - screenManager.safeArea.top - screenManager.safeArea.bottom
             case true where getConfig(items.last).ignoredSafeAreaEdges.contains(.top): return newHeight - screenManager.safeArea.top
             case true where getConfig(items.last).ignoredSafeAreaEdges.contains(.bottom): return newHeight - screenManager.safeArea.bottom
@@ -375,19 +390,7 @@ extension PopupStackView {
         return height == 0 ? getInitialHeight() : height
     }
     var maxHeight: CGFloat { getMaxHeight() - popupTopPadding - popupBottomPadding }
-    var height: CGFloat {
-        let lastDragHeight = getLastDragHeight(),
-            lastPopupHeight = getLastPopupHeight() ?? (getConfig(items.last).heightMode == .fullscreen ? screenManager.size.height : getInitialHeight())
-        let dragTranslation = lastPopupHeight + lastDragHeight + gestureTranslation * getDragTranslationMultiplier() - popupTopPadding - popupBottomPadding
-        let newHeight = max(lastPopupHeight, dragTranslation)
 
-        switch lastPopupHeight + lastDragHeight > screenManager.size.height {
-            case true where getConfig(items.last).ignoredSafeAreaEdges.contains([.top, .bottom]): return newHeight - screenManager.safeArea.top - screenManager.safeArea.bottom
-            case true where getConfig(items.last).ignoredSafeAreaEdges.contains(.top): return newHeight - screenManager.safeArea.top
-            case true where getConfig(items.last).ignoredSafeAreaEdges.contains(.bottom): return newHeight - screenManager.safeArea.bottom
-            default: return newHeight
-        }
-    }
     func getMaxHeight() -> CGFloat {
         let basicHeight = screenManager.size.height - getKeySafeArea() - getPopupPadding()
         let stackedViewsCount = min(max(0, getGlobalConfig().stackLimit - 1), items.count - 1)
