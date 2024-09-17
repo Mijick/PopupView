@@ -63,6 +63,29 @@ private extension PopupStackView {
     }
 }
 
+// MARK: - Popup Body Paddings
+private extension PopupStackView {
+    func calculateBodyPadding(for edge: Edge) -> CGFloat { switch edge {
+        case .top: 0
+        case .bottom: 0
+        case .leading: 0
+        case .trailing: 0
+    }}
+}
+private extension PopupStackView {
+    func calculateTopBodyPadding() -> CGFloat {
+        0
+    }
+    func calculateBottomBodyPadding() -> CGFloat {
+        0
+    }
+    func calculateLeadingBodyPadding() -> CGFloat {
+        0
+    }
+    func calculateTrailingBodyPadding() -> CGFloat {
+        0
+    }
+}
 
 
 
