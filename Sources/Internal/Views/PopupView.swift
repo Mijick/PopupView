@@ -42,8 +42,6 @@ private extension PopupView {
     func createBody() -> some View {
         createPopupStackView()
             .ignoresSafeArea()
-            .frame(maxWidth: .infinity, maxHeight: .infinity)
-            .ignoresSafeArea()
             .animation(.transition, value: popupManager.views)
             .onTapGesture(perform: onTap)
             .onChange(popupManager.views.count, completion: onViewsCountChange)
