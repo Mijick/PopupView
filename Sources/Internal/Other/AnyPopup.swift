@@ -15,8 +15,8 @@ struct AnyPopup: View, Hashable {
     let config: LocalConfig
     let dismissTimer: DispatchSourceTimer?
     let onDismiss: () -> ()
-    var height: CGFloat
-    var dragHeight: CGFloat
+    var height: CGFloat?
+    var dragHeight: CGFloat?
     private let _body: AnyView
 
     
@@ -25,8 +25,8 @@ struct AnyPopup: View, Hashable {
         self.config = popup.configurePopup(popup: .init())
         self.dismissTimer = temp.dismissTimer
         self.onDismiss = temp.onDismiss
-        self.height = 0
-        self.dragHeight = 0
+        self.height = nil
+        self.dragHeight = nil
         self._body = popup.erased(with: temp.environmentObject)
     }
     var body: some View { _body }
