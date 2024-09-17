@@ -144,7 +144,35 @@ private extension PopupStackView {
     }}
 }
 
+// MARK: - Saving Height For Item
+private extension PopupStackView {
+    func save(height: CGFloat, for popup: Binding<AnyPopup>, popupConfig: Config) { if !isGestureActive {
 
+    }}
+}
+private extension PopupStackView {
+    func calculateHeight(_ height: CGFloat, _ config: Config) -> CGFloat { switch config.heightMode {
+        case .auto: min(height, maxHeight)
+        case .large: getMaxHeight()
+        case .fullscreen: screenManager.size.height
+    }}
+}
+private extension PopupStackView {
+
+    
+
+
+
+
+    var maxHeight: CGFloat { getMaxHeight() - popupTopPadding - popupBottomPadding }
+
+    func getMaxHeight() -> CGFloat {
+        let basicHeight = screenManager.size.height - getKeySafeArea() - getPopupPadding()
+        let stackedViewsCount = min(max(0, getGlobalConfig().stackLimit - 1), items.count - 1)
+        let stackedViewsHeight = getGlobalConfig().stackOffset * .init(stackedViewsCount) * maxHeightStackedFactor
+        return basicHeight - stackedViewsHeight
+    }
+}
 
 
 // MARK: - View Modifiers
@@ -167,11 +195,7 @@ private extension PopupStackView {
     func getBackgroundColour(for item: AnyPopup) -> Color { getConfig(item).backgroundColour }
 }
 private extension PopupStackView {
-    func calculateHeight(_ height: CGFloat, _ config: Config) -> CGFloat { switch config.heightMode {
-        case .auto: min(height, maxHeight)
-        case .large: getMaxHeight()
-        case .fullscreen: screenManager.size.height
-    }}
+
     func updateHeight(_ newHeight: CGFloat, _ item: Binding<AnyPopup>) { if item.wrappedValue.height != newHeight { Task { @MainActor in
         item.wrappedValue.height = newHeight
     }}}
@@ -370,14 +394,7 @@ extension PopupStackView {
         let height = items.last?.height
         return height == 0 ? getInitialHeight() : height
     }
-    var maxHeight: CGFloat { getMaxHeight() - popupTopPadding - popupBottomPadding }
 
-    func getMaxHeight() -> CGFloat {
-        let basicHeight = screenManager.size.height - getKeySafeArea() - getPopupPadding()
-        let stackedViewsCount = min(max(0, getGlobalConfig().stackLimit - 1), items.count - 1)
-        let stackedViewsHeight = getGlobalConfig().stackOffset * .init(stackedViewsCount) * maxHeightStackedFactor
-        return basicHeight - stackedViewsHeight
-    }
 }
 
 // MARK: - Animation Related
