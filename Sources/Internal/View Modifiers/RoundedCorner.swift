@@ -11,42 +11,24 @@
 import SwiftUI
 
 extension View {
-    func background(_ backgroundColour: Color, overlayColour: Color, radius: CGFloat, corners: RectCorner, shadow: Shadow) -> some View {
-        overlay(createRoundedCorner(overlayColour, radius, corners))
-            .background(createRoundedCorner(backgroundColour, radius, corners).createShadow(shadow))
+    func background(_ backgroundColour: Color, overlayColour: Color, corners: [VerticalEdge: CGFloat], shadow: Shadow) -> some View {
+        overlay(createRoundedCorner(overlayColour, corners))
+            .background(createRoundedCorner(backgroundColour, corners).createShadow(shadow))
     }
 }
 private extension View {
-    func createRoundedCorner(_ colour: Color, _ radius: CGFloat, _ corners: RectCorner) -> some View { createShape(radius, corners).fill(colour) }
+    func createRoundedCorner(_ colour: Color, _ corners: [VerticalEdge: CGFloat]) -> some View { RoundedCorner(corners: corners).fill(colour) }
     func createShadow(_ shadowAttributes: Shadow) -> some View { shadow(color: shadowAttributes.color, radius: shadowAttributes.radius, x: shadowAttributes.x, y: shadowAttributes.y) }
-}
-private extension View {
-    func createShape(_ radius: CGFloat, _ corners: RectCorner) -> some Shape {
-        if #available(iOS 16.0, macOS 13, tvOS 16, watchOS 9.0, *) {
-            let values = getValues(corners, radius)
-            return UnevenRoundedRectangle(topLeadingRadius: values.topLeft, bottomLeadingRadius: values.bottomLeft, bottomTrailingRadius: values.bottomRight, topTrailingRadius: values.topRight, style: .continuous)
-        }
-        return RoundedCorner(radius: radius, corners: corners)
-    }
-}
-private extension View {
-    func getValues(_ corners: RectCorner, _ radius: CGFloat) -> (topLeft: CGFloat, topRight: CGFloat, bottomLeft: CGFloat, bottomRight: CGFloat) { (
-        topLeft: corners.contains(.topLeft) ? radius : 0,
-        topRight: corners.contains(.topRight) ? radius : 0,
-        bottomLeft: corners.contains(.bottomLeft) ? radius : 0,
-        bottomRight: corners.contains(.bottomRight) ? radius : 0
-    )}
 }
 
 // MARK: - Implementation
 fileprivate struct RoundedCorner: Shape {
-    var radius: CGFloat
-    var corners: RectCorner
+    var corners: [VerticalEdge: CGFloat]
 
     
     var animatableData: CGFloat {
-        get { radius }
-        set { radius = newValue }
+        get { corners.values.max() ?? 0 }
+        set { corners.forEach { corners[$0.key] = newValue } }
     }
     func path(in rect: CGRect) -> Path {
         let points = createPoints(rect)
@@ -56,14 +38,14 @@ fileprivate struct RoundedCorner: Shape {
 }
 private extension RoundedCorner {
     func createPoints(_ rect: CGRect) -> [CGPoint] {[
-        .init(x: rect.minX, y: corners.contains(.topLeft) ? rect.minY + radius  : rect.minY),
-        .init(x: corners.contains(.topLeft) ? rect.minX + radius : rect.minX, y: rect.minY ),
-        .init(x: corners.contains(.topRight) ? rect.maxX - radius : rect.maxX, y: rect.minY ),
-        .init(x: rect.maxX, y: corners.contains(.topRight) ? rect.minY + radius  : rect.minY ),
-        .init(x: rect.maxX, y: corners.contains(.bottomRight) ? rect.maxY - radius : rect.maxY ),
-        .init(x: corners.contains(.bottomRight) ? rect.maxX - radius : rect.maxX, y: rect.maxY ),
-        .init(x: corners.contains(.bottomLeft) ? rect.minX + radius : rect.minX, y: rect.maxY ),
-        .init(x: rect.minX, y: corners.contains(.bottomLeft) ? rect.maxY - radius : rect.maxY )
+        .init(x: rect.minX, y: rect.minY + corners[.top]!),
+        .init(x: rect.minX + corners[.top]!, y: rect.minY),
+        .init(x: rect.maxX - corners[.top]!, y: rect.minY),
+        .init(x: rect.maxX, y: rect.minY + corners[.top]!),
+        .init(x: rect.maxX, y: rect.maxY - corners[.bottom]!),
+        .init(x: rect.maxX - corners[.bottom]!, y: rect.maxY),
+        .init(x: rect.minX + corners[.bottom]!, y: rect.maxY),
+        .init(x: rect.minX, y: rect.maxY - corners[.bottom]!)
     ]}
     func createPath(_ rect: CGRect, _ points: [CGPoint]) -> Path { let radius = corners.values.max() ?? 0
         var path = Path()

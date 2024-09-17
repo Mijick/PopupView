@@ -16,10 +16,6 @@ public extension GlobalConfig.Vertical {
     /// Distance between content and keyboard (if present)
     func distanceFromKeyboard(_ value: CGFloat) -> Self { self.distanceFromKeyboard = value; return self }
 
-    /// Corner radius multiplier for popups on the stack.
-    /// For example **value** = 0.5 means that the stacked popups will be have a corner radius equal to activeCornerRadius * 0.5.
-    func stackCornerRadiusMultiplier(_ value: CGFloat) -> Self { self.stackCornerRadiusMultiplier = value; return self }
-
     /// Distance between popups on the stack
     func stackOffset(_ value: CGFloat) -> Self { self.stackOffset = value; return self }
 

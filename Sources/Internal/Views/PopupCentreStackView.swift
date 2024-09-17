@@ -37,7 +37,7 @@ private extension PopupCentreStackView {
         item.wrappedValue.body
             .onHeightChange { saveHeight($0, item) }
             .frame(height: getHeight()).frame(maxWidth: .infinity, maxHeight: getHeight())
-            .background(backgroundColour, overlayColour: .clear, radius: cornerRadius, corners: .allCorners, shadow: popupShadow)
+            .background(backgroundColour, overlayColour: .clear, corners: [.top: cornerRadius, .bottom: cornerRadius], shadow: popupShadow)
             .padding(.horizontal, config.horizontalPadding)
             .opacity(getOpacity(item))
             .compositingGroup()

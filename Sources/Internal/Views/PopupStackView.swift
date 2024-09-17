@@ -47,7 +47,7 @@ private extension PopupStackView {
             .onHeightChange { saveHeight($0, for: item) }
             .frame(height: height, alignment: getStackAlignment())
             .frame(maxWidth: .infinity)
-            .background(getBackgroundColour(for: item.wrappedValue), overlayColour: getStackOverlayColour(item.wrappedValue), radius: getCornerRadius(item.wrappedValue), corners: getCorners(), shadow: popupShadow)
+            .background(getBackgroundColour(for: item.wrappedValue), overlayColour: getStackOverlayColour(item.wrappedValue), corners: calculateCornerRadius(activePopupConfig: lastItemConfig), shadow: popupShadow)
             .padding(.horizontal, popupHorizontalPadding)
             .offset(y: getOffset(item.wrappedValue))
             .scaleEffect(x: getScale(item.wrappedValue))
@@ -143,41 +143,6 @@ private extension PopupStackView {
         case .bottom: popupBottomPadding != 0 ? cornerRadiusValue : 0
     }}
 }
-
-
-private extension PopupStackView {
-    func getCorners() -> RectCorner { switch getPopupPadding() {
-        case 0: return getPopupRectCorners()
-        default: return .allCorners
-    }}
-    var stackCornerRadiusMultiplier: CGFloat { getGlobalConfig().stackCornerRadiusMultiplier }
-
-
-
-}
-private extension PopupStackView {
-    func getCornerRadius(_ item: AnyPopup) -> CGFloat {
-        if isLast(item) { return cornerRadius }
-        if translationProgress.isZero || translationProgress.isNaN || !isNextToLast(item) { return stackedCornerRadius }
-
-        let difference = cornerRadius - stackedCornerRadius
-        let differenceProgress = difference * translationProgress
-        return stackedCornerRadius + differenceProgress
-    }
-    var cornerRadius: CGFloat {
-        let cornerRadius = getConfig(items.last).cornerRadius
-        return getConfig(items.last).heightMode == .fullscreen ? 0 : cornerRadius
-    }
-    func getPopupRectCorners() -> RectCorner { switch itemsAlignment {
-        case .top: [.bottomLeft, .bottomRight]
-        case .bottom: [.topLeft, .topRight]
-    }}
-}
-private extension PopupStackView {
-    var stackedCornerRadius: CGFloat { cornerRadius * stackCornerRadiusMultiplier }
-}
-
-
 
 
 
