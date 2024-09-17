@@ -61,7 +61,21 @@ private extension PopupStackView {
     }
 }
 
-// MARK: - Popup Body Paddings
+// MARK: - Calculating Height For Active Popup
+private extension PopupStackView {
+    func calculateHeightForActivePopup() -> CGFloat? {
+        guard let activePopupHeight = items.last?.height else { return nil }
+
+        let activePopupDragHeight = items.last?.dragHeight ?? 0
+        let popupHeightFromGestureTranslation = activePopupHeight + activePopupDragHeight + gestureTranslation * getDragTranslationMultiplier()
+
+        let newHeightCandidate1 = max(activePopupHeight, popupHeightFromGestureTranslation),
+            newHeightCanditate2 = screenManager.size.height - keyboardManager.height
+        return min(newHeightCandidate1, newHeightCanditate2)
+    }
+}
+
+// MARK: - Calculating Paddings For Popup Body
 private extension PopupStackView {
     func calculateBodyPadding(activePopupHeight: CGFloat, popupConfig: Config) -> EdgeInsets { .init(
         top: calculateTopBodyPadding(activePopupHeight: activePopupHeight, popupConfig: popupConfig),
@@ -103,47 +117,6 @@ private extension PopupStackView {
     func calculateVerticalPaddingAdhereEdge(safeAreaHeight: CGFloat, popupPadding: CGFloat) -> CGFloat {
         let paddingValueCandidate = safeAreaHeight - popupPadding
         return max(paddingValueCandidate, 0)
-    }
-}
-
-
-private extension PopupStackView {
-    func calculateContentPaddingForOppositeEdge(_ edge: PopupEdge, height: CGFloat) -> CGFloat {
-        max(getSafeAreaValue(edge) + height - screenManager.size.height, 0)
-
-    }
-    func calculateContentPaddingForSameEdge(_ edge: PopupEdge) -> CGFloat {
-        max(getSafeAreaValue(edge) - (edge == .top ? popupTopPadding : popupBottomPadding), 0)
-    }
-
-    func getContentTopPadding(height: CGFloat) -> CGFloat {
-        if getConfig(items.last).ignoredSafeAreaEdges.contains(.top) { return 0 }
-
-        return switch edge {
-            case .top: calculateContentPaddingForSameEdge(.top)
-            case .bottom: calculateContentPaddingForOppositeEdge(.top, height: height)
-        }
-    }
-    func getContentBottomPadding(height: CGFloat) -> CGFloat {
-        if isKeyboardVisible { return keyboardManager.height + distanceFromKeyboard }
-        if getConfig(items.last).ignoredSafeAreaEdges.contains(.bottom) { return 0 }
-
-        return switch edge {
-            case .top: calculateContentPaddingForOppositeEdge(.bottom, height: height)
-            case .bottom: calculateContentPaddingForSameEdge(.bottom)
-        }
-    }
-}
-
-// MARK: - Active Popup Height
-private extension PopupStackView {
-    func calculateHeightForActivePopup() -> CGFloat? { guard let activePopupHeight = items.last?.height else { return nil }
-        let activePopupDragHeight = items.last?.dragHeight ?? 0
-        let popupHeightFromGestureTranslation = activePopupHeight + activePopupDragHeight + gestureTranslation * getDragTranslationMultiplier()
-
-        let newHeightCandidate1 = max(activePopupHeight, popupHeightFromGestureTranslation),
-            newHeightCanditate2 = screenManager.size.height - keyboardManager.height
-        return min(newHeightCandidate1, newHeightCanditate2)
     }
 }
 
