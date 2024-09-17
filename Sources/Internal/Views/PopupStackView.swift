@@ -91,6 +91,33 @@ private extension PopupStackView {
         0
     }
 }
+private extension PopupStackView {
+    func calculateContentPaddingForOppositeEdge(_ edge: PopupEdge, height: CGFloat) -> CGFloat {
+        max(getSafeAreaValue(edge) + height - screenManager.size.height, 0)
+
+    }
+    func calculateContentPaddingForSameEdge(_ edge: PopupEdge) -> CGFloat {
+        max(getSafeAreaValue(edge) - (edge == .top ? popupTopPadding : popupBottomPadding), 0)
+    }
+
+    func getContentTopPadding(height: CGFloat) -> CGFloat {
+        if getConfig(items.last).ignoredSafeAreaEdges.contains(.top) { return 0 }
+
+        return switch edge {
+            case .top: calculateContentPaddingForSameEdge(.top)
+            case .bottom: calculateContentPaddingForOppositeEdge(.top, height: height)
+        }
+    }
+    func getContentBottomPadding(height: CGFloat) -> CGFloat {
+        if isKeyboardVisible { return keyboardManager.height + distanceFromKeyboard }
+        if getConfig(items.last).ignoredSafeAreaEdges.contains(.bottom) { return 0 }
+
+        return switch edge {
+            case .top: calculateContentPaddingForOppositeEdge(.bottom, height: height)
+            case .bottom: calculateContentPaddingForSameEdge(.bottom)
+        }
+    }
+}
 
 // MARK: - Popup Height
 private extension PopupStackView {
@@ -101,17 +128,6 @@ private extension PopupStackView {
         let newHeightCandidate = max(activePopupHeight, popupHeightFromGestureTranslation)
         let newHeight = min(newHeightCandidate, screenManager.size.height)
         return newHeight
-    }
-}
-private extension PopupStackView {
-
-
-    func calculateContentPaddingForOppositeEdge(_ edge: PopupEdge, height: CGFloat) -> CGFloat {
-        max(getSafeAreaValue(edge) + height - screenManager.size.height, 0)
-
-    }
-    func calculateContentPaddingForSameEdge(_ edge: PopupEdge) -> CGFloat {
-        max(getSafeAreaValue(edge) - (edge == .top ? popupTopPadding : popupBottomPadding), 0)
     }
 }
 
@@ -135,23 +151,7 @@ private extension PopupStackView {
 
 
 
-    func getContentTopPadding(height: CGFloat) -> CGFloat {
-        if getConfig(items.last).ignoredSafeAreaEdges.contains(.top) { return 0 }
 
-        return switch edge {
-            case .top: calculateContentPaddingForSameEdge(.top)
-            case .bottom: calculateContentPaddingForOppositeEdge(.top, height: height)
-        }
-    }
-    func getContentBottomPadding(height: CGFloat) -> CGFloat {
-        if isKeyboardVisible { return keyboardManager.height + distanceFromKeyboard }
-        if getConfig(items.last).ignoredSafeAreaEdges.contains(.bottom) { return 0 }
-
-        return switch edge {
-            case .top: calculateContentPaddingForOppositeEdge(.bottom, height: height)
-            case .bottom: calculateContentPaddingForSameEdge(.bottom)
-        }
-    }
     func getFixedSize(config: Config, height: CGFloat) -> Bool { !(config.heightMode == .fullscreen || config.heightMode == .large || height == maxHeight) }
     func getBackgroundColour(for item: AnyPopup) -> Color { getConfig(item).backgroundColour }
 }
