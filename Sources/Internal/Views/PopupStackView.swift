@@ -125,9 +125,9 @@ private extension PopupStackView {
         let activePopupDragHeight = items.last?.dragHeight ?? 0
         let popupHeightFromGestureTranslation = activePopupHeight + activePopupDragHeight + gestureTranslation * getDragTranslationMultiplier()
 
-        let newHeightCandidate = max(activePopupHeight, popupHeightFromGestureTranslation)
-        let newHeight = min(newHeightCandidate, screenManager.size.height)
-        return newHeight
+        let newHeightCandidate1 = max(activePopupHeight, popupHeightFromGestureTranslation),
+            newHeightCanditate2 = screenManager.size.height - keyboardManager.height
+        return min(newHeightCandidate1, newHeightCanditate2)
     }
 }
 
