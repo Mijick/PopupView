@@ -100,20 +100,6 @@ private extension PopupStackView {
         let newHeight = min(max(activePopupHeight, dragTranslation), screenManager.size.height)
         return newHeight
     }
-
-    var height: CGFloat {
-        let lastDragHeight = getLastDragHeight(),
-            lastPopupHeight = getLastPopupHeight() ?? (getConfig(items.last).heightMode == .fullscreen ? screenManager.size.height : getInitialHeight())
-        let dragTranslation = lastPopupHeight + lastDragHeight + gestureTranslation * getDragTranslationMultiplier() - popupTopPadding - popupBottomPadding
-        let newHeight = max(lastPopupHeight, dragTranslation)
-
-        switch lastPopupHeight + lastDragHeight > screenManager.size.height {
-            case true where getConfig(items.last).ignoredSafeAreaEdges.contains([.top, .bottom]): return newHeight - screenManager.safeArea.top - screenManager.safeArea.bottom
-            case true where getConfig(items.last).ignoredSafeAreaEdges.contains(.top): return newHeight - screenManager.safeArea.top
-            case true where getConfig(items.last).ignoredSafeAreaEdges.contains(.bottom): return newHeight - screenManager.safeArea.bottom
-            default: return newHeight
-        }
-    }
 }
 private extension PopupStackView {
 
