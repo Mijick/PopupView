@@ -13,7 +13,7 @@ import SwiftUI
 
 struct PopupStackView<Config: LocalConfig.Vertical>: View {
     @Binding var items: [AnyPopup]
-    let itemsAlignment: PopupEdge
+    let itemsAlignment: VerticalEdge
     @State private var gestureTranslation: CGFloat = 0
     @GestureState private var isGestureActive: Bool = false
     @ObservedObject private var screenManager: ScreenManager = .shared
@@ -121,10 +121,27 @@ private extension PopupStackView {
 
 // MARK: - Calculating Corner Radius
 private extension PopupStackView {
-
+    func calculateCornerRadius(activePopupConfig: Config) -> [VerticalEdge: CGFloat] {
+        let cornerRadiusValue = calculateCornerRadiusValue(activePopupConfig)
+        return [
+            .top: calculateTopCornerRadius(cornerRadiusValue),
+            .bottom: calculateBottomCornerRadius(cornerRadiusValue)
+        ]
+    }
 }
 private extension PopupStackView {
-
+    func calculateCornerRadiusValue(_ activePopupConfig: Config) -> CGFloat { switch activePopupConfig.heightMode {
+        case .auto, .large: activePopupConfig.cornerRadius
+        case .fullscreen: 0
+    }}
+    func calculateTopCornerRadius(_ cornerRadiusValue: CGFloat) -> CGFloat { switch itemsAlignment {
+        case .top: popupTopPadding != 0 ? cornerRadiusValue : 0
+        case .bottom: cornerRadiusValue
+    }}
+    func calculateBottomCornerRadius(_ cornerRadiusValue: CGFloat) -> CGFloat { switch itemsAlignment {
+        case .top: cornerRadiusValue
+        case .bottom: popupBottomPadding != 0 ? cornerRadiusValue : 0
+    }}
 }
 
 
@@ -233,10 +250,6 @@ extension PopupStackView {
 
 
 
-extension PopupStackView { enum PopupEdge {
-    case top
-    case bottom
-}}
 private extension PopupStackView {
     func getDragExtremeValue(_ value1: CGFloat, _ value2: CGFloat) -> CGFloat { switch itemsAlignment {
         case .top: min(value1, value2)
@@ -536,4 +549,11 @@ private extension PopupStackView {
     func shouldDismissPopup() -> Bool {
         translationProgress >= gestureClosingThresholdFactor
     }
+}
+
+
+
+enum VerticalEdge {
+    case top
+    case bottom
 }
