@@ -64,13 +64,17 @@ private extension PopupStackView {
 }
 
 // MARK: - Popup Body Paddings
+// Kiedy się je stosuje?
+// 1. Safe Area
+// 2. Keyboard distance
+// 3. Drag Indicies
 private extension PopupStackView {
-    func calculateBodyPadding(for edge: Edge) -> CGFloat { switch edge {
-        case .top: 0
-        case .bottom: 0
-        case .leading: 0
-        case .trailing: 0
-    }}
+    func calculateBodyPadding(config: Config) -> EdgeInsets { .init(
+        top: calculateTopBodyPadding(),
+        leading: calculateLeadingBodyPadding(),
+        bottom: calculateBottomBodyPadding(),
+        trailing: calculateTrailingBodyPadding()
+    )}
 }
 private extension PopupStackView {
     func calculateTopBodyPadding() -> CGFloat {
