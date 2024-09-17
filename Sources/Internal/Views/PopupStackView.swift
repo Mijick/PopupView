@@ -119,6 +119,14 @@ private extension PopupStackView {
     }
 }
 
+// MARK: - Calculating Corner Radius
+private extension PopupStackView {
+
+}
+private extension PopupStackView {
+
+}
+
 
 
 // MARK: - View Modifiers
@@ -244,13 +252,6 @@ private extension PopupStackView {
     func calculateTranslationProgress(_ popupHeight: CGFloat) -> CGFloat { switch edge {
         case .top: abs(min(gestureTranslation + getLastDragHeight(), 0)) / popupHeight
         case .bottom: max(gestureTranslation - getLastDragHeight(), 0) / popupHeight
-    }}
-
-
-
-    func getSafeAreaValue(_ edge: PopupEdge) -> CGFloat { switch edge {
-        case .top: screenManager.safeArea.top
-        case .bottom: screenManager.safeArea.bottom
     }}
 }
 
