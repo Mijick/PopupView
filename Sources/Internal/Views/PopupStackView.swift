@@ -91,6 +91,16 @@ private extension PopupStackView {
     }
 }
 
+// MARK: - Popup Height
+private extension PopupStackView {
+    func calculateHeight(for item: AnyPopup) -> CGFloat {
+        height
+    }
+}
+private extension PopupStackView {
+
+}
+
 
 
 // MARK: - View Modifiers
