@@ -13,7 +13,7 @@ import SwiftUI
 
 struct PopupStackView<Config: LocalConfig.Vertical>: View {
     @Binding var items: [AnyPopup]
-    let edge: PopupEdge
+    let itemsAlignment: PopupEdge
     @State private var gestureTranslation: CGFloat = 0
     @GestureState private var isGestureActive: Bool = false
     @ObservedObject private var screenManager: ScreenManager = .shared
@@ -87,7 +87,7 @@ private extension PopupStackView {
     func calculateTopBodyPadding(activePopupHeight: CGFloat, popupConfig: Config) -> CGFloat {
         if popupConfig.ignoredSafeAreaEdges.contains(.top) { return 0 }
 
-        return switch edge {
+        return switch itemsAlignment {
             case .top: calculateVerticalPaddingAdhereEdge(safeAreaHeight: screenManager.safeArea.top, popupPadding: popupTopPadding)
             case .bottom: calculateVerticalPaddingCounterEdge(popupHeight: activePopupHeight, safeArea: screenManager.safeArea.top)
         }
@@ -96,7 +96,7 @@ private extension PopupStackView {
         if isKeyboardVisible { return keyboardManager.height + distanceFromKeyboard }
         if popupConfig.ignoredSafeAreaEdges.contains(.bottom) { return 0 }
 
-        return switch edge {
+        return switch itemsAlignment {
             case .top: calculateVerticalPaddingCounterEdge(popupHeight: activePopupHeight, safeArea: screenManager.safeArea.bottom)
             case .bottom: calculateVerticalPaddingAdhereEdge(safeAreaHeight: screenManager.safeArea.bottom, popupPadding: popupBottomPadding)
         }
@@ -151,7 +151,7 @@ private extension PopupStackView {
         let cornerRadius = getConfig(items.last).cornerRadius
         return getConfig(items.last).heightMode == .fullscreen ? 0 : cornerRadius
     }
-    func getPopupRectCorners() -> RectCorner { switch edge {
+    func getPopupRectCorners() -> RectCorner { switch itemsAlignment {
         case .top: [.bottomLeft, .bottomRight]
         case .bottom: [.topLeft, .topRight]
     }}
@@ -238,11 +238,11 @@ extension PopupStackView { enum PopupEdge {
     case bottom
 }}
 private extension PopupStackView {
-    func getDragExtremeValue(_ value1: CGFloat, _ value2: CGFloat) -> CGFloat { switch edge {
+    func getDragExtremeValue(_ value1: CGFloat, _ value2: CGFloat) -> CGFloat { switch itemsAlignment {
         case .top: min(value1, value2)
         case .bottom: max(value1, value2)
     }}
-    func getDragTranslationMultiplier() -> CGFloat { switch edge {
+    func getDragTranslationMultiplier() -> CGFloat { switch itemsAlignment {
         case .top: 1
         case .bottom: -1
     }}
@@ -252,36 +252,36 @@ private extension PopupStackView {
 
 
 
-    func getStackAlignment() -> Alignment { switch edge {
+    func getStackAlignment() -> Alignment { switch itemsAlignment {
         case .top: .bottom
         case .bottom: .top
     }}
-    func getVVV() -> Alignment { switch edge {
+    func getVVV() -> Alignment { switch itemsAlignment {
         case .top: .top
         case .bottom: .bottom
     }}
-    func getPopupAlignment() -> Edge.Set { switch edge {
+    func getPopupAlignment() -> Edge.Set { switch itemsAlignment {
         case .top: .top
         case .bottom: .bottom
     }}
-    func getPopupPadding() -> CGFloat { switch edge {
+    func getPopupPadding() -> CGFloat { switch itemsAlignment {
         case .top: popupTopPadding
         case .bottom: popupBottomPadding
     }}
-    func getKeySafeArea() -> CGFloat { switch edge {
+    func getKeySafeArea() -> CGFloat { switch itemsAlignment {
         case .top: screenManager.safeArea.bottom
         case .bottom: screenManager.safeArea.top
     }}
 
 
 
-    func getOffsetMultiplier() -> CGFloat { switch edge {
+    func getOffsetMultiplier() -> CGFloat { switch itemsAlignment {
         case .top: 1
         case .bottom: -1
     }}
 
 
-    func calculateTranslationProgress(_ popupHeight: CGFloat) -> CGFloat { switch edge {
+    func calculateTranslationProgress(_ popupHeight: CGFloat) -> CGFloat { switch itemsAlignment {
         case .top: abs(min(gestureTranslation + getLastDragHeight(), 0)) / popupHeight
         case .bottom: max(gestureTranslation - getLastDragHeight(), 0) / popupHeight
     }}
@@ -359,7 +359,7 @@ extension PopupStackView {
     }}
 }
 private extension PopupStackView {
-    func calculateOffsetForLastItem() -> CGFloat { switch edge {
+    func calculateOffsetForLastItem() -> CGFloat { switch itemsAlignment {
         case .top: min(gestureTranslation + getLastDragHeight(), 0)
         case .bottom: max(gestureTranslation - getLastDragHeight(), 0)
     }}
@@ -373,7 +373,7 @@ private extension PopupStackView {
 // MARK: - Config Related
 extension PopupStackView {
     func getConfig(_ item: AnyPopup?) -> Config { item.getConfig() }
-    func getGlobalConfig() -> GlobalConfig.Vertical { switch edge {
+    func getGlobalConfig() -> GlobalConfig.Vertical { switch itemsAlignment {
         case .top: ConfigContainer.vertical
         case .bottom: ConfigContainer.vertical
     }}
@@ -405,7 +405,7 @@ extension PopupStackView {
 // MARK: - Animation Related
 extension PopupStackView {
     func getHeightAnimation(isAnimationDisabled: Bool) -> Animation? { !isAnimationDisabled ? .transition : nil }
-    func getTransition() -> AnyTransition { switch edge {
+    func getTransition() -> AnyTransition { switch itemsAlignment {
         case .top: .move(edge: .top)
         case .bottom: .move(edge: .bottom)
     }}
