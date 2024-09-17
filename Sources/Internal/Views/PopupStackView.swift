@@ -45,8 +45,8 @@ private extension PopupStackView {
         return item.wrappedValue.body
             .padding(.top, getContentTopPadding(height: height ?? 0))
             .padding(.bottom, getContentBottomPadding(height: height ?? 0))
-            .padding(.leading, screenManager.safeArea.left)
-            .padding(.trailing, screenManager.safeArea.right)
+            .padding(.leading, screenManager.safeArea.leading)
+            .padding(.trailing, screenManager.safeArea.trailing)
             .fixedSize(horizontal: false, vertical: getFixedSize(config: config, height: height ?? 0))
             .onHeightChange { saveHeight($0, for: item) }
             .frame(height: height, alignment: getStackAlignment())

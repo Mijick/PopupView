@@ -14,7 +14,7 @@ import Combine
 #if os(iOS) || os(watchOS) || os(tvOS) || os(visionOS)
 class ScreenManager: ObservableObject {
     @Published var size: CGSize = .init()
-    @Published var safeArea: UIEdgeInsets = .init()
+    @Published var safeArea: EdgeInsets = .init()
     private(set) var animationsDisabled: Bool = false
 
     static let shared: ScreenManager = .init()

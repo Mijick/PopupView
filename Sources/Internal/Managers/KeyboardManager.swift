@@ -37,7 +37,7 @@ private extension KeyboardManager {
         NotificationCenter.default
             .publisher(for: UIResponder.keyboardWillShowNotification)
             .compactMap { $0.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? CGRect }
-            .map { max(0, $0.height - 8) }
+            .map { $0.height }
     }
     func createKeyboardWillHidePublisher() -> Publishers.Map<NotificationCenter.Publisher, CGFloat> {
         NotificationCenter.default
