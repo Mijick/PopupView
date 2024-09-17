@@ -128,13 +128,46 @@ private extension PopupStackView {
 }
 
 
-
-// MARK: - View Modifiers
 private extension PopupStackView {
     func getCorners() -> RectCorner { switch getPopupPadding() {
         case 0: return getPopupRectCorners()
         default: return .allCorners
     }}
+    var stackCornerRadiusMultiplier: CGFloat { getGlobalConfig().stackCornerRadiusMultiplier }
+
+
+
+}
+private extension PopupStackView {
+    func getCornerRadius(_ item: AnyPopup) -> CGFloat {
+        if isLast(item) { return cornerRadius }
+        if translationProgress.isZero || translationProgress.isNaN || !isNextToLast(item) { return stackedCornerRadius }
+
+        let difference = cornerRadius - stackedCornerRadius
+        let differenceProgress = difference * translationProgress
+        return stackedCornerRadius + differenceProgress
+    }
+    var cornerRadius: CGFloat {
+        let cornerRadius = getConfig(items.last).cornerRadius
+        return getConfig(items.last).heightMode == .fullscreen ? 0 : cornerRadius
+    }
+    func getPopupRectCorners() -> RectCorner { switch edge {
+        case .top: [.bottomLeft, .bottomRight]
+        case .bottom: [.topLeft, .topRight]
+    }}
+}
+private extension PopupStackView {
+    var stackedCornerRadius: CGFloat { cornerRadius * stackCornerRadiusMultiplier }
+}
+
+
+
+
+
+
+// MARK: - View Modifiers
+private extension PopupStackView {
+
     func saveHeight(_ height: CGFloat, for item: Binding<AnyPopup>) { if !isGestureActive {
         let config = getConfig(item.wrappedValue)
         let newHeight = calculateHeight(height, config)
@@ -180,7 +213,6 @@ extension PopupStackView {
     var stackLimit: Int { getGlobalConfig().stackLimit }
     var stackScaleFactor: CGFloat { getGlobalConfig().stackScaleFactor }
     var stackOffsetValue: CGFloat { getGlobalConfig().stackOffset * getOffsetMultiplier() }
-    var stackCornerRadiusMultiplier: CGFloat { getGlobalConfig().stackCornerRadiusMultiplier }
 
 
 
@@ -378,32 +410,6 @@ extension PopupStackView {
         case .bottom: .move(edge: .bottom)
     }}
 }
-
-// MARK: - Corner Radius Related
-extension PopupStackView {
-    func getCornerRadius(_ item: AnyPopup) -> CGFloat {
-        if isLast(item) { return cornerRadius }
-        if translationProgress.isZero || translationProgress.isNaN || !isNextToLast(item) { return stackedCornerRadius }
-
-        let difference = cornerRadius - stackedCornerRadius
-        let differenceProgress = difference * translationProgress
-        return stackedCornerRadius + differenceProgress
-    }
-    var cornerRadius: CGFloat {
-        let cornerRadius = getConfig(items.last).cornerRadius
-        return getConfig(items.last).heightMode == .fullscreen ? 0 : cornerRadius
-    }
-    func getPopupRectCorners() -> RectCorner { switch edge {
-        case .top: [.bottomLeft, .bottomRight]
-        case .bottom: [.topLeft, .topRight]
-    }}
-}
-private extension PopupStackView {
-    var stackedCornerRadius: CGFloat { cornerRadius * stackCornerRadiusMultiplier }
-}
-
-
-
 
 
 
