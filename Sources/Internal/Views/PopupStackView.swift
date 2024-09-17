@@ -56,7 +56,7 @@ private extension PopupStackView {
             .scaleEffect(x: getScale(item.wrappedValue))
             .opacity(getOpacity(item.wrappedValue))
             .focusSectionIfAvailable()
-            .padding(getPopupAlignment(), lastItemConfig.contentFillsEntireScreen ? 0 : getPopupPadding())
+            .padding(getPopupAlignment(), lastItemConfig.heightMode == .fullscreen ? 0 : getPopupPadding())
             .transition(getTransition())
             .zIndex(getZIndex(item.wrappedValue))
             .compositingGroup()
@@ -213,15 +213,15 @@ private extension PopupStackView {
             case .bottom: calculateContentPaddingForSameEdge(.bottom)
         }
     }
-    func getFixedSize(config: Config, height: CGFloat) -> Bool { !(config.contentFillsEntireScreen || config.contentFillsWholeHeight || height == maxHeight) }
+    func getFixedSize(config: Config, height: CGFloat) -> Bool { !(config.heightMode == .fullscreen || config.heightMode == .large || height == maxHeight) }
     func getBackgroundColour(for item: AnyPopup) -> Color { getConfig(item).backgroundColour }
 }
 private extension PopupStackView {
-    func calculateHeight(_ height: CGFloat, _ config: Config) -> CGFloat {
-        if config.contentFillsEntireScreen { return screenManager.size.height }
-        if config.contentFillsWholeHeight { return getMaxHeight() }
-        return min(height, maxHeight)
-    }
+    func calculateHeight(_ height: CGFloat, _ config: Config) -> CGFloat { switch config.heightMode {
+        case .auto: min(height, maxHeight)
+        case .large: getMaxHeight()
+        case .fullscreen: screenManager.size.height
+    }}
     func updateHeight(_ newHeight: CGFloat, _ item: Binding<AnyPopup>) { if item.wrappedValue.height != newHeight { Task { @MainActor in
         item.wrappedValue.height = newHeight
     }}}
@@ -435,7 +435,7 @@ extension PopupStackView {
     var maxHeight: CGFloat { getMaxHeight() - popupTopPadding - popupBottomPadding }
     var height: CGFloat {
         let lastDragHeight = getLastDragHeight(),
-            lastPopupHeight = getLastPopupHeight() ?? (getConfig(items.last).contentFillsEntireScreen ? screenManager.size.height : getInitialHeight())
+            lastPopupHeight = getLastPopupHeight() ?? (getConfig(items.last).heightMode == .fullscreen ? screenManager.size.height : getInitialHeight())
         let dragTranslation = lastPopupHeight + lastDragHeight + gestureTranslation * getDragTranslationMultiplier() - popupTopPadding - popupBottomPadding
         let newHeight = max(lastPopupHeight, dragTranslation)
 
@@ -475,7 +475,7 @@ extension PopupStackView {
     }
     var cornerRadius: CGFloat {
         let cornerRadius = getConfig(items.last).cornerRadius
-        return getConfig(items.last).contentFillsEntireScreen ? 0 : cornerRadius
+        return getConfig(items.last).heightMode == .fullscreen ? 0 : cornerRadius
     }
     func getPopupRectCorners() -> RectCorner { switch edge {
         case .top: [.bottomLeft, .bottomRight]

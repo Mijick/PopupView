@@ -18,13 +18,7 @@ public extension LocalConfig.Vertical {
     /// Whether content should ignore safe area
     func ignoresSafeArea(edges: Edge.Set) -> Self { self.ignoredSafeAreaEdges = edges; return self }
 
-    /// Whether the content should take up the entire height of the screen.
-    /// Stacked items will be visible.
-    func contentFillsWholeHeigh(_ value: Bool) -> Self { self.contentFillsWholeHeight = value; return self }
-
-    /// Whether the content should take up the entire height of the screen.
-    /// Stacked items will be invisible
-    func contentFillsEntireScreen(_ value: Bool) -> Self { self.contentFillsEntireScreen = value; return self }
+    func changeHeightMode(_ value: HeightMode) -> Self { self.heightMode = value; return self }
 
     /// Distance between content and keyboard (if present)
     func distanceFromKeyboard(_ value: CGFloat) -> Self { self.distanceFromKeyboard = value; return self }

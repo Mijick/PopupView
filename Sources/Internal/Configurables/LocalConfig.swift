@@ -21,8 +21,7 @@ public class LocalConfig { required init() {}
 // MARK: - Vertical
 public extension LocalConfig { class Vertical: LocalConfig {
     var ignoredSafeAreaEdges: Edge.Set = []
-    var contentFillsWholeHeight: Bool = false
-    var contentFillsEntireScreen: Bool = false
+    var heightMode: HeightMode = .auto
     var distanceFromKeyboard: CGFloat = 0
     var popupPadding: (top: CGFloat, bottom: CGFloat, horizontal: CGFloat) = (0, 0, 0)
     var dragGestureEnabled: Bool = false
