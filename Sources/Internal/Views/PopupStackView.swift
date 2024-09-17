@@ -42,7 +42,7 @@ private extension PopupStackView {
 
 
         return item.wrappedValue.body
-            .padding(calculateBodyPadding(activePopupHeight: height ?? 0, popupConfig: config))
+            .padding(calculateBodyPadding(activePopupHeight: height, popupConfig: config))
             .fixedSize(horizontal: false, vertical: getFixedSize(config: config, height: height ?? 0))
             .onHeightChange { saveHeight($0, for: item) }
             .frame(height: height, alignment: getStackAlignment())
@@ -76,7 +76,7 @@ private extension PopupStackView {
 
 // MARK: - Calculating Paddings For Popup Body
 private extension PopupStackView {
-    func calculateBodyPadding(activePopupHeight: CGFloat, popupConfig: Config) -> EdgeInsets { .init(
+    func calculateBodyPadding(activePopupHeight: CGFloat?, popupConfig: Config) -> EdgeInsets { guard let activePopupHeight else { return .init() }; return .init(
         top: calculateTopBodyPadding(activePopupHeight: activePopupHeight, popupConfig: popupConfig),
         leading: calculateLeadingBodyPadding(),
         bottom: calculateBottomBodyPadding(activePopupHeight: activePopupHeight, popupConfig: popupConfig),
