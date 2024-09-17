@@ -85,10 +85,10 @@ private extension PopupStackView {
         0
     }
     func calculateLeadingBodyPadding() -> CGFloat {
-        0
+        screenManager.safeArea.leading
     }
     func calculateTrailingBodyPadding() -> CGFloat {
-        0
+        screenManager.safeArea.trailing
     }
 }
 private extension PopupStackView {
