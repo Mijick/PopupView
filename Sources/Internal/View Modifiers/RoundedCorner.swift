@@ -65,7 +65,7 @@ private extension RoundedCorner {
         .init(x: corners.contains(.bottomLeft) ? rect.minX + radius : rect.minX, y: rect.maxY ),
         .init(x: rect.minX, y: corners.contains(.bottomLeft) ? rect.maxY - radius : rect.maxY )
     ]}
-    func createPath(_ rect: CGRect, _ points: [CGPoint]) -> Path {
+    func createPath(_ rect: CGRect, _ points: [CGPoint]) -> Path { let radius = corners.values.max() ?? 0
         var path = Path()
 
         path.move(to: points[0])
@@ -80,14 +80,4 @@ private extension RoundedCorner {
 
         return path
     }
-}
-
-
-struct RectCorner: OptionSet { let rawValue: Int }
-extension RectCorner {
-    static let topLeft = RectCorner(rawValue: 1 << 0)
-    static let topRight = RectCorner(rawValue: 1 << 1)
-    static let bottomRight = RectCorner(rawValue: 1 << 2)
-    static let bottomLeft = RectCorner(rawValue: 1 << 3)
-    static let allCorners: RectCorner = [.topLeft, topRight, .bottomLeft, .bottomRight]
 }
