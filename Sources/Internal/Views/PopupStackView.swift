@@ -93,12 +93,12 @@ private extension PopupStackView {
 
 // MARK: - Popup Height
 private extension PopupStackView {
-    func calculateHeight(for item: AnyPopup) -> CGFloat? { guard let lastPopupHeight = getLastPopupHeight() else { return nil }
+    func calculateHeight(for item: AnyPopup) -> CGFloat? { guard let activePopupHeight = getLastPopupHeight() else { return nil }
         let lastDragHeight = getLastDragHeight()
-        let dragTranslation = lastPopupHeight + lastDragHeight + gestureTranslation * getDragTranslationMultiplier() - popupTopPadding - popupBottomPadding
-        let newHeight = max(lastPopupHeight, dragTranslation)
+        let dragTranslation = activePopupHeight + lastDragHeight + gestureTranslation * getDragTranslationMultiplier() - popupTopPadding - popupBottomPadding
+        let newHeight = max(activePopupHeight, dragTranslation)
 
-        switch lastPopupHeight + lastDragHeight > screenManager.size.height {
+        switch activePopupHeight + lastDragHeight > screenManager.size.height {
             case true where getConfig(items.last).ignoredSafeAreaEdges.contains([.top, .bottom]): return newHeight - screenManager.safeArea.top - screenManager.safeArea.bottom
             case true where getConfig(items.last).ignoredSafeAreaEdges.contains(.top): return newHeight - screenManager.safeArea.top
             case true where getConfig(items.last).ignoredSafeAreaEdges.contains(.bottom): return newHeight - screenManager.safeArea.bottom
