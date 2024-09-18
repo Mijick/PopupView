@@ -160,10 +160,10 @@ private extension PopupStackView {
     }}}
 }
 private extension PopupStackView {
-    func calculateLargeScreenHeight() -> CGFloat {
+    func calculateLargeScreenHeight() -> CGFloat { let popupPadding = calculatePopupPadding()
         let fullscreenHeight = getFullscreenHeight(),
             safeAreaHeight = screenManager.safeArea[!itemsAlignment],
-            popupPaddings = popupTopPadding + popupBottomPadding,
+            popupPaddings = popupPadding.top + popupPadding.bottom,
             stackHeight = calculateStackHeight()
         return fullscreenHeight - safeAreaHeight - popupPaddings - stackHeight
     }
