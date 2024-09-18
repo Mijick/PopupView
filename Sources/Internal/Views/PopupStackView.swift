@@ -508,16 +508,3 @@ private extension PopupStackView {
         translationProgress >= gestureClosingThresholdFactor
     }
 }
-
-
-
-enum VerticalEdge {
-    case top
-    case bottom
-}
-extension VerticalEdge {
-    static prefix func !(lhs: Self) -> Self { switch lhs {
-        case .top: .bottom
-        case .bottom: .top
-    }}
-}
