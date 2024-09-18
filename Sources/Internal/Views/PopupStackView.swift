@@ -21,8 +21,8 @@ struct PopupStackView<Config: LocalConfig.Vertical>: View {
 
 
     var body: some View {
-        ZStack(alignment: getStackAlignment(), content: createPopupStack)
-            .frame(height: screenManager.size.height, alignment: getVVV())
+        ZStack(alignment: (!itemsAlignment).toAlignment(), content: createPopupStack)
+            .frame(height: screenManager.size.height, alignment: itemsAlignment.toAlignment())
             .animation(getHeightAnimation(isAnimationDisabled: screenManager.animationsDisabled), value: items.map(\.height))
             .animation(isGestureActive ? nil : .transition, value: gestureTranslation)
             .animation(.keyboard, value: isKeyboardVisible)
@@ -46,15 +46,15 @@ private extension PopupStackView {
             .padding(calculateBodyPadding(activePopupHeight: height, popupConfig: config))
             .fixedSize(horizontal: false, vertical: calculateVerticalFixedSize(popupConfig: config, activePopupHeight: height))
             .onHeightChange { save(height: $0, for: item, popupConfig: config) }
-            .frame(height: height, alignment: getStackAlignment())
+            .frame(height: height, alignment: (!itemsAlignment).toAlignment())
             .frame(maxWidth: .infinity)
             .background(getBackgroundColour(for: item.wrappedValue), overlayColour: getStackOverlayColour(item.wrappedValue), corners: calculateCornerRadius(activePopupConfig: lastItemConfig), shadow: popupShadow)
             .padding(.horizontal, popupHorizontalPadding)
             .offset(y: calculateOffset(for: item.wrappedValue))
             .scaleEffect(x: calculateScale(for: item.wrappedValue, translationProgress: translationProgress))
             .focusSectionIfAvailable()
-            .padding(getPopupAlignment(), lastItemConfig.heightMode == .fullscreen ? 0 : getPopupPadding())
-            .transition(getTransition())
+            .padding(itemsAlignment.toEdgeSet(), lastItemConfig.heightMode == .fullscreen ? 0 : getPopupPadding())
+            .transition(transition)
             .zIndex(getZIndex(item.wrappedValue))
             .compositingGroup()
     }
@@ -291,6 +291,7 @@ private extension PopupStackView {
     var stackOverlayColour: Color { .black }
     var stackOverlayFactor: CGFloat { 0.1 }
     var maxStackOverlayFactor: CGFloat { 0.48 }
+    var transition: AnyTransition { .move(edge: itemsAlignment.toEdge()) }
 }
 
 
@@ -307,23 +308,6 @@ private extension PopupStackView {
         case .bottom: -1
     }}
 
-
-
-
-
-
-    func getStackAlignment() -> Alignment { switch itemsAlignment {
-        case .top: .bottom
-        case .bottom: .top
-    }}
-    func getVVV() -> Alignment { switch itemsAlignment {
-        case .top: .top
-        case .bottom: .bottom
-    }}
-    func getPopupAlignment() -> Edge.Set { switch itemsAlignment {
-        case .top: .top
-        case .bottom: .bottom
-    }}
     func getPopupPadding() -> CGFloat { switch itemsAlignment {
         case .top: popupTopPadding
         case .bottom: popupBottomPadding
@@ -396,10 +380,6 @@ extension PopupStackView {
 // MARK: - Animation Related
 extension PopupStackView {
     func getHeightAnimation(isAnimationDisabled: Bool) -> Animation? { !isAnimationDisabled ? .transition : nil }
-    func getTransition() -> AnyTransition { switch itemsAlignment {
-        case .top: .move(edge: .top)
-        case .bottom: .move(edge: .bottom)
-    }}
 }
 
 
