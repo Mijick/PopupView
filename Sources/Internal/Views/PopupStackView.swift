@@ -48,7 +48,7 @@ private extension PopupStackView {
             .onHeightChange { save(height: $0, for: item, popupConfig: config) }
             .frame(height: height, alignment: (!itemsAlignment).toAlignment())
             .frame(maxWidth: .infinity)
-            .background(getBackgroundColour(for: item.wrappedValue), overlayColour: getStackOverlayColour(for: item.wrappedValue, translationProgress: translationProgress), corners: calculateCornerRadius(activePopupConfig: lastItemConfig), shadow: popupShadow)
+            .background(getBackgroundColour(popupConfig: config), overlayColour: getStackOverlayColour(for: item.wrappedValue, translationProgress: translationProgress), corners: calculateCornerRadius(activePopupConfig: lastItemConfig), shadow: popupShadow)
             .padding(.horizontal, popupHorizontalPadding)
             .offset(y: calculateOffset(for: item.wrappedValue))
             .scaleEffect(x: calculateScale(for: item.wrappedValue, translationProgress: translationProgress))
@@ -250,13 +250,13 @@ private extension PopupStackView {
     }
 }
 
-
-
-
-// MARK: - View Modifiers
+// MARK: - Background Colour
 private extension PopupStackView {
-    func getBackgroundColour(for item: AnyPopup) -> Color { getConfig(item).backgroundColour }
+    func getBackgroundColour(popupConfig: Config) -> Color { popupConfig.backgroundColour }
 }
+
+
+
 
 
 extension PopupStackView {
