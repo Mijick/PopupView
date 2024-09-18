@@ -37,7 +37,6 @@ private extension PopupStackView {
 private extension PopupStackView {
     func createPopup(_ item: Binding<AnyPopup>) -> some View {
         let config = getConfig(item.wrappedValue),
-            lastItemConfig = getConfig(items.last),
             height = calculateHeightForActivePopup(),
             translationProgress = translationProgress
 
@@ -48,12 +47,11 @@ private extension PopupStackView {
             .onHeightChange { save(height: $0, for: item, popupConfig: config) }
             .frame(height: height, alignment: (!itemsAlignment).toAlignment())
             .frame(maxWidth: .infinity)
-            .background(getBackgroundColour(popupConfig: config), overlayColour: getStackOverlayColour(for: item.wrappedValue, translationProgress: translationProgress), corners: calculateCornerRadius(activePopupConfig: lastItemConfig), shadow: popupShadow)
-            .padding(.horizontal, popupHorizontalPadding)
+            .background(getBackgroundColour(popupConfig: config), overlayColour: getStackOverlayColour(for: item.wrappedValue, translationProgress: translationProgress), corners: calculateCornerRadius(), shadow: popupShadow)
             .offset(y: calculateOffset(for: item.wrappedValue))
             .scaleEffect(x: calculateScale(for: item.wrappedValue, translationProgress: translationProgress))
             .focusSectionIfAvailable()
-            .padding(itemsAlignment.toEdgeSet(), lastItemConfig.heightMode == .fullscreen ? 0 : getPopupPadding())
+            .padding(calculatePopupPadding())
             .transition(transition)
             .zIndex(getZIndex(item.wrappedValue))
             .compositingGroup()
@@ -121,7 +119,7 @@ private extension PopupStackView {
 
 // MARK: - Calculating Corner Radius
 private extension PopupStackView {
-    func calculateCornerRadius(activePopupConfig: Config) -> [VerticalEdge: CGFloat] {
+    func calculateCornerRadius() -> [VerticalEdge: CGFloat] {
         let cornerRadiusValue = calculateCornerRadiusValue(activePopupConfig)
         return [
             .top: calculateTopCornerRadius(cornerRadiusValue),
@@ -259,13 +257,24 @@ private extension PopupStackView {
 
 
 
-extension PopupStackView {
+private extension PopupStackView {
+    func calculatePopupPadding() -> EdgeInsets { guard activePopupConfig.heightMode != .fullscreen else { return .init() }; return .init(
+        top: activePopupConfig.popupPadding.top,
+        leading: activePopupConfig.popupPadding.horizontal,
+        bottom: activePopupConfig.popupPadding.bottom,
+        trailing: activePopupConfig.popupPadding.horizontal
+    )}
+
+
+
+
+
     var popupTopPadding: CGFloat { getConfig(items.last).popupPadding.top }
     var popupBottomPadding: CGFloat { getConfig(items.last).popupPadding.bottom }
-    var popupHorizontalPadding: CGFloat { getConfig(items.last).popupPadding.horizontal }
 
 
 
+    var activePopupConfig: Config { getConfig(items.last) }
 
 
     var isKeyboardVisible: Bool { keyboardManager.height > 0 }
@@ -312,11 +321,6 @@ private extension PopupStackView {
     func getDragTranslationMultiplier() -> CGFloat { switch itemsAlignment {
         case .top: 1
         case .bottom: -1
-    }}
-
-    func getPopupPadding() -> CGFloat { switch itemsAlignment {
-        case .top: popupTopPadding
-        case .bottom: popupBottomPadding
     }}
 
 
