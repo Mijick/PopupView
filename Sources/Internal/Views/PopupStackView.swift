@@ -51,7 +51,6 @@ private extension PopupStackView {
             .padding(.horizontal, popupHorizontalPadding)
             .offset(y: getOffset(item.wrappedValue))
             .scaleEffect(x: getScale(item.wrappedValue))
-            .opacity(getOpacity(item.wrappedValue))
             .focusSectionIfAvailable()
             .padding(getPopupAlignment(), lastItemConfig.heightMode == .fullscreen ? 0 : getPopupPadding())
             .transition(getTransition())
@@ -147,32 +146,41 @@ private extension PopupStackView {
 // MARK: - Saving Height For Item
 private extension PopupStackView {
     func save(height: CGFloat, for popup: Binding<AnyPopup>, popupConfig: Config) { if !isGestureActive {
-
+        let newHeight = calculateHeight(height, popupConfig)
+        updateHeight(newHeight, popup)
     }}
 }
 private extension PopupStackView {
-    func calculateHeight(_ height: CGFloat, _ config: Config) -> CGFloat { switch config.heightMode {
-        case .auto: min(height, maxHeight)
-        case .large: getMaxHeight()
-        case .fullscreen: screenManager.size.height
+    func calculateHeight(_ height: CGFloat, _ popupConfig: Config) -> CGFloat { switch popupConfig.heightMode {
+        case .auto: min(height, calculateLargeScreenHeight())
+        case .large: calculateLargeScreenHeight()
+        case .fullscreen: getFullscreenHeight()
     }}
+    func updateHeight(_ newHeight: CGFloat, _ item: Binding<AnyPopup>) { if item.wrappedValue.height != newHeight { Task { @MainActor in
+        item.wrappedValue.height = newHeight
+    }}}
 }
 private extension PopupStackView {
-
-    
-
-
-
-
-    var maxHeight: CGFloat { getMaxHeight() - popupTopPadding - popupBottomPadding }
-
-    func getMaxHeight() -> CGFloat {
-        let basicHeight = screenManager.size.height - getKeySafeArea() - getPopupPadding()
-        let stackedViewsCount = min(max(0, getGlobalConfig().stackLimit - 1), items.count - 1)
-        let stackedViewsHeight = getGlobalConfig().stackOffset * .init(stackedViewsCount) * maxHeightStackedFactor
-        return basicHeight - stackedViewsHeight
+    func calculateLargeScreenHeight() -> CGFloat {
+        let fullscreenHeight = getFullscreenHeight(),
+            safeAreaHeight = screenManager.safeArea[!itemsAlignment],
+            popupPaddings = popupTopPadding + popupBottomPadding,
+            stackHeight = calculateStackHeight()
+        return fullscreenHeight - safeAreaHeight - popupPaddings - stackHeight
+    }
+    func getFullscreenHeight() -> CGFloat {
+        screenManager.size.height
     }
 }
+private extension PopupStackView {
+    func calculateStackHeight() -> CGFloat {
+        let numberOfStackedItems = max(items.count - 1, 0)
+
+        let stackedItemsHeight = stackOffset * .init(numberOfStackedItems)
+        return stackedItemsHeight
+    }
+}
+
 
 
 // MARK: - View Modifiers
@@ -191,14 +199,12 @@ private extension PopupStackView {
 
 
 
-    func getFixedSize(config: Config, height: CGFloat) -> Bool { !(config.heightMode == .fullscreen || config.heightMode == .large || height == maxHeight) }
+    func getFixedSize(config: Config, height: CGFloat) -> Bool { !(config.heightMode == .fullscreen || config.heightMode == .large || height == calculateLargeScreenHeight()) }
     func getBackgroundColour(for item: AnyPopup) -> Color { getConfig(item).backgroundColour }
 }
 private extension PopupStackView {
 
-    func updateHeight(_ newHeight: CGFloat, _ item: Binding<AnyPopup>) { if item.wrappedValue.height != newHeight { Task { @MainActor in
-        item.wrappedValue.height = newHeight
-    }}}
+
 }
 
 
@@ -234,6 +240,10 @@ extension PopupStackView {
 
 
 
+// MARK: - Attributes
+private extension PopupStackView {
+    var stackOffset: CGFloat { 8 }
+}
 
 
 
@@ -494,9 +504,9 @@ private extension PopupStackView {
     }
     func calculatePopupTargetHeightsFromDragDetents(_ lastPopupHeight: CGFloat) -> [CGFloat] { getConfig(items.last).dragDetents
             .map { switch $0 {
-                case .fixed(let targetHeight): min(targetHeight, getMaxHeight())
-                case .fraction(let fraction): min(fraction * lastPopupHeight, getMaxHeight())
-                case .fullscreen(let stackVisible): stackVisible ? getMaxHeight() : screenManager.size.height
+                case .fixed(let targetHeight): min(targetHeight, calculateLargeScreenHeight())
+                case .fraction(let fraction): min(fraction * lastPopupHeight, calculateLargeScreenHeight())
+                case .fullscreen(let stackVisible): stackVisible ? calculateLargeScreenHeight() : screenManager.size.height
             }}
             .appending(lastPopupHeight)
             .sorted(by: <)
@@ -538,4 +548,10 @@ private extension PopupStackView {
 enum VerticalEdge {
     case top
     case bottom
+}
+extension VerticalEdge {
+    static prefix func !(lhs: Self) -> Self { switch lhs {
+        case .top: .bottom
+        case .bottom: .top
+    }}
 }

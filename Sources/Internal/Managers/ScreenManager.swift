@@ -24,7 +24,7 @@ class ScreenManager: ObservableObject {
 #elseif os(macOS)
 class ScreenManager: ObservableObject {
     @Published var size: CGSize = .init()
-    @Published var safeArea: NSEdgeInsets = .init()
+    @Published var safeArea: EdgeInsets = .init()
     private(set) var animationsDisabled: Bool = false
     private var subscription: [AnyCancellable] = []
 
