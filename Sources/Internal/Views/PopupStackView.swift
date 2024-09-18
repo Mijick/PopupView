@@ -263,7 +263,7 @@ extension PopupStackView {
     var popupTopPadding: CGFloat { getConfig(items.last).popupPadding.top }
     var popupBottomPadding: CGFloat { getConfig(items.last).popupPadding.bottom }
     var popupHorizontalPadding: CGFloat { getConfig(items.last).popupPadding.horizontal }
-    var popupShadow: Shadow { getGlobalConfig().shadow }
+
 
 
 
@@ -278,20 +278,28 @@ extension PopupStackView {
     }
 }
 
-
-
 // MARK: - Attributes
 private extension PopupStackView {
-    var stackOffset: CGFloat { getGlobalConfig().isStackingPossible ? 8 : 0 }
+
+}
+
+// MARK: - Configurable Attributes
+private extension PopupStackView {
+    var popupShadow: Shadow { globalConfig.shadow }
+    var stackOffset: CGFloat { globalConfig.isStackingPossible ? 8 : 0 }
     var stackScaleFactor: CGFloat { 0.025 }
     var stackOverlayColour: Color { .black }
     var stackOverlayFactor: CGFloat { 0.1 }
     var maxStackOverlayFactor: CGFloat { 0.48 }
     var transition: AnyTransition { .move(edge: itemsAlignment.toEdge()) }
-    var gestureClosingThresholdFactor: CGFloat { getGlobalConfig().dragGestureProgressToClose }
+    var gestureClosingThresholdFactor: CGFloat { globalConfig.dragGestureProgressToClose }
     var distanceFromKeyboard: CGFloat { getConfig(items.last).distanceFromKeyboard }
 }
 
+// MARK: - Helpers
+private extension PopupStackView {
+    var globalConfig: GlobalConfig.Vertical { ConfigContainer.vertical }
+}
 
 
 
@@ -349,10 +357,6 @@ extension PopupStackView {
 // MARK: - Config Related
 extension PopupStackView {
     func getConfig(_ item: AnyPopup?) -> Config { item.getConfig() }
-    func getGlobalConfig() -> GlobalConfig.Vertical { switch itemsAlignment {
-        case .top: ConfigContainer.vertical
-        case .bottom: ConfigContainer.vertical
-    }}
 }
 extension AnyPopup? {
     func getConfig<Config: LocalConfig>() -> Config {
