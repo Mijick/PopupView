@@ -230,6 +230,22 @@ private extension PopupStackView {
     }}
 }
 
+// MARK: - Stack Overlay Colour
+private extension PopupStackView {
+    func getStackOverlayColour(_ item: AnyPopup) -> Color {
+        let opacity = calculateStackOverlayOpacity(item)
+        return stackOverlayColour.opacity(opacity)
+    }
+}
+private extension PopupStackView {
+    func calculateStackOverlayOpacity(_ item: AnyPopup) -> Double {
+        let overlayValue = min(maxStackOverlayFactor, .init(getInvertedIndex(of: item)) * stackOverlayFactor)
+        let remainingTranslationProgressValue = isNextToLast(item) ? remainingTranslationProgress : max(0.6, remainingTranslationProgress)
+        let opacity = overlayValue * remainingTranslationProgressValue
+        return max(0, opacity)
+    }
+}
+
 
 
 
@@ -272,6 +288,9 @@ extension PopupStackView {
 private extension PopupStackView {
     var stackOffset: CGFloat { getGlobalConfig().isStackingPossible ? 8 : 0 }
     var stackScaleFactor: CGFloat { 0.025 }
+    var stackOverlayColour: Color { .black }
+    var stackOverlayFactor: CGFloat { 0.1 }
+    var maxStackOverlayFactor: CGFloat { 0.48 }
 }
 
 
@@ -336,26 +355,7 @@ private extension PopupStackView {
 
 
 
-// MARK: - Stack Overlay Colour
-extension PopupStackView {
-    func getStackOverlayColour(_ item: AnyPopup) -> Color {
-        let opacity = calculateStackOverlayOpacity(item)
-        return stackOverlayColour.opacity(opacity)
-    }
-}
-private extension PopupStackView {
-    func calculateStackOverlayOpacity(_ item: AnyPopup) -> Double {
-        let overlayValue = min(maxStackOverlayFactor, .init(getInvertedIndex(of: item)) * stackOverlayFactor)
-        let remainingTranslationProgressValue = isNextToLast(item) ? remainingTranslationProgress : max(0.6, remainingTranslationProgress)
-        let opacity = overlayValue * remainingTranslationProgressValue
-        return max(0, opacity)
-    }
-}
-private extension PopupStackView {
-    var stackOverlayColour: Color { .black }
-    var stackOverlayFactor: CGFloat { 0.1 }
-    var maxStackOverlayFactor: CGFloat { 0.48 }
-}
+
 
 
 
