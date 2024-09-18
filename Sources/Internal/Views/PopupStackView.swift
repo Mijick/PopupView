@@ -53,7 +53,7 @@ private extension PopupStackView {
             .focusSectionIfAvailable()
             .padding(calculatePopupPadding())
             .transition(transition)
-            .zIndex(getZIndex(item.wrappedValue))
+            .zIndex(calculateZIndex(for: item.wrappedValue))
             .compositingGroup()
     }
 }
@@ -263,6 +263,13 @@ private extension PopupStackView {
     )}
 }
 
+// MARK: - Item ZIndex
+private extension PopupStackView {
+    func calculateZIndex(for popup: AnyPopup) -> Double {
+        .init(items.firstIndex(of: popup) ?? 2137)
+    }
+}
+
 // MARK: - Attributes
 private extension PopupStackView {
     var isKeyboardVisible: Bool { keyboardManager.height > 0 }
@@ -283,6 +290,13 @@ private extension PopupStackView {
 }
 
 // MARK: - Helpers
+private extension PopupStackView {
+    func getInvertedIndex(of popup: AnyPopup) -> Int {
+        let index = items.firstIndex(of: popup) ?? 0
+        let invertedIndex = items.count - 1 - index
+        return invertedIndex
+    }
+}
 private extension PopupStackView {
     var globalConfig: GlobalConfig.Vertical { ConfigContainer.vertical }
 }
@@ -312,26 +326,6 @@ private extension PopupStackView {
         case .top: abs(min(gestureTranslation + getLastDragHeight(), 0)) / popupHeight
         case .bottom: max(gestureTranslation - getLastDragHeight(), 0) / popupHeight
     }}
-}
-
-
-
-// MARK: - Helpers
-private extension PopupStackView {
-    func getInvertedIndex(of item: AnyPopup) -> Int { items.count - 1 - index(item) }
-    func index(_ item: AnyPopup) -> Int { items.firstIndex(of: item) ?? 0 }
-}
-
-
-
-
-
-
-
-
-// MARK: - Item ZIndex
-extension PopupStackView {
-    func getZIndex(_ item: AnyPopup) -> Double { .init(items.firstIndex(of: item) ?? 2137) }
 }
 
 
