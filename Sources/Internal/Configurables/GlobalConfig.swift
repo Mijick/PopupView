@@ -22,9 +22,8 @@ public class GlobalConfig {
 // MARK: Vertical
 public extension GlobalConfig { class Vertical: GlobalConfig {
     var distanceFromKeyboard: CGFloat = 8
-    var stackOffset: CGFloat = 8
-    var stackScaleFactor: CGFloat = 0.04
-    var stackLimit: Int = 4
+    var isStackingPossible: Bool = true
+    var stackScaleFactor: CGFloat = 0.03
     var dragGestureEnabled: Bool = true
     var dragGestureProgressToClose: CGFloat = 1/3
 }}
