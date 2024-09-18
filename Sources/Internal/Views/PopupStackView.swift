@@ -274,6 +274,7 @@ private extension PopupStackView {
 private extension PopupStackView {
     var isKeyboardVisible: Bool { keyboardManager.height > 0 }
     var activePopupConfig: Config { getConfig(items.last) }
+    var globalConfig: GlobalConfig.Vertical { ConfigContainer.vertical }
 }
 
 // MARK: - Configurable Attributes
@@ -286,7 +287,7 @@ private extension PopupStackView {
     var maxStackOverlayFactor: CGFloat { 0.48 }
     var transition: AnyTransition { .move(edge: itemsAlignment.toEdge()) }
     var gestureClosingThresholdFactor: CGFloat { globalConfig.dragGestureProgressToClose }
-    var distanceFromKeyboard: CGFloat { getConfig(items.last).distanceFromKeyboard }
+    var distanceFromKeyboard: CGFloat { activePopupConfig.distanceFromKeyboard }
 }
 
 // MARK: - Helpers
@@ -297,36 +298,9 @@ private extension PopupStackView {
         return invertedIndex
     }
 }
-private extension PopupStackView {
-    var globalConfig: GlobalConfig.Vertical { ConfigContainer.vertical }
-}
 
 
 
-
-private extension PopupStackView {
-    func getDragExtremeValue(_ value1: CGFloat, _ value2: CGFloat) -> CGFloat { switch itemsAlignment {
-        case .top: min(value1, value2)
-        case .bottom: max(value1, value2)
-    }}
-    func getDragTranslationMultiplier() -> CGFloat { switch itemsAlignment {
-        case .top: 1
-        case .bottom: -1
-    }}
-
-
-    var translationProgress: CGFloat { guard let popupHeight = getLastPopupHeight() else { return 0 }
-        let translationProgress = calculateTranslationProgress(popupHeight)
-        return translationProgress
-    }
-
-
-
-    func calculateTranslationProgress(_ popupHeight: CGFloat) -> CGFloat { switch itemsAlignment {
-        case .top: abs(min(gestureTranslation + getLastDragHeight(), 0)) / popupHeight
-        case .bottom: max(gestureTranslation - getLastDragHeight(), 0) / popupHeight
-    }}
-}
 
 
 
@@ -386,8 +360,8 @@ private extension PopupStackView {
     }}
 }
 private extension PopupStackView {
-    func canDragGestureBeUsed() -> Bool { getConfig(items.last).dragGestureEnabled }
-    func updateGestureTranslation(_ value: CGFloat) { switch getConfig(items.last).dragDetents.isEmpty {
+    func canDragGestureBeUsed() -> Bool { activePopupConfig.dragGestureEnabled }
+    func updateGestureTranslation(_ value: CGFloat) { switch activePopupConfig.dragDetents.isEmpty {
         case true: gestureTranslation = calculateGestureTranslationWhenNoDragDetents(value)
         case false: gestureTranslation = calculateGestureTranslationWhenDragDetents(value)
     }}
@@ -444,7 +418,7 @@ private extension PopupStackView {
         let currentPopupHeight = lastPopupHeight + currentDragHeight
         return currentPopupHeight
     }
-    func calculatePopupTargetHeightsFromDragDetents(_ lastPopupHeight: CGFloat) -> [CGFloat] { getConfig(items.last).dragDetents
+    func calculatePopupTargetHeightsFromDragDetents(_ lastPopupHeight: CGFloat) -> [CGFloat] { activePopupConfig.dragDetents
             .map { switch $0 {
                 case .fixed(let targetHeight): min(targetHeight, calculateLargeScreenHeight())
                 case .fraction(let fraction): min(fraction * lastPopupHeight, calculateLargeScreenHeight())
@@ -483,4 +457,32 @@ private extension PopupStackView {
     func shouldDismissPopup() -> Bool {
         translationProgress >= gestureClosingThresholdFactor
     }
+}
+
+
+
+
+
+private extension PopupStackView {
+    func getDragExtremeValue(_ value1: CGFloat, _ value2: CGFloat) -> CGFloat { switch itemsAlignment {
+        case .top: min(value1, value2)
+        case .bottom: max(value1, value2)
+    }}
+    func getDragTranslationMultiplier() -> CGFloat { switch itemsAlignment {
+        case .top: 1
+        case .bottom: -1
+    }}
+
+
+    var translationProgress: CGFloat { guard let popupHeight = getLastPopupHeight() else { return 0 }
+        let translationProgress = calculateTranslationProgress(popupHeight)
+        return translationProgress
+    }
+
+
+
+    func calculateTranslationProgress(_ popupHeight: CGFloat) -> CGFloat { switch itemsAlignment {
+        case .top: abs(min(gestureTranslation + getLastDragHeight(), 0)) / popupHeight
+        case .bottom: max(gestureTranslation - getLastDragHeight(), 0) / popupHeight
+    }}
 }
