@@ -86,7 +86,7 @@ private extension PopupStackView {
         if popupConfig.ignoredSafeAreaEdges.contains(.top) { return 0 }
 
         return switch itemsAlignment {
-            case .top: calculateVerticalPaddingAdhereEdge(safeAreaHeight: screenManager.safeArea.top, popupPadding: popupTopPadding)
+            case .top: calculateVerticalPaddingAdhereEdge(safeAreaHeight: screenManager.safeArea.top, popupPadding: calculatePopupPadding().top)
             case .bottom: calculateVerticalPaddingCounterEdge(popupHeight: activePopupHeight, safeArea: screenManager.safeArea.top)
         }
     }
@@ -96,7 +96,7 @@ private extension PopupStackView {
 
         return switch itemsAlignment {
             case .top: calculateVerticalPaddingCounterEdge(popupHeight: activePopupHeight, safeArea: screenManager.safeArea.bottom)
-            case .bottom: calculateVerticalPaddingAdhereEdge(safeAreaHeight: screenManager.safeArea.bottom, popupPadding: popupBottomPadding)
+            case .bottom: calculateVerticalPaddingAdhereEdge(safeAreaHeight: screenManager.safeArea.bottom, popupPadding: calculatePopupPadding().bottom)
         }
     }
     func calculateLeadingBodyPadding() -> CGFloat {
@@ -133,12 +133,12 @@ private extension PopupStackView {
         case .fullscreen: 0
     }}
     func calculateTopCornerRadius(_ cornerRadiusValue: CGFloat) -> CGFloat { switch itemsAlignment {
-        case .top: popupTopPadding != 0 ? cornerRadiusValue : 0
+        case .top: calculatePopupPadding().top != 0 ? cornerRadiusValue : 0
         case .bottom: cornerRadiusValue
     }}
     func calculateBottomCornerRadius(_ cornerRadiusValue: CGFloat) -> CGFloat { switch itemsAlignment {
         case .top: cornerRadiusValue
-        case .bottom: popupBottomPadding != 0 ? cornerRadiusValue : 0
+        case .bottom: calculatePopupPadding().bottom != 0 ? cornerRadiusValue : 0
     }}
 }
 
@@ -253,10 +253,7 @@ private extension PopupStackView {
     func getBackgroundColour(popupConfig: Config) -> Color { popupConfig.backgroundColour }
 }
 
-
-
-
-
+// MARK: - Popup Padding
 private extension PopupStackView {
     func calculatePopupPadding() -> EdgeInsets { guard activePopupConfig.heightMode != .fullscreen else { return .init() }; return .init(
         top: activePopupConfig.popupPadding.top,
@@ -264,32 +261,12 @@ private extension PopupStackView {
         bottom: activePopupConfig.popupPadding.bottom,
         trailing: activePopupConfig.popupPadding.horizontal
     )}
-
-
-
-
-
-    var popupTopPadding: CGFloat { getConfig(items.last).popupPadding.top }
-    var popupBottomPadding: CGFloat { getConfig(items.last).popupPadding.bottom }
-
-
-
-    var activePopupConfig: Config { getConfig(items.last) }
-
-
-    var isKeyboardVisible: Bool { keyboardManager.height > 0 }
-
-
-
-    var translationProgress: CGFloat { guard let popupHeight = getLastPopupHeight() else { return 0 }
-        let translationProgress = calculateTranslationProgress(popupHeight)
-        return translationProgress
-    }
 }
 
 // MARK: - Attributes
 private extension PopupStackView {
-
+    var isKeyboardVisible: Bool { keyboardManager.height > 0 }
+    var activePopupConfig: Config { getConfig(items.last) }
 }
 
 // MARK: - Configurable Attributes
@@ -324,7 +301,10 @@ private extension PopupStackView {
     }}
 
 
-
+    var translationProgress: CGFloat { guard let popupHeight = getLastPopupHeight() else { return 0 }
+        let translationProgress = calculateTranslationProgress(popupHeight)
+        return translationProgress
+    }
 
 
 
