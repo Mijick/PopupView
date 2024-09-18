@@ -45,7 +45,7 @@ private extension PopupStackView {
         return item.wrappedValue.body
             .padding(calculateBodyPadding(activePopupHeight: height, popupConfig: config))
             .fixedSize(horizontal: false, vertical: getFixedSize(config: config, height: height ?? 0))
-            .onHeightChange { saveHeight($0, for: item) }
+            .onHeightChange { save(height: $0, for: item, popupConfig: config) }
             .frame(height: height, alignment: getStackAlignment())
             .frame(maxWidth: .infinity)
             .background(getBackgroundColour(for: item.wrappedValue), overlayColour: getStackOverlayColour(item.wrappedValue), corners: calculateCornerRadius(activePopupConfig: lastItemConfig), shadow: popupShadow)
@@ -228,18 +228,6 @@ private extension PopupStackView {
 // MARK: - View Modifiers
 private extension PopupStackView {
 
-    func saveHeight(_ height: CGFloat, for item: Binding<AnyPopup>) { if !isGestureActive {
-        let config = getConfig(item.wrappedValue)
-        let newHeight = calculateHeight(height, config)
-
-        updateHeight(newHeight, item)
-    }}
-
-
-
-
-
-
 
     func getFixedSize(config: Config, height: CGFloat) -> Bool { !(config.heightMode == .fullscreen || config.heightMode == .large || height == calculateLargeScreenHeight()) }
     func getBackgroundColour(for item: AnyPopup) -> Color { getConfig(item).backgroundColour }
@@ -375,11 +363,6 @@ extension PopupStackView {
     func getZIndex(_ item: AnyPopup) -> Double { .init(items.firstIndex(of: item) ?? 2137) }
 }
 
-
-
-
-
-// MARK: - Stack Offset
 
 
 
