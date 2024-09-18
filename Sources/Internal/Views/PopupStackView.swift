@@ -44,7 +44,7 @@ private extension PopupStackView {
 
         return item.wrappedValue.body
             .padding(calculateBodyPadding(activePopupHeight: height, popupConfig: config))
-            .fixedSize(horizontal: false, vertical: getFixedSize(config: config, height: height ?? 0))
+            .fixedSize(horizontal: false, vertical: calculateVerticalFixedSize(popupConfig: config, activePopupHeight: height))
             .onHeightChange { save(height: $0, for: item, popupConfig: config) }
             .frame(height: height, alignment: getStackAlignment())
             .frame(maxWidth: .infinity)
@@ -222,19 +222,20 @@ private extension PopupStackView {
     }
 }
 
+// MARK: - Fixed Size
+private extension PopupStackView {
+    func calculateVerticalFixedSize(popupConfig: Config, activePopupHeight: CGFloat?) -> Bool { switch popupConfig.heightMode {
+        case .fullscreen, .large: false
+        case .auto: activePopupHeight != calculateLargeScreenHeight()
+    }}
+}
+
 
 
 
 // MARK: - View Modifiers
 private extension PopupStackView {
-
-
-    func getFixedSize(config: Config, height: CGFloat) -> Bool { !(config.heightMode == .fullscreen || config.heightMode == .large || height == calculateLargeScreenHeight()) }
     func getBackgroundColour(for item: AnyPopup) -> Color { getConfig(item).backgroundColour }
-}
-private extension PopupStackView {
-
-
 }
 
 
