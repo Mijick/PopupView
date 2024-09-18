@@ -238,11 +238,15 @@ private extension PopupStackView {
     }
 }
 private extension PopupStackView {
-    func calculateStackOverlayOpacity(_ item: AnyPopup) -> Double {
-        let overlayValue = min(maxStackOverlayFactor, .init(getInvertedIndex(of: item)) * stackOverlayFactor)
-        let remainingTranslationProgressValue = isNextToLast(item) ? remainingTranslationProgress : max(0.6, remainingTranslationProgress)
-        let opacity = overlayValue * remainingTranslationProgressValue
-        return max(0, opacity)
+    func calculateStackOverlayOpacity(_ popup: AnyPopup, _ translationProgress: CGFloat) -> Double { guard popup != items.last else { return 0 }
+        let invertedIndex = getInvertedIndex(of: popup),
+            remainingTranslationProgress = 1 - translationProgress
+
+        let progressMultiplier = invertedIndex == 1 ? remainingTranslationProgress : max(0.6, remainingTranslationProgress)
+        let overlayValue = min(stackOverlayFactor * .init(invertedIndex), maxStackOverlayFactor)
+
+        let opacity = overlayValue * progressMultiplier
+        return max(opacity, 0)
     }
 }
 
@@ -328,7 +332,6 @@ private extension PopupStackView {
 
 // MARK: - Helpers
 private extension PopupStackView {
-    func isNextToLast(_ item: AnyPopup) -> Bool { getInvertedIndex(of: item) == 1 }
     func getInvertedIndex(of item: AnyPopup) -> Int { items.count - 1 - index(item) }
     func index(_ item: AnyPopup) -> Int { items.firstIndex(of: item) ?? 0 }
 }
