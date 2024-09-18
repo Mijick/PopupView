@@ -318,13 +318,8 @@ extension AnyPopup? {
 
 // MARK: - Height Related
 extension PopupStackView {
-    func getInitialHeight() -> CGFloat { items.nextToLast?.height ?? 30 }
     func getLastDragHeight() -> CGFloat { items.last?.dragHeight ?? 0 }
-    func getLastPopupHeight() -> CGFloat? {
-        let height = items.last?.height
-        return height == 0 ? getInitialHeight() : height
-    }
-
+    func getLastPopupHeight() -> CGFloat? { items.last?.height }
 }
 
 // MARK: - Animation Related
