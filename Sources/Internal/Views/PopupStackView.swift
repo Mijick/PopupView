@@ -173,7 +173,7 @@ private extension PopupStackView {
     }
 }
 private extension PopupStackView {
-    func calculateStackHeight() -> CGFloat {
+    func calculateStackHeight() -> CGFloat { guard getGlobalConfig().isStackingPossible else { return 0 }
         let numberOfStackedItems = max(items.count - 1, 0)
 
         let stackedItemsHeight = stackOffset * .init(numberOfStackedItems)
@@ -222,10 +222,8 @@ extension PopupStackView {
 
 
 
-    var stackLimit: Int { getGlobalConfig().stackLimit }
     var stackScaleFactor: CGFloat { getGlobalConfig().stackScaleFactor }
-    var stackOffsetValue: CGFloat { getGlobalConfig().stackOffset * getOffsetMultiplier() }
-
+    var stackOffsetValue: CGFloat { stackOffset * getOffsetMultiplier() }
 
 
 
@@ -336,7 +334,7 @@ extension PopupStackView {
 }
 private extension PopupStackView {
     func calculateStackOverlayOpacity(_ item: AnyPopup) -> Double {
-        let overlayValue = .init(invertedIndex(item)) * stackOverlayFactor
+        let overlayValue = min(maxStackOverlayFactor, .init(invertedIndex(item)) * stackOverlayFactor)
         let remainingTranslationProgressValue = isNextToLast(item) ? remainingTranslationProgress : max(0.6, remainingTranslationProgress)
         let opacity = overlayValue * remainingTranslationProgressValue
         return max(0, opacity)
@@ -344,12 +342,8 @@ private extension PopupStackView {
 }
 private extension PopupStackView {
     var stackOverlayColour: Color { .black }
-    var stackOverlayFactor: CGFloat { 1 / .init(stackLimit) * 0.5 }
-}
-
-// MARK: - Stack Opacity
-extension PopupStackView {
-    func getOpacity(_ item: AnyPopup) -> Double { invertedIndex(item) <= stackLimit ? 1 : 0.000000001 }
+    var stackOverlayFactor: CGFloat { 0.1 }
+    var maxStackOverlayFactor: CGFloat { 0.48 }
 }
 
 
