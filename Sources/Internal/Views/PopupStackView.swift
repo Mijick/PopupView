@@ -267,15 +267,8 @@ extension PopupStackView {
 
 
 
-    var distanceFromKeyboard: CGFloat { getConfig(items.last).distanceFromKeyboard }
+
     var isKeyboardVisible: Bool { keyboardManager.height > 0 }
-
-
-
-
-
-
-
 
 
 
@@ -283,7 +276,6 @@ extension PopupStackView {
         let translationProgress = calculateTranslationProgress(popupHeight)
         return translationProgress
     }
-    var gestureClosingThresholdFactor: CGFloat { getGlobalConfig().dragGestureProgressToClose }
 }
 
 
@@ -296,6 +288,8 @@ private extension PopupStackView {
     var stackOverlayFactor: CGFloat { 0.1 }
     var maxStackOverlayFactor: CGFloat { 0.48 }
     var transition: AnyTransition { .move(edge: itemsAlignment.toEdge()) }
+    var gestureClosingThresholdFactor: CGFloat { getGlobalConfig().dragGestureProgressToClose }
+    var distanceFromKeyboard: CGFloat { getConfig(items.last).distanceFromKeyboard }
 }
 
 
