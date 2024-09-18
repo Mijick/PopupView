@@ -48,7 +48,7 @@ private extension PopupStackView {
             .onHeightChange { save(height: $0, for: item, popupConfig: config) }
             .frame(height: height, alignment: (!itemsAlignment).toAlignment())
             .frame(maxWidth: .infinity)
-            .background(getBackgroundColour(for: item.wrappedValue), overlayColour: getStackOverlayColour(item.wrappedValue), corners: calculateCornerRadius(activePopupConfig: lastItemConfig), shadow: popupShadow)
+            .background(getBackgroundColour(for: item.wrappedValue), overlayColour: getStackOverlayColour(for: item.wrappedValue, translationProgress: translationProgress), corners: calculateCornerRadius(activePopupConfig: lastItemConfig), shadow: popupShadow)
             .padding(.horizontal, popupHorizontalPadding)
             .offset(y: calculateOffset(for: item.wrappedValue))
             .scaleEffect(x: calculateScale(for: item.wrappedValue, translationProgress: translationProgress))
@@ -232,8 +232,8 @@ private extension PopupStackView {
 
 // MARK: - Stack Overlay Colour
 private extension PopupStackView {
-    func getStackOverlayColour(_ item: AnyPopup) -> Color {
-        let opacity = calculateStackOverlayOpacity(item)
+    func getStackOverlayColour(for popup: AnyPopup, translationProgress: CGFloat) -> Color {
+        let opacity = calculateStackOverlayOpacity(popup, translationProgress)
         return stackOverlayColour.opacity(opacity)
     }
 }
@@ -331,9 +331,6 @@ private extension PopupStackView {
     func isNextToLast(_ item: AnyPopup) -> Bool { getInvertedIndex(of: item) == 1 }
     func getInvertedIndex(of item: AnyPopup) -> Int { items.count - 1 - index(item) }
     func index(_ item: AnyPopup) -> Int { items.firstIndex(of: item) ?? 0 }
-}
-private extension PopupStackView {
-    var remainingTranslationProgress: CGFloat { 1 - translationProgress }
 }
 
 
