@@ -38,7 +38,8 @@ private extension PopupStackView {
     func createPopup(_ item: Binding<AnyPopup>) -> some View {
         let config = getConfig(item.wrappedValue),
             lastItemConfig = getConfig(items.last),
-            height = calculateHeightForActivePopup()
+            height = calculateHeightForActivePopup(),
+            translationProgress = translationProgress
 
 
         return item.wrappedValue.body
@@ -50,7 +51,7 @@ private extension PopupStackView {
             .background(getBackgroundColour(for: item.wrappedValue), overlayColour: getStackOverlayColour(item.wrappedValue), corners: calculateCornerRadius(activePopupConfig: lastItemConfig), shadow: popupShadow)
             .padding(.horizontal, popupHorizontalPadding)
             .offset(y: calculateOffset(for: item.wrappedValue))
-            .scaleEffect(x: getScale(item.wrappedValue))
+            .scaleEffect(x: calculateScale(for: item.wrappedValue, translationProgress: translationProgress))
             .focusSectionIfAvailable()
             .padding(getPopupAlignment(), lastItemConfig.heightMode == .fullscreen ? 0 : getPopupPadding())
             .transition(getTransition())
@@ -209,9 +210,17 @@ private extension PopupStackView {
     }
 }
 
+// MARK: - Calculating Scale
+private extension PopupStackView {
+    func calculateScale(for popup: AnyPopup, translationProgress: CGFloat) -> CGFloat { guard popup != items.last else { return 1 }
+        let invertedIndex = getInvertedIndex(of: popup),
+            remainingTranslationProgress = 1 - translationProgress
 
-
-
+        let progressMultiplier = invertedIndex == 1 ? remainingTranslationProgress : max(0.7, remainingTranslationProgress)
+        let scaleValue = .init(invertedIndex) * stackScaleFactor * progressMultiplier
+        return 1 - scaleValue
+    }
+}
 
 
 
@@ -250,12 +259,11 @@ extension PopupStackView {
 
 
     var distanceFromKeyboard: CGFloat { getConfig(items.last).distanceFromKeyboard }
-    var maxHeightStackedFactor: CGFloat { 0.85 }
     var isKeyboardVisible: Bool { keyboardManager.height > 0 }
 
 
 
-    var stackScaleFactor: CGFloat { getGlobalConfig().stackScaleFactor }
+
 
 
 
@@ -274,6 +282,7 @@ extension PopupStackView {
 // MARK: - Attributes
 private extension PopupStackView {
     var stackOffset: CGFloat { getGlobalConfig().isStackingPossible ? 8 : 0 }
+    var stackScaleFactor: CGFloat { 0.025 }
 }
 
 
@@ -311,10 +320,6 @@ private extension PopupStackView {
         case .top: popupTopPadding
         case .bottom: popupBottomPadding
     }}
-    func getKeySafeArea() -> CGFloat { switch itemsAlignment {
-        case .top: screenManager.safeArea.bottom
-        case .bottom: screenManager.safeArea.top
-    }}
 
 
 
@@ -339,18 +344,6 @@ private extension PopupStackView {
     var remainingTranslationProgress: CGFloat { 1 - translationProgress }
 }
 
-
-
-
-// MARK: - Scale
-extension PopupStackView {
-    func getScale(_ item: AnyPopup) -> CGFloat {
-        let scaleValue = .init(getInvertedIndex(of: item)) * stackScaleFactor
-        let progressDifference = isNextToLast(item) ? remainingTranslationProgress : max(0.7, remainingTranslationProgress)
-        let scale = 1 - scaleValue * progressDifference
-        return min(1, scale)
-    }
-}
 
 
 

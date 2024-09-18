@@ -16,10 +16,6 @@ public extension GlobalConfig.Vertical {
     /// Distance between content and keyboard (if present)
     func distanceFromKeyboard(_ value: CGFloat) -> Self { self.distanceFromKeyboard = value; return self }
 
-    /// Scale factor of subsequent popups on the stack.
-    /// For example, for **value** = 0.1, the next popup on the stack will have a size of 0.9 of the active popup, and the one after next 0.8.
-    func stackScale(_ value: CGFloat) -> Self { self.stackScaleFactor = value; return self }
-
     /// Popup can be closed with drag gesture if enabled
     func dragGestureEnabled(_ value: Bool) -> Self { self.dragGestureEnabled = value; return self }
 
