@@ -1,5 +1,5 @@
 //
-//  Test.swift of MijickPopups
+//  PopupStackViewModelTests.swift of MijickPopups
 //
 //  Created by Tomasz Kurylik
 //    - Twitter: https://twitter.com/tkurylik
@@ -12,7 +12,7 @@
 import XCTest
 @testable import MijickPopups
 
-final class Test: XCTestCase {
+final class PopupStackViewModelTests: XCTestCase {
 
     override func setUpWithError() throws {
         // Put setup code here. This method is called before the invocation of each test method in the class.
