@@ -275,8 +275,8 @@ private extension PopupStackView {
 // MARK: - Translation Progress
 private extension PopupStackView {
     func calculateTranslationProgress() -> CGFloat { guard let activePopupHeight = items.last?.height else { return 0 }; return switch itemsAlignment {
-        case .top: abs(min(gestureTranslation + getLastDragHeight(), 0)) / activePopupHeight
-        case .bottom: max(gestureTranslation - getLastDragHeight(), 0) / activePopupHeight
+        case .top: abs(min(gestureTranslation + (items.last?.dragHeight ?? 0), 0)) / activePopupHeight
+        case .bottom: max(gestureTranslation - (items.last?.dragHeight ?? 0), 0) / activePopupHeight
     }}
 }
 
@@ -347,7 +347,7 @@ private extension PopupStackView {
         return min(maxHeight1, maxHeight2)
     }
     func calculateDragTranslation(_ maxHeight: CGFloat, _ activePopupHeight: CGFloat) -> CGFloat {
-        let translation = maxHeight - activePopupHeight - getLastDragHeight()
+        let translation = maxHeight - activePopupHeight - (items.last?.dragHeight ?? 0)
         return translation * getDragTranslationMultiplier()
     }
     func calculateDragExtremeValue(_ value1: CGFloat, _ value2: CGFloat) -> CGFloat { switch itemsAlignment {
@@ -404,7 +404,7 @@ private extension PopupStackView {
 
         let initialIndex = popupTargetHeights.firstIndex(where: { $0 >= currentPopupHeight }) ?? popupTargetHeights.count - 1,
             targetIndex = gestureTranslation * getDragTranslationMultiplier() > 0 ? initialIndex : max(0, initialIndex - 1)
-        let previousPopupHeight = getLastDragHeight() + activePopupHeight,
+        let previousPopupHeight = (items.last?.dragHeight ?? 0) + activePopupHeight,
             popupTargetHeight = popupTargetHeights[targetIndex],
             deltaHeight = abs(previousPopupHeight - popupTargetHeight)
         let progress = abs(currentPopupHeight - previousPopupHeight) / deltaHeight
@@ -435,15 +435,4 @@ private extension PopupStackView {
         case .top: 1
         case .bottom: -1
     }}
-}
-
-
-
-
-
-
-
-// MARK: - Height Related
-extension PopupStackView {
-    func getLastDragHeight() -> CGFloat { items.last?.dragHeight ?? 0 }
 }
