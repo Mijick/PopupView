@@ -33,31 +33,31 @@ struct PopupStackView<Config: LocalConfig.Vertical>: View {
 }
 private extension PopupStackView {
     func createPopupStack() -> some View {
-        ForEach($items, id: \.self, content: createPopup)
+        ForEach(items, id: \.self, content: createPopup)
     }
 }
 private extension PopupStackView {
-    func createPopup(_ item: Binding<AnyPopup>) -> some View {
+    func createPopup(_ item: AnyPopup) -> some View {
         Counter.increment()
 
 
 
-        let config = getConfig(item.wrappedValue)
+        let config = getConfig(item)
 
 
-        return item.wrappedValue.body
+        return item.body
             .padding(calculateBodyPadding(popupConfig: config))
             .fixedSize(horizontal: false, vertical: calculateVerticalFixedSize(popupConfig: config))
             .onHeightChange { save(height: $0, for: item, popupConfig: config) }
             .frame(height: viewModel.activePopupHeight, alignment: (!viewModel.alignment).toAlignment())
             .frame(maxWidth: .infinity)
-            .background(getBackgroundColour(popupConfig: config), overlayColour: getStackOverlayColour(for: item.wrappedValue), corners: calculateCornerRadius(), shadow: popupShadow)
-            .offset(y: calculateOffset(for: item.wrappedValue))
-            .scaleEffect(x: calculateScale(for: item.wrappedValue))
+            .background(getBackgroundColour(popupConfig: config), overlayColour: getStackOverlayColour(for: item), corners: calculateCornerRadius(), shadow: popupShadow)
+            .offset(y: calculateOffset(for: item))
+            .scaleEffect(x: calculateScale(for: item))
             .focusSectionIfAvailable()
             .padding(calculatePopupPadding())
             .transition(transition)
-            .zIndex(calculateZIndex(for: item.wrappedValue))
+            .zIndex(calculateZIndex(for: item))
             .compositingGroup()
     }
 }
@@ -148,7 +148,7 @@ private extension PopupStackView {
 
 // MARK: - Saving Height For Item
 private extension PopupStackView {
-    func save(height: CGFloat, for popup: Binding<AnyPopup>, popupConfig: Config) { if !isGestureActive {
+    func save(height: CGFloat, for popup: AnyPopup, popupConfig: Config) { if !isGestureActive {
         let newHeight = calculateHeight(height, popupConfig)
         updateHeight(newHeight, popup)
     }}
@@ -159,8 +159,8 @@ private extension PopupStackView {
         case .large: calculateLargeScreenHeight()
         case .fullscreen: getFullscreenHeight()
     }}
-    func updateHeight(_ newHeight: CGFloat, _ item: Binding<AnyPopup>) { if item.wrappedValue.height != newHeight {
-        viewModel.update(popup: item.wrappedValue) { $0.height = newHeight }
+    func updateHeight(_ newHeight: CGFloat, _ item: AnyPopup) { if item.height != newHeight {
+        viewModel.update(popup: item) { $0.height = newHeight }
     }}
 }
 private extension PopupStackView {

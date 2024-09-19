@@ -12,7 +12,7 @@
 import SwiftUI
 
 extension PopupStackView { class ViewModel: ObservableObject { init(alignment: VerticalEdge) { self.alignment = alignment }
-    let items: [AnyPopup] = []
+    @Published var items: [AnyPopup] = []
     let alignment: VerticalEdge
     var updatePopup: ((AnyPopup) -> ())? = nil
 
