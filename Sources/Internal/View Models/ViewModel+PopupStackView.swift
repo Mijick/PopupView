@@ -17,6 +17,7 @@ extension PopupStackView { class ViewModel: ObservableObject { init(alignment: V
     var updatePopup: ((AnyPopup) -> ())? = nil
 
     @Published var gestureTranslation: CGFloat = 0
+    @Published var keyboardHeight: CGFloat = 0
     var activePopupHeight: CGFloat? = nil
     var translationProgress: CGFloat = 0
 }}

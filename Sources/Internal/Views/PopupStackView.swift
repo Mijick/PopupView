@@ -14,7 +14,6 @@ import SwiftUI
 struct PopupStackView<Config: LocalConfig.Vertical>: View {
     @ObservedObject var viewModel: ViewModel
     @ObservedObject private var screenManager: ScreenManager = .shared
-    @ObservedObject private var keyboardManager: KeyboardManager = .shared
 
 
     var body: some View {
@@ -70,7 +69,7 @@ private extension PopupStackView {
         let popupHeightFromGestureTranslation = activePopupHeight + activePopupDragHeight + viewModel.gestureTranslation * getDragTranslationMultiplier()
 
         let newHeightCandidate1 = max(activePopupHeight, popupHeightFromGestureTranslation),
-            newHeightCanditate2 = screenManager.size.height - keyboardManager.height
+            newHeightCanditate2 = screenManager.size.height - viewModel.keyboardHeight
         return min(newHeightCandidate1, newHeightCanditate2)
     }
 }
@@ -94,7 +93,7 @@ private extension PopupStackView {
         }
     }
     func calculateBottomBodyPadding(activePopupHeight: CGFloat, popupConfig: Config) -> CGFloat {
-        if isKeyboardVisible { return keyboardManager.height + distanceFromKeyboard }
+        if isKeyboardVisible { return viewModel.keyboardHeight + distanceFromKeyboard }
         if popupConfig.ignoredSafeAreaEdges.contains(.bottom) { return 0 }
 
         return switch viewModel.alignment {
@@ -285,7 +284,7 @@ private extension PopupStackView {
 
 // MARK: - Attributes
 private extension PopupStackView {
-    var isKeyboardVisible: Bool { keyboardManager.height > 0 }
+    var isKeyboardVisible: Bool { viewModel.keyboardHeight > 0 }
     var activePopupConfig: Config { getConfig(viewModel.items.last) }
     var globalConfig: GlobalConfig.Vertical { ConfigContainer.vertical }
 }

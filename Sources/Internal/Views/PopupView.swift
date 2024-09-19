@@ -15,6 +15,7 @@ import SwiftUI
 struct PopupView: View {
     @State private var zIndex: ZIndex = .init()
     @ObservedObject private var popupManager: PopupManager = .shared
+    @ObservedObject private var keyboardManager: KeyboardManager = .shared
     @StateObject private var topStackViewModel: PopupStackView.ViewModel = .init(alignment: .top)
     @StateObject private var bottomStackViewModel: PopupStackView.ViewModel = .init(alignment: .bottom)
 
@@ -54,6 +55,10 @@ private extension PopupView {
             .onChange(of: popupManager.views.map { [$0.height, $0.dragHeight] }) { _ in
                 topStackViewModel.items = getViews(TopPopupConfig.self)
                 bottomStackViewModel.items = getViews(BottomPopupConfig.self)
+            }
+            .onChange(of: keyboardManager.height) { _ in
+                topStackViewModel.keyboardHeight = keyboardManager.height
+                bottomStackViewModel.keyboardHeight = keyboardManager.height
             }
     }
 }
