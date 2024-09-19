@@ -443,18 +443,3 @@ private extension PopupStackView {
 private extension PopupStackView {
     var isGestureActive: Bool { viewModel.gestureTranslation != 0 }
 }
-
-
-
-
-
-
-
-extension PopupStackView { class ViewModel: ObservableObject { init(alignment: VerticalEdge) { self.alignment = alignment }
-    let items: [AnyPopup] = []
-    let alignment: VerticalEdge
-
-    @Published var gestureTranslation: CGFloat = 0
-    var activePopupHeight: CGFloat? = nil
-    var translationProgress: CGFloat = 0
-}}
