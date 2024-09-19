@@ -272,6 +272,14 @@ private extension PopupStackView {
     }
 }
 
+// MARK: - Translation Progress
+private extension PopupStackView {
+    func calculateTranslationProgress() -> CGFloat { guard let activePopupHeight = items.last?.height else { return 0 }; return switch itemsAlignment {
+        case .top: abs(min(gestureTranslation + getLastDragHeight(), 0)) / activePopupHeight
+        case .bottom: max(gestureTranslation - getLastDragHeight(), 0) / activePopupHeight
+    }}
+}
+
 // MARK: - Attributes
 private extension PopupStackView {
     var isKeyboardVisible: Bool { keyboardManager.height > 0 }
@@ -433,16 +441,7 @@ private extension PopupStackView {
 
 
 
-private extension PopupStackView {
 
-
-
-
-    func calculateTranslationProgress() -> CGFloat { guard let activePopupHeight = items.last?.height else { return 0 }; return switch itemsAlignment {
-        case .top: abs(min(gestureTranslation + getLastDragHeight(), 0)) / activePopupHeight
-        case .bottom: max(gestureTranslation - getLastDragHeight(), 0) / activePopupHeight
-    }}
-}
 
 // MARK: - Height Related
 extension PopupStackView {
