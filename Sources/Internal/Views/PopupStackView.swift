@@ -16,10 +16,7 @@ struct PopupStackView<Config: LocalConfig.Vertical>: View {
 
 
     var body: some View {
-        viewModel.translationProgress = calculateTranslationProgress()
-
-
-        return ZStack(alignment: (!viewModel.alignment).toAlignment(), content: createPopupStack)
+        ZStack(alignment: (!viewModel.alignment).toAlignment(), content: createPopupStack)
             .frame(height: viewModel.screenSize.height, alignment: viewModel.alignment.toAlignment())
             .animation(heightAnimation, value: viewModel.items.map(\.height))
             .animation(heightAnimation, value: viewModel.items.map(\.dragHeight))
@@ -259,13 +256,7 @@ private extension PopupStackView {
     }
 }
 
-// MARK: - Translation Progress
-private extension PopupStackView {
-    func calculateTranslationProgress() -> CGFloat { guard let activePopupHeight = viewModel.items.last?.height else { return 0 }; return switch viewModel.alignment {
-        case .top: abs(min(viewModel.gestureTranslation + (viewModel.items.last?.dragHeight ?? 0), 0)) / activePopupHeight
-        case .bottom: max(viewModel.gestureTranslation - (viewModel.items.last?.dragHeight ?? 0), 0) / activePopupHeight
-    }}
-}
+
 
 // MARK: - Attributes
 private extension PopupStackView {
@@ -412,7 +403,7 @@ private extension PopupStackView {
         viewModel.gestureTranslation = 0
     }
     func shouldDismissPopup() -> Bool {
-        calculateTranslationProgress() >= gestureClosingThresholdFactor
+        viewModel.translationProgress >= gestureClosingThresholdFactor
     }
 }
 

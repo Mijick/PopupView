@@ -12,13 +12,13 @@
 import SwiftUI
 
 extension PopupStackView { class ViewModel: ObservableObject { init(alignment: VerticalEdge) { self.alignment = alignment }
-    var items: [AnyPopup] = [] { didSet { recalculatePopupHeight() }}
-    var gestureTranslation: CGFloat = 0 { didSet { recalculatePopupHeight() }}
+    var items: [AnyPopup] = [] { didSet { onItemsChanged() }}
+    var gestureTranslation: CGFloat = 0 { didSet { onGestureTranslationChanged() }}
     let alignment: VerticalEdge
     var updatePopup: ((AnyPopup) -> ())? = nil
     @Published var keyboardHeight: CGFloat = 0
     @Published private(set) var activePopupHeight: CGFloat? = nil
-    var translationProgress: CGFloat = 0
+    private(set) var translationProgress: CGFloat = 0
     @Published var screenSize: CGSize = .init()
     @Published var safeArea: EdgeInsets = .init()
 }}
@@ -56,5 +56,13 @@ private extension PopupStackView.ViewModel {
     func getDragTranslationMultiplier() -> CGFloat { switch alignment {
         case .top: 1
         case .bottom: -1
+    }}
+}
+
+// MARK: - Translation Progress
+private extension PopupStackView.ViewModel {
+    func calculateTranslationProgress() -> CGFloat { guard let activePopupHeight = items.last?.height else { return 0 }; return switch alignment {
+        case .top: abs(min(gestureTranslation + (items.last?.dragHeight ?? 0), 0)) / activePopupHeight
+        case .bottom: max(gestureTranslation - (items.last?.dragHeight ?? 0), 0) / activePopupHeight
     }}
 }
