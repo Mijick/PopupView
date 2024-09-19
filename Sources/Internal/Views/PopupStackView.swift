@@ -24,8 +24,8 @@ struct PopupStackView<Config: LocalConfig.Vertical>: View {
         viewModel.activePopupHeight = calculateHeightForActivePopup()
 
 
-        return ZStack(alignment: (!itemsAlignment).toAlignment(), content: createPopupStack)
-            .frame(height: screenManager.size.height, alignment: itemsAlignment.toAlignment())
+        return ZStack(alignment: (!viewModel.alignment).toAlignment(), content: createPopupStack)
+            .frame(height: screenManager.size.height, alignment: viewModel.alignment.toAlignment())
             .animation(heightAnimation, value: items.map(\.height))
             .animation(isGestureActive ? nil : .transition, value: gestureTranslation)
             .animation(.keyboard, value: isKeyboardVisible)
