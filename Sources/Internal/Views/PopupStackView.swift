@@ -12,13 +12,12 @@
 import SwiftUI
 
 struct PopupStackView<Config: LocalConfig.Vertical>: View {
+    @ObservedObject var viewModel: ViewModel
     @Binding var items: [AnyPopup]
-    let itemsAlignment: VerticalEdge
     @State private var gestureTranslation: CGFloat = 0
     @GestureState private var isGestureActive: Bool = false
     @ObservedObject private var screenManager: ScreenManager = .shared
     @ObservedObject private var keyboardManager: KeyboardManager = .shared
-    @StateObject private var viewModel: ViewModel = .init()
 
 
     var body: some View {
@@ -169,7 +168,7 @@ private extension PopupStackView {
 private extension PopupStackView {
     func calculateLargeScreenHeight() -> CGFloat { let popupPadding = calculatePopupPadding()
         let fullscreenHeight = getFullscreenHeight(),
-            safeAreaHeight = screenManager.safeArea[!itemsAlignment],
+            safeAreaHeight = screenManager.safeArea[!viewModel.alignment],
             popupPaddings = popupPadding.top + popupPadding.bottom,
             stackHeight = calculateStackHeight()
         return fullscreenHeight - safeAreaHeight - popupPaddings - stackHeight
@@ -198,7 +197,7 @@ private extension PopupStackView {
     func calculateOffsetForActivePopup() -> CGFloat {
         let lastPopupDragHeight = items.last?.dragHeight ?? 0
 
-        return switch itemsAlignment {
+        return switch viewModel.alignment {
             case .top: min(gestureTranslation + lastPopupDragHeight, 0)
             case .bottom: max(gestureTranslation - lastPopupDragHeight, 0)
         }
@@ -206,7 +205,7 @@ private extension PopupStackView {
     func calculateOffsetForStackedPopup(_ popup: AnyPopup) -> CGFloat {
         let invertedIndex = getInvertedIndex(of: popup)
         let offsetValue = stackOffset * .init(invertedIndex)
-        let alignmentMultiplier = switch itemsAlignment {
+        let alignmentMultiplier = switch viewModel.alignment {
             case .top: 1.0
             case .bottom: -1.0
         }
@@ -357,7 +356,7 @@ private extension PopupStackView {
         let translation = maxHeight - activePopupHeight - (items.last?.dragHeight ?? 0)
         return translation * getDragTranslationMultiplier()
     }
-    func calculateDragExtremeValue(_ value1: CGFloat, _ value2: CGFloat) -> CGFloat { switch itemsAlignment {
+    func calculateDragExtremeValue(_ value1: CGFloat, _ value2: CGFloat) -> CGFloat { switch viewModel.alignment {
         case .top: min(value1, value2)
         case .bottom: max(value1, value2)
     }}
@@ -438,7 +437,7 @@ private extension PopupStackView {
 
 // MARK: Helpers
 private extension PopupStackView {
-    func getDragTranslationMultiplier() -> CGFloat { switch itemsAlignment {
+    func getDragTranslationMultiplier() -> CGFloat { switch viewModel.alignment {
         case .top: 1
         case .bottom: -1
     }}
@@ -451,6 +450,13 @@ private extension PopupStackView {
 
 
 extension PopupStackView { class ViewModel: ObservableObject {
+    let alignment: VerticalEdge
+
     var activePopupHeight: CGFloat? = nil
 
+
+
+    init(alignment: VerticalEdge) {
+        self.alignment = alignment
+    }
 }}
