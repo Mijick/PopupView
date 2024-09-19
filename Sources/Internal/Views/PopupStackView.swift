@@ -322,9 +322,12 @@ private extension PopupStackView {
         case false: gestureTranslation = calculateGestureTranslationWhenDragDetents(value)
     }}
 }
+
+
+
 private extension PopupStackView {
     func calculateGestureTranslationWhenNoDragDetents(_ value: CGFloat) -> CGFloat { getDragExtremeValue(value, 0) }
-    func calculateGestureTranslationWhenDragDetents(_ value: CGFloat) -> CGFloat { guard value * getDragTranslationMultiplier() > 0, let lastPopupHeight = getLastPopupHeight() else { return value }
+    func calculateGestureTranslationWhenDragDetents(_ value: CGFloat) -> CGFloat { guard value * getDragTranslationMultiplier() > 0, let lastPopupHeight = items.last?.height else { return value }
         let maxHeight = calculateMaxHeightForDragGesture(lastPopupHeight)
         let dragTranslation = calculateDragTranslation(maxHeight, lastPopupHeight)
         return getDragExtremeValue(dragTranslation, value)
@@ -356,7 +359,7 @@ private extension PopupStackView {
     func dismissLastItemIfNeeded() { if shouldDismissPopup() {
         PopupManager.dismissPopup(id: items.last?.id.value ?? "")
     }}
-    func updateTranslationValues() { if let lastPopupHeight = getLastPopupHeight() {
+    func updateTranslationValues() { if let lastPopupHeight = items.last?.height {
         let currentPopupHeight = calculateCurrentPopupHeight(lastPopupHeight)
         let popupTargetHeights = calculatePopupTargetHeightsFromDragDetents(lastPopupHeight)
         let targetHeight = calculateTargetPopupHeight(currentPopupHeight, popupTargetHeights)
@@ -384,7 +387,7 @@ private extension PopupStackView {
             .sorted(by: <)
     }
     func calculateTargetPopupHeight(_ currentPopupHeight: CGFloat, _ popupTargetHeights: [CGFloat]) -> CGFloat {
-        guard let lastPopupHeight = getLastPopupHeight(),
+        guard let lastPopupHeight = items.last?.height,
               currentPopupHeight < screenManager.size.height
         else { return popupTargetHeights.last ?? 0 }
 
@@ -430,7 +433,7 @@ private extension PopupStackView {
     }}
 
 
-    var translationProgress: CGFloat { guard let popupHeight = getLastPopupHeight() else { return 0 }
+    var translationProgress: CGFloat { guard let popupHeight = items.last?.height else { return 0 }
         let translationProgress = calculateTranslationProgress(popupHeight)
         return translationProgress
     }
@@ -446,5 +449,4 @@ private extension PopupStackView {
 // MARK: - Height Related
 extension PopupStackView {
     func getLastDragHeight() -> CGFloat { items.last?.dragHeight ?? 0 }
-    func getLastPopupHeight() -> CGFloat? { items.last?.height }
 }
