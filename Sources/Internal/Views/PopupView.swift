@@ -16,6 +16,7 @@ struct PopupView: View {
     @State private var zIndex: ZIndex = .init()
     @ObservedObject private var popupManager: PopupManager = .shared
     @ObservedObject private var keyboardManager: KeyboardManager = .shared
+    @ObservedObject private var screenManager: ScreenManager = .shared
     @StateObject private var topStackViewModel: PopupStackView.ViewModel = .init(alignment: .top)
     @StateObject private var bottomStackViewModel: PopupStackView.ViewModel = .init(alignment: .bottom)
 
@@ -59,6 +60,14 @@ private extension PopupView {
             .onChange(of: keyboardManager.height) { _ in
                 topStackViewModel.keyboardHeight = keyboardManager.height
                 bottomStackViewModel.keyboardHeight = keyboardManager.height
+            }
+            .onChange(of: screenManager.size) { _ in
+                topStackViewModel.screenSize = screenManager.size
+                bottomStackViewModel.screenSize = screenManager.size
+            }
+            .onChange(of: screenManager.safeArea) { _ in
+                topStackViewModel.safeArea = screenManager.safeArea
+                bottomStackViewModel.safeArea = screenManager.safeArea
             }
     }
 }

@@ -20,6 +20,8 @@ extension PopupStackView { class ViewModel: ObservableObject { init(alignment: V
     @Published var keyboardHeight: CGFloat = 0
     var activePopupHeight: CGFloat? = nil
     var translationProgress: CGFloat = 0
+    @Published var screenSize: CGSize = .init()
+    @Published var safeArea: EdgeInsets = .init()
 }}
 
 extension PopupStackView.ViewModel {
