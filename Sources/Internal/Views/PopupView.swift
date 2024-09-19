@@ -15,8 +15,8 @@ import SwiftUI
 struct PopupView: View {
     @State private var zIndex: ZIndex = .init()
     @ObservedObject private var popupManager: PopupManager = .shared
-    @StateObject private var topStackViewModel: PopupStackView.ViewModel = .init(items: [], alignment: .top)
-    @StateObject private var bottomStackViewModel: PopupStackView.ViewModel = .init(items: [], alignment: .bottom)
+    @StateObject private var topStackViewModel: PopupStackView.ViewModel = .init(alignment: .top)
+    @StateObject private var bottomStackViewModel: PopupStackView.ViewModel = .init(alignment: .bottom)
 
 
     var body: some View { createBody() }
