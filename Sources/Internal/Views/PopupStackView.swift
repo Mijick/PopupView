@@ -322,15 +322,14 @@ private extension PopupStackView {
         case false: gestureTranslation = calculateGestureTranslationWhenDragDetents(value)
     }}
 }
-
-
-
 private extension PopupStackView {
-    func calculateGestureTranslationWhenNoDragDetents(_ value: CGFloat) -> CGFloat { getDragExtremeValue(value, 0) }
+    func calculateGestureTranslationWhenNoDragDetents(_ value: CGFloat) -> CGFloat {
+        calculateDragExtremeValue(value, 0)
+    }
     func calculateGestureTranslationWhenDragDetents(_ value: CGFloat) -> CGFloat { guard value * getDragTranslationMultiplier() > 0, let lastPopupHeight = items.last?.height else { return value }
         let maxHeight = calculateMaxHeightForDragGesture(lastPopupHeight)
         let dragTranslation = calculateDragTranslation(maxHeight, lastPopupHeight)
-        return getDragExtremeValue(dragTranslation, value)
+        return calculateDragExtremeValue(dragTranslation, value)
     }
 }
 private extension PopupStackView {
@@ -343,6 +342,10 @@ private extension PopupStackView {
         let translation = maxHeight - lastPopupHeight - getLastDragHeight()
         return translation * getDragTranslationMultiplier()
     }
+    func calculateDragExtremeValue(_ value1: CGFloat, _ value2: CGFloat) -> CGFloat { switch itemsAlignment {
+        case .top: min(value1, value2)
+        case .bottom: max(value1, value2)
+    }}
 }
 private extension PopupStackView {
     var dragTranslationThreshold: CGFloat { 8 }
@@ -431,10 +434,7 @@ private extension PopupStackView {
 
 
 private extension PopupStackView {
-    func getDragExtremeValue(_ value1: CGFloat, _ value2: CGFloat) -> CGFloat { switch itemsAlignment {
-        case .top: min(value1, value2)
-        case .bottom: max(value1, value2)
-    }}
+
 
 
 
