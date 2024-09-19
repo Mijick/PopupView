@@ -30,10 +30,6 @@ extension VerticalEdge {
         case .top: .top
         case .bottom: .bottom
     }}
-    func toEdgeSet() -> Edge.Set { switch self {
-        case .top: .top
-        case .bottom: .bottom
-    }}
     func toAlignment() -> Alignment { switch self {
         case .top: .top
         case .bottom: .bottom
