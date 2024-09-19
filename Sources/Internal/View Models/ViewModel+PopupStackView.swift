@@ -12,19 +12,22 @@
 import SwiftUI
 
 extension PopupStackView { class ViewModel: ObservableObject { init(alignment: VerticalEdge) { self.alignment = alignment }
-    var items: [AnyPopup] = [] { didSet {
-        activePopupHeight = calculateHeightForActivePopup()
-    }}
+    var items: [AnyPopup] = [] { didSet { recalculatePopupHeight() }}
+    var gestureTranslation: CGFloat = 0 { didSet { recalculatePopupHeight() }}
     let alignment: VerticalEdge
     var updatePopup: ((AnyPopup) -> ())? = nil
-
-    @Published var gestureTranslation: CGFloat = 0
     @Published var keyboardHeight: CGFloat = 0
     @Published private(set) var activePopupHeight: CGFloat? = nil
     var translationProgress: CGFloat = 0
     @Published var screenSize: CGSize = .init()
     @Published var safeArea: EdgeInsets = .init()
 }}
+private extension PopupStackView.ViewModel {
+    func recalculatePopupHeight() {
+        let activePopupHeightCandidate = calculateHeightForActivePopup()
+        Task { @MainActor in activePopupHeight = activePopupHeightCandidate }
+    }
+}
 
 extension PopupStackView.ViewModel {
     func update(popup: AnyPopup, _ action: @escaping (inout AnyPopup) -> ()) { Task { @MainActor in
