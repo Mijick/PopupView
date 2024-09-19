@@ -310,27 +310,6 @@ private extension PopupStackView {
 
 
 
-// MARK: - Height Related
-extension PopupStackView {
-    func getLastDragHeight() -> CGFloat { items.last?.dragHeight ?? 0 }
-    func getLastPopupHeight() -> CGFloat? { items.last?.height }
-}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -468,4 +447,10 @@ private extension PopupStackView {
         case .top: abs(min(gestureTranslation + getLastDragHeight(), 0)) / popupHeight
         case .bottom: max(gestureTranslation - getLastDragHeight(), 0) / popupHeight
     }}
+}
+
+// MARK: - Height Related
+extension PopupStackView {
+    func getLastDragHeight() -> CGFloat { items.last?.dragHeight ?? 0 }
+    func getLastPopupHeight() -> CGFloat? { items.last?.height }
 }
