@@ -307,12 +307,6 @@ private extension PopupStackView {
 }
 
 
-
-
-
-
-
-
 // MARK: - Gestures
 
 // MARK: On Changed
