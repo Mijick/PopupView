@@ -38,7 +38,7 @@ private extension PopupStackView {
     func createPopup(_ item: Binding<AnyPopup>) -> some View {
         let config = getConfig(item.wrappedValue),
             height = calculateHeightForActivePopup(),
-            translationProgress = translationProgress
+            translationProgress = calculateTranslationProgress()
 
 
         return item.wrappedValue.body
@@ -417,7 +417,7 @@ private extension PopupStackView {
         gestureTranslation = 0
     }}
     func shouldDismissPopup() -> Bool {
-        translationProgress >= gestureClosingThresholdFactor
+        calculateTranslationProgress() >= gestureClosingThresholdFactor
     }
 }
 
@@ -438,16 +438,9 @@ private extension PopupStackView {
 
 
 
-    var translationProgress: CGFloat { guard let popupHeight = items.last?.height else { return 0 }
-        let translationProgress = calculateTranslationProgress(popupHeight)
-        return translationProgress
-    }
-
-
-
-    func calculateTranslationProgress(_ popupHeight: CGFloat) -> CGFloat { switch itemsAlignment {
-        case .top: abs(min(gestureTranslation + getLastDragHeight(), 0)) / popupHeight
-        case .bottom: max(gestureTranslation - getLastDragHeight(), 0) / popupHeight
+    func calculateTranslationProgress() -> CGFloat { guard let activePopupHeight = items.last?.height else { return 0 }; return switch itemsAlignment {
+        case .top: abs(min(gestureTranslation + getLastDragHeight(), 0)) / activePopupHeight
+        case .bottom: max(gestureTranslation - getLastDragHeight(), 0) / activePopupHeight
     }}
 }
 
