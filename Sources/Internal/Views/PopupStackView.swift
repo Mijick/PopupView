@@ -23,7 +23,7 @@ struct PopupStackView<Config: LocalConfig.Vertical>: View {
     var body: some View {
         ZStack(alignment: (!itemsAlignment).toAlignment(), content: createPopupStack)
             .frame(height: screenManager.size.height, alignment: itemsAlignment.toAlignment())
-            .animation(getHeightAnimation(isAnimationDisabled: screenManager.animationsDisabled), value: items.map(\.height))
+            .animation(heightAnimation, value: items.map(\.height))
             .animation(isGestureActive ? nil : .transition, value: gestureTranslation)
             .animation(.keyboard, value: isKeyboardVisible)
             .onDragGesture($isGestureActive, onChanged: onPopupDragGestureChanged, onEnded: onPopupDragGestureEnded)
@@ -286,6 +286,7 @@ private extension PopupStackView {
     var stackOverlayFactor: CGFloat { 0.1 }
     var maxStackOverlayFactor: CGFloat { 0.48 }
     var transition: AnyTransition { .move(edge: itemsAlignment.toEdge()) }
+    var heightAnimation: Animation? { screenManager.animationsDisabled ? nil : .transition }
     var gestureClosingThresholdFactor: CGFloat { globalConfig.dragGestureProgressToClose }
     var distanceFromKeyboard: CGFloat { activePopupConfig.distanceFromKeyboard }
 }
@@ -321,12 +322,6 @@ extension PopupStackView {
     func getLastDragHeight() -> CGFloat { items.last?.dragHeight ?? 0 }
     func getLastPopupHeight() -> CGFloat? { items.last?.height }
 }
-
-// MARK: - Animation Related
-extension PopupStackView {
-    func getHeightAnimation(isAnimationDisabled: Bool) -> Animation? { !isAnimationDisabled ? .transition : nil }
-}
-
 
 
 
