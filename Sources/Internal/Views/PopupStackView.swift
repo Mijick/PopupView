@@ -350,7 +350,7 @@ private extension PopupStackView {
         return min(maxHeight1, maxHeight2)
     }
     func calculateDragTranslation(_ maxHeight: CGFloat, _ activePopupHeight: CGFloat) -> CGFloat {
-        let translation = maxHeight - activePopupHeight - (items.last?.dragHeight ?? 0)
+        let translation = maxHeight - activePopupHeight - (viewModel.items.last?.dragHeight ?? 0)
         return translation * getDragTranslationMultiplier()
     }
     func calculateDragExtremeValue(_ value1: CGFloat, _ value2: CGFloat) -> CGFloat { switch viewModel.alignment {
@@ -371,9 +371,9 @@ private extension PopupStackView {
 }
 private extension PopupStackView {
     func dismissLastItemIfNeeded() { if shouldDismissPopup() {
-        PopupManager.dismissPopup(id: items.last?.id.value ?? "")
+        PopupManager.dismissPopup(id: viewModel.items.last?.id.value ?? "")
     }}
-    func updateTranslationValues() { if let activePopupHeight = items.last?.height {
+    func updateTranslationValues() { if let activePopupHeight = viewModel.items.last?.height {
         let currentPopupHeight = calculateCurrentPopupHeight(activePopupHeight)
         let popupTargetHeights = calculatePopupTargetHeightsFromDragDetents(activePopupHeight)
         let targetHeight = calculateTargetPopupHeight(currentPopupHeight, popupTargetHeights)
@@ -385,7 +385,7 @@ private extension PopupStackView {
 }
 private extension PopupStackView {
     func calculateCurrentPopupHeight(_ activePopupHeight: CGFloat) -> CGFloat {
-        let activePopupDragHeight = items.last?.dragHeight ?? 0
+        let activePopupDragHeight = viewModel.items.last?.dragHeight ?? 0
         let currentDragHeight = activePopupDragHeight + viewModel.gestureTranslation * getDragTranslationMultiplier()
 
         let currentPopupHeight = activePopupHeight + currentDragHeight
@@ -401,13 +401,13 @@ private extension PopupStackView {
             .sorted(by: <)
     }
     func calculateTargetPopupHeight(_ currentPopupHeight: CGFloat, _ popupTargetHeights: [CGFloat]) -> CGFloat {
-        guard let activePopupHeight = items.last?.height,
+        guard let activePopupHeight = viewModel.items.last?.height,
               currentPopupHeight < screenManager.size.height
         else { return popupTargetHeights.last ?? 0 }
 
         let initialIndex = popupTargetHeights.firstIndex(where: { $0 >= currentPopupHeight }) ?? popupTargetHeights.count - 1,
             targetIndex = viewModel.gestureTranslation * getDragTranslationMultiplier() > 0 ? initialIndex : max(0, initialIndex - 1)
-        let previousPopupHeight = (items.last?.dragHeight ?? 0) + activePopupHeight,
+        let previousPopupHeight = (viewModel.items.last?.dragHeight ?? 0) + activePopupHeight,
             popupTargetHeight = popupTargetHeights[targetIndex],
             deltaHeight = abs(previousPopupHeight - popupTargetHeight)
         let progress = abs(currentPopupHeight - previousPopupHeight) / deltaHeight
