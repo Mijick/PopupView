@@ -10,14 +10,6 @@
 
 import Foundation
 
-// MARK: Get/Set Last Element
-extension Array {
-    var lastElement: Element? {
-        get { last }
-        set { if let newValue, count > 0 { self[count - 1] = newValue } }
-    }
-}
-
 // MARK: Mutable
 extension Array {
     @inlinable mutating func append(_ newElement: Element, if prerequisite: Bool) { if prerequisite { append(newElement) } }
