@@ -250,7 +250,9 @@ private extension PopupStackView {
 
 // MARK: - Background Colour
 private extension PopupStackView {
-    func getBackgroundColour(popupConfig: Config) -> Color { popupConfig.backgroundColour }
+    func getBackgroundColour(popupConfig: Config) -> Color {
+        popupConfig.backgroundColour
+    }
 }
 
 // MARK: - Popup Padding
