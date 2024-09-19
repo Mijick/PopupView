@@ -449,17 +449,10 @@ private extension PopupStackView {
 
 
 
-extension PopupStackView { class ViewModel: ObservableObject {
-    let items: [AnyPopup]
+extension PopupStackView { class ViewModel: ObservableObject { init(alignment: VerticalEdge) { self.alignment = alignment }
+    let items: [AnyPopup] = []
     let alignment: VerticalEdge
 
     var activePopupHeight: CGFloat? = nil
     var translationProgress: CGFloat = 0
-
-
-
-    init(items: [AnyPopup], alignment: VerticalEdge) {
-        self.items = items
-        self.alignment = alignment
-    }
 }}
