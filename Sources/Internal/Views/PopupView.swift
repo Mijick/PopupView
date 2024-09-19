@@ -51,6 +51,10 @@ private extension PopupView {
                 topStackViewModel.updatePopup = updatePopup
                 bottomStackViewModel.updatePopup = updatePopup
             }
+            .onChange(of: popupManager.views.map(\.height)) { _ in
+                topStackViewModel.items = getViews(TopPopupConfig.self)
+                bottomStackViewModel.items = getViews(BottomPopupConfig.self)
+            }
     }
 }
 
@@ -69,20 +73,20 @@ private extension PopupView {
 
 private extension PopupView {
     func createTopPopupStackView() -> some View {
-        PopupStackView(viewModel: topStackViewModel, items: getViews(TopPopupConfig.self)).zIndex(zIndex.top)
+        PopupStackView(viewModel: topStackViewModel).zIndex(zIndex.top)
     }
     func createCentrePopupStackView() -> some View {
-        PopupCentreStackView(items: getViews(CentrePopupConfig.self)).zIndex(zIndex.centre)
+        EmptyView()
+        //PopupCentreStackView(items: getViews(CentrePopupConfig.self)).zIndex(zIndex.centre)
     }
     func createBottomPopupStackView() -> some View {
-        PopupStackView(viewModel: bottomStackViewModel, items: getViews(BottomPopupConfig.self)).zIndex(zIndex.bottom)
+        PopupStackView(viewModel: bottomStackViewModel).zIndex(zIndex.bottom)
     }
 }
 private extension PopupView {
-    func getViews<C: LocalConfig>(_ type: C.Type) -> Binding<[AnyPopup]> { .init(
-        get: { popupManager.views.filter { $0.config is C } },
-        set: { $0.forEach { item in if let index = popupManager.views.firstIndex(of: item) { popupManager.views[index] = item }}}
-    )}
+    func getViews<C: LocalConfig>(_ type: C.Type) -> [AnyPopup] {
+        popupManager.views.filter { $0.config is C }
+    }
 }
 
 private extension PopupView {
