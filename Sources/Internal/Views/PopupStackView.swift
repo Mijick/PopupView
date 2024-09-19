@@ -14,7 +14,6 @@ import SwiftUI
 struct PopupStackView<Config: LocalConfig.Vertical>: View {
     @ObservedObject var viewModel: ViewModel
     @Binding var items: [AnyPopup]
-    @State private var gestureTranslation: CGFloat = 0
     @GestureState private var isGestureActive: Bool = false
     @ObservedObject private var screenManager: ScreenManager = .shared
     @ObservedObject private var keyboardManager: KeyboardManager = .shared
@@ -28,7 +27,7 @@ struct PopupStackView<Config: LocalConfig.Vertical>: View {
         return ZStack(alignment: (!viewModel.alignment).toAlignment(), content: createPopupStack)
             .frame(height: screenManager.size.height, alignment: viewModel.alignment.toAlignment())
             .animation(heightAnimation, value: items.map(\.height))
-            .animation(isGestureActive ? nil : .transition, value: gestureTranslation)
+            .animation(isGestureActive ? nil : .transition, value: viewModel.gestureTranslation)
             .animation(.keyboard, value: isKeyboardVisible)
             .onDragGesture($isGestureActive, onChanged: onPopupDragGestureChanged, onEnded: onPopupDragGestureEnded)
     }
@@ -70,7 +69,7 @@ private extension PopupStackView {
         guard let activePopupHeight = items.last?.height else { return nil }
 
         let activePopupDragHeight = items.last?.dragHeight ?? 0
-        let popupHeightFromGestureTranslation = activePopupHeight + activePopupDragHeight + gestureTranslation * getDragTranslationMultiplier()
+        let popupHeightFromGestureTranslation = activePopupHeight + activePopupDragHeight + viewModel.gestureTranslation * getDragTranslationMultiplier()
 
         let newHeightCandidate1 = max(activePopupHeight, popupHeightFromGestureTranslation),
             newHeightCanditate2 = screenManager.size.height - keyboardManager.height
@@ -198,8 +197,8 @@ private extension PopupStackView {
         let lastPopupDragHeight = items.last?.dragHeight ?? 0
 
         return switch viewModel.alignment {
-            case .top: min(gestureTranslation + lastPopupDragHeight, 0)
-            case .bottom: max(gestureTranslation - lastPopupDragHeight, 0)
+            case .top: min(viewModel.gestureTranslation + lastPopupDragHeight, 0)
+            case .bottom: max(viewModel.gestureTranslation - lastPopupDragHeight, 0)
         }
     }
     func calculateOffsetForStackedPopup(_ popup: AnyPopup) -> CGFloat {
@@ -281,8 +280,8 @@ private extension PopupStackView {
 // MARK: - Translation Progress
 private extension PopupStackView {
     func calculateTranslationProgress() -> CGFloat { guard let activePopupHeight = items.last?.height else { return 0 }; return switch viewModel.alignment {
-        case .top: abs(min(gestureTranslation + (items.last?.dragHeight ?? 0), 0)) / activePopupHeight
-        case .bottom: max(gestureTranslation - (items.last?.dragHeight ?? 0), 0) / activePopupHeight
+        case .top: abs(min(viewModel.gestureTranslation + (items.last?.dragHeight ?? 0), 0)) / activePopupHeight
+        case .bottom: max(viewModel.gestureTranslation - (items.last?.dragHeight ?? 0), 0) / activePopupHeight
     }}
 }
 
@@ -332,8 +331,8 @@ private extension PopupStackView {
 }
 private extension PopupStackView {
     func updateGestureTranslation(_ value: CGFloat) { switch activePopupConfig.dragDetents.isEmpty {
-        case true: gestureTranslation = calculateGestureTranslationWhenNoDragDetents(value)
-        case false: gestureTranslation = calculateGestureTranslationWhenDragDetents(value)
+        case true: viewModel.gestureTranslation = calculateGestureTranslationWhenNoDragDetents(value)
+        case false: viewModel.gestureTranslation = calculateGestureTranslationWhenDragDetents(value)
     }}
 }
 private extension PopupStackView {
@@ -389,7 +388,7 @@ private extension PopupStackView {
 private extension PopupStackView {
     func calculateCurrentPopupHeight(_ activePopupHeight: CGFloat) -> CGFloat {
         let activePopupDragHeight = items.last?.dragHeight ?? 0
-        let currentDragHeight = activePopupDragHeight + gestureTranslation * getDragTranslationMultiplier()
+        let currentDragHeight = activePopupDragHeight + viewModel.gestureTranslation * getDragTranslationMultiplier()
 
         let currentPopupHeight = activePopupHeight + currentDragHeight
         return currentPopupHeight
@@ -409,14 +408,14 @@ private extension PopupStackView {
         else { return popupTargetHeights.last ?? 0 }
 
         let initialIndex = popupTargetHeights.firstIndex(where: { $0 >= currentPopupHeight }) ?? popupTargetHeights.count - 1,
-            targetIndex = gestureTranslation * getDragTranslationMultiplier() > 0 ? initialIndex : max(0, initialIndex - 1)
+            targetIndex = viewModel.gestureTranslation * getDragTranslationMultiplier() > 0 ? initialIndex : max(0, initialIndex - 1)
         let previousPopupHeight = (items.last?.dragHeight ?? 0) + activePopupHeight,
             popupTargetHeight = popupTargetHeights[targetIndex],
             deltaHeight = abs(previousPopupHeight - popupTargetHeight)
         let progress = abs(currentPopupHeight - previousPopupHeight) / deltaHeight
 
         if progress < gestureClosingThresholdFactor {
-            let index = gestureTranslation * getDragTranslationMultiplier() > 0 ? max(0, initialIndex - 1) : initialIndex
+            let index = viewModel.gestureTranslation * getDragTranslationMultiplier() > 0 ? max(0, initialIndex - 1) : initialIndex
             return popupTargetHeights[index]
         }
         return popupTargetHeights[targetIndex]
@@ -428,7 +427,7 @@ private extension PopupStackView {
         items.lastElement?.dragHeight = targetDragHeight
     }}
     func resetGestureTranslation() { Task { @MainActor in
-        gestureTranslation = 0
+        viewModel.gestureTranslation = 0
     }}
     func shouldDismissPopup() -> Bool {
         calculateTranslationProgress() >= gestureClosingThresholdFactor
@@ -453,6 +452,7 @@ extension PopupStackView { class ViewModel: ObservableObject { init(alignment: V
     let items: [AnyPopup] = []
     let alignment: VerticalEdge
 
+    @Published var gestureTranslation: CGFloat = 0
     var activePopupHeight: CGFloat? = nil
     var translationProgress: CGFloat = 0
 }}
