@@ -51,7 +51,7 @@ private extension PopupView {
                 topStackViewModel.updatePopup = updatePopup
                 bottomStackViewModel.updatePopup = updatePopup
             }
-            .onChange(of: popupManager.views.map(\.height)) { _ in
+            .onChange(of: popupManager.views.map { [$0.height, $0.dragHeight] }) { _ in
                 topStackViewModel.items = getViews(TopPopupConfig.self)
                 bottomStackViewModel.items = getViews(BottomPopupConfig.self)
             }

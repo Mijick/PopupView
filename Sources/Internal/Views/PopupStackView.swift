@@ -421,12 +421,12 @@ private extension PopupStackView {
     func calculateTargetDragHeight(_ targetHeight: CGFloat, _ activePopupHeight: CGFloat) -> CGFloat {
         targetHeight - activePopupHeight
     }
-    func updateDragHeight(_ targetDragHeight: CGFloat) { Task { @MainActor in
-        items.lastElement?.dragHeight = targetDragHeight
+    func updateDragHeight(_ targetDragHeight: CGFloat) { if let activePopup = viewModel.items.last {
+        viewModel.update(popup: activePopup) { $0.dragHeight = targetDragHeight }
     }}
-    func resetGestureTranslation() { Task { @MainActor in
+    func resetGestureTranslation() {
         viewModel.gestureTranslation = 0
-    }}
+    }
     func shouldDismissPopup() -> Bool {
         calculateTranslationProgress() >= gestureClosingThresholdFactor
     }
