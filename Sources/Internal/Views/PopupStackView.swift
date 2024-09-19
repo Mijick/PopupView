@@ -78,7 +78,7 @@ private extension PopupStackView {
 
 // MARK: - Calculating Paddings For Popup Body
 private extension PopupStackView {
-    func calculateBodyPadding(popupConfig: Config) -> EdgeInsets { guard let activePopupHeight = viewModel.activePopupHeight else { return .init() }; return .init(
+    func calculateBodyPadding(popupConfig: Config) -> EdgeInsets { let activePopupHeight = viewModel.activePopupHeight ?? 0; return .init(
         top: calculateTopBodyPadding(activePopupHeight: activePopupHeight, popupConfig: popupConfig),
         leading: calculateLeadingBodyPadding(),
         bottom: calculateBottomBodyPadding(activePopupHeight: activePopupHeight, popupConfig: popupConfig),
