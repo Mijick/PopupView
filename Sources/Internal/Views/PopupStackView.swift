@@ -291,6 +291,7 @@ private extension PopupStackView {
     var heightAnimation: Animation? { screenManager.animationsDisabled ? nil : .transition }
     var gestureClosingThresholdFactor: CGFloat { globalConfig.dragGestureProgressToClose }
     var distanceFromKeyboard: CGFloat { activePopupConfig.distanceFromKeyboard }
+    var dragGestureEnabled: Bool { activePopupConfig.dragGestureEnabled }
 }
 
 // MARK: - Helpers
@@ -311,12 +312,11 @@ private extension PopupStackView {
 
 // MARK: On Changed
 private extension PopupStackView {
-    func onPopupDragGestureChanged(_ value: CGFloat) { if canDragGestureBeUsed() {
+    func onPopupDragGestureChanged(_ value: CGFloat) { if dragGestureEnabled {
         updateGestureTranslation(value)
     }}
 }
 private extension PopupStackView {
-    func canDragGestureBeUsed() -> Bool { activePopupConfig.dragGestureEnabled }
     func updateGestureTranslation(_ value: CGFloat) { switch activePopupConfig.dragDetents.isEmpty {
         case true: gestureTranslation = calculateGestureTranslationWhenNoDragDetents(value)
         case false: gestureTranslation = calculateGestureTranslationWhenDragDetents(value)
