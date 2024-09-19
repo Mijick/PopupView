@@ -71,5 +71,5 @@ extension PopupCentreStackView {
     var cornerRadius: CGFloat { config.cornerRadius }
     var popupShadow: Shadow { ConfigContainer.centre.shadow }
     var backgroundColour: Color { config.backgroundColour }
-    var config: CentrePopupConfig { items.last.getConfig() }
+    var config: CentrePopupConfig { (items.last?.config as? CentrePopupConfig) ?? .init() }
 }

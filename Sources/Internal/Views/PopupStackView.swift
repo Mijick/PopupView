@@ -300,24 +300,15 @@ private extension PopupStackView {
         let invertedIndex = items.count - 1 - index
         return invertedIndex
     }
-}
-
-
-
-
-
-
-
-
-// MARK: - Config Related
-extension PopupStackView {
-    func getConfig(_ item: AnyPopup?) -> Config { item.getConfig() }
-}
-extension AnyPopup? {
-    func getConfig<Config: LocalConfig>() -> Config {
-        (self?.config as? Config) ?? .init()
+    func getConfig(_ item: AnyPopup?) -> Config {
+        let config = item?.config as? Config
+        return config ?? .init()
     }
 }
+
+
+
+
 
 // MARK: - Height Related
 extension PopupStackView {
