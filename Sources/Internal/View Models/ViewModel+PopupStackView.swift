@@ -31,8 +31,8 @@ private extension PopupStackView.ViewModel {
         }
     }
     func onGestureTranslationChanged() {
-        let activePopupHeightCandidate = calculateHeightForActivePopup()
         let translationProgressCandidate = calculateTranslationProgress()
+        let activePopupHeightCandidate = calculateHeightForActivePopup()
 
         Task { @MainActor in
             translationProgress = translationProgressCandidate
