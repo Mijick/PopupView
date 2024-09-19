@@ -18,6 +18,7 @@ struct PopupStackView<Config: LocalConfig.Vertical>: View {
     @GestureState private var isGestureActive: Bool = false
     @ObservedObject private var screenManager: ScreenManager = .shared
     @ObservedObject private var keyboardManager: KeyboardManager = .shared
+    @StateObject private var viewModel: ViewModel = .init()
 
 
     var body: some View {
@@ -36,16 +37,19 @@ private extension PopupStackView {
 }
 private extension PopupStackView {
     func createPopup(_ item: Binding<AnyPopup>) -> some View {
+        Counter.increment()
+
+        viewModel.activePopupHeight = calculateHeightForActivePopup()
+
         let config = getConfig(item.wrappedValue),
-            height = calculateHeightForActivePopup(),
             translationProgress = calculateTranslationProgress()
 
 
         return item.wrappedValue.body
-            .padding(calculateBodyPadding(activePopupHeight: height, popupConfig: config))
-            .fixedSize(horizontal: false, vertical: calculateVerticalFixedSize(popupConfig: config, activePopupHeight: height))
+            .padding(calculateBodyPadding(popupConfig: config))
+            .fixedSize(horizontal: false, vertical: calculateVerticalFixedSize(popupConfig: config))
             .onHeightChange { save(height: $0, for: item, popupConfig: config) }
-            .frame(height: height, alignment: (!itemsAlignment).toAlignment())
+            .frame(height: viewModel.activePopupHeight, alignment: (!itemsAlignment).toAlignment())
             .frame(maxWidth: .infinity)
             .background(getBackgroundColour(popupConfig: config), overlayColour: getStackOverlayColour(for: item.wrappedValue, translationProgress: translationProgress), corners: calculateCornerRadius(), shadow: popupShadow)
             .offset(y: calculateOffset(for: item.wrappedValue))
@@ -74,7 +78,7 @@ private extension PopupStackView {
 
 // MARK: - Calculating Paddings For Popup Body
 private extension PopupStackView {
-    func calculateBodyPadding(activePopupHeight: CGFloat?, popupConfig: Config) -> EdgeInsets { guard let activePopupHeight else { return .init() }; return .init(
+    func calculateBodyPadding(popupConfig: Config) -> EdgeInsets { guard let activePopupHeight = viewModel.activePopupHeight else { return .init() }; return .init(
         top: calculateTopBodyPadding(activePopupHeight: activePopupHeight, popupConfig: popupConfig),
         leading: calculateLeadingBodyPadding(),
         bottom: calculateBottomBodyPadding(activePopupHeight: activePopupHeight, popupConfig: popupConfig),
@@ -222,9 +226,9 @@ private extension PopupStackView {
 
 // MARK: - Fixed Size
 private extension PopupStackView {
-    func calculateVerticalFixedSize(popupConfig: Config, activePopupHeight: CGFloat?) -> Bool { switch popupConfig.heightMode {
+    func calculateVerticalFixedSize(popupConfig: Config) -> Bool { switch popupConfig.heightMode {
         case .fullscreen, .large: false
-        case .auto: activePopupHeight != calculateLargeScreenHeight()
+        case .auto: viewModel.activePopupHeight != calculateLargeScreenHeight()
     }}
 }
 
@@ -436,3 +440,14 @@ private extension PopupStackView {
         case .bottom: -1
     }}
 }
+
+
+
+
+
+
+
+extension PopupStackView { class ViewModel: ObservableObject {
+    var activePopupHeight: CGFloat? = nil
+
+}}
