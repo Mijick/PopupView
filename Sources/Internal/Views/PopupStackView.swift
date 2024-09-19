@@ -382,8 +382,8 @@ private extension PopupStackView {
 }
 private extension PopupStackView {
     func calculateCurrentPopupHeight(_ activePopupHeight: CGFloat) -> CGFloat {
-        let lastDragHeight = getLastDragHeight()
-        let currentDragHeight = lastDragHeight + gestureTranslation * getDragTranslationMultiplier()
+        let activePopupDragHeight = items.last?.dragHeight ?? 0
+        let currentDragHeight = activePopupDragHeight + gestureTranslation * getDragTranslationMultiplier()
 
         let currentPopupHeight = activePopupHeight + currentDragHeight
         return currentPopupHeight
