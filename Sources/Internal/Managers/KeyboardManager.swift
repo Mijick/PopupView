@@ -56,7 +56,7 @@ class KeyboardManager: ObservableObject {
     private init() {}
 }
 extension KeyboardManager {
-    @MainActor static func hideKeyboard() { NSApp.keyWindow?.makeFirstResponder(nil) }
+    static func hideKeyboard() { NSApp.keyWindow?.makeFirstResponder(nil) }
 }
 
 

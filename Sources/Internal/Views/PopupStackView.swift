@@ -18,8 +18,8 @@ struct PopupStackView<Config: LocalConfig.Vertical>: View {
     var body: some View {
         ZStack(alignment: (!viewModel.alignment).toAlignment(), content: createPopupStack)
             .frame(height: viewModel.screenSize.height, alignment: viewModel.alignment.toAlignment())
-            .animation(heightAnimation, value: viewModel.items.map(\.height))
-            .animation(heightAnimation, value: viewModel.items.map(\.dragHeight))
+            .animation(.transition, value: viewModel.items.map(\.height))
+            .animation(.transition, value: viewModel.items.map(\.dragHeight))
             .animation(isGestureActive ? nil : .transition, value: viewModel.gestureTranslation)
             .animation(.keyboard, value: isKeyboardVisible)
             .onDragGesture(onChanged: onPopupDragGestureChanged, onEnded: onPopupDragGestureEnded)
@@ -274,7 +274,6 @@ private extension PopupStackView {
     var stackOverlayFactor: CGFloat { 0.1 }
     var maxStackOverlayFactor: CGFloat { 0.48 }
     var transition: AnyTransition { .move(edge: viewModel.alignment.toEdge()) }
-    var heightAnimation: Animation? { screenManager.animationsDisabled ? nil : .transition }
     var gestureClosingThresholdFactor: CGFloat { globalConfig.dragGestureProgressToClose }
     var distanceFromKeyboard: CGFloat { activePopupConfig.distanceFromKeyboard }
     var dragGestureEnabled: Bool { activePopupConfig.dragGestureEnabled }
