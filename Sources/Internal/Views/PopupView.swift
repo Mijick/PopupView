@@ -15,6 +15,8 @@ import SwiftUI
 struct PopupView: View {
     @State private var zIndex: ZIndex = .init()
     @ObservedObject private var popupManager: PopupManager = .shared
+    @StateObject private var topStackViewModel: PopupStackView.ViewModel = .init(alignment: .top)
+    @StateObject private var bottomStackViewModel: PopupStackView.ViewModel = .init(alignment: .bottom)
 
 
     var body: some View { createBody() }
@@ -63,13 +65,13 @@ private extension PopupView {
 
 private extension PopupView {
     func createTopPopupStackView() -> some View {
-        PopupStackView(items: getViews(TopPopupConfig.self), itemsAlignment: .top).zIndex(zIndex.top)
+        PopupStackView(viewModel: topStackViewModel, items: getViews(TopPopupConfig.self)).zIndex(zIndex.top)
     }
     func createCentrePopupStackView() -> some View {
         PopupCentreStackView(items: getViews(CentrePopupConfig.self)).zIndex(zIndex.centre)
     }
     func createBottomPopupStackView() -> some View {
-        PopupStackView(items: getViews(BottomPopupConfig.self), itemsAlignment: .bottom).zIndex(zIndex.bottom)
+        PopupStackView(viewModel: bottomStackViewModel, items: getViews(BottomPopupConfig.self)).zIndex(zIndex.bottom)
     }
 }
 private extension PopupView {
