@@ -51,7 +51,7 @@ private extension PopupStackView {
             .padding(calculateBodyPadding(popupConfig: config))
             .fixedSize(horizontal: false, vertical: calculateVerticalFixedSize(popupConfig: config))
             .onHeightChange { save(height: $0, for: item, popupConfig: config) }
-            .frame(height: viewModel.activePopupHeight, alignment: (!itemsAlignment).toAlignment())
+            .frame(height: viewModel.activePopupHeight, alignment: (!viewModel.alignment).toAlignment())
             .frame(maxWidth: .infinity)
             .background(getBackgroundColour(popupConfig: config), overlayColour: getStackOverlayColour(for: item.wrappedValue, translationProgress: translationProgress), corners: calculateCornerRadius(), shadow: popupShadow)
             .offset(y: calculateOffset(for: item.wrappedValue))
@@ -91,7 +91,7 @@ private extension PopupStackView {
     func calculateTopBodyPadding(activePopupHeight: CGFloat, popupConfig: Config) -> CGFloat {
         if popupConfig.ignoredSafeAreaEdges.contains(.top) { return 0 }
 
-        return switch itemsAlignment {
+        return switch viewModel.alignment {
             case .top: calculateVerticalPaddingAdhereEdge(safeAreaHeight: screenManager.safeArea.top, popupPadding: calculatePopupPadding().top)
             case .bottom: calculateVerticalPaddingCounterEdge(popupHeight: activePopupHeight, safeArea: screenManager.safeArea.top)
         }
@@ -100,7 +100,7 @@ private extension PopupStackView {
         if isKeyboardVisible { return keyboardManager.height + distanceFromKeyboard }
         if popupConfig.ignoredSafeAreaEdges.contains(.bottom) { return 0 }
 
-        return switch itemsAlignment {
+        return switch viewModel.alignment {
             case .top: calculateVerticalPaddingCounterEdge(popupHeight: activePopupHeight, safeArea: screenManager.safeArea.bottom)
             case .bottom: calculateVerticalPaddingAdhereEdge(safeAreaHeight: screenManager.safeArea.bottom, popupPadding: calculatePopupPadding().bottom)
         }
@@ -138,11 +138,11 @@ private extension PopupStackView {
         case .auto, .large: activePopupConfig.cornerRadius
         case .fullscreen: 0
     }}
-    func calculateTopCornerRadius(_ cornerRadiusValue: CGFloat) -> CGFloat { switch itemsAlignment {
+    func calculateTopCornerRadius(_ cornerRadiusValue: CGFloat) -> CGFloat { switch viewModel.alignment {
         case .top: calculatePopupPadding().top != 0 ? cornerRadiusValue : 0
         case .bottom: cornerRadiusValue
     }}
-    func calculateBottomCornerRadius(_ cornerRadiusValue: CGFloat) -> CGFloat { switch itemsAlignment {
+    func calculateBottomCornerRadius(_ cornerRadiusValue: CGFloat) -> CGFloat { switch viewModel.alignment {
         case .top: cornerRadiusValue
         case .bottom: calculatePopupPadding().bottom != 0 ? cornerRadiusValue : 0
     }}
@@ -280,7 +280,7 @@ private extension PopupStackView {
 
 // MARK: - Translation Progress
 private extension PopupStackView {
-    func calculateTranslationProgress() -> CGFloat { guard let activePopupHeight = items.last?.height else { return 0 }; return switch itemsAlignment {
+    func calculateTranslationProgress() -> CGFloat { guard let activePopupHeight = items.last?.height else { return 0 }; return switch viewModel.alignment {
         case .top: abs(min(gestureTranslation + (items.last?.dragHeight ?? 0), 0)) / activePopupHeight
         case .bottom: max(gestureTranslation - (items.last?.dragHeight ?? 0), 0) / activePopupHeight
     }}
@@ -301,7 +301,7 @@ private extension PopupStackView {
     var stackOverlayColour: Color { .black }
     var stackOverlayFactor: CGFloat { 0.1 }
     var maxStackOverlayFactor: CGFloat { 0.48 }
-    var transition: AnyTransition { .move(edge: itemsAlignment.toEdge()) }
+    var transition: AnyTransition { .move(edge: viewModel.alignment.toEdge()) }
     var heightAnimation: Animation? { screenManager.animationsDisabled ? nil : .transition }
     var gestureClosingThresholdFactor: CGFloat { globalConfig.dragGestureProgressToClose }
     var distanceFromKeyboard: CGFloat { activePopupConfig.distanceFromKeyboard }
