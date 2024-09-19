@@ -14,21 +14,13 @@ import SwiftUI
 #if os(iOS) || os(macOS) || os(visionOS) || os(watchOS)
 extension View {
     func onTapGesture(perform action: @escaping () -> ()) -> some View { onTapGesture(count: 1, perform: action) }
-    func onDragGesture(_ state: GestureState<Bool>, onChanged actionOnChanged: @escaping (CGFloat) -> (), onEnded actionOnEnded: @escaping (CGFloat) -> ()) -> some View { simultaneousGesture(createDragGesture(state, actionOnChanged, actionOnEnded)).onStateChange(state, actionOnEnded) }
+    func onDragGesture(onChanged actionOnChanged: @escaping (CGFloat) -> (), onEnded actionOnEnded: @escaping (CGFloat) -> ()) -> some View { highPriorityGesture(createDragGesture(actionOnChanged, actionOnEnded)) }
 }
 private extension View {
-    func createDragGesture(_ state: GestureState<Bool>, _ actionOnChanged: @escaping (CGFloat) -> (), _ actionOnEnded: @escaping (CGFloat) -> ()) -> some Gesture {
+    func createDragGesture(_ actionOnChanged: @escaping (CGFloat) -> (), _ actionOnEnded: @escaping (CGFloat) -> ()) -> some Gesture {
         DragGesture()
-            .updating(state) { _, state, _ in state = true }
             .onChanged { actionOnChanged($0.translation.height) }
             .onEnded { actionOnEnded($0.translation.height) }
-    }
-    func onStateChange(_ state: GestureState<Bool>, _ actionOnEnded: @escaping (CGFloat) -> ()) -> some View {
-    #if os(visionOS)
-        onChange(of: state.wrappedValue) { state.wrappedValue ? () : actionOnEnded(.zero) }
-    #else
-        onChange(of: state.wrappedValue) { $0 ? () : actionOnEnded(.zero) }
-    #endif
     }
 }
 

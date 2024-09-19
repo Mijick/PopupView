@@ -14,7 +14,6 @@ import SwiftUI
 struct PopupStackView<Config: LocalConfig.Vertical>: View {
     @ObservedObject var viewModel: ViewModel
     @Binding var items: [AnyPopup]
-    @GestureState private var isGestureActive: Bool = false
     @ObservedObject private var screenManager: ScreenManager = .shared
     @ObservedObject private var keyboardManager: KeyboardManager = .shared
 
@@ -29,7 +28,7 @@ struct PopupStackView<Config: LocalConfig.Vertical>: View {
             .animation(heightAnimation, value: items.map(\.height))
             .animation(isGestureActive ? nil : .transition, value: viewModel.gestureTranslation)
             .animation(.keyboard, value: isKeyboardVisible)
-            .onDragGesture($isGestureActive, onChanged: onPopupDragGestureChanged, onEnded: onPopupDragGestureEnded)
+            .onDragGesture(onChanged: onPopupDragGestureChanged, onEnded: onPopupDragGestureEnded)
     }
 }
 private extension PopupStackView {
@@ -440,6 +439,9 @@ private extension PopupStackView {
         case .top: 1
         case .bottom: -1
     }}
+}
+private extension PopupStackView {
+    var isGestureActive: Bool { viewModel.gestureTranslation != 0 }
 }
 
 
