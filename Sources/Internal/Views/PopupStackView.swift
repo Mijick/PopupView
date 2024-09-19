@@ -22,7 +22,10 @@ struct PopupStackView<Config: LocalConfig.Vertical>: View {
 
 
     var body: some View {
-        ZStack(alignment: (!itemsAlignment).toAlignment(), content: createPopupStack)
+        viewModel.activePopupHeight = calculateHeightForActivePopup()
+
+
+        return ZStack(alignment: (!itemsAlignment).toAlignment(), content: createPopupStack)
             .frame(height: screenManager.size.height, alignment: itemsAlignment.toAlignment())
             .animation(heightAnimation, value: items.map(\.height))
             .animation(isGestureActive ? nil : .transition, value: gestureTranslation)
@@ -39,7 +42,7 @@ private extension PopupStackView {
     func createPopup(_ item: Binding<AnyPopup>) -> some View {
         Counter.increment()
 
-        viewModel.activePopupHeight = calculateHeightForActivePopup()
+
 
         let config = getConfig(item.wrappedValue),
             translationProgress = calculateTranslationProgress()
