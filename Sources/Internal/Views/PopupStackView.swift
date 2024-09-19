@@ -22,6 +22,7 @@ struct PopupStackView<Config: LocalConfig.Vertical>: View {
 
     var body: some View {
         viewModel.activePopupHeight = calculateHeightForActivePopup()
+        viewModel.translationProgress = calculateTranslationProgress()
 
 
         return ZStack(alignment: (!viewModel.alignment).toAlignment(), content: createPopupStack)
@@ -43,8 +44,7 @@ private extension PopupStackView {
 
 
 
-        let config = getConfig(item.wrappedValue),
-            translationProgress = calculateTranslationProgress()
+        let config = getConfig(item.wrappedValue)
 
 
         return item.wrappedValue.body
@@ -53,9 +53,9 @@ private extension PopupStackView {
             .onHeightChange { save(height: $0, for: item, popupConfig: config) }
             .frame(height: viewModel.activePopupHeight, alignment: (!viewModel.alignment).toAlignment())
             .frame(maxWidth: .infinity)
-            .background(getBackgroundColour(popupConfig: config), overlayColour: getStackOverlayColour(for: item.wrappedValue, translationProgress: translationProgress), corners: calculateCornerRadius(), shadow: popupShadow)
+            .background(getBackgroundColour(popupConfig: config), overlayColour: getStackOverlayColour(for: item.wrappedValue), corners: calculateCornerRadius(), shadow: popupShadow)
             .offset(y: calculateOffset(for: item.wrappedValue))
-            .scaleEffect(x: calculateScale(for: item.wrappedValue, translationProgress: translationProgress))
+            .scaleEffect(x: calculateScale(for: item.wrappedValue))
             .focusSectionIfAvailable()
             .padding(calculatePopupPadding())
             .transition(transition)
@@ -216,9 +216,9 @@ private extension PopupStackView {
 
 // MARK: - Calculating Scale
 private extension PopupStackView {
-    func calculateScale(for popup: AnyPopup, translationProgress: CGFloat) -> CGFloat { guard popup != items.last else { return 1 }
+    func calculateScale(for popup: AnyPopup) -> CGFloat { guard popup != items.last else { return 1 }
         let invertedIndex = getInvertedIndex(of: popup),
-            remainingTranslationProgress = 1 - translationProgress
+            remainingTranslationProgress = 1 - viewModel.translationProgress
 
         let progressMultiplier = invertedIndex == 1 ? remainingTranslationProgress : max(0.7, remainingTranslationProgress)
         let scaleValue = .init(invertedIndex) * stackScaleFactor * progressMultiplier
@@ -236,15 +236,15 @@ private extension PopupStackView {
 
 // MARK: - Stack Overlay Colour
 private extension PopupStackView {
-    func getStackOverlayColour(for popup: AnyPopup, translationProgress: CGFloat) -> Color {
-        let opacity = calculateStackOverlayOpacity(popup, translationProgress)
+    func getStackOverlayColour(for popup: AnyPopup) -> Color {
+        let opacity = calculateStackOverlayOpacity(popup)
         return stackOverlayColour.opacity(opacity)
     }
 }
 private extension PopupStackView {
-    func calculateStackOverlayOpacity(_ popup: AnyPopup, _ translationProgress: CGFloat) -> Double { guard popup != items.last else { return 0 }
+    func calculateStackOverlayOpacity(_ popup: AnyPopup) -> Double { guard popup != items.last else { return 0 }
         let invertedIndex = getInvertedIndex(of: popup),
-            remainingTranslationProgress = 1 - translationProgress
+            remainingTranslationProgress = 1 - viewModel.translationProgress
 
         let progressMultiplier = invertedIndex == 1 ? remainingTranslationProgress : max(0.6, remainingTranslationProgress)
         let overlayValue = min(stackOverlayFactor * .init(invertedIndex), maxStackOverlayFactor)
@@ -450,13 +450,16 @@ private extension PopupStackView {
 
 
 extension PopupStackView { class ViewModel: ObservableObject {
+    let items: [AnyPopup]
     let alignment: VerticalEdge
 
     var activePopupHeight: CGFloat? = nil
+    var translationProgress: CGFloat = 0
 
 
 
-    init(alignment: VerticalEdge) {
+    init(items: [AnyPopup], alignment: VerticalEdge) {
+        self.items = items
         self.alignment = alignment
     }
 }}
