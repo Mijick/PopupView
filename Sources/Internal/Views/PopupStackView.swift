@@ -16,7 +16,6 @@ struct PopupStackView<Config: LocalConfig.Vertical>: View {
 
 
     var body: some View {
-        viewModel.activePopupHeight = calculateHeightForActivePopup()
         viewModel.translationProgress = calculateTranslationProgress()
 
 
@@ -56,20 +55,6 @@ private extension PopupStackView {
             .transition(transition)
             .zIndex(calculateZIndex(for: item))
             .compositingGroup()
-    }
-}
-
-// MARK: - Calculating Height For Active Popup
-private extension PopupStackView {
-    func calculateHeightForActivePopup() -> CGFloat? {
-        guard let activePopupHeight = viewModel.items.last?.height else { return nil }
-
-        let activePopupDragHeight = viewModel.items.last?.dragHeight ?? 0
-        let popupHeightFromGestureTranslation = activePopupHeight + activePopupDragHeight + viewModel.gestureTranslation * getDragTranslationMultiplier()
-
-        let newHeightCandidate1 = max(activePopupHeight, popupHeightFromGestureTranslation),
-            newHeightCanditate2 = viewModel.screenSize.height - viewModel.keyboardHeight
-        return min(newHeightCandidate1, newHeightCanditate2)
     }
 }
 

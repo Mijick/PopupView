@@ -33,9 +33,9 @@ enum StackOperation {
     case removeLast, remove(ID), removeAllUpTo(ID), removeAll
 }
 extension PopupManager {
-    static func performOperation(_ operation: StackOperation) { Task { @MainActor in
+    static func performOperation(_ operation: StackOperation) {
         shared.views.perform(operation)
-    }}
+    }
     static func setTempValue(environmentObject: (any ObservableObject)? = nil, dismissProperties: (popup: any Popup, seconds: Double)? = nil, onDismiss: (() -> ())? = nil) {
         if let environmentObject { shared.popupTemp.environmentObject = environmentObject }
         if let dismissProperties { shared.popupTemp.dismissTimer = DispatchSource.createAction(deadline: dismissProperties.seconds) { performOperation(.remove(dismissProperties.popup.id)) } }
@@ -49,14 +49,14 @@ extension PopupManager {
 }
 
 fileprivate extension [AnyPopup] {
-    @MainActor mutating func perform(_ operation: StackOperation) {
+    mutating func perform(_ operation: StackOperation) {
         hideKeyboard()
         performOperation(operation)
     }
 }
 private extension [AnyPopup] {
-    @MainActor func hideKeyboard() { KeyboardManager.hideKeyboard() }
-    @MainActor mutating func performOperation(_ operation: StackOperation) {
+    func hideKeyboard() { KeyboardManager.hideKeyboard() }
+    mutating func performOperation(_ operation: StackOperation) {
         switch operation {
             case .insertAndReplace(let popup): replaceLast(popup, if: canBeInserted(popup))
             case .insertAndStack(let popup): append(popup, if: canBeInserted(popup))

@@ -21,7 +21,7 @@ class KeyboardManager: ObservableObject {
     private init() { subscribeToKeyboardEvents() }
 }
 extension KeyboardManager {
-    @MainActor static func hideKeyboard() { UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil) }
+    static func hideKeyboard() { UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil) }
 }
 
 private extension KeyboardManager {
