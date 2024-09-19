@@ -23,9 +23,21 @@ extension PopupStackView { class ViewModel: ObservableObject { init(alignment: V
     @Published var safeArea: EdgeInsets = .init()
 }}
 private extension PopupStackView.ViewModel {
-    func recalculatePopupHeight() {
+    func onItemsChanged() {
         let activePopupHeightCandidate = calculateHeightForActivePopup()
-        Task { @MainActor in activePopupHeight = activePopupHeightCandidate }
+
+        Task { @MainActor in
+            activePopupHeight = activePopupHeightCandidate
+        }
+    }
+    func onGestureTranslationChanged() {
+        let activePopupHeightCandidate = calculateHeightForActivePopup()
+        let translationProgressCandidate = calculateTranslationProgress()
+
+        Task { @MainActor in
+            translationProgress = translationProgressCandidate
+            activePopupHeight = activePopupHeightCandidate
+        }
     }
 }
 
