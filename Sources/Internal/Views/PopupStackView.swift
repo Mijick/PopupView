@@ -418,6 +418,14 @@ private extension PopupStackView {
     }
 }
 
+// MARK: Helpers
+private extension PopupStackView {
+    func getDragTranslationMultiplier() -> CGFloat { switch itemsAlignment {
+        case .top: 1
+        case .bottom: -1
+    }}
+}
+
 
 
 
@@ -427,10 +435,7 @@ private extension PopupStackView {
         case .top: min(value1, value2)
         case .bottom: max(value1, value2)
     }}
-    func getDragTranslationMultiplier() -> CGFloat { switch itemsAlignment {
-        case .top: 1
-        case .bottom: -1
-    }}
+
 
 
     var translationProgress: CGFloat { guard let popupHeight = items.last?.height else { return 0 }
