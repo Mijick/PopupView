@@ -77,15 +77,15 @@ private extension PopupStackView {
         if popupConfig.ignoredSafeAreaEdges.contains(.bottom) && !isKeyboardVisible { return 0 }
 
         return switch viewModel.alignment {
-            case .top: calculateVerticalPaddingCounterEdge(popupHeight: activePopupHeight, safeArea: viewModel.safeArea.bottom)
-            case .bottom: calculateVerticalPaddingAdhereEdge(safeAreaHeight: viewModel.safeArea.bottom, popupPadding: calculatePopupPadding().bottom)
+            case .top: calculateVerticalPaddingCounterEdge(popupHeight: activePopupHeight, safeArea: viewModel.screen.safeArea.bottom)
+            case .bottom: calculateVerticalPaddingAdhereEdge(safeAreaHeight: viewModel.screen.safeArea.bottom, popupPadding: calculatePopupPadding().bottom)
         }
     }
     func calculateLeadingBodyPadding() -> CGFloat {
-        viewModel.safeArea.leading
+        viewModel.screen.safeArea.leading
     }
     func calculateTrailingBodyPadding() -> CGFloat {
-        viewModel.safeArea.trailing
+        viewModel.screen.safeArea.trailing
     }
 }
 private extension PopupStackView {
