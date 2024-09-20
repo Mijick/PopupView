@@ -11,42 +11,20 @@
 import SwiftUI
 import Combine
 
-#if os(iOS) || os(watchOS) || os(tvOS) || os(visionOS)
 class ScreenManager: ObservableObject {
-    @Published var size: CGSize = .init()
-    @Published var safeArea: EdgeInsets = .init()
-    private(set) var animationsDisabled: Bool = false
+    private(set) var size: CGSize = .init()
+    private(set) var safeArea: EdgeInsets = .init()
 
     static let shared: ScreenManager = .init()
     private init() {}
 }
 
-#elseif os(macOS)
-class ScreenManager: ObservableObject {
-    @Published var size: CGSize = .init()
-    @Published var safeArea: EdgeInsets = .init()
-    private(set) var animationsDisabled: Bool = false
-    private var subscription: [AnyCancellable] = []
+extension ScreenManager {
+    static func update(_ reader: GeometryProxy) {
+        shared.size.width = reader.size.width + reader.safeAreaInsets.leading + reader.safeAreaInsets.trailing
+        shared.size.height = reader.size.height + reader.safeAreaInsets.top + reader.safeAreaInsets.bottom
+        shared.safeArea = reader.safeAreaInsets
 
-    static let shared: ScreenManager = .init()
-    private init() { subscribeToWindowStartResizeEvent(); subscribeToWindowEndResizeEvent() }
-}
-
-private extension ScreenManager {
-    func subscribeToWindowStartResizeEvent() {
-        NotificationCenter.default
-            .publisher(for: NSWindow.willStartLiveResizeNotification)
-            .receive(on: DispatchQueue.main)
-            .sink(receiveValue: { _ in self.animationsDisabled = true })
-            .store(in: &subscription)
-    }
-    func subscribeToWindowEndResizeEvent() {
-        NotificationCenter.default
-            .publisher(for: NSWindow.didEndLiveResizeNotification)
-            .receive(on: DispatchQueue.main)
-            .sink(receiveValue: { _ in self.animationsDisabled = false })
-            .store(in: &subscription)
+        shared.objectWillChange.send()
     }
 }
-
-#endif
