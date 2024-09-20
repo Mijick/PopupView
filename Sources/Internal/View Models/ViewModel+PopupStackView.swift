@@ -256,10 +256,10 @@ private extension PopupStackView.ViewModel {
 }
 
 // MARK: - Calculating Scale
-private extension PopupStackView.ViewModel {
-    func calculateScale(for popup: AnyPopup) -> CGFloat { guard popup != viewModel.items.last else { return 1 }
+extension PopupStackView.ViewModel {
+    func calculateScale(for popup: AnyPopup) -> CGFloat { guard popup != items.last else { return 1 }
         let invertedIndex = getInvertedIndex(of: popup),
-            remainingTranslationProgress = 1 - viewModel.translationProgress
+            remainingTranslationProgress = 1 - translationProgress
 
         let progressMultiplier = invertedIndex == 1 ? remainingTranslationProgress : max(0.7, remainingTranslationProgress)
         let scaleValue = .init(invertedIndex) * stackScaleFactor * progressMultiplier
