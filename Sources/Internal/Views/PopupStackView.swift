@@ -71,7 +71,7 @@ private extension PopupStackView {
         }
     }
     func calculateBottomBodyPadding(activePopupHeight: CGFloat, popupConfig: Config) -> CGFloat {
-        if popupConfig.ignoredSafeAreaEdges.contains(.bottom) && !isKeyboardVisible { return 0 }
+        if popupConfig.ignoredSafeAreaEdges.contains(.bottom) && !viewModel.isKeyboardActive { return 0 }
 
         return switch viewModel.alignment {
             case .top: calculateVerticalPaddingCounterEdge(popupHeight: activePopupHeight, safeArea: viewModel.screen.safeArea.bottom)
@@ -255,7 +255,6 @@ private extension PopupStackView {
 
 // MARK: - Attributes
 private extension PopupStackView {
-    var isKeyboardVisible: Bool { viewModel.isKeyboardActive }
     var activePopupConfig: Config { getConfig(viewModel.items.last) }
     var globalConfig: GlobalConfig.Vertical { ConfigContainer.vertical }
 }
