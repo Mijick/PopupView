@@ -14,7 +14,7 @@ import Combine
 // MARK: -iOS Implementation
 #if os(iOS) || os(visionOS)
 class KeyboardManager: ObservableObject {
-    @Published private(set) var height: CGFloat = 0
+    @Published private(set) var isActive: Bool = false
     private var subscription: [AnyCancellable] = []
 
     static let shared: KeyboardManager = .init()
@@ -28,21 +28,20 @@ private extension KeyboardManager {
     func subscribeToKeyboardEvents() {
         Publishers.Merge(getKeyboardWillOpenPublisher(), createKeyboardWillHidePublisher())
             .receive(on: DispatchQueue.main)
-            .sink { self.height = $0 }
+            .sink { self.isActive = $0 }
             .store(in: &subscription)
     }
 }
 private extension KeyboardManager {
-    func getKeyboardWillOpenPublisher() -> Publishers.CompactMap<NotificationCenter.Publisher, CGFloat> {
+    func getKeyboardWillOpenPublisher() -> Publishers.Map<NotificationCenter.Publisher, Bool> {
         NotificationCenter.default
             .publisher(for: UIResponder.keyboardWillShowNotification)
-            .compactMap { $0.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? CGRect }
-            .map { $0.height }
+            .map { _ in true }
     }
-    func createKeyboardWillHidePublisher() -> Publishers.Map<NotificationCenter.Publisher, CGFloat> {
+    func createKeyboardWillHidePublisher() -> Publishers.Map<NotificationCenter.Publisher, Bool> {
         NotificationCenter.default
             .publisher(for: UIResponder.keyboardWillHideNotification)
-            .map { _ in .zero }
+            .map { _ in false }
     }
 }
 

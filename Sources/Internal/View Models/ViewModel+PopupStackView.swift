@@ -16,7 +16,7 @@ extension PopupStackView { class ViewModel: ObservableObject { init(alignment: V
     var gestureTranslation: CGFloat = 0 { didSet { onGestureTranslationChanged() }}
     let alignment: VerticalEdge
     var updatePopup: ((AnyPopup) -> ())? = nil
-    @Published var keyboardHeight: CGFloat = 0
+    @Published var isKeyboardActive: Bool = false
     @Published private(set) var activePopupHeight: CGFloat? = nil
     private(set) var translationProgress: CGFloat = 0
     @Published var screenSize: CGSize = .init()
@@ -60,7 +60,7 @@ private extension PopupStackView.ViewModel {
         let popupHeightFromGestureTranslation = activePopupHeight + activePopupDragHeight + gestureTranslation * getDragTranslationMultiplier()
 
         let newHeightCandidate1 = max(activePopupHeight, popupHeightFromGestureTranslation),
-            newHeightCanditate2 = screenSize.height - keyboardHeight
+            newHeightCanditate2 = screenSize.height
         return min(newHeightCandidate1, newHeightCanditate2)
     }
 }

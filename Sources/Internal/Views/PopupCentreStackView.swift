@@ -24,7 +24,7 @@ struct PopupCentreStackView: View {
             .animation(.transition, value: config.horizontalPadding)
             .animation(.transition, value: items)
             .animation(.transition, value: items.last?.height)
-            .animation(.keyboard, value: keyboardManager.height)
+            //.animation(.keyboard, value: keyboardManager.height)
     }
 }
 private extension PopupCentreStackView {
@@ -42,7 +42,7 @@ private extension PopupCentreStackView {
             .opacity(getOpacity(item))
             .compositingGroup()
             .focusSectionIfAvailable()
-            .padding(.bottom, keyboardManager.height == 0 ? nil : keyboardManager.height)
+            //.padding(.bottom, keyboardManager.height == 0 ? nil : keyboardManager.height)
             .zIndex(2137)
     }
 }

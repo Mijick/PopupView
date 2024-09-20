@@ -260,7 +260,7 @@ private extension PopupStackView {
 
 // MARK: - Attributes
 private extension PopupStackView {
-    var isKeyboardVisible: Bool { viewModel.keyboardHeight > 0 }
+    var isKeyboardVisible: Bool { viewModel.isKeyboardActive }
     var activePopupConfig: Config { getConfig(viewModel.items.last) }
     var globalConfig: GlobalConfig.Vertical { ConfigContainer.vertical }
 }
