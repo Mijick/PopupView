@@ -51,7 +51,7 @@ private extension PopupStackView {
     func getStackOverlayColour(for popup: AnyPopup) -> Color { stackOverlayColour.opacity(viewModel.calculateStackOverlayOpacity(for: popup)) }
 }
 private extension PopupStackView {
-    var transition: AnyTransition { .move(edge: viewModel.alignment.toEdge()) }
     var popupShadow: Shadow { ConfigContainer.vertical.shadow }
     var stackOverlayColour: Color { .black }
+    var transition: AnyTransition { .move(edge: viewModel.alignment.toEdge()) }
 }
