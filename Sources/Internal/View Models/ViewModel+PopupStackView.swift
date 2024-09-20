@@ -147,13 +147,6 @@ extension PopupStackView.ViewModel {
 
 
 
-// MARK: - Helpers
-private extension PopupStackView.ViewModel {
-    var activePopupConfig: Config {
-        let config = items.last?.config as? Config
-        return config ?? .init()
-    }
-}
 
 
 // MARK: - Calculating Corner Radius
@@ -283,9 +276,9 @@ extension PopupStackView.ViewModel {
     }
 }
 private extension PopupStackView.ViewModel {
-    func calculateStackOverlayOpacity(_ popup: AnyPopup) -> Double { guard popup != viewModel.items.last else { return 0 }
+    func calculateStackOverlayOpacity(_ popup: AnyPopup) -> Double { guard popup != items.last else { return 0 }
         let invertedIndex = getInvertedIndex(of: popup),
-            remainingTranslationProgress = 1 - viewModel.translationProgress
+            remainingTranslationProgress = 1 - translationProgress
 
         let progressMultiplier = invertedIndex == 1 ? remainingTranslationProgress : max(0.6, remainingTranslationProgress)
         let overlayValue = min(stackOverlayFactor * .init(invertedIndex), maxStackOverlayFactor)
@@ -296,7 +289,7 @@ private extension PopupStackView.ViewModel {
 }
 
 // MARK: - Background Colour
-private extension PopupStackView.ViewModel {
+extension PopupStackView.ViewModel {
     func getBackgroundColour(popupConfig: Config) -> Color {
         popupConfig.backgroundColour
     }
@@ -304,29 +297,29 @@ private extension PopupStackView.ViewModel {
 
 
 // MARK: - Attributes
-private extension PopupStackView {
-    var activePopupConfig: Config { getConfig(viewModel.items.last) }
+extension PopupStackView.ViewModel {
+    var activePopupConfig: Config { getConfig(items.last) }
     var globalConfig: GlobalConfig.Vertical { ConfigContainer.vertical }
 }
 
 // MARK: - Configurable Attributes
-private extension PopupStackView.ViewModel {
+extension PopupStackView.ViewModel {
     var popupShadow: Shadow { globalConfig.shadow }
     var stackOffset: CGFloat { globalConfig.isStackingPossible ? 8 : 0 }
     var stackScaleFactor: CGFloat { 0.025 }
     var stackOverlayColour: Color { .black }
     var stackOverlayFactor: CGFloat { 0.1 }
     var maxStackOverlayFactor: CGFloat { 0.48 }
-    var transition: AnyTransition { .move(edge: viewModel.alignment.toEdge()) }
+    var transition: AnyTransition { .move(edge: alignment.toEdge()) }
     var gestureClosingThresholdFactor: CGFloat { globalConfig.dragGestureProgressToClose }
     var dragGestureEnabled: Bool { activePopupConfig.dragGestureEnabled }
 }
 
 // MARK: - Helpers
-private extension PopupStackView.ViewModel {
+extension PopupStackView.ViewModel {
     func getInvertedIndex(of popup: AnyPopup) -> Int {
-        let index = viewModel.items.firstIndex(of: popup) ?? 0
-        let invertedIndex = viewModel.items.count - 1 - index
+        let index = items.firstIndex(of: popup) ?? 0
+        let invertedIndex = items.count - 1 - index
         return invertedIndex
     }
     func getConfig(_ item: AnyPopup?) -> Config {
@@ -339,22 +332,22 @@ private extension PopupStackView.ViewModel {
 // MARK: - Gestures
 
 // MARK: On Changed
-private extension PopupStackView.ViewModel {
+extension PopupStackView.ViewModel {
     func onPopupDragGestureChanged(_ value: CGFloat) { if dragGestureEnabled {
         updateGestureTranslation(value)
     }}
 }
 private extension PopupStackView.ViewModel {
     func updateGestureTranslation(_ value: CGFloat) { switch activePopupConfig.dragDetents.isEmpty {
-        case true: viewModel.gestureTranslation = calculateGestureTranslationWhenNoDragDetents(value)
-        case false: viewModel.gestureTranslation = calculateGestureTranslationWhenDragDetents(value)
+        case true: gestureTranslation = calculateGestureTranslationWhenNoDragDetents(value)
+        case false: gestureTranslation = calculateGestureTranslationWhenDragDetents(value)
     }}
 }
 private extension PopupStackView.ViewModel {
     func calculateGestureTranslationWhenNoDragDetents(_ value: CGFloat) -> CGFloat {
         calculateDragExtremeValue(value, 0)
     }
-    func calculateGestureTranslationWhenDragDetents(_ value: CGFloat) -> CGFloat { guard value * getDragTranslationMultiplier() > 0, let activePopupHeight = viewModel.items.last?.height else { return value }
+    func calculateGestureTranslationWhenDragDetents(_ value: CGFloat) -> CGFloat { guard value * getDragTranslationMultiplier() > 0, let activePopupHeight = items.last?.height else { return value }
         let maxHeight = calculateMaxHeightForDragGesture(activePopupHeight)
         let dragTranslation = calculateDragTranslation(maxHeight, activePopupHeight)
         return calculateDragExtremeValue(dragTranslation, value)
@@ -380,7 +373,7 @@ private extension PopupStackView.ViewModel {
 }
 
 // MARK: On Ended
-private extension PopupStackView.ViewModel {
+extension PopupStackView.ViewModel {
     func onPopupDragGestureEnded(_ value: CGFloat) { guard value != 0 else { return }
         dismissLastItemIfNeeded()
         updateTranslationValues()
@@ -388,9 +381,9 @@ private extension PopupStackView.ViewModel {
 }
 private extension PopupStackView.ViewModel {
     func dismissLastItemIfNeeded() { if shouldDismissPopup() {
-        PopupManager.dismissPopup(id: viewModel.items.last?.id.value ?? "")
+        PopupManager.dismissPopup(id: items.last?.id.value ?? "")
     }}
-    func updateTranslationValues() { if let activePopupHeight = viewModel.items.last?.height {
+    func updateTranslationValues() { if let activePopupHeight = items.last?.height {
         let currentPopupHeight = calculateCurrentPopupHeight(activePopupHeight)
         let popupTargetHeights = calculatePopupTargetHeightsFromDragDetents(activePopupHeight)
         let targetHeight = calculateTargetPopupHeight(currentPopupHeight, popupTargetHeights)
@@ -402,8 +395,8 @@ private extension PopupStackView.ViewModel {
 }
 private extension PopupStackView.ViewModel {
     func calculateCurrentPopupHeight(_ activePopupHeight: CGFloat) -> CGFloat {
-        let activePopupDragHeight = viewModel.items.last?.dragHeight ?? 0
-        let currentDragHeight = activePopupDragHeight + viewModel.gestureTranslation * getDragTranslationMultiplier()
+        let activePopupDragHeight = items.last?.dragHeight ?? 0
+        let currentDragHeight = activePopupDragHeight + gestureTranslation * getDragTranslationMultiplier()
 
         let currentPopupHeight = activePopupHeight + currentDragHeight
         return currentPopupHeight
@@ -412,25 +405,25 @@ private extension PopupStackView.ViewModel {
             .map { switch $0 {
                 case .fixed(let targetHeight): min(targetHeight, calculateLargeScreenHeight())
                 case .fraction(let fraction): min(fraction * activePopupHeight, calculateLargeScreenHeight())
-                case .fullscreen(let stackVisible): stackVisible ? calculateLargeScreenHeight() : viewModel.screen.height
+                case .fullscreen(let stackVisible): stackVisible ? calculateLargeScreenHeight() : screen.height
             }}
             .appending(activePopupHeight)
             .sorted(by: <)
     }
     func calculateTargetPopupHeight(_ currentPopupHeight: CGFloat, _ popupTargetHeights: [CGFloat]) -> CGFloat {
-        guard let activePopupHeight = viewModel.items.last?.height,
-              currentPopupHeight < viewModel.screen.height
+        guard let activePopupHeight = items.last?.height,
+              currentPopupHeight < screen.height
         else { return popupTargetHeights.last ?? 0 }
 
         let initialIndex = popupTargetHeights.firstIndex(where: { $0 >= currentPopupHeight }) ?? popupTargetHeights.count - 1,
-            targetIndex = viewModel.gestureTranslation * getDragTranslationMultiplier() > 0 ? initialIndex : max(0, initialIndex - 1)
-        let previousPopupHeight = (viewModel.items.last?.dragHeight ?? 0) + activePopupHeight,
+            targetIndex = gestureTranslation * getDragTranslationMultiplier() > 0 ? initialIndex : max(0, initialIndex - 1)
+        let previousPopupHeight = (items.last?.dragHeight ?? 0) + activePopupHeight,
             popupTargetHeight = popupTargetHeights[targetIndex],
             deltaHeight = abs(previousPopupHeight - popupTargetHeight)
         let progress = abs(currentPopupHeight - previousPopupHeight) / deltaHeight
 
         if progress < gestureClosingThresholdFactor {
-            let index = viewModel.gestureTranslation * getDragTranslationMultiplier() > 0 ? max(0, initialIndex - 1) : initialIndex
+            let index = gestureTranslation * getDragTranslationMultiplier() > 0 ? max(0, initialIndex - 1) : initialIndex
             return popupTargetHeights[index]
         }
         return popupTargetHeights[targetIndex]
