@@ -19,9 +19,6 @@ public extension LocalConfig.Vertical {
     func ignoresSafeArea(edges: Edge.Set) -> Self { self.ignoredSafeAreaEdges = edges; return self }
 
     func changeHeightMode(_ value: HeightMode) -> Self { self.heightMode = value; return self }
-
-    /// Distance between content and keyboard (if present)
-    func distanceFromKeyboard(_ value: CGFloat) -> Self { self.distanceFromKeyboard = value; return self }
 }
 
 // MARK: Popup Customisation

@@ -274,7 +274,6 @@ private extension PopupStackView {
     var maxStackOverlayFactor: CGFloat { 0.48 }
     var transition: AnyTransition { .move(edge: viewModel.alignment.toEdge()) }
     var gestureClosingThresholdFactor: CGFloat { globalConfig.dragGestureProgressToClose }
-    var distanceFromKeyboard: CGFloat { activePopupConfig.distanceFromKeyboard }
     var dragGestureEnabled: Bool { activePopupConfig.dragGestureEnabled }
 }
 

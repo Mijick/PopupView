@@ -22,7 +22,6 @@ public class LocalConfig { required init() {}
 public extension LocalConfig { class Vertical: LocalConfig {
     var ignoredSafeAreaEdges: Edge.Set = []
     var heightMode: HeightMode = .auto
-    var distanceFromKeyboard: CGFloat = 0
     var popupPadding: (top: CGFloat, bottom: CGFloat, horizontal: CGFloat) = (0, 0, 0)
     var dragGestureEnabled: Bool = false
     var dragDetents: [DragDetent] = []
@@ -35,7 +34,6 @@ public extension LocalConfig { class Vertical: LocalConfig {
         self.cornerRadius = ConfigContainer.vertical.cornerRadius
         self.tapOutsideClosesView = ConfigContainer.vertical.tapOutsideClosesView
         self.overlayColour = ConfigContainer.vertical.overlayColour
-        self.distanceFromKeyboard = ConfigContainer.vertical.distanceFromKeyboard
         self.dragGestureEnabled = ConfigContainer.vertical.dragGestureEnabled
     }
 }}

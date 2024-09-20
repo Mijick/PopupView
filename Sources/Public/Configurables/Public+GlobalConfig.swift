@@ -13,9 +13,6 @@ import SwiftUI
 
 // MARK: - Vertical
 public extension GlobalConfig.Vertical {
-    /// Distance between content and keyboard (if present)
-    func distanceFromKeyboard(_ value: CGFloat) -> Self { self.distanceFromKeyboard = value; return self }
-
     /// Popup can be closed with drag gesture if enabled
     func dragGestureEnabled(_ value: Bool) -> Self { self.dragGestureEnabled = value; return self }
 
