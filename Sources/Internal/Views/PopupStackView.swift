@@ -45,8 +45,6 @@ private extension PopupStackView {
     }
 }
 
-
-
 // MARK: - Saving Height For Item
 private extension PopupStackView {
     func save(height: CGFloat, for popup: AnyPopup, popupConfig: Config) { if viewModel.gestureTranslation.isZero {
@@ -159,11 +157,6 @@ private extension PopupStackView {
         popupConfig.backgroundColour
     }
 }
-
-
-
-
-
 
 
 // MARK: - Attributes
