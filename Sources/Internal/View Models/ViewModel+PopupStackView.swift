@@ -215,12 +215,12 @@ private extension PopupStackView.ViewModel {
         return fullscreenHeight - safeAreaHeight - popupPaddings - stackHeight
     }
     func getFullscreenHeight() -> CGFloat {
-        viewModel.screen.height
+        screen.height
     }
 }
-private extension PopupStackView {
+private extension PopupStackView.ViewModel {
     func calculateStackHeight() -> CGFloat {
-        let numberOfStackedItems = max(viewModel.items.count - 1, 0)
+        let numberOfStackedItems = max(items.count - 1, 0)
 
         let stackedItemsHeight = stackOffset * .init(numberOfStackedItems)
         return stackedItemsHeight
@@ -228,17 +228,17 @@ private extension PopupStackView {
 }
 
 // MARK: - Calculating Offset
-private extension PopupStackView {
-    func calculateOffset(for popup: AnyPopup) -> CGFloat { switch popup == viewModel.items.last {
+private extension PopupStackView.ViewModel {
+    func calculateOffset(for popup: AnyPopup) -> CGFloat { switch popup == items.last {
         case true: calculateOffsetForActivePopup()
         case false: calculateOffsetForStackedPopup(popup)
     }}
 }
-private extension PopupStackView {
+private extension PopupStackView.ViewModel {
     func calculateOffsetForActivePopup() -> CGFloat {
-        let lastPopupDragHeight = viewModel.items.last?.dragHeight ?? 0
+        let lastPopupDragHeight = items.last?.dragHeight ?? 0
 
-        return switch viewModel.alignment {
+        return switch alignment {
             case .top: min(viewModel.gestureTranslation + lastPopupDragHeight, 0)
             case .bottom: max(viewModel.gestureTranslation - lastPopupDragHeight, 0)
         }
