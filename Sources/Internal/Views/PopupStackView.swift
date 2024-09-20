@@ -18,9 +18,6 @@ struct PopupStackView<Config: LocalConfig.Vertical>: View {
     var body: some View {
         ZStack(alignment: (!viewModel.alignment).toAlignment(), content: createPopupStack)
             .frame(height: viewModel.screen.height, alignment: viewModel.alignment.toAlignment())
-            .animation(.transition, value: viewModel.items.map(\.height))
-            .animation(.transition, value: viewModel.items.map(\.dragHeight))
-            .animation(isGestureActive ? nil : .transition, value: viewModel.gestureTranslation)
             .onDragGesture(onChanged: onPopupDragGestureChanged, onEnded: onPopupDragGestureEnded)
     }
 }
