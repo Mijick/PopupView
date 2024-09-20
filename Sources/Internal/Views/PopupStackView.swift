@@ -40,7 +40,7 @@ private extension PopupStackView {
             .fixedSize(horizontal: false, vertical: calculateVerticalFixedSize(popupConfig: config))
             .onHeightChange { save(height: $0, for: item, popupConfig: config) }
             .frame(height: viewModel.activePopupHeight, alignment: (!viewModel.alignment).toAlignment())
-            .frame(maxWidth: .infinity)
+            .frame(maxWidth: .infinity, maxHeight: viewModel.activePopupHeight, alignment: (!viewModel.alignment).toAlignment())
             .background(getBackgroundColour(popupConfig: config), overlayColour: getStackOverlayColour(for: item), corners: calculateCornerRadius(), shadow: popupShadow)
             .offset(y: calculateOffset(for: item))
             .scaleEffect(x: calculateScale(for: item))
@@ -123,7 +123,7 @@ private extension PopupStackView {
 
 // MARK: - Saving Height For Item
 private extension PopupStackView {
-    func save(height: CGFloat, for popup: AnyPopup, popupConfig: Config) { if !isGestureActive {
+    func save(height: CGFloat, for popup: AnyPopup, popupConfig: Config) { if viewModel.gestureTranslation.isZero {
         let newHeight = calculateHeight(height, popupConfig)
         updateHeight(newHeight, popup)
     }}
@@ -406,7 +406,4 @@ private extension PopupStackView {
         case .top: 1
         case .bottom: -1
     }}
-}
-private extension PopupStackView {
-    var isGestureActive: Bool { viewModel.gestureTranslation != 0 }
 }
