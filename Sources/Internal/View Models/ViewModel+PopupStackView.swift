@@ -14,11 +14,15 @@ import SwiftUI
 extension PopupStackView { @MainActor class ViewModel: ObservableObject {
     let alignment: VerticalEdge
 
+    var updatePopup: ((AnyPopup) -> ())? = nil
+
+
+
     var items: [AnyPopup] = [] { didSet { onItemsChanged() }}
     var gestureTranslation: CGFloat = 0 { didSet { onGestureTranslationChanged() }}
     var screen: ScreenProperties = .init() { didSet { onScreenChanged() }}
 
-    var updatePopup: ((AnyPopup) -> ())? = nil
+
     @Published var isKeyboardActive: Bool = false
     @Published private(set) var activePopupHeight: CGFloat? = nil
 
@@ -270,9 +274,9 @@ extension PopupStackView.ViewModel {
 
 // MARK: - Stack Overlay Colour
 extension PopupStackView.ViewModel {
-    func getStackOverlayColour(for popup: AnyPopup) -> Color {
+    func getStackOverlayOpacity(for popup: AnyPopup) -> CGFloat {
         let opacity = calculateStackOverlayOpacity(popup)
-        return stackOverlayColour.opacity(opacity)
+        return opacity
     }
 }
 private extension PopupStackView.ViewModel {
@@ -288,30 +292,21 @@ private extension PopupStackView.ViewModel {
     }
 }
 
-// MARK: - Background Colour
-extension PopupStackView.ViewModel {
-    func getBackgroundColour(popupConfig: Config) -> Color {
-        popupConfig.backgroundColour
-    }
-}
+
 
 
 // MARK: - Attributes
 extension PopupStackView.ViewModel {
     var activePopupConfig: Config { getConfig(items.last) }
-    var globalConfig: GlobalConfig.Vertical { ConfigContainer.vertical }
 }
 
 // MARK: - Configurable Attributes
 extension PopupStackView.ViewModel {
-    var popupShadow: Shadow { globalConfig.shadow }
-    var stackOffset: CGFloat { globalConfig.isStackingPossible ? 8 : 0 }
+    var stackOffset: CGFloat { ConfigContainer.vertical.isStackingPossible ? 8 : 0 }
     var stackScaleFactor: CGFloat { 0.025 }
-    var stackOverlayColour: Color { .black }
     var stackOverlayFactor: CGFloat { 0.1 }
     var maxStackOverlayFactor: CGFloat { 0.48 }
-    var transition: AnyTransition { .move(edge: alignment.toEdge()) }
-    var gestureClosingThresholdFactor: CGFloat { globalConfig.dragGestureProgressToClose }
+    var gestureClosingThresholdFactor: CGFloat { ConfigContainer.vertical.dragGestureProgressToClose }
     var dragGestureEnabled: Bool { activePopupConfig.dragGestureEnabled }
 }
 
