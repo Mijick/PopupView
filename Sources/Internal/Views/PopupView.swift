@@ -48,7 +48,7 @@ private extension PopupView {
             .ignoresSafeArea()
             .animation(.transition, value: popupManager.views)
             .onTapGesture(perform: onTap)
-            .onChange(popupManager.views.count, completion: onViewsCountChange)
+            .onChange(popupManager.views.isEmpty, completion: onViewsCountChange)
             .onAppear() {
                 topStackViewModel.updatePopup = updatePopup
                 bottomStackViewModel.updatePopup = updatePopup
@@ -103,7 +103,7 @@ private extension PopupView {
     func updatePopup(_ popup: AnyPopup) { if let index = popupManager.views.firstIndex(of: popup) {
         popupManager.views[index] = popup
     }}
-    func onViewsCountChange(_ count: Int) {
+    func onViewsCountChange(_ count: Bool) {
         zIndex.reshuffle(popupManager.views.last?.config)
     }
     func onTap() { if tapOutsideClosesPopup {
