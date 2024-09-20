@@ -228,7 +228,7 @@ private extension PopupStackView.ViewModel {
 }
 
 // MARK: - Calculating Offset
-private extension PopupStackView.ViewModel {
+extension PopupStackView.ViewModel {
     func calculateOffset(for popup: AnyPopup) -> CGFloat { switch popup == items.last {
         case true: calculateOffsetForActivePopup()
         case false: calculateOffsetForStackedPopup(popup)
@@ -239,14 +239,14 @@ private extension PopupStackView.ViewModel {
         let lastPopupDragHeight = items.last?.dragHeight ?? 0
 
         return switch alignment {
-            case .top: min(viewModel.gestureTranslation + lastPopupDragHeight, 0)
-            case .bottom: max(viewModel.gestureTranslation - lastPopupDragHeight, 0)
+            case .top: min(gestureTranslation + lastPopupDragHeight, 0)
+            case .bottom: max(gestureTranslation - lastPopupDragHeight, 0)
         }
     }
     func calculateOffsetForStackedPopup(_ popup: AnyPopup) -> CGFloat {
         let invertedIndex = getInvertedIndex(of: popup)
         let offsetValue = stackOffset * .init(invertedIndex)
-        let alignmentMultiplier = switch viewModel.alignment {
+        let alignmentMultiplier = switch alignment {
             case .top: 1.0
             case .bottom: -1.0
         }
@@ -268,15 +268,15 @@ private extension PopupStackView.ViewModel {
 }
 
 // MARK: - Fixed Size
-private extension PopupStackView.ViewModel {
+extension PopupStackView.ViewModel {
     func calculateVerticalFixedSize(popupConfig: Config) -> Bool { switch popupConfig.heightMode {
         case .fullscreen, .large: false
-        case .auto: viewModel.activePopupHeight != calculateLargeScreenHeight()
+        case .auto: activePopupHeight != calculateLargeScreenHeight()
     }}
 }
 
 // MARK: - Stack Overlay Colour
-private extension PopupStackView.ViewModel {
+extension PopupStackView.ViewModel {
     func getStackOverlayColour(for popup: AnyPopup) -> Color {
         let opacity = calculateStackOverlayOpacity(popup)
         return stackOverlayColour.opacity(opacity)
