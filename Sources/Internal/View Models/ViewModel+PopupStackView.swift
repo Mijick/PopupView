@@ -356,14 +356,14 @@ private extension PopupStackView.ViewModel {
 private extension PopupStackView.ViewModel {
     func calculateMaxHeightForDragGesture(_ activePopupHeight: CGFloat) -> CGFloat {
         let maxHeight1 = (calculatePopupTargetHeightsFromDragDetents(activePopupHeight).max() ?? 0) + dragTranslationThreshold
-        let maxHeight2 = viewModel.screen.height
+        let maxHeight2 = screen.height
         return min(maxHeight1, maxHeight2)
     }
     func calculateDragTranslation(_ maxHeight: CGFloat, _ activePopupHeight: CGFloat) -> CGFloat {
-        let translation = maxHeight - activePopupHeight - (viewModel.items.last?.dragHeight ?? 0)
+        let translation = maxHeight - activePopupHeight - (items.last?.dragHeight ?? 0)
         return translation * getDragTranslationMultiplier()
     }
-    func calculateDragExtremeValue(_ value1: CGFloat, _ value2: CGFloat) -> CGFloat { switch viewModel.alignment {
+    func calculateDragExtremeValue(_ value1: CGFloat, _ value2: CGFloat) -> CGFloat { switch alignment {
         case .top: min(value1, value2)
         case .bottom: max(value1, value2)
     }}
@@ -431,21 +431,13 @@ private extension PopupStackView.ViewModel {
     func calculateTargetDragHeight(_ targetHeight: CGFloat, _ activePopupHeight: CGFloat) -> CGFloat {
         targetHeight - activePopupHeight
     }
-    func updateDragHeight(_ targetDragHeight: CGFloat) { if let activePopup = viewModel.items.last {
-        viewModel.update(popup: activePopup) { $0.dragHeight = targetDragHeight }
+    func updateDragHeight(_ targetDragHeight: CGFloat) { if let activePopup = items.last {
+        update(popup: activePopup) { $0.dragHeight = targetDragHeight }
     }}
     func resetGestureTranslation() {
-        viewModel.gestureTranslation = 0
+        gestureTranslation = 0
     }
     func shouldDismissPopup() -> Bool {
-        viewModel.translationProgress >= gestureClosingThresholdFactor
+        translationProgress >= gestureClosingThresholdFactor
     }
-}
-
-// MARK: Helpers
-private extension PopupStackView.ViewModel {
-    func getDragTranslationMultiplier() -> CGFloat { switch viewModel.alignment {
-        case .top: 1
-        case .bottom: -1
-    }}
 }
