@@ -49,7 +49,7 @@ private extension KeyboardManager {
 // MARK: - macOS Implementation
 #elseif os(macOS)
 class KeyboardManager: ObservableObject {
-    private(set) var height: CGFloat = 0
+    @Published private(set) var isActive: Bool = false
 
     static let shared: KeyboardManager = .init()
     private init() {}
