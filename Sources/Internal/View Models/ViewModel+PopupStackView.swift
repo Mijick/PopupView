@@ -11,18 +11,16 @@
 
 import SwiftUI
 
-extension PopupStackView { class ViewModel: ObservableObject {
+extension PopupStackView { @MainActor class ViewModel: ObservableObject {
     let alignment: VerticalEdge
 
     var items: [AnyPopup] = [] { didSet { onItemsChanged() }}
     var gestureTranslation: CGFloat = 0 { didSet { onGestureTranslationChanged() }}
+    var screen: ScreenProperties = .init() { didSet { onScreenChanged() }}
 
     var updatePopup: ((AnyPopup) -> ())? = nil
     @Published var isKeyboardActive: Bool = false
     @Published private(set) var activePopupHeight: CGFloat? = nil
-
-    @Published var screen: ScreenProperties = .init()
-
 
     
     private(set) var translationProgress: CGFloat = 0
@@ -35,18 +33,23 @@ private extension PopupStackView.ViewModel {
     func onItemsChanged() {
         let activePopupHeightCandidate = calculateHeightForActivePopup()
 
-        Task { @MainActor in
+        Task { @MainActor in withAnimation(.transition) {
             activePopupHeight = activePopupHeightCandidate
+        }}
+    }
+    func onScreenChanged() {
+        Task { @MainActor in
+            objectWillChange.send()
         }
     }
     func onGestureTranslationChanged() {
         let translationProgressCandidate = calculateTranslationProgress()
         let activePopupHeightCandidate = calculateHeightForActivePopup()
 
-        Task { @MainActor in
+        Task { @MainActor in withAnimation(gestureTranslation == 0 ? .transition : nil) {
             translationProgress = translationProgressCandidate
             activePopupHeight = activePopupHeightCandidate
-        }
+        }}
     }
 }
 
