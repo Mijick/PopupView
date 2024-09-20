@@ -90,3 +90,67 @@ private extension PopupStackView.ViewModel {
         case .bottom: max(gestureTranslation - (items.last?.dragHeight ?? 0), 0) / activePopupHeight
     }}
 }
+
+// MARK: - Calculating Paddings For Popup Body
+extension PopupStackView.ViewModel {
+    func calculateBodyPadding(popupConfig: Config) -> EdgeInsets { let activePopupHeight = activePopupHeight ?? 0; return .init(
+        top: calculateTopBodyPadding(activePopupHeight: activePopupHeight, popupConfig: popupConfig),
+        leading: calculateLeadingBodyPadding(),
+        bottom: calculateBottomBodyPadding(activePopupHeight: activePopupHeight, popupConfig: popupConfig),
+        trailing: calculateTrailingBodyPadding()
+    )}
+}
+private extension PopupStackView.ViewModel {
+    func calculateTopBodyPadding(activePopupHeight: CGFloat, popupConfig: Config) -> CGFloat {
+        if popupConfig.ignoredSafeAreaEdges.contains(.top) { return 0 }
+
+        return switch alignment {
+            case .top: calculateVerticalPaddingAdhereEdge(safeAreaHeight: screen.safeArea.top, popupPadding: calculatePopupPadding().top)
+            case .bottom: calculateVerticalPaddingCounterEdge(popupHeight: activePopupHeight, safeArea: screen.safeArea.top)
+        }
+    }
+    func calculateBottomBodyPadding(activePopupHeight: CGFloat, popupConfig: Config) -> CGFloat {
+        if popupConfig.ignoredSafeAreaEdges.contains(.bottom) && !isKeyboardActive { return 0 }
+
+        return switch alignment {
+            case .top: calculateVerticalPaddingCounterEdge(popupHeight: activePopupHeight, safeArea: screen.safeArea.bottom)
+            case .bottom: calculateVerticalPaddingAdhereEdge(safeAreaHeight: screen.safeArea.bottom, popupPadding: calculatePopupPadding().bottom)
+        }
+    }
+    func calculateLeadingBodyPadding() -> CGFloat {
+        screen.safeArea.leading
+    }
+    func calculateTrailingBodyPadding() -> CGFloat {
+        screen.safeArea.trailing
+    }
+}
+private extension PopupStackView.ViewModel {
+    func calculateVerticalPaddingCounterEdge(popupHeight: CGFloat, safeArea: CGFloat) -> CGFloat {
+        let paddingValueCandidate = safeArea + popupHeight - screen.height
+        return max(paddingValueCandidate, 0)
+    }
+    func calculateVerticalPaddingAdhereEdge(safeAreaHeight: CGFloat, popupPadding: CGFloat) -> CGFloat {
+        let paddingValueCandidate = safeAreaHeight - popupPadding
+        return max(paddingValueCandidate, 0)
+    }
+}
+
+// MARK: - Popup Padding
+extension PopupStackView.ViewModel {
+    func calculatePopupPadding() -> EdgeInsets { guard activePopupConfig.heightMode != .fullscreen else { return .init() }; return .init(
+        top: activePopupConfig.popupPadding.top,
+        leading: activePopupConfig.popupPadding.horizontal,
+        bottom: activePopupConfig.popupPadding.bottom,
+        trailing: activePopupConfig.popupPadding.horizontal
+    )}
+}
+
+
+
+// MARK: - Helpers
+private extension PopupStackView.ViewModel {
+    var activePopupConfig: Config {
+        let config = items.last?.config as? Config
+        return config ?? .init()
+    }
+}

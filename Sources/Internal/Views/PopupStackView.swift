@@ -36,7 +36,7 @@ private extension PopupStackView {
 
 
         return item.body
-            .padding(calculateBodyPadding(popupConfig: config))
+            .padding(viewModel.calculateBodyPadding(popupConfig: config))
             .fixedSize(horizontal: false, vertical: calculateVerticalFixedSize(popupConfig: config))
             .onHeightChange { save(height: $0, for: item, popupConfig: config) }
             .frame(height: viewModel.activePopupHeight, alignment: (!viewModel.alignment).toAlignment())
@@ -45,54 +45,10 @@ private extension PopupStackView {
             .offset(y: calculateOffset(for: item))
             .scaleEffect(x: calculateScale(for: item))
             .focusSectionIfAvailable()
-            .padding(calculatePopupPadding())
+            .padding(viewModel.calculatePopupPadding())
             .transition(transition)
             .zIndex(calculateZIndex(for: item))
             .compositingGroup()
-    }
-}
-
-// MARK: - Calculating Paddings For Popup Body
-private extension PopupStackView {
-    func calculateBodyPadding(popupConfig: Config) -> EdgeInsets { let activePopupHeight = viewModel.activePopupHeight ?? 0; return .init(
-        top: calculateTopBodyPadding(activePopupHeight: activePopupHeight, popupConfig: popupConfig),
-        leading: calculateLeadingBodyPadding(),
-        bottom: calculateBottomBodyPadding(activePopupHeight: activePopupHeight, popupConfig: popupConfig),
-        trailing: calculateTrailingBodyPadding()
-    )}
-}
-private extension PopupStackView {
-    func calculateTopBodyPadding(activePopupHeight: CGFloat, popupConfig: Config) -> CGFloat {
-        if popupConfig.ignoredSafeAreaEdges.contains(.top) { return 0 }
-
-        return switch viewModel.alignment {
-            case .top: calculateVerticalPaddingAdhereEdge(safeAreaHeight: viewModel.screen.safeArea.top, popupPadding: calculatePopupPadding().top)
-            case .bottom: calculateVerticalPaddingCounterEdge(popupHeight: activePopupHeight, safeArea: viewModel.screen.safeArea.top)
-        }
-    }
-    func calculateBottomBodyPadding(activePopupHeight: CGFloat, popupConfig: Config) -> CGFloat {
-        if popupConfig.ignoredSafeAreaEdges.contains(.bottom) && !viewModel.isKeyboardActive { return 0 }
-
-        return switch viewModel.alignment {
-            case .top: calculateVerticalPaddingCounterEdge(popupHeight: activePopupHeight, safeArea: viewModel.screen.safeArea.bottom)
-            case .bottom: calculateVerticalPaddingAdhereEdge(safeAreaHeight: viewModel.screen.safeArea.bottom, popupPadding: calculatePopupPadding().bottom)
-        }
-    }
-    func calculateLeadingBodyPadding() -> CGFloat {
-        viewModel.screen.safeArea.leading
-    }
-    func calculateTrailingBodyPadding() -> CGFloat {
-        viewModel.screen.safeArea.trailing
-    }
-}
-private extension PopupStackView {
-    func calculateVerticalPaddingCounterEdge(popupHeight: CGFloat, safeArea: CGFloat) -> CGFloat {
-        let paddingValueCandidate = safeArea + popupHeight - viewModel.screen.height
-        return max(paddingValueCandidate, 0)
-    }
-    func calculateVerticalPaddingAdhereEdge(safeAreaHeight: CGFloat, popupPadding: CGFloat) -> CGFloat {
-        let paddingValueCandidate = safeAreaHeight - popupPadding
-        return max(paddingValueCandidate, 0)
     }
 }
 
@@ -112,12 +68,12 @@ private extension PopupStackView {
         case .fullscreen: 0
     }}
     func calculateTopCornerRadius(_ cornerRadiusValue: CGFloat) -> CGFloat { switch viewModel.alignment {
-        case .top: calculatePopupPadding().top != 0 ? cornerRadiusValue : 0
+        case .top: viewModel.calculatePopupPadding().top != 0 ? cornerRadiusValue : 0
         case .bottom: cornerRadiusValue
     }}
     func calculateBottomCornerRadius(_ cornerRadiusValue: CGFloat) -> CGFloat { switch viewModel.alignment {
         case .top: cornerRadiusValue
-        case .bottom: calculatePopupPadding().bottom != 0 ? cornerRadiusValue : 0
+        case .bottom: viewModel.calculatePopupPadding().bottom != 0 ? cornerRadiusValue : 0
     }}
 }
 
@@ -139,7 +95,7 @@ private extension PopupStackView {
     }}
 }
 private extension PopupStackView {
-    func calculateLargeScreenHeight() -> CGFloat { let popupPadding = calculatePopupPadding()
+    func calculateLargeScreenHeight() -> CGFloat { let popupPadding = viewModel.calculatePopupPadding()
         let fullscreenHeight = getFullscreenHeight(),
             safeAreaHeight = viewModel.screen.safeArea[!viewModel.alignment],
             popupPaddings = popupPadding.top + popupPadding.bottom,
@@ -234,15 +190,7 @@ private extension PopupStackView {
     }
 }
 
-// MARK: - Popup Padding
-private extension PopupStackView {
-    func calculatePopupPadding() -> EdgeInsets { guard activePopupConfig.heightMode != .fullscreen else { return .init() }; return .init(
-        top: activePopupConfig.popupPadding.top,
-        leading: activePopupConfig.popupPadding.horizontal,
-        bottom: activePopupConfig.popupPadding.bottom,
-        trailing: activePopupConfig.popupPadding.horizontal
-    )}
-}
+
 
 // MARK: - Item ZIndex
 private extension PopupStackView {
