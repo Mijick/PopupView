@@ -21,7 +21,6 @@ struct PopupStackView<Config: LocalConfig.Vertical>: View {
             .animation(.transition, value: viewModel.items.map(\.height))
             .animation(.transition, value: viewModel.items.map(\.dragHeight))
             .animation(isGestureActive ? nil : .transition, value: viewModel.gestureTranslation)
-            .animation(.keyboard, value: isKeyboardVisible)
             .onDragGesture(onChanged: onPopupDragGestureChanged, onEnded: onPopupDragGestureEnded)
     }
 }
