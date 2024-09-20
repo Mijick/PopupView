@@ -27,22 +27,30 @@ private extension PopupStackView {
     }
 }
 private extension PopupStackView {
-    func createPopup(_ item: AnyPopup) -> some View { let config = viewModel.getConfig(item)
-        return item.body
+    func createPopup(_ popup: AnyPopup) -> some View { let config = viewModel.getConfig(popup)
+        return popup.body
             .padding(viewModel.calculateBodyPadding(popupConfig: config))
             .fixedSize(horizontal: false, vertical: viewModel.calculateVerticalFixedSize(popupConfig: config))
-            .onHeightChange { viewModel.save(height: $0, for: item, popupConfig: config) }
+            .onHeightChange { viewModel.save(height: $0, for: popup, popupConfig: config) }
             .frame(height: viewModel.activePopupHeight, alignment: (!viewModel.alignment).toAlignment())
             .frame(maxWidth: .infinity, maxHeight: viewModel.activePopupHeight, alignment: (!viewModel.alignment).toAlignment())
-            .background(viewModel.getBackgroundColour(popupConfig: config), overlayColour: viewModel.getStackOverlayColour(for: item), corners: viewModel.calculateCornerRadius(), shadow: viewModel.popupShadow)
-            .offset(y: viewModel.calculateOffset(for: item))
-            .scaleEffect(x: viewModel.calculateScale(for: item))
+            .background(getBackgroundColour(popupConfig: config), overlayColour: getStackOverlayColour(for: popup), corners: viewModel.calculateCornerRadius(), shadow: popupShadow)
+            .offset(y: viewModel.calculateOffset(for: popup))
+            .scaleEffect(x: viewModel.calculateScale(for: popup))
             .focusSectionIfAvailable()
             .padding(viewModel.calculatePopupPadding())
-            .transition(viewModel.transition)
-            .zIndex(viewModel.calculateZIndex(for: item))
+            .transition(transition)
+            .zIndex(viewModel.calculateZIndex(for: popup))
             .compositingGroup()
     }
 }
 
-
+private extension PopupStackView {
+    var transition: AnyTransition { .move(edge: viewModel.alignment.toEdge()) }
+    var popupShadow: Shadow { ConfigContainer.vertical.shadow }
+    var stackOverlayColour: Color { .black }
+}
+private extension PopupStackView {
+    func getBackgroundColour(popupConfig: Config) -> Color { popupConfig.backgroundColour }
+    func getStackOverlayColour(for popup: AnyPopup) -> Color { stackOverlayColour.opacity(viewModel.getStackOverlayOpacity(for: popup)) }
+}
