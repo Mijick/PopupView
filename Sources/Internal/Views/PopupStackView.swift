@@ -41,7 +41,7 @@ private extension PopupStackView {
             .onHeightChange { save(height: $0, for: item, popupConfig: config) }
             .frame(height: viewModel.activePopupHeight, alignment: (!viewModel.alignment).toAlignment())
             .frame(maxWidth: .infinity, maxHeight: viewModel.activePopupHeight, alignment: (!viewModel.alignment).toAlignment())
-            .background(getBackgroundColour(popupConfig: config), overlayColour: getStackOverlayColour(for: item), corners: calculateCornerRadius(), shadow: popupShadow)
+            .background(getBackgroundColour(popupConfig: config), overlayColour: getStackOverlayColour(for: item), corners: viewModel.calculateCornerRadius(), shadow: popupShadow)
             .offset(y: calculateOffset(for: item))
             .scaleEffect(x: calculateScale(for: item))
             .focusSectionIfAvailable()
@@ -52,30 +52,7 @@ private extension PopupStackView {
     }
 }
 
-// MARK: - Calculating Corner Radius
-private extension PopupStackView {
-    func calculateCornerRadius() -> [VerticalEdge: CGFloat] {
-        let cornerRadiusValue = calculateCornerRadiusValue(activePopupConfig)
-        return [
-            .top: calculateTopCornerRadius(cornerRadiusValue),
-            .bottom: calculateBottomCornerRadius(cornerRadiusValue)
-        ]
-    }
-}
-private extension PopupStackView {
-    func calculateCornerRadiusValue(_ activePopupConfig: Config) -> CGFloat { switch activePopupConfig.heightMode {
-        case .auto, .large: activePopupConfig.cornerRadius
-        case .fullscreen: 0
-    }}
-    func calculateTopCornerRadius(_ cornerRadiusValue: CGFloat) -> CGFloat { switch viewModel.alignment {
-        case .top: viewModel.calculatePopupPadding().top != 0 ? cornerRadiusValue : 0
-        case .bottom: cornerRadiusValue
-    }}
-    func calculateBottomCornerRadius(_ cornerRadiusValue: CGFloat) -> CGFloat { switch viewModel.alignment {
-        case .top: cornerRadiusValue
-        case .bottom: viewModel.calculatePopupPadding().bottom != 0 ? cornerRadiusValue : 0
-    }}
-}
+
 
 // MARK: - Saving Height For Item
 private extension PopupStackView {
