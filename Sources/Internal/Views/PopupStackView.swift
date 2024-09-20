@@ -27,14 +27,7 @@ private extension PopupStackView {
     }
 }
 private extension PopupStackView {
-    func createPopup(_ item: AnyPopup) -> some View {
-        Counter.increment()
-
-
-
-        let config = getConfig(item)
-
-
+    func createPopup(_ item: AnyPopup) -> some View { let config = getConfig(item)
         return item.body
             .padding(viewModel.calculateBodyPadding(popupConfig: config))
             .fixedSize(horizontal: false, vertical: calculateVerticalFixedSize(popupConfig: config))
