@@ -54,8 +54,8 @@ private extension PopupView {
                 bottomStackViewModel.updatePopup = updatePopup
             }
             .onChange(of: popupManager.views.map { [$0.height, $0.dragHeight] }) { _ in
-                topStackViewModel.items = getViews(TopPopupConfig.self)
-                bottomStackViewModel.items = getViews(BottomPopupConfig.self)
+                topStackViewModel.popups = getViews(TopPopupConfig.self)
+                bottomStackViewModel.popups = getViews(BottomPopupConfig.self)
             }
             .onChange(of: keyboardManager.isActive) { _ in
                 topStackViewModel.isKeyboardActive = keyboardManager.isActive

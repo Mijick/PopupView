@@ -23,7 +23,7 @@ struct PopupStackView<Config: LocalConfig.Vertical>: View {
 }
 private extension PopupStackView {
     func createPopupStack() -> some View {
-        ForEach(viewModel.items, id: \.self, content: createPopup)
+        ForEach(viewModel.popups, id: \.self, content: createPopup)
     }
 }
 private extension PopupStackView {
@@ -35,8 +35,8 @@ private extension PopupStackView {
             .frame(height: viewModel.activePopupHeight, alignment: (!viewModel.alignment).toAlignment())
             .frame(maxWidth: .infinity, maxHeight: viewModel.activePopupHeight, alignment: (!viewModel.alignment).toAlignment())
             .background(getBackgroundColour(popupConfig: config), overlayColour: getStackOverlayColour(for: popup), corners: viewModel.calculateCornerRadius(), shadow: popupShadow)
-            .offset(y: viewModel.calculateOffset(for: popup))
-            .scaleEffect(x: viewModel.calculateScale(for: popup))
+            .offset(y: viewModel.calculateOffsetY(for: popup))
+            .scaleEffect(x: viewModel.calculateScaleX(for: popup))
             .focusSectionIfAvailable()
             .padding(viewModel.calculatePopupPadding())
             .transition(transition)
@@ -45,12 +45,13 @@ private extension PopupStackView {
     }
 }
 
+// MARK: Helpers
+private extension PopupStackView {
+    func getBackgroundColour(popupConfig: Config) -> Color { popupConfig.backgroundColour }
+    func getStackOverlayColour(for popup: AnyPopup) -> Color { stackOverlayColour.opacity(viewModel.calculateStackOverlayOpacity(for: popup)) }
+}
 private extension PopupStackView {
     var transition: AnyTransition { .move(edge: viewModel.alignment.toEdge()) }
     var popupShadow: Shadow { ConfigContainer.vertical.shadow }
     var stackOverlayColour: Color { .black }
-}
-private extension PopupStackView {
-    func getBackgroundColour(popupConfig: Config) -> Color { popupConfig.backgroundColour }
-    func getStackOverlayColour(for popup: AnyPopup) -> Color { stackOverlayColour.opacity(viewModel.calculateStackOverlayOpacity(for: popup)) }
 }
