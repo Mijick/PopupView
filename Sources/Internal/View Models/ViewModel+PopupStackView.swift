@@ -180,3 +180,10 @@ private extension PopupStackView.ViewModel {
         case .bottom: calculatePopupPadding().bottom != 0 ? cornerRadiusValue : 0
     }}
 }
+
+// MARK: - Item ZIndex
+extension PopupStackView.ViewModel {
+    func calculateZIndex(for popup: AnyPopup) -> Double {
+        .init(items.firstIndex(of: popup) ?? 2137)
+    }
+}

@@ -40,7 +40,7 @@ private extension PopupStackView {
             .focusSectionIfAvailable()
             .padding(viewModel.calculatePopupPadding())
             .transition(transition)
-            .zIndex(calculateZIndex(for: item))
+            .zIndex(viewModel.calculateZIndex(for: item))
             .compositingGroup()
     }
 }
@@ -162,12 +162,7 @@ private extension PopupStackView {
 
 
 
-// MARK: - Item ZIndex
-private extension PopupStackView {
-    func calculateZIndex(for popup: AnyPopup) -> Double {
-        .init(viewModel.items.firstIndex(of: popup) ?? 2137)
-    }
-}
+
 
 
 
