@@ -52,5 +52,5 @@ private extension PopupStackView {
 }
 private extension PopupStackView {
     func getBackgroundColour(popupConfig: Config) -> Color { popupConfig.backgroundColour }
-    func getStackOverlayColour(for popup: AnyPopup) -> Color { stackOverlayColour.opacity(viewModel.getStackOverlayOpacity(for: popup)) }
+    func getStackOverlayColour(for popup: AnyPopup) -> Color { stackOverlayColour.opacity(viewModel.calculateStackOverlayOpacity(for: popup)) }
 }
