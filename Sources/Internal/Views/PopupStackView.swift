@@ -17,7 +17,7 @@ struct PopupStackView<Config: LocalConfig.Vertical>: View {
 
     var body: some View {
         ZStack(alignment: (!viewModel.alignment).toAlignment(), content: createPopupStack)
-            .frame(height: viewModel.screenSize.height, alignment: viewModel.alignment.toAlignment())
+            .frame(height: viewModel.screen.height, alignment: viewModel.alignment.toAlignment())
             .animation(.transition, value: viewModel.items.map(\.height))
             .animation(.transition, value: viewModel.items.map(\.dragHeight))
             .animation(isGestureActive ? nil : .transition, value: viewModel.gestureTranslation)
@@ -69,8 +69,8 @@ private extension PopupStackView {
         if popupConfig.ignoredSafeAreaEdges.contains(.top) { return 0 }
 
         return switch viewModel.alignment {
-            case .top: calculateVerticalPaddingAdhereEdge(safeAreaHeight: viewModel.safeArea.top, popupPadding: calculatePopupPadding().top)
-            case .bottom: calculateVerticalPaddingCounterEdge(popupHeight: activePopupHeight, safeArea: viewModel.safeArea.top)
+            case .top: calculateVerticalPaddingAdhereEdge(safeAreaHeight: viewModel.screen.safeArea.top, popupPadding: calculatePopupPadding().top)
+            case .bottom: calculateVerticalPaddingCounterEdge(popupHeight: activePopupHeight, safeArea: viewModel.screen.safeArea.top)
         }
     }
     func calculateBottomBodyPadding(activePopupHeight: CGFloat, popupConfig: Config) -> CGFloat {
@@ -90,7 +90,7 @@ private extension PopupStackView {
 }
 private extension PopupStackView {
     func calculateVerticalPaddingCounterEdge(popupHeight: CGFloat, safeArea: CGFloat) -> CGFloat {
-        let paddingValueCandidate = safeArea + popupHeight - viewModel.screenSize.height
+        let paddingValueCandidate = safeArea + popupHeight - viewModel.screen.height
         return max(paddingValueCandidate, 0)
     }
     func calculateVerticalPaddingAdhereEdge(safeAreaHeight: CGFloat, popupPadding: CGFloat) -> CGFloat {
@@ -144,13 +144,13 @@ private extension PopupStackView {
 private extension PopupStackView {
     func calculateLargeScreenHeight() -> CGFloat { let popupPadding = calculatePopupPadding()
         let fullscreenHeight = getFullscreenHeight(),
-            safeAreaHeight = viewModel.safeArea[!viewModel.alignment],
+            safeAreaHeight = viewModel.screen.safeArea[!viewModel.alignment],
             popupPaddings = popupPadding.top + popupPadding.bottom,
             stackHeight = calculateStackHeight()
         return fullscreenHeight - safeAreaHeight - popupPaddings - stackHeight
     }
     func getFullscreenHeight() -> CGFloat {
-        viewModel.screenSize.height
+        viewModel.screen.height
     }
 }
 private extension PopupStackView {
@@ -317,7 +317,7 @@ private extension PopupStackView {
 private extension PopupStackView {
     func calculateMaxHeightForDragGesture(_ activePopupHeight: CGFloat) -> CGFloat {
         let maxHeight1 = (calculatePopupTargetHeightsFromDragDetents(activePopupHeight).max() ?? 0) + dragTranslationThreshold
-        let maxHeight2 = viewModel.screenSize.height
+        let maxHeight2 = viewModel.screen.height
         return min(maxHeight1, maxHeight2)
     }
     func calculateDragTranslation(_ maxHeight: CGFloat, _ activePopupHeight: CGFloat) -> CGFloat {
@@ -366,14 +366,14 @@ private extension PopupStackView {
             .map { switch $0 {
                 case .fixed(let targetHeight): min(targetHeight, calculateLargeScreenHeight())
                 case .fraction(let fraction): min(fraction * activePopupHeight, calculateLargeScreenHeight())
-                case .fullscreen(let stackVisible): stackVisible ? calculateLargeScreenHeight() : viewModel.screenSize.height
+                case .fullscreen(let stackVisible): stackVisible ? calculateLargeScreenHeight() : viewModel.screen.height
             }}
             .appending(activePopupHeight)
             .sorted(by: <)
     }
     func calculateTargetPopupHeight(_ currentPopupHeight: CGFloat, _ popupTargetHeights: [CGFloat]) -> CGFloat {
         guard let activePopupHeight = viewModel.items.last?.height,
-              currentPopupHeight < viewModel.screenSize.height
+              currentPopupHeight < viewModel.screen.height
         else { return popupTargetHeights.last ?? 0 }
 
         let initialIndex = popupTargetHeights.firstIndex(where: { $0 >= currentPopupHeight }) ?? popupTargetHeights.count - 1,

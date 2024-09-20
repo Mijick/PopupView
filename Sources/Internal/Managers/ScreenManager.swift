@@ -12,8 +12,7 @@ import SwiftUI
 import Combine
 
 class ScreenManager: ObservableObject {
-    private(set) var size: CGSize = .init()
-    private(set) var safeArea: EdgeInsets = .init()
+    private(set) var properties: ScreenProperties = .init()
 
     static let shared: ScreenManager = .init()
     private init() {}
@@ -21,9 +20,8 @@ class ScreenManager: ObservableObject {
 
 extension ScreenManager {
     static func update(_ reader: GeometryProxy) {
-        shared.size.width = reader.size.width + reader.safeAreaInsets.leading + reader.safeAreaInsets.trailing
-        shared.size.height = reader.size.height + reader.safeAreaInsets.top + reader.safeAreaInsets.bottom
-        shared.safeArea = reader.safeAreaInsets
+        shared.properties.height = reader.size.height + reader.safeAreaInsets.top + reader.safeAreaInsets.bottom
+        shared.properties.safeArea = reader.safeAreaInsets
 
         shared.objectWillChange.send()
     }

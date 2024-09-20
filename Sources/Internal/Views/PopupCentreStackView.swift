@@ -20,7 +20,7 @@ struct PopupCentreStackView: View {
         ZStack(content: createPopupStack)
             .id(items.isEmpty)
             .transition(getTransition())
-            .frame(maxWidth: .infinity, maxHeight: screen.size.height)
+            .frame(maxWidth: .infinity, maxHeight: screen.properties.height)
             .animation(.transition, value: config.horizontalPadding)
             .animation(.transition, value: items)
             .animation(.transition, value: items.last?.height)
