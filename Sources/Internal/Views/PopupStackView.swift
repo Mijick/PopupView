@@ -74,8 +74,7 @@ private extension PopupStackView {
         }
     }
     func calculateBottomBodyPadding(activePopupHeight: CGFloat, popupConfig: Config) -> CGFloat {
-        if isKeyboardVisible { return viewModel.keyboardHeight + distanceFromKeyboard }
-        if popupConfig.ignoredSafeAreaEdges.contains(.bottom) { return 0 }
+        if popupConfig.ignoredSafeAreaEdges.contains(.bottom) && !isKeyboardVisible { return 0 }
 
         return switch viewModel.alignment {
             case .top: calculateVerticalPaddingCounterEdge(popupHeight: activePopupHeight, safeArea: viewModel.safeArea.bottom)
