@@ -16,7 +16,7 @@ let package = Package(
     ],
     targets: [
         .target(name: "MijickPopups", dependencies: [], path: "Sources"),
-        .testTarget(name: "MijickPopupsTests", dependencies: [], path: "Tests")
+        .testTarget(name: "MijickPopupsTests", dependencies: ["MijickPopups"], path: "Tests")
     ],
     swiftLanguageVersions: [.v5]
 )
