@@ -146,8 +146,10 @@ extension PopupBottomStackViewModelTests {
         let popups = [
             createPopupInstanceForPopupHeightTests(heightMode: .auto, popupHeight: 100)
         ]
+
         appendPopupsAndCheckActivePopupHeight(
             popups: popups,
+            gestureTranslation: 0,
             expectedValue: 100
         )
     }
@@ -157,8 +159,10 @@ extension PopupBottomStackViewModelTests {
             createPopupInstanceForPopupHeightTests(heightMode: .auto, popupHeight: 1000),
             createPopupInstanceForPopupHeightTests(heightMode: .auto, popupHeight: 2000)
         ]
+
         appendPopupsAndCheckActivePopupHeight(
             popups: popups,
+            gestureTranslation: 0,
             expectedValue: screen.height - screen.safeArea.top - 2 * testHook.stackOffset
         )
     }
@@ -168,13 +172,24 @@ extension PopupBottomStackViewModelTests {
             createPopupInstanceForPopupHeightTests(heightMode: .fullscreen, popupHeight: 1000),
             createPopupInstanceForPopupHeightTests(heightMode: .large, popupHeight: 2000)
         ]
+
         appendPopupsAndCheckActivePopupHeight(
             popups: popups,
+            gestureTranslation: 0,
             expectedValue: screen.height - screen.safeArea.top - 2 * testHook.stackOffset
         )
     }
     func test_calculateActivePopupHeight_withAutoHeightMode_whenGestureIsNegative_twoPopupsStacked() {
+        let popups = [
+            createPopupInstanceForPopupHeightTests(heightMode: .auto, popupHeight: 350),
+            createPopupInstanceForPopupHeightTests(heightMode: .auto, popupHeight: 400)
+        ]
 
+        appendPopupsAndCheckActivePopupHeight(
+            popups: popups,
+            gestureTranslation: -51,
+            expectedValue: 400 + 51
+        )
     }
     func test_calculateActivePopupHeight_withLargeHeightMode_whenGestureIsNegative_onePopupStacked() {
 
@@ -196,13 +211,14 @@ extension PopupBottomStackViewModelTests {
     }
 }
 private extension PopupBottomStackViewModelTests {
-    func appendPopupsAndCheckActivePopupHeight(popups: [AnyPopup], expectedValue: CGFloat) {
+    func appendPopupsAndCheckActivePopupHeight(popups: [AnyPopup], gestureTranslation: CGFloat, expectedValue: CGFloat) {
         viewModel.popups = popups
         viewModel.popups = recalculatePopupHeights()
+        viewModel.gestureTranslation = gestureTranslation
 
         let expect = expectation(description: "results")
         viewModel.$activePopupHeight
-            .dropFirst(2)
+            .dropFirst(3)
             .sink {
                 XCTAssertEqual($0, expectedValue)
                 expect.fulfill()
