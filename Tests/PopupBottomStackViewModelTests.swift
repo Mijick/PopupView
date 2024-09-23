@@ -249,16 +249,67 @@ extension PopupBottomStackViewModelTests {
 // MARK: Calculating Offset
 extension PopupBottomStackViewModelTests {
     func test_calculateOffsetY_withZeroGestureTranslation_fivePopupsStacked_thirdElement() {
-        
+        viewModel.popups = [
+            createPopupInstanceForPopupHeightTests(heightMode: .auto, popupHeight: 350),
+            createPopupInstanceForPopupHeightTests(heightMode: .auto, popupHeight: 120),
+            createPopupInstanceForPopupHeightTests(heightMode: .auto, popupHeight: 240),
+            createPopupInstanceForPopupHeightTests(heightMode: .auto, popupHeight: 670),
+            createPopupInstanceForPopupHeightTests(heightMode: .auto, popupHeight: 310)
+        ]
+
+        XCTAssertEqual(
+            testHook.calculatePopupOffsetY(for: viewModel.popups[2]),
+            -testHook.stackOffset * 2
+        )
     }
     func test_calculateOffsetY_withZeroGestureTranslation_fivePopupsStacked_lastElement() {
+        viewModel.popups = [
+            createPopupInstanceForPopupHeightTests(heightMode: .auto, popupHeight: 350),
+            createPopupInstanceForPopupHeightTests(heightMode: .auto, popupHeight: 120),
+            createPopupInstanceForPopupHeightTests(heightMode: .auto, popupHeight: 240),
+            createPopupInstanceForPopupHeightTests(heightMode: .auto, popupHeight: 670),
+            createPopupInstanceForPopupHeightTests(heightMode: .auto, popupHeight: 310)
+        ]
 
+        XCTAssertEqual(
+            testHook.calculatePopupOffsetY(for: viewModel.popups[4]),
+            0
+        )
     }
-    func test_calculateOffsetY_withNegativeGestureTranslation_onePopupStacked() {
+    func test_calculateOffsetY_withNegativeGestureTranslation_dragHeight_onePopupStacked() {
+        viewModel.popups = [
+            createPopupInstanceForPopupHeightTests(heightMode: .auto, popupHeight: 350, popupDragHeight: 100)
+        ]
+        viewModel.gestureTranslation = -100
 
+        XCTAssertEqual(
+            testHook.calculatePopupOffsetY(for: viewModel.popups[0]),
+            0
+        )
     }
-    func test_calculateOffsetY_withPositiveGestureTranslation_twoPopupsStacked_lastElement() {
+    func test_calculateOffsetY_withPositiveGestureTranslation_dragHeight_twoPopupsStacked_firstElement() {
+        viewModel.popups = [
+            createPopupInstanceForPopupHeightTests(heightMode: .auto, popupHeight: 350, popupDragHeight: 249),
+            createPopupInstanceForPopupHeightTests(heightMode: .auto, popupHeight: 133, popupDragHeight: 21)
+        ]
+        viewModel.gestureTranslation = 100
 
+        XCTAssertEqual(
+            testHook.calculatePopupOffsetY(for: viewModel.popups[0]),
+            -testHook.stackOffset
+        )
+    }
+    func test_calculateOffsetY_withPositiveGestureTranslation_dragHeight_twoPopupsStacked_lastElement() {
+        viewModel.popups = [
+            createPopupInstanceForPopupHeightTests(heightMode: .auto, popupHeight: 350, popupDragHeight: 249),
+            createPopupInstanceForPopupHeightTests(heightMode: .auto, popupHeight: 133, popupDragHeight: 21)
+        ]
+        viewModel.gestureTranslation = 100
+
+        XCTAssertEqual(
+            testHook.calculatePopupOffsetY(for: viewModel.popups[1]),
+            100 - 21
+        )
     }
 }
 

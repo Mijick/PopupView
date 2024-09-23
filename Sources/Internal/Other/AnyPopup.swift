@@ -52,7 +52,7 @@ extension AnyPopup { struct Temp {
 #if DEBUG
 extension AnyPopup {
     init(config: LocalConfig) {
-        self.id = .init(value: "")
+        self.id = .init(value: UUID().uuidString)
         self.config = config
         self.dismissTimer = nil
         self.onDismiss = {}

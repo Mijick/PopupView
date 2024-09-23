@@ -448,6 +448,8 @@ extension PopupStackView.ViewModel { struct TestHook {
 }}
 extension PopupStackView.ViewModel.TestHook {
     @MainActor func calculatePopupHeight(height: CGFloat, popupConfig: Config) -> CGFloat { target.calculateHeight(height, popupConfig) }
+    @MainActor func calculatePopupOffsetY(for popup: AnyPopup) -> CGFloat { target.calculateOffsetY(for: popup) }
+    
 }
 extension PopupStackView.ViewModel.TestHook {
     @MainActor var stackOffset: CGFloat { target.stackOffset }
