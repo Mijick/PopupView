@@ -19,7 +19,8 @@ struct AnyPopup: View, Hashable {
     var dragHeight: CGFloat?
     private let _body: AnyView
 
-    
+
+
     init(_ popup: some Popup) { let temp = PopupManager.readAndResetTempValues()
         self.id = popup.id
         self.config = popup.configurePopup(popup: .init())
@@ -45,3 +46,19 @@ extension AnyPopup { struct Temp {
     var dismissTimer: DispatchSourceTimer? = nil
     var onDismiss: () -> () = {}
 }}
+
+
+// MARK: - Testing
+#if DEBUG
+extension AnyPopup {
+    init(config: LocalConfig) {
+        self.id = .init(value: "")
+        self.config = config
+        self.dismissTimer = nil
+        self.onDismiss = {}
+        self.height = nil
+        self.dragHeight = nil
+        self._body = .init(erasing: EmptyView())
+    }
+}
+#endif
