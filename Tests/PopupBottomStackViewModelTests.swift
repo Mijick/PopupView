@@ -155,7 +155,11 @@ extension PopupBottomStackViewModelTests {
         ]}
     }
     func test_calculateActivePopupHeight_withLargeHeightMode_whenThreePopupsStacked() {
-
+        appendPopupsAndCheckActivePopupHeight(expectedValue: screen.height - screen.safeArea.top - 2 * testHook.stackOffset) {[
+            createPopupInstanceForPopupHeightTests(heightMode: .auto, popupHeight: 350),
+            createPopupInstanceForPopupHeightTests(heightMode: .fullscreen, popupHeight: 1000),
+            createPopupInstanceForPopupHeightTests(heightMode: .large, popupHeight: 2000),
+        ]}
     }
     func test_calculateActivePopupHeight_withAutoHeightMode_whenGestureIsNegative_twoPopupsStacked() {
 
