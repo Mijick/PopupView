@@ -29,25 +29,30 @@ extension PopupStackViewModelTests {
             createPopupInstanceForPopupHeightTests(heightMode: .auto, popupHeight: 150)
         ]
 
-        let calculatedPopupHeight = testHook.calculatePopupHeight(height: 150, popupConfig: viewModel.popups.last!.config as! Config)
+        let calculatedPopupHeight = calculateLastPopupHeight()
         let expectedPopupHeight = 150.0
         XCTAssertEqual(calculatedPopupHeight, expectedPopupHeight)
     }
     func test_calculatePopupHeight_withAutoHeightMode_whenLessThanScreen_fourPopupsStacked() {
-        let popup1 = createPopupInstanceForPopupHeightTests(heightMode: .auto, popupHeight: 150)
-        viewModel.popups = [popup1]
+        viewModel.popups = [
+            createPopupInstanceForPopupHeightTests(heightMode: .auto, popupHeight: 150),
+            createPopupInstanceForPopupHeightTests(heightMode: .auto, popupHeight: 200),
+            createPopupInstanceForPopupHeightTests(heightMode: .auto, popupHeight: 300),
+            createPopupInstanceForPopupHeightTests(heightMode: .auto, popupHeight: 100)
+        ]
 
-
-
-
-        let config = getConfigForPopupHeightTests(heightMode: .auto)
-
-        testHook.calculatePopupHeight(height: 150, popupConfig: config)
-
-        var popup = AnyPopup(config: config)
+        let calculatedPopupHeight = calculateLastPopupHeight()
+        let expectedPopupHeight = 100.0
+        XCTAssertEqual(calculatedPopupHeight, expectedPopupHeight)
     }
     func test_calculatePopupHeight_withAutoHeightMode_whenBiggerThanScreen_onePopupStacked() {
+        viewModel.popups = [
+            createPopupInstanceForPopupHeightTests(heightMode: .auto, popupHeight: 2000)
+        ]
 
+        let calculatedPopupHeight = calculateLastPopupHeight()
+        let expectedPopupHeight = screen.height - screen.safeArea.top
+        XCTAssertEqual(calculatedPopupHeight, expectedPopupHeight)
     }
     func test_calculatePopupHeight_withAutoHeightMode_whenBiggerThanScreen_fivePopupStacked() {
 
@@ -72,6 +77,9 @@ private extension PopupStackViewModelTests {
         var popup = AnyPopup(config: config)
         popup.height = popupHeight
         return popup
+    }
+    func calculateLastPopupHeight() -> CGFloat {
+        testHook.calculatePopupHeight(height: viewModel.popups.last!.height!, popupConfig: viewModel.popups.last!.config as! Config)
     }
 }
 private extension PopupStackViewModelTests {
