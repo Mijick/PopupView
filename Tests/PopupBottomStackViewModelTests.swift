@@ -232,7 +232,15 @@ extension PopupBottomStackViewModelTests {
         )
     }
     func test_calculateActivePopupHeight_withAutoHeightMode_whenGestureIsPositive_hasDragHeightStored_onePopupStacked() {
+        let popups = [
+            createPopupInstanceForPopupHeightTests(heightMode: .auto, popupHeight: 1300, popupDragHeight: 100)
+        ]
 
+        appendPopupsAndCheckActivePopupHeight(
+            popups: popups,
+            gestureTranslation: 350,
+            expectedValue: largeScreenHeight
+        )
     }
 }
 private extension PopupBottomStackViewModelTests {
