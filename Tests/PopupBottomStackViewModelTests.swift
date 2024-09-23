@@ -138,7 +138,48 @@ private extension PopupBottomStackViewModelTests {
     )}
 }
 
+// MARK: Calculating Active Popup Height
+extension PopupBottomStackViewModelTests {
+    func test_calculateActivePopupHeight_withAutoHeightMode_whenLessThanScreen_onePopupStacked() {
 
+    }
+    func test_calculateActivePopupHeight_withAutoHeightMode_whenBiggerThanScreen_threePopupsStacked() {
+
+    }
+    func test_calculateActivePopupHeight_withLargeHeightMode_whenThreePopupsStacked() {
+
+    }
+    func test_calculateActivePopupHeight_withAutoHeightMode_whenGestureIsNegative_twoPopupsStacked() {
+
+    }
+    func test_calculateActivePopupHeight_withLargeHeightMode_whenGestureIsNegative_onePopupStacked() {
+
+    }
+    func test_calculateActivePopupHeight_withFullscreenHeightMode_whenGestureIsNegative_twoPopupsStacked() {
+
+    }
+    func test_calculateActivePopupHeight_withAutoHeightMode_whenGestureIsPositive_threePopupsStacked() {
+
+    }
+    func test_calculateActivePopupHeight_withFullscreenHeightMode_whenGestureIsPositive_onePopupStacked() {
+
+    }
+    func test_calculateActivePopupHeight_withAutoHeightMode_whenGestureIsNegative_hasDragHeightStored_twoPopupsStacked() {
+
+    }
+    func test_calculateActivePopupHeight_withAutoHeightMode_whenGestureIsPositive_hasDragHeightStored_onePopupStacked() {
+
+    }
+}
+private extension PopupBottomStackViewModelTests {
+
+}
+private extension PopupBottomStackViewModelTests {
+
+}
+private extension PopupBottomStackViewModelTests {
+
+}
 
 
 
