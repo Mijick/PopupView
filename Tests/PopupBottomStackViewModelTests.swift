@@ -13,7 +13,7 @@ import XCTest
 import SwiftUI
 @testable import MijickPopups
 
-final class PopupStackViewModelTests: XCTestCase {
+final class PopupBottomStackViewModelTests: XCTestCase {
     @ObservedObject private var viewModel: PopupStackView.ViewModel = .init(alignment: .bottom)
 
 
@@ -23,7 +23,7 @@ final class PopupStackViewModelTests: XCTestCase {
 }
 
 // MARK: Calculating Popup Height
-extension PopupStackViewModelTests {
+extension PopupBottomStackViewModelTests {
     func test_calculatePopupHeight_withAutoHeightMode_whenLessThanScreen_onePopupStacked() {
         viewModel.popups = [
             createPopupInstanceForPopupHeightTests(heightMode: .auto, popupHeight: 150)
@@ -116,7 +116,7 @@ extension PopupStackViewModelTests {
         )
     }
 }
-private extension PopupStackViewModelTests {
+private extension PopupBottomStackViewModelTests {
     func createPopupInstanceForPopupHeightTests(heightMode: HeightMode, popupHeight: CGFloat) -> AnyPopup {
         let config = getConfigForPopupHeightTests(heightMode: heightMode)
 
@@ -128,7 +128,7 @@ private extension PopupStackViewModelTests {
         testHook.calculatePopupHeight(height: viewModel.popups.last!.height!, popupConfig: viewModel.popups.last!.config as! Config)
     }
 }
-private extension PopupStackViewModelTests {
+private extension PopupBottomStackViewModelTests {
     func getConfigForPopupHeightTests(heightMode: HeightMode) -> Config { .init(
         ignoredSafeAreaEdges: [],
         heightMode: heightMode,
@@ -140,14 +140,18 @@ private extension PopupStackViewModelTests {
 
 
 
-fileprivate typealias Config = LocalConfig.Vertical
 
 
 
 
 
 
-private extension PopupStackViewModelTests {
+
+
+
+private extension PopupBottomStackViewModelTests {
+    typealias Config = LocalConfig.Vertical
+
     var testHook: PopupStackView<Config>.ViewModel.TestHook { viewModel.testHook }
 }
 
@@ -155,7 +159,7 @@ private extension PopupStackViewModelTests {
 
 
 // MARK: Helpers
-private extension PopupStackViewModelTests {
+private extension PopupBottomStackViewModelTests {
     var screen: ScreenProperties { .init(
         height: 1000,
         safeArea: .init(top: 100, leading: 0, bottom: 50, trailing: 0)
