@@ -72,16 +72,48 @@ extension PopupStackViewModelTests {
         )
     }
     func test_calculatePopupHeight_withLargeHeightMode_whenOnePopupStacked() {
+        viewModel.popups = [
+            createPopupInstanceForPopupHeightTests(heightMode: .large, popupHeight: 100)
+        ]
 
+        XCTAssertEqual(
+            calculateLastPopupHeight(),
+            screen.height - screen.safeArea.top
+        )
     }
     func test_calculatePopupHeight_withLargeHeightMode_whenThreePopupStacked() {
+        viewModel.popups = [
+            createPopupInstanceForPopupHeightTests(heightMode: .large, popupHeight: 100),
+            createPopupInstanceForPopupHeightTests(heightMode: .large, popupHeight: 700),
+            createPopupInstanceForPopupHeightTests(heightMode: .large, popupHeight: 1000)
+        ]
 
+        XCTAssertEqual(
+            calculateLastPopupHeight(),
+            screen.height - screen.safeArea.top - testHook.stackOffset * 2
+        )
     }
     func test_calculatePopupHeight_withFullscreenHeightMode_whenOnePopupStacked() {
+        viewModel.popups = [
+            createPopupInstanceForPopupHeightTests(heightMode: .fullscreen, popupHeight: 100)
+        ]
 
+        XCTAssertEqual(
+            calculateLastPopupHeight(),
+            screen.height
+        )
     }
     func test_calculatePopupHeight_withFullscreenHeightMode_whenThreePopupsStacked() {
+        viewModel.popups = [
+            createPopupInstanceForPopupHeightTests(heightMode: .fullscreen, popupHeight: 100),
+            createPopupInstanceForPopupHeightTests(heightMode: .fullscreen, popupHeight: 2000),
+            createPopupInstanceForPopupHeightTests(heightMode: .fullscreen, popupHeight: 3000)
+        ]
 
+        XCTAssertEqual(
+            calculateLastPopupHeight(),
+            screen.height
+        )
     }
 }
 private extension PopupStackViewModelTests {
