@@ -24,6 +24,8 @@ final class PopupBottomStackViewModelTests: XCTestCase {
     }
 }
 
+// MARK: - Test Cases
+
 // MARK: Calculating Popup Height
 extension PopupBottomStackViewModelTests {
     func test_calculatePopupHeight_withAutoHeightMode_whenLessThanScreen_onePopupStacked() {
@@ -117,27 +119,6 @@ extension PopupBottomStackViewModelTests {
             screen.height
         )
     }
-}
-private extension PopupBottomStackViewModelTests {
-    func createPopupInstanceForPopupHeightTests(heightMode: HeightMode, popupHeight: CGFloat) -> AnyPopup {
-        let config = getConfigForPopupHeightTests(heightMode: heightMode)
-
-        var popup = AnyPopup(config: config)
-        popup.height = popupHeight
-        return popup
-    }
-    func calculateLastPopupHeight() -> CGFloat {
-        testHook.calculatePopupHeight(height: viewModel.popups.last!.height!, popupConfig: viewModel.popups.last!.config as! Config)
-    }
-}
-private extension PopupBottomStackViewModelTests {
-    func getConfigForPopupHeightTests(heightMode: HeightMode) -> Config { .init(
-        ignoredSafeAreaEdges: [],
-        heightMode: heightMode,
-        popupPadding: (0, 0, 0),
-        dragGestureEnabled: true,
-        dragDetents: []
-    )}
 }
 
 // MARK: Calculating Active Popup Height
@@ -274,6 +255,29 @@ private extension PopupBottomStackViewModelTests {
 
 
 
+// MARK: - Helpers
+private extension PopupBottomStackViewModelTests {
+    func createPopupInstanceForPopupHeightTests(heightMode: HeightMode, popupHeight: CGFloat, popupDragHeight: CGFloat? = nil) -> AnyPopup {
+        let config = getConfigForPopupHeightTests(heightMode: heightMode)
+
+        var popup = AnyPopup(config: config)
+        popup.height = popupHeight
+        popup.dragHeight = popupDragHeight
+        return popup
+    }
+    func calculateLastPopupHeight() -> CGFloat {
+        testHook.calculatePopupHeight(height: viewModel.popups.last!.height!, popupConfig: viewModel.popups.last!.config as! Config)
+    }
+}
+private extension PopupBottomStackViewModelTests {
+    func getConfigForPopupHeightTests(heightMode: HeightMode) -> Config { .init(
+        ignoredSafeAreaEdges: [],
+        heightMode: heightMode,
+        popupPadding: (0, 0, 0),
+        dragGestureEnabled: true,
+        dragDetents: []
+    )}
+}
 
 
 
