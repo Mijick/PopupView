@@ -29,7 +29,7 @@ private extension PopupStackView {
 private extension PopupStackView {
     func createPopup(_ popup: AnyPopup) -> some View { let config = viewModel.getConfig(popup)
         return popup.body
-            .padding(viewModel.calculateBodyPadding(popupConfig: config))
+            .padding(viewModel.calculateBodyPadding(for: popup))
             .fixedSize(horizontal: false, vertical: viewModel.calculateVerticalFixedSize(popupConfig: config))
             .onHeightChange { viewModel.save(height: $0, for: popup) }
             .frame(height: viewModel.activePopupHeight, alignment: (!viewModel.alignment).toAlignment())
