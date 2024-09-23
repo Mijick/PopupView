@@ -267,7 +267,7 @@ extension PopupStackView.ViewModel {
 
 // MARK: - Fixed Size
 extension PopupStackView.ViewModel {
-    func calculateVerticalFixedSize(popupConfig: Config) -> Bool { switch popupConfig.heightMode {
+    func calculateVerticalFixedSize(for popup: AnyPopup) -> Bool { switch getConfig(popup).heightMode {
         case .fullscreen, .large: false
         case .auto: activePopupHeight != calculateLargeScreenHeight()
     }}

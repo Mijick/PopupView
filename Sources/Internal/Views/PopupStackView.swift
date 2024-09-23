@@ -27,14 +27,14 @@ private extension PopupStackView {
     }
 }
 private extension PopupStackView {
-    func createPopup(_ popup: AnyPopup) -> some View { let config = viewModel.getConfig(popup)
-        return popup.body
+    func createPopup(_ popup: AnyPopup) -> some View {
+        popup.body
             .padding(viewModel.calculateBodyPadding(for: popup))
-            .fixedSize(horizontal: false, vertical: viewModel.calculateVerticalFixedSize(popupConfig: config))
+            .fixedSize(horizontal: false, vertical: viewModel.calculateVerticalFixedSize(for: popup))
             .onHeightChange { viewModel.save(height: $0, for: popup) }
             .frame(height: viewModel.activePopupHeight, alignment: (!viewModel.alignment).toAlignment())
             .frame(maxWidth: .infinity, maxHeight: viewModel.activePopupHeight, alignment: (!viewModel.alignment).toAlignment())
-            .background(getBackgroundColour(popupConfig: config), overlayColour: getStackOverlayColour(for: popup), corners: viewModel.calculateCornerRadius(), shadow: popupShadow)
+            .background(getBackgroundColour(for: popup), overlayColour: getStackOverlayColour(for: popup), corners: viewModel.calculateCornerRadius(), shadow: popupShadow)
             .offset(y: viewModel.calculateOffsetY(for: popup))
             .scaleEffect(x: viewModel.calculateScaleX(for: popup))
             .focusSectionIfAvailable()
@@ -47,7 +47,7 @@ private extension PopupStackView {
 
 // MARK: Helpers
 private extension PopupStackView {
-    func getBackgroundColour(popupConfig: Config) -> Color { popupConfig.backgroundColour }
+    func getBackgroundColour(for popup: AnyPopup) -> Color { popup.config.backgroundColour }
     func getStackOverlayColour(for popup: AnyPopup) -> Color { stackOverlayColour.opacity(viewModel.calculateStackOverlayOpacity(for: popup)) }
 }
 private extension PopupStackView {
