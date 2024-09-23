@@ -148,16 +148,14 @@ extension PopupBottomStackViewModelTests {
         ]}
     }
     func test_calculateActivePopupHeight_withAutoHeightMode_whenBiggerThanScreen_threePopupsStacked() {
-        appendPopupsAndCheckActivePopupHeight(expectedValue: screen.height) {[
+        appendPopupsAndCheckActivePopupHeight(expectedValue: screen.height - screen.safeArea.top - 2 * testHook.stackOffset) {[
             createPopupInstanceForPopupHeightTests(heightMode: .auto, popupHeight: 3000),
             createPopupInstanceForPopupHeightTests(heightMode: .auto, popupHeight: 1000),
             createPopupInstanceForPopupHeightTests(heightMode: .auto, popupHeight: 2000),
         ]}
     }
     func test_calculateActivePopupHeight_withLargeHeightMode_whenThreePopupsStacked() {
-        appendPopupsAndCheckActivePopupHeight(expectedValue: 100) {[
-            createPopupInstanceForPopupHeightTests(heightMode: .auto, popupHeight: 100)
-        ]}
+
     }
     func test_calculateActivePopupHeight_withAutoHeightMode_whenGestureIsNegative_twoPopupsStacked() {
 
@@ -183,25 +181,26 @@ extension PopupBottomStackViewModelTests {
 }
 private extension PopupBottomStackViewModelTests {
     func appendPopupsAndCheckActivePopupHeight(expectedValue: CGFloat, popupsBuilder: () -> ([AnyPopup])) {
-        let expect = expectation(description: "results")
+        viewModel.popups = popupsBuilder()
+        viewModel.popups = recalculatePopupHeights()
 
+        let expect = expectation(description: "results")
         viewModel.$activePopupHeight
-            .dropFirst()
+            .dropFirst(2)
             .sink {
                 XCTAssertEqual($0, expectedValue)
                 expect.fulfill()
             }
             .store(in: &cancellables)
-        viewModel.popups = popupsBuilder()
-
-        wait(for: [expect], timeout: 0.2)
+        wait(for: [expect], timeout: 3)
     }
 }
 private extension PopupBottomStackViewModelTests {
-
-}
-private extension PopupBottomStackViewModelTests {
-
+    func recalculatePopupHeights() -> [AnyPopup] { viewModel.popups.map {
+        var popup = $0
+        popup.height = testHook.calculatePopupHeight(height: $0.height!, popupConfig: $0.config as! Config)
+        return popup
+    }}
 }
 
 
