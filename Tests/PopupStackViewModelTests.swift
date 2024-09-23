@@ -25,15 +25,26 @@ final class PopupStackViewModelTests: XCTestCase {
 // MARK: Calculating Popup Height
 extension PopupStackViewModelTests {
     func test_calculatePopupHeight_withAutoHeightMode_whenLessThanScreen_onePopupStacked() {
-        let popup = createPopupInstanceForPopupHeightTests(heightMode: .auto, popupHeight: 100)
-        viewModel.popups.append(popup)
+        viewModel.popups = [
+            createPopupInstanceForPopupHeightTests(heightMode: .auto, popupHeight: 150)
+        ]
 
-        let calculatedPopupHeight = testHook.calculatePopupHeight()
-        let expectedPopupHeight = 100.0
+        let calculatedPopupHeight = testHook.calculatePopupHeight(height: 150, popupConfig: viewModel.popups.last!.config as! Config)
+        let expectedPopupHeight = 150.0
         XCTAssertEqual(calculatedPopupHeight, expectedPopupHeight)
     }
     func test_calculatePopupHeight_withAutoHeightMode_whenLessThanScreen_fourPopupsStacked() {
+        let popup1 = createPopupInstanceForPopupHeightTests(heightMode: .auto, popupHeight: 150)
+        viewModel.popups = [popup1]
 
+
+
+
+        let config = getConfigForPopupHeightTests(heightMode: .auto)
+
+        testHook.calculatePopupHeight(height: 150, popupConfig: config)
+
+        var popup = AnyPopup(config: config)
     }
     func test_calculatePopupHeight_withAutoHeightMode_whenBiggerThanScreen_onePopupStacked() {
 
