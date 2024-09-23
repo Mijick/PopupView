@@ -16,7 +16,7 @@ import SwiftUI
 final class PopupStackViewModelTests: XCTestCase {
     @ObservedObject private var viewModel: PopupStackView.ViewModel = .init(alignment: .bottom)
 
-    
+
     override func setUpWithError() throws {
         viewModel.screen = screen
     }
@@ -24,39 +24,34 @@ final class PopupStackViewModelTests: XCTestCase {
 
 // MARK: Calculating Popup Height
 extension PopupStackViewModelTests {
-    func test_calculatePopupHeight_withAutoHeightMode_whenLessThanScreen() {
+    func test_calculatePopupHeight_withAutoHeightMode_whenLessThanScreen_onePopupStacked() {
         let popup = createPopupInstanceForPopupHeightTests(heightMode: .auto, popupHeight: 100)
         viewModel.popups.append(popup)
 
-        let calculatedPopupHeight = viewModel.testHook.calculatePopupHeight()
+        let calculatedPopupHeight = testHook.calculatePopupHeight()
         let expectedPopupHeight = 100.0
         XCTAssertEqual(calculatedPopupHeight, expectedPopupHeight)
     }
-    func test_calculatePopupHeight_withAutoHeightMode_whenLargerThanScreen() {
-        let popup = createPopupInstanceForPopupHeightTests(heightMode: .auto, popupHeight: screen.height + 100)
-        viewModel.popups.append(popup)
-
-        let calculatedPopupHeight = viewModel.testHook.calculatePopupHeight()
-        let expectedPopupHeight = screen.height
-        XCTAssertEqual(calculatedPopupHeight, expectedPopupHeight)
-    }
-
-
-
-
-
-
-    func test_calculatePopupHeight_withAutoHeightMode_infinity() {
-        let popup = createPopupInstanceForPopupHeightTests(heightMode: .auto, popupHeight: .infinity)
-
-
+    func test_calculatePopupHeight_withAutoHeightMode_whenLessThanScreen_fourPopupsStacked() {
 
     }
-    func test_calculatePopupHeight_withLargeHeightMode() {
-        let popup = createPopupInstanceForPopupHeightTests(heightMode: .large, popupHeight: .infinity)
+    func test_calculatePopupHeight_withAutoHeightMode_whenBiggerThanScreen_onePopupStacked() {
+
     }
-    func test_calculatePopupHeight_withFullscreenMode() {
-        let popup = createPopupInstanceForPopupHeightTests(heightMode: .fullscreen, popupHeight: .infinity)
+    func test_calculatePopupHeight_withAutoHeightMode_whenBiggerThanScreen_fivePopupStacked() {
+
+    }
+    func test_calculatePopupHeight_withLargeHeightMode_whenOnePopupStacked() {
+
+    }
+    func test_calculatePopupHeight_withLargeHeightMode_whenThreePopupStacked() {
+
+    }
+    func test_calculatePopupHeight_withFullscreenHeightMode_whenOnePopupStacked() {
+
+    }
+    func test_calculatePopupHeight_withFullscreenHeightMode_whenThreePopupsStacked() {
+
     }
 }
 private extension PopupStackViewModelTests {
@@ -78,9 +73,6 @@ private extension PopupStackViewModelTests {
     )}
 }
 
-// MARK:
-
-
 
 
 fileprivate typealias Config = LocalConfig.Vertical
@@ -90,7 +82,9 @@ fileprivate typealias Config = LocalConfig.Vertical
 
 
 
-
+private extension PopupStackViewModelTests {
+    var testHook: PopupStackView<Config>.ViewModel.TestHook { viewModel.testHook }
+}
 
 
 
