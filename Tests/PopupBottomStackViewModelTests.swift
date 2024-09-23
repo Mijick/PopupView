@@ -313,6 +313,77 @@ extension PopupBottomStackViewModelTests {
     }
 }
 
+// MARK: Calculating Body Padding
+extension PopupBottomStackViewModelTests {
+    func test_calculateBodyPadding() {
+        let popups = [
+            createPopupInstanceForPopupHeightTests(heightMode: .fullscreen, popupHeight: 350)
+        ]
+
+        appendPopupsAndCheckBodyPadding(
+            popups: popups,
+            gestureTranslation: 0,
+            expectedValue: .init(top: 0, leading: screen.safeArea.leading, bottom: screen.safeArea.bottom, trailing: screen.safeArea.trailing)
+        )
+    }
+
+    // normalny body padding
+    // z PopupPadding
+    // z ignoresSafeArea
+    // fullscreen
+    // z gestureTranslation
+    // z gesture Translation i dragHeight
+}
+
+// MARK: Calculating Translation Progress
+extension PopupBottomStackViewModelTests {
+
+}
+
+// MARK: Calculating Corner Radius
+extension PopupBottomStackViewModelTests {
+
+}
+
+// MARK: Calculating Scale X
+extension PopupBottomStackViewModelTests {
+
+}
+
+// MARK: Calculating Fixed Size
+extension PopupBottomStackViewModelTests {
+
+}
+
+// MARK: Calculating Stack Overlay Opacity
+extension PopupBottomStackViewModelTests {
+
+}
+
+
+
+
+
+
+
+
+private extension PopupBottomStackViewModelTests {
+    func appendPopupsAndCheckBodyPadding(popups: [AnyPopup], gestureTranslation: CGFloat, expectedValue: EdgeInsets) {
+        viewModel.popups = popups
+        viewModel.gestureTranslation = gestureTranslation
+
+        let expect = expectation(description: "results")
+        viewModel.$activePopupHeight
+            .dropFirst(2)
+            .sink { [self] _ in
+                XCTAssertEqual(testHook.calculateBodyPadding(for: popups.last!), expectedValue)
+                expect.fulfill()
+            }
+            .store(in: &cancellables)
+        wait(for: [expect], timeout: 3)
+    }
+}
+
 
 private extension PopupBottomStackViewModelTests {
     func appendPopupsAndCheckActivePopupHeight(popups: [AnyPopup], gestureTranslation: CGFloat, expectedValue: CGFloat) {
