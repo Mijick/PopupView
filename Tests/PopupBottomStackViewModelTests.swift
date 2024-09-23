@@ -26,6 +26,8 @@ final class PopupBottomStackViewModelTests: XCTestCase {
 
 // MARK: - Test Cases
 
+
+
 // MARK: Calculating Popup Height
 extension PopupBottomStackViewModelTests {
     func test_calculatePopupHeight_withAutoHeightMode_whenLessThanScreen_onePopupStacked() {
@@ -243,6 +245,24 @@ extension PopupBottomStackViewModelTests {
         )
     }
 }
+
+// MARK: Calculating Offset
+extension PopupBottomStackViewModelTests {
+    func test_calculateOffsetY_withZeroGestureTranslation_fivePopupsStacked_thirdElement() {
+        
+    }
+    func test_calculateOffsetY_withZeroGestureTranslation_fivePopupsStacked_lastElement() {
+
+    }
+    func test_calculateOffsetY_withNegativeGestureTranslation_onePopupStacked() {
+
+    }
+    func test_calculateOffsetY_withPositiveGestureTranslation_twoPopupsStacked_lastElement() {
+
+    }
+}
+
+
 private extension PopupBottomStackViewModelTests {
     func appendPopupsAndCheckActivePopupHeight(popups: [AnyPopup], gestureTranslation: CGFloat, expectedValue: CGFloat) {
         viewModel.popups = popups
