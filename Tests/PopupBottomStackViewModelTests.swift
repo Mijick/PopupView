@@ -11,10 +11,12 @@
 
 import XCTest
 import SwiftUI
+import Combine
 @testable import MijickPopups
 
 final class PopupBottomStackViewModelTests: XCTestCase {
     @ObservedObject private var viewModel: PopupStackView.ViewModel = .init(alignment: .bottom)
+    private var cancellables = Set<AnyCancellable>()
 
 
     override func setUpWithError() throws {
@@ -141,13 +143,21 @@ private extension PopupBottomStackViewModelTests {
 // MARK: Calculating Active Popup Height
 extension PopupBottomStackViewModelTests {
     func test_calculateActivePopupHeight_withAutoHeightMode_whenLessThanScreen_onePopupStacked() {
-
+        appendPopupsAndCheckActivePopupHeight(expectedValue: 100) {[
+            createPopupInstanceForPopupHeightTests(heightMode: .auto, popupHeight: 100)
+        ]}
     }
     func test_calculateActivePopupHeight_withAutoHeightMode_whenBiggerThanScreen_threePopupsStacked() {
-
+        appendPopupsAndCheckActivePopupHeight(expectedValue: screen.height) {[
+            createPopupInstanceForPopupHeightTests(heightMode: .auto, popupHeight: 3000),
+            createPopupInstanceForPopupHeightTests(heightMode: .auto, popupHeight: 1000),
+            createPopupInstanceForPopupHeightTests(heightMode: .auto, popupHeight: 2000),
+        ]}
     }
     func test_calculateActivePopupHeight_withLargeHeightMode_whenThreePopupsStacked() {
-
+        appendPopupsAndCheckActivePopupHeight(expectedValue: 100) {[
+            createPopupInstanceForPopupHeightTests(heightMode: .auto, popupHeight: 100)
+        ]}
     }
     func test_calculateActivePopupHeight_withAutoHeightMode_whenGestureIsNegative_twoPopupsStacked() {
 
@@ -172,7 +182,20 @@ extension PopupBottomStackViewModelTests {
     }
 }
 private extension PopupBottomStackViewModelTests {
+    func appendPopupsAndCheckActivePopupHeight(expectedValue: CGFloat, popupsBuilder: () -> ([AnyPopup])) {
+        let expect = expectation(description: "results")
 
+        viewModel.$activePopupHeight
+            .dropFirst()
+            .sink {
+                XCTAssertEqual($0, expectedValue)
+                expect.fulfill()
+            }
+            .store(in: &cancellables)
+        viewModel.popups = popupsBuilder()
+
+        wait(for: [expect], timeout: 0.2)
+    }
 }
 private extension PopupBottomStackViewModelTests {
 
