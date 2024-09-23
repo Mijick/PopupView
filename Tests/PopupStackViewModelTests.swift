@@ -10,31 +10,95 @@
 
 
 import XCTest
+import SwiftUI
 @testable import MijickPopups
 
 final class PopupStackViewModelTests: XCTestCase {
+    @ObservedObject private var viewModel: PopupStackView.ViewModel = .init(alignment: .bottom)
 
+    
     override func setUpWithError() throws {
-        // Put setup code here. This method is called before the invocation of each test method in the class.
+        viewModel.screen = screen
+    }
+}
+
+// MARK: Calculating Popup Height
+extension PopupStackViewModelTests {
+    func test_calculatePopupHeight_withAutoHeightMode_whenLessThanScreen() {
+        let popup = createPopupInstanceForPopupHeightTests(heightMode: .auto, popupHeight: 100)
+        viewModel.popups.append(popup)
+
+        let calculatedPopupHeight = viewModel.testHook.calculatePopupHeight()
+        let expectedPopupHeight = 100.0
+        XCTAssertEqual(calculatedPopupHeight, expectedPopupHeight)
+    }
+    func test_calculatePopupHeight_withAutoHeightMode_whenLargerThanScreen() {
+        let popup = createPopupInstanceForPopupHeightTests(heightMode: .auto, popupHeight: screen.height + 100)
+        viewModel.popups.append(popup)
+
+        let calculatedPopupHeight = viewModel.testHook.calculatePopupHeight()
+        let expectedPopupHeight = screen.height
+        XCTAssertEqual(calculatedPopupHeight, expectedPopupHeight)
     }
 
-    override func tearDownWithError() throws {
-        // Put teardown code here. This method is called after the invocation of each test method in the class.
-    }
 
-    func testExample() throws {
-        // This is an example of a functional test case.
-        // Use XCTAssert and related functions to verify your tests produce the correct results.
-        // Any test you write for XCTest can be annotated as throws and async.
-        // Mark your test throws to produce an unexpected failure when your test encounters an uncaught error.
-        // Mark your test async to allow awaiting for asynchronous code to complete. Check the results with assertions afterwards.
-    }
 
-    func testPerformanceExample() throws {
-        // This is an example of a performance test case.
-        self.measure {
-            // Put the code you want to measure the time of here.
-        }
-    }
 
+
+
+    func test_calculatePopupHeight_withAutoHeightMode_infinity() {
+        let popup = createPopupInstanceForPopupHeightTests(heightMode: .auto, popupHeight: .infinity)
+
+
+
+    }
+    func test_calculatePopupHeight_withLargeHeightMode() {
+        let popup = createPopupInstanceForPopupHeightTests(heightMode: .large, popupHeight: .infinity)
+    }
+    func test_calculatePopupHeight_withFullscreenMode() {
+        let popup = createPopupInstanceForPopupHeightTests(heightMode: .fullscreen, popupHeight: .infinity)
+    }
+}
+private extension PopupStackViewModelTests {
+    func createPopupInstanceForPopupHeightTests(heightMode: HeightMode, popupHeight: CGFloat) -> AnyPopup {
+        let config = getConfigForPopupHeightTests(heightMode: heightMode)
+
+        var popup = AnyPopup(config: config)
+        popup.height = popupHeight
+        return popup
+    }
+}
+private extension PopupStackViewModelTests {
+    func getConfigForPopupHeightTests(heightMode: HeightMode) -> Config { .init(
+        ignoredSafeAreaEdges: [],
+        heightMode: heightMode,
+        popupPadding: (0, 0, 0),
+        dragGestureEnabled: true,
+        dragDetents: []
+    )}
+}
+
+// MARK:
+
+
+
+
+fileprivate typealias Config = LocalConfig.Vertical
+
+
+
+
+
+
+
+
+
+
+
+// MARK: Helpers
+private extension PopupStackViewModelTests {
+    var screen: ScreenProperties { .init(
+        height: 1000,
+        safeArea: .init(top: 100, leading: 0, bottom: 50, trailing: 0)
+    )}
 }

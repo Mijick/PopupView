@@ -65,3 +65,21 @@ public extension LocalConfig { class Centre: LocalConfig {
 public typealias TopPopupConfig = LocalConfig.Vertical.Top
 public typealias CentrePopupConfig = LocalConfig.Centre
 public typealias BottomPopupConfig = LocalConfig.Vertical.Bottom
+
+
+
+
+
+#if DEBUG
+extension LocalConfig.Vertical {
+    convenience init(ignoredSafeAreaEdges: Edge.Set, heightMode: HeightMode, popupPadding: (top: CGFloat, bottom: CGFloat, horizontal: CGFloat), dragGestureEnabled: Bool, dragDetents: [DragDetent]) {
+        self.init()
+
+        self.ignoredSafeAreaEdges = ignoredSafeAreaEdges
+        self.heightMode = heightMode
+        self.popupPadding = popupPadding
+        self.dragGestureEnabled = dragGestureEnabled
+        self.dragDetents = dragDetents
+    }
+}
+#endif

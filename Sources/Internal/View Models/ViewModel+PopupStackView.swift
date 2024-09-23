@@ -430,3 +430,24 @@ private extension PopupStackView.ViewModel {
         translationProgress >= gestureClosingThresholdFactor
     }
 }
+
+
+
+
+// MARK: - Testing
+#if DEBUG
+extension PopupStackView.ViewModel {
+    var testHook: TestHook { .init(target: self) }
+}
+
+
+
+extension PopupStackView.ViewModel { struct TestHook {
+    let target: PopupStackView.ViewModel
+}}
+extension PopupStackView.ViewModel.TestHook {
+    @MainActor func calculatePopupHeight() -> CGFloat? {
+        target.calculateHeightForActivePopup()
+    }
+}
+#endif
