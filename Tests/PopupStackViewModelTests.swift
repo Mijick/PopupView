@@ -29,9 +29,10 @@ extension PopupStackViewModelTests {
             createPopupInstanceForPopupHeightTests(heightMode: .auto, popupHeight: 150)
         ]
 
-        let calculatedPopupHeight = calculateLastPopupHeight()
-        let expectedPopupHeight = 150.0
-        XCTAssertEqual(calculatedPopupHeight, expectedPopupHeight)
+        XCTAssertEqual(
+            calculateLastPopupHeight(),
+            150.0
+        )
     }
     func test_calculatePopupHeight_withAutoHeightMode_whenLessThanScreen_fourPopupsStacked() {
         viewModel.popups = [
@@ -41,21 +42,34 @@ extension PopupStackViewModelTests {
             createPopupInstanceForPopupHeightTests(heightMode: .auto, popupHeight: 100)
         ]
 
-        let calculatedPopupHeight = calculateLastPopupHeight()
-        let expectedPopupHeight = 100.0
-        XCTAssertEqual(calculatedPopupHeight, expectedPopupHeight)
+        XCTAssertEqual(
+            calculateLastPopupHeight(),
+            100.0
+        )
     }
     func test_calculatePopupHeight_withAutoHeightMode_whenBiggerThanScreen_onePopupStacked() {
         viewModel.popups = [
             createPopupInstanceForPopupHeightTests(heightMode: .auto, popupHeight: 2000)
         ]
 
-        let calculatedPopupHeight = calculateLastPopupHeight()
-        let expectedPopupHeight = screen.height - screen.safeArea.top
-        XCTAssertEqual(calculatedPopupHeight, expectedPopupHeight)
+        XCTAssertEqual(
+            calculateLastPopupHeight(),
+            screen.height - screen.safeArea.top
+        )
     }
     func test_calculatePopupHeight_withAutoHeightMode_whenBiggerThanScreen_fivePopupStacked() {
+        viewModel.popups = [
+            createPopupInstanceForPopupHeightTests(heightMode: .auto, popupHeight: 150),
+            createPopupInstanceForPopupHeightTests(heightMode: .auto, popupHeight: 200),
+            createPopupInstanceForPopupHeightTests(heightMode: .auto, popupHeight: 300),
+            createPopupInstanceForPopupHeightTests(heightMode: .auto, popupHeight: 100),
+            createPopupInstanceForPopupHeightTests(heightMode: .auto, popupHeight: 2000)
+        ]
 
+        XCTAssertEqual(
+            calculateLastPopupHeight(),
+            screen.height - screen.safeArea.top - testHook.stackOffset * 4
+        )
     }
     func test_calculatePopupHeight_withLargeHeightMode_whenOnePopupStacked() {
 
