@@ -121,6 +121,30 @@ extension PopupBottomStackViewModelTests {
             fullscreenHeight
         )
     }
+    func test_calculatePopupHeight_withLargeHeightMode_whenThreePopupsStacked_popupPadding() {
+        viewModel.popups = [
+            createPopupInstanceForPopupHeightTests(heightMode: .fullscreen, popupHeight: 100),
+            createPopupInstanceForPopupHeightTests(heightMode: .fullscreen, popupHeight: 2000),
+            createPopupInstanceForPopupHeightTests(heightMode: .large, popupHeight: 3000, popupPadding: (top: 33, bottom: 21, horizontal: 15))
+        ]
+
+        XCTAssertEqual(
+            calculateLastPopupHeight(),
+            largeScreenHeight - 2 * testHook.stackOffset
+        )
+    }
+    func test_calculatePopupHeight_withFullscreenHeightMode_whenThreePopupsStacked_popupPadding() {
+        viewModel.popups = [
+            createPopupInstanceForPopupHeightTests(heightMode: .fullscreen, popupHeight: 100),
+            createPopupInstanceForPopupHeightTests(heightMode: .fullscreen, popupHeight: 2000),
+            createPopupInstanceForPopupHeightTests(heightMode: .fullscreen, popupHeight: 3000, popupPadding: (top: 33, bottom: 21, horizontal: 15))
+        ]
+
+        XCTAssertEqual(
+            calculateLastPopupHeight(),
+            fullscreenHeight
+        )
+    }
 }
 
 // MARK: Calculating Active Popup Height

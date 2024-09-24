@@ -143,7 +143,7 @@ private extension PopupStackView.ViewModel {
 
 // MARK: - Popup Padding
 extension PopupStackView.ViewModel {
-    func calculatePopupPadding() -> EdgeInsets { guard activePopupConfig.heightMode != .fullscreen else { return .init() }; return .init(
+    func calculatePopupPadding() -> EdgeInsets { guard ![.large, .fullscreen].contains(activePopupConfig.heightMode) else { return .init() }; return .init(
         top: activePopupConfig.popupPadding.top,
         leading: activePopupConfig.popupPadding.horizontal,
         bottom: activePopupConfig.popupPadding.bottom,
@@ -207,12 +207,11 @@ private extension PopupStackView.ViewModel {
     }}
 }
 private extension PopupStackView.ViewModel {
-    func calculateLargeScreenHeight() -> CGFloat { let popupPadding = calculatePopupPadding()
+    func calculateLargeScreenHeight() -> CGFloat {
         let fullscreenHeight = getFullscreenHeight(),
             safeAreaHeight = screen.safeArea[!alignment],
-            popupPaddings = popupPadding.top + popupPadding.bottom,
             stackHeight = calculateStackHeight()
-        return fullscreenHeight - safeAreaHeight - popupPaddings - stackHeight
+        return fullscreenHeight - safeAreaHeight - stackHeight
     }
     func getFullscreenHeight() -> CGFloat {
         screen.height
