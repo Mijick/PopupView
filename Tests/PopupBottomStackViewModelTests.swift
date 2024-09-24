@@ -507,17 +507,40 @@ extension PopupBottomStackViewModelTests {
 
 // MARK: Calculating Scale X
 extension PopupBottomStackViewModelTests {
+    func test_calculateScaleX_withNoGestureTranslation_onePopupStacked() {
+        
+    }
+    func test_calculateScaleX_withNoGestureTranslation_threePopupsStacked_last() {
 
+    }
+    func test_calculateScaleX_withNoGestureTranslation_fourPopupsStacked_second() {
+
+    }
+    func test_calculateScaleX_withNegativeGestureTranslation_fourPopupsStacked_third() {
+
+    }
+    func test_calculateScaleX_withPositiveGestureTranslation_fivePopupsStacked_second() {
+
+    }
 }
 
 // MARK: Calculating Fixed Size
 extension PopupBottomStackViewModelTests {
-
+    // auto mniejsze od screen
+    // auto większe od screen
+    // large
+    // fullscreen
+    // auto z gesture translation
 }
 
 // MARK: Calculating Stack Overlay Opacity
 extension PopupBottomStackViewModelTests {
-
+    // trzy na liscie, ostatni
+    // cztery na liscie, ostatni z gesture ujemnym
+    // piec na lisice, ostatni z gesture dodatnim
+    // cztery na liscie, drugi
+    // trzy na liscie, pierwszy z gesture translation
+    // trzy na liscie, drugi z gesture translation
 }
 
 
