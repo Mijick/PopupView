@@ -278,7 +278,7 @@ extension PopupStackView.ViewModel {
     }}
 }
 
-// MARK: - Stack Overlay Colour
+// MARK: - Stack Overlay Opacity
 extension PopupStackView.ViewModel {
     func calculateStackOverlayOpacity(for popup: AnyPopup) -> Double { guard popup != popups.last else { return 0 }
         let invertedIndex = getInvertedIndex(of: popup),
