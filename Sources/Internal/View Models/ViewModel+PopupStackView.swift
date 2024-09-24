@@ -463,6 +463,7 @@ extension PopupStackView.ViewModel.TestHook {
     @MainActor func calculateScaleX(for popup: AnyPopup) -> CGFloat { target.calculateScaleX(for: popup) }
     @MainActor func calculateStackOverlayOpacity(for popup: AnyPopup) -> CGFloat { target.calculateStackOverlayOpacity(for: popup) }
     @MainActor func calculateVerticalFixedSize(for popup: AnyPopup) -> Bool { target.calculateVerticalFixedSize(for: popup) }
+    @MainActor func calculatePopupPadding() -> EdgeInsets { target.calculatePopupPadding() }
 }
 extension PopupStackView.ViewModel.TestHook {
     @MainActor var stackOffset: CGFloat { target.stackOffset }
