@@ -446,7 +446,8 @@ extension PopupStackView.ViewModel {
 
 
 extension PopupStackView.ViewModel { struct TestHook {
-    let target: PopupStackView.ViewModel
+    private let target: PopupStackView.ViewModel
+    init(target: PopupStackView.ViewModel) { self.target = target }
 }}
 extension PopupStackView.ViewModel.TestHook {
     @MainActor func calculatePopupHeight(height: CGFloat, popupConfig: Config) -> CGFloat { target.calculateHeight(height, popupConfig) }
