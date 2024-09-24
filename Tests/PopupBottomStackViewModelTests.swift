@@ -382,7 +382,15 @@ extension PopupBottomStackViewModelTests {
         )
     }
     func test_calculateBodyPadding_withGestureTranslation_dragHeight() {
+        let popups = [
+            createPopupInstanceForPopupHeightTests(heightMode: .auto, popupHeight: 300, popupDragHeight: 700)
+        ]
 
+        appendPopupsAndCheckBodyPadding(
+            popups: popups,
+            gestureTranslation: 21,
+            expectedValue: .init(top: screen.safeArea.top - 21, leading: screen.safeArea.leading, bottom: screen.safeArea.bottom, trailing: screen.safeArea.trailing)
+        )
     }
 }
 
