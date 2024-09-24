@@ -377,8 +377,8 @@ extension PopupBottomStackViewModelTests {
 
         appendPopupsAndCheckBodyPadding(
             popups: popups,
-            gestureTranslation: 300,
-            expectedValue: .init(top: screen.safeArea.top, leading: 0, bottom: screen.safeArea.bottom, trailing: 0)
+            gestureTranslation: -300,
+            expectedValue: .init(top: screen.safeArea.top, leading: screen.safeArea.leading, bottom: screen.safeArea.bottom, trailing: screen.safeArea.trailing)
         )
     }
     func test_calculateBodyPadding_withGestureTranslation_dragHeight() {
@@ -426,6 +426,7 @@ private extension PopupBottomStackViewModelTests {
 
         let expect = expectation(description: "results")
         viewModel.$activePopupHeight
+            .receive(on: RunLoop.main)
             .dropFirst(3)
             .sink { [self] _ in
                 XCTAssertEqual(testHook.calculateBodyPadding(for: popups.last!), expectedValue)
@@ -445,6 +446,7 @@ private extension PopupBottomStackViewModelTests {
 
         let expect = expectation(description: "results")
         viewModel.$activePopupHeight
+            .receive(on: RunLoop.main)
             .dropFirst(3)
             .sink {
                 XCTAssertEqual($0, expectedValue)
