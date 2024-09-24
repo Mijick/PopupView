@@ -261,10 +261,13 @@ extension PopupStackView.ViewModel {
         let invertedIndex = getInvertedIndex(of: popup),
             remainingTranslationProgress = 1 - translationProgress
 
-        let progressMultiplier = invertedIndex == 1 ? remainingTranslationProgress : max(0.7, remainingTranslationProgress)
+        let progressMultiplier = invertedIndex == 1 ? remainingTranslationProgress : max(minScaleProgressMultiplier, remainingTranslationProgress)
         let scaleValue = .init(invertedIndex) * stackScaleFactor * progressMultiplier
         return 1 - scaleValue
     }
+}
+private extension PopupStackView.ViewModel {
+    var minScaleProgressMultiplier: CGFloat { 0.7 }
 }
 
 // MARK: - Fixed Size
@@ -462,5 +465,6 @@ extension PopupStackView.ViewModel.TestHook {
 extension PopupStackView.ViewModel.TestHook {
     @MainActor var stackOffset: CGFloat { target.stackOffset }
     @MainActor var stackScaleFactor: CGFloat { target.stackScaleFactor }
+    @MainActor var minScaleProgressMultiplier: CGFloat { target.minScaleProgressMultiplier }
 }
 #endif
