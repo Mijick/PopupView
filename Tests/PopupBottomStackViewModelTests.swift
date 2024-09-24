@@ -571,11 +571,62 @@ extension PopupBottomStackViewModelTests {
 
 // MARK: Calculating Fixed Size
 extension PopupBottomStackViewModelTests {
-    // auto mniejsze od screen
-    // auto większe od screen
-    // large
-    // fullscreen
-    // auto z gesture translation
+    func test_calculateFixedSize_withAutoHeightMode_whenLessThanScreen_twoPopupsStacked() {
+        let popups = [
+            createPopupInstanceForPopupHeightTests(heightMode: .auto, popupHeight: 1360),
+            createPopupInstanceForPopupHeightTests(heightMode: .auto, popupHeight: 123)
+        ]
+
+        appendPopupsAndCheckVerticalFixedSize(
+            popups: popups,
+            gestureTranslation: 0,
+            calculateForIndex: 1,
+            expectedValue: true
+        )
+    }
+    func test_calculateFixedSize_withAutoHeightMode_whenBiggerThanScreen_twoPopupsStacked() {
+        let popups = [
+            createPopupInstanceForPopupHeightTests(heightMode: .auto, popupHeight: 1360),
+            createPopupInstanceForPopupHeightTests(heightMode: .auto, popupHeight: 1223)
+        ]
+
+        appendPopupsAndCheckVerticalFixedSize(
+            popups: popups,
+            gestureTranslation: 0,
+            calculateForIndex: 1,
+            expectedValue: false
+        )
+    }
+    func test_calculateFixedSize_withLargeHeightMode_threePopupsStacked() {
+        let popups = [
+            createPopupInstanceForPopupHeightTests(heightMode: .fullscreen, popupHeight: 1360),
+            createPopupInstanceForPopupHeightTests(heightMode: .auto, popupHeight: 1223),
+            createPopupInstanceForPopupHeightTests(heightMode: .large, popupHeight: 1223)
+        ]
+
+        appendPopupsAndCheckVerticalFixedSize(
+            popups: popups,
+            gestureTranslation: 0,
+            calculateForIndex: 2,
+            expectedValue: false
+        )
+    }
+    func test_calculateFixedSize_withFullscreenHeightMode_fivePopupsStacked() {
+        let popups = [
+            createPopupInstanceForPopupHeightTests(heightMode: .fullscreen, popupHeight: 1360),
+            createPopupInstanceForPopupHeightTests(heightMode: .auto, popupHeight: 1223),
+            createPopupInstanceForPopupHeightTests(heightMode: .large, popupHeight: 1223),
+            createPopupInstanceForPopupHeightTests(heightMode: .auto, popupHeight: 1223),
+            createPopupInstanceForPopupHeightTests(heightMode: .fullscreen, popupHeight: 1223)
+        ]
+
+        appendPopupsAndCheckVerticalFixedSize(
+            popups: popups,
+            gestureTranslation: 0,
+            calculateForIndex: 4,
+            expectedValue: false
+        )
+    }
 }
 
 // MARK: Calculating Stack Overlay Opacity
@@ -598,6 +649,14 @@ extension PopupBottomStackViewModelTests {
 
 
 private extension PopupBottomStackViewModelTests {
+    func appendPopupsAndCheckVerticalFixedSize(popups: [AnyPopup], gestureTranslation: CGFloat, calculateForIndex index: Int, expectedValue: Bool) {
+        appendPopupsAndPerformChecks(
+            popups: popups,
+            gestureTranslation: gestureTranslation,
+            calculatedValue: { [self] _ in testHook.calculateVerticalFixedSize(for: viewModel.popups[index]) },
+            expectedValueBuilder: { _ in expectedValue }
+        )
+    }
 
 
     func appendPopupsAndCheckScaleX(popups: [AnyPopup], gestureTranslation: CGFloat, calculateForIndex index: Int, expectedValueBuilder: @escaping (ViewModel) -> CGFloat) {
