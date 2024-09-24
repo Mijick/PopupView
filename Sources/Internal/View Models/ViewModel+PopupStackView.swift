@@ -471,5 +471,6 @@ extension PopupStackView.ViewModel.TestHook {
     @MainActor var stackOverlayFactor: CGFloat { target.stackOverlayFactor }
     @MainActor var minScaleProgressMultiplier: CGFloat { target.minScaleProgressMultiplier }
     @MainActor var minStackOverlayProgressMultiplier: CGFloat { target.minStackOverlayProgressMultiplier }
+    @MainActor var maxStackOverlayFactor: CGFloat { target.maxStackOverlayFactor }
 }
 #endif

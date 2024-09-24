@@ -661,15 +661,45 @@ extension PopupBottomStackViewModelTests {
         )
     }
     func test_calculateStackOverlayOpacity_withFourPopupsStacked_whenGestureTranslationIsNegative_last() {
+        let popups = [
+            createPopupInstanceForPopupHeightTests(heightMode: .fullscreen, popupHeight: 1360),
+            createPopupInstanceForPopupHeightTests(heightMode: .auto, popupHeight: 233),
+            createPopupInstanceForPopupHeightTests(heightMode: .auto, popupHeight: 512),
+            createPopupInstanceForPopupHeightTests(heightMode: .auto, popupHeight: 812)
+        ]
 
+        appendPopupsAndCheckStackOverlayOpacity(
+            popups: popups,
+            gestureTranslation: -123,
+            calculateForIndex: 3,
+            expectedValueBuilder: { _ in 0 }
+        )
     }
-    func test_calculateStackOverlayOpacity_withFourPopupsStacked_whenGestureTranslationIsNegative_first() {
+    func test_calculateStackOverlayOpacity_withTenPopupsStacked_whenGestureTranslationIsNegative_first() {
+        let popups = [
+            createPopupInstanceForPopupHeightTests(heightMode: .auto, popupHeight: 55),
+            createPopupInstanceForPopupHeightTests(heightMode: .auto, popupHeight: 233),
+            createPopupInstanceForPopupHeightTests(heightMode: .auto, popupHeight: 512),
+            createPopupInstanceForPopupHeightTests(heightMode: .auto, popupHeight: 812),
+            createPopupInstanceForPopupHeightTests(heightMode: .auto, popupHeight: 34),
+            createPopupInstanceForPopupHeightTests(heightMode: .auto, popupHeight: 664),
+            createPopupInstanceForPopupHeightTests(heightMode: .auto, popupHeight: 754),
+            createPopupInstanceForPopupHeightTests(heightMode: .auto, popupHeight: 357),
+            createPopupInstanceForPopupHeightTests(heightMode: .auto, popupHeight: 1234),
+            createPopupInstanceForPopupHeightTests(heightMode: .auto, popupHeight: 356)
+        ]
 
+        appendPopupsAndCheckStackOverlayOpacity(
+            popups: popups,
+            gestureTranslation: -123,
+            calculateForIndex: 0,
+            expectedValueBuilder: { min($0.testHook.stackOverlayFactor * 9, $0.testHook.maxStackOverlayFactor) }
+        )
     }
     func test_calculateStackOverlayOpacity_withFivePopupsStacked_whenGestureTranslationIsPositive_last() {
 
     }
-    func test_calculateStackOverlayOpacity_withFourPopupsStacked_whenGestureTranslationIsPositive_second() {
+    func test_calculateStackOverlayOpacity_withFourPopupsStacked_whenGestureTranslationIsPositive_nextToLast() {
 
     }
 }
