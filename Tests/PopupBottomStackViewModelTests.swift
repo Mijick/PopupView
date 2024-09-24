@@ -860,7 +860,30 @@ extension PopupBottomStackViewModelTests {
         )
     }
     func test_calculateValuesOnDragGestureChanged_withNegativeDragValue_whenDragDetents() {
+        let popups = [
+            createPopupInstanceForPopupHeightTests(heightMode: .auto, popupHeight: 344, dragDetents: [.fixed(450)])
+        ]
 
+        appendPopupsAndCheckGestureTranslationOnChange(
+            popups: popups,
+            gestureValue: -40,
+            dragGestureEnabled: true,
+            expectedValues: (popupHeight: 384, gestureTranslation: -40)
+        )
+    }
+    func test_calculateValuesOnDragGestureChanged_withNegativeDragValue_whenDragDetentsLessThanDragValue() {
+        let popups = [
+            createPopupInstanceForPopupHeightTests(heightMode: .auto, popupHeight: 344, dragDetents: [.fixed(370)])
+        ]
+
+
+        
+        appendPopupsAndCheckGestureTranslationOnChange(
+            popups: popups,
+            gestureValue: -133,
+            dragGestureEnabled: true,
+            expectedValues: (popupHeight: 344, gestureTranslation: -106)
+        )
     }
 }
 private extension PopupBottomStackViewModelTests {
