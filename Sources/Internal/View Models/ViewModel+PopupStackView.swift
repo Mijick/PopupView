@@ -424,7 +424,8 @@ private extension PopupStackView.ViewModel {
             .map { switch $0 {
                 case .fixed(let targetHeight): min(targetHeight, calculateLargeScreenHeight())
                 case .fraction(let fraction): min(fraction * activePopupHeight, calculateLargeScreenHeight())
-                case .fullscreen(let stackVisible): stackVisible ? calculateLargeScreenHeight() : screen.height
+                case .large: calculateLargeScreenHeight()
+                case .fullscreen: screen.height
             }}
             .appending(activePopupHeight)
             .sorted(by: <)

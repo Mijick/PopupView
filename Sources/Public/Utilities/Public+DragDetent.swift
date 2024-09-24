@@ -14,5 +14,6 @@ import Foundation
 public enum DragDetent {
     case fixed(CGFloat)
     case fraction(CGFloat)
-    case fullscreen(stackVisible: Bool)
+    case large
+    case fullscreen
 }
