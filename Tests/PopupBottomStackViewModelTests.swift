@@ -315,7 +315,7 @@ extension PopupBottomStackViewModelTests {
 
 // MARK: Calculating Body Padding
 extension PopupBottomStackViewModelTests {
-    func test_calculateBodyPadding() {
+    func test_calculateBodyPadding_withDefaultSettings() {
         let popups = [
             createPopupInstanceForPopupHeightTests(heightMode: .fullscreen, popupHeight: 350)
         ]
@@ -326,6 +326,52 @@ extension PopupBottomStackViewModelTests {
             expectedValue: .init(top: 0, leading: screen.safeArea.leading, bottom: screen.safeArea.bottom, trailing: screen.safeArea.trailing)
         )
     }
+    func test_calculateBodyPadding_withIgnoringSafeArea_bottom() {
+        let popups = [
+            createPopupInstanceForPopupHeightTests(heightMode: .auto, popupHeight: 200, ignoredSafeAreaEdges: .bottom)
+        ]
+
+        appendPopupsAndCheckBodyPadding(
+            popups: popups,
+            gestureTranslation: 0,
+            expectedValue: .init(top: 0, leading: screen.safeArea.leading, bottom: 0, trailing: screen.safeArea.trailing)
+        )
+    }
+    func test_calculateBodyPadding_withIgnoringSafeArea_all() {
+        let popups = [
+            createPopupInstanceForPopupHeightTests(heightMode: .auto, popupHeight: 1200, ignoredSafeAreaEdges: .all)
+        ]
+
+        appendPopupsAndCheckBodyPadding(
+            popups: popups,
+            gestureTranslation: 0,
+            expectedValue: .init(top: 0, leading: 0, bottom: 0, trailing: 0)
+        )
+    }
+    func test_calculateBodyPadding_withPopupPadding() {
+        let popups = [
+            createPopupInstanceForPopupHeightTests(heightMode: .auto, popupHeight: 1200, popupPadding: (top: 21, bottom: 37, horizontal: 12))
+        ]
+
+        appendPopupsAndCheckBodyPadding(
+            popups: popups,
+            gestureTranslation: 0,
+            expectedValue: .init(top: 0, leading: 0, bottom: screen.safeArea.bottom - 37, trailing: 0)
+        )
+    }
+    func test_calculateBodyPadding_withLargeHeightMode() {
+
+    }
+    func test_calculateBodyPadding_withFullscreenHeightMode_ignoringSafeArea_top() {
+
+    }
+    func test_calculateBodyPadding_withGestureTranslation() {
+
+    }
+    func test_calculateBodyPadding_withGestureTranslation_dragHeight() {
+
+    }
+
 
     // normalny body padding
     // z PopupPadding
@@ -370,11 +416,12 @@ extension PopupBottomStackViewModelTests {
 private extension PopupBottomStackViewModelTests {
     func appendPopupsAndCheckBodyPadding(popups: [AnyPopup], gestureTranslation: CGFloat, expectedValue: EdgeInsets) {
         viewModel.popups = popups
+        viewModel.popups = recalculatePopupHeights()
         viewModel.gestureTranslation = gestureTranslation
 
         let expect = expectation(description: "results")
         viewModel.$activePopupHeight
-            .dropFirst(2)
+            .dropFirst(3)
             .sink { [self] _ in
                 XCTAssertEqual(testHook.calculateBodyPadding(for: popups.last!), expectedValue)
                 expect.fulfill()
@@ -416,8 +463,8 @@ private extension PopupBottomStackViewModelTests {
 
 // MARK: - Helpers
 private extension PopupBottomStackViewModelTests {
-    func createPopupInstanceForPopupHeightTests(heightMode: HeightMode, popupHeight: CGFloat, popupDragHeight: CGFloat? = nil) -> AnyPopup {
-        let config = getConfigForPopupHeightTests(heightMode: heightMode)
+    func createPopupInstanceForPopupHeightTests(heightMode: HeightMode, popupHeight: CGFloat, popupDragHeight: CGFloat? = nil, ignoredSafeAreaEdges: Edge.Set = [], popupPadding: (top: CGFloat, bottom: CGFloat, horizontal: CGFloat) = (0, 0, 0)) -> AnyPopup {
+        let config = getConfigForPopupHeightTests(heightMode: heightMode, ignoredSafeAreaEdges: ignoredSafeAreaEdges, popupPadding: popupPadding)
 
         var popup = AnyPopup(config: config)
         popup.height = popupHeight
@@ -429,10 +476,10 @@ private extension PopupBottomStackViewModelTests {
     }
 }
 private extension PopupBottomStackViewModelTests {
-    func getConfigForPopupHeightTests(heightMode: HeightMode) -> Config { .init(
-        ignoredSafeAreaEdges: [],
+    func getConfigForPopupHeightTests(heightMode: HeightMode, ignoredSafeAreaEdges: Edge.Set, popupPadding: (top: CGFloat, bottom: CGFloat, horizontal: CGFloat)) -> Config { .init(
+        ignoredSafeAreaEdges: ignoredSafeAreaEdges,
         heightMode: heightMode,
-        popupPadding: (0, 0, 0),
+        popupPadding: popupPadding,
         dragGestureEnabled: true,
         dragDetents: []
     )}
