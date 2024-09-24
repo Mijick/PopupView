@@ -461,5 +461,6 @@ extension PopupStackView.ViewModel.TestHook {
 }
 extension PopupStackView.ViewModel.TestHook {
     @MainActor var stackOffset: CGFloat { target.stackOffset }
+    @MainActor var stackScaleFactor: CGFloat { target.stackScaleFactor }
 }
 #endif

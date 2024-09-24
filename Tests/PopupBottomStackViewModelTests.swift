@@ -507,14 +507,34 @@ extension PopupBottomStackViewModelTests {
 
 // MARK: Calculating Scale X
 extension PopupBottomStackViewModelTests {
-    func test_calculateScaleX_withNoGestureTranslation_onePopupStacked() {
-        
-    }
     func test_calculateScaleX_withNoGestureTranslation_threePopupsStacked_last() {
+        let popups = [
+            createPopupInstanceForPopupHeightTests(heightMode: .auto, popupHeight: 300),
+            createPopupInstanceForPopupHeightTests(heightMode: .auto, popupHeight: 120),
+            createPopupInstanceForPopupHeightTests(heightMode: .auto, popupHeight: 360)
+        ]
 
+        appendPopupsAndCheckScaleX(
+            popups: popups,
+            gestureTranslation: 0,
+            calculateForIndex: 2,
+            expectedValue: 1
+        )
     }
     func test_calculateScaleX_withNoGestureTranslation_fourPopupsStacked_second() {
+        let popups = [
+            createPopupInstanceForPopupHeightTests(heightMode: .auto, popupHeight: 300),
+            createPopupInstanceForPopupHeightTests(heightMode: .auto, popupHeight: 120),
+            createPopupInstanceForPopupHeightTests(heightMode: .auto, popupHeight: 360),
+            createPopupInstanceForPopupHeightTests(heightMode: .auto, popupHeight: 1360)
+        ]
 
+        appendPopupsAndCheckScaleX(
+            popups: popups,
+            gestureTranslation: 0,
+            calculateForIndex: 1,
+            expectedValue: 1 - testHook.stackScaleFactor * 2
+        )
     }
     func test_calculateScaleX_withNegativeGestureTranslation_fourPopupsStacked_third() {
 
@@ -568,6 +588,15 @@ private extension PopupBottomStackViewModelTests {
             }
             .store(in: &cancellables)
         wait(for: [expect], timeout: 3)
+    }
+
+    func appendPopupsAndCheckScaleX(popups: [AnyPopup], gestureTranslation: CGFloat, calculateForIndex index: Int, expectedValue: CGFloat) {
+        appendPopupsAndPerformChecks(
+            popups: popups,
+            gestureTranslation: gestureTranslation,
+            calculatedValue: { [self] _ in testHook.calculateScaleX(for: viewModel.popups[index]) },
+            expectedValue: expectedValue
+        )
     }
 
     func appendPopupsAndCheckCornerRadius(popups: [AnyPopup], gestureTranslation: CGFloat, expectedValue: [MijickPopups.VerticalEdge: CGFloat]) {
