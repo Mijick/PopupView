@@ -823,17 +823,23 @@ extension PopupBottomStackViewModelTests {
 
 // MARK: Calculating Attributes On Drag Gesture Changed
 extension PopupBottomStackViewModelTests {
-    func test() {
+    func test_calculateValuesOnDragGestureChanged_1() {
         let popups = [
-            createPopupInstanceForPopupHeightTests(heightMode: .large, popupHeight: 344)
+            createPopupInstanceForPopupHeightTests(heightMode: .auto, popupHeight: 344)
         ]
 
         appendPopupsAndCheckGestureTranslationOnChange(
             popups: popups,
             gestureValue: 11,
-            expectedValues: (popupHeight: 100, gestureTranslation: 100)
+            expectedValues: (popupHeight: 344, gestureTranslation: 11)
         )
     }
+
+
+
+
+
+    
 }
 private extension PopupBottomStackViewModelTests {
     func appendPopupsAndCheckGestureTranslationOnChange(popups: [AnyPopup], gestureValue: CGFloat, expectedValues: (popupHeight: CGFloat, gestureTranslation: CGFloat)) {
@@ -975,8 +981,8 @@ private extension PopupBottomStackViewModelTests {
 
 // MARK: - Helpers
 private extension PopupBottomStackViewModelTests {
-    func createPopupInstanceForPopupHeightTests(heightMode: HeightMode, popupHeight: CGFloat, popupDragHeight: CGFloat? = nil, ignoredSafeAreaEdges: Edge.Set = [], popupPadding: EdgeInsets = .init(), cornerRadius: CGFloat = 0) -> AnyPopup {
-        let config = getConfigForPopupHeightTests(heightMode: heightMode, ignoredSafeAreaEdges: ignoredSafeAreaEdges, popupPadding: popupPadding, cornerRadius: cornerRadius)
+    func createPopupInstanceForPopupHeightTests(heightMode: HeightMode, popupHeight: CGFloat, popupDragHeight: CGFloat? = nil, ignoredSafeAreaEdges: Edge.Set = [], popupPadding: EdgeInsets = .init(), cornerRadius: CGFloat = 0, dragGestureEnabled: Bool = true, dragDetents: [DragDetent] = []) -> AnyPopup {
+        let config = getConfigForPopupHeightTests(heightMode: heightMode, ignoredSafeAreaEdges: ignoredSafeAreaEdges, popupPadding: popupPadding, cornerRadius: cornerRadius, dragGestureEnabled: dragGestureEnabled, dragDetents: dragDetents)
 
         var popup = AnyPopup(config: config)
         popup.height = popupHeight
@@ -1004,13 +1010,13 @@ private extension PopupBottomStackViewModelTests {
     }
 }
 private extension PopupBottomStackViewModelTests {
-    func getConfigForPopupHeightTests(heightMode: HeightMode, ignoredSafeAreaEdges: Edge.Set, popupPadding: EdgeInsets, cornerRadius: CGFloat) -> Config { .init(
+    func getConfigForPopupHeightTests(heightMode: HeightMode, ignoredSafeAreaEdges: Edge.Set, popupPadding: EdgeInsets, cornerRadius: CGFloat, dragGestureEnabled: Bool, dragDetents: [DragDetent]) -> Config { .init(
         cornerRadius: cornerRadius,
         ignoredSafeAreaEdges: ignoredSafeAreaEdges,
         heightMode: heightMode,
         popupPadding: popupPadding,
-        dragGestureEnabled: true,
-        dragDetents: []
+        dragGestureEnabled: dragGestureEnabled,
+        dragDetents: dragDetents
     )}
 }
 
