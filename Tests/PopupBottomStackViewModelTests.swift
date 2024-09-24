@@ -125,7 +125,7 @@ extension PopupBottomStackViewModelTests {
         viewModel.popups = [
             createPopupInstanceForPopupHeightTests(heightMode: .fullscreen, popupHeight: 100),
             createPopupInstanceForPopupHeightTests(heightMode: .fullscreen, popupHeight: 2000),
-            createPopupInstanceForPopupHeightTests(heightMode: .large, popupHeight: 3000, popupPadding: (top: 33, bottom: 21, horizontal: 15))
+            createPopupInstanceForPopupHeightTests(heightMode: .large, popupHeight: 3000, popupPadding: .init(top: 33, leading: 15, bottom: 21, trailing: 15))
         ]
 
         XCTAssertEqual(
@@ -137,7 +137,7 @@ extension PopupBottomStackViewModelTests {
         viewModel.popups = [
             createPopupInstanceForPopupHeightTests(heightMode: .fullscreen, popupHeight: 100),
             createPopupInstanceForPopupHeightTests(heightMode: .fullscreen, popupHeight: 2000),
-            createPopupInstanceForPopupHeightTests(heightMode: .fullscreen, popupHeight: 3000, popupPadding: (top: 33, bottom: 21, horizontal: 15))
+            createPopupInstanceForPopupHeightTests(heightMode: .fullscreen, popupHeight: 3000, popupPadding: .init(top: 33, leading: 15, bottom: 21, trailing: 15))
         ]
 
         XCTAssertEqual(
@@ -374,7 +374,7 @@ extension PopupBottomStackViewModelTests {
     }
     func test_calculateBodyPadding_withPopupPadding() {
         let popups = [
-            createPopupInstanceForPopupHeightTests(heightMode: .auto, popupHeight: 1200, popupPadding: (top: 21, bottom: 37, horizontal: 12))
+            createPopupInstanceForPopupHeightTests(heightMode: .auto, popupHeight: 1200, popupPadding: .init(top: 21, leading: 12, bottom: 37, trailing: 12))
         ]
 
         appendPopupsAndCheckBodyPadding(

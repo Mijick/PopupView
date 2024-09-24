@@ -22,7 +22,7 @@ public class LocalConfig { required init() {}
 public extension LocalConfig { class Vertical: LocalConfig {
     var ignoredSafeAreaEdges: Edge.Set = []
     var heightMode: HeightMode = .auto
-    var popupPadding: (top: CGFloat, bottom: CGFloat, horizontal: CGFloat) = (0, 0, 0)
+    var popupPadding: EdgeInsets = .init()
     var dragGestureEnabled: Bool = false
     var dragDetents: [DragDetent] = []
 
@@ -72,7 +72,7 @@ public typealias BottomPopupConfig = LocalConfig.Vertical.Bottom
 
 #if DEBUG
 extension LocalConfig.Vertical {
-    convenience init(cornerRadius: CGFloat, ignoredSafeAreaEdges: Edge.Set, heightMode: HeightMode, popupPadding: (top: CGFloat, bottom: CGFloat, horizontal: CGFloat), dragGestureEnabled: Bool, dragDetents: [DragDetent]) {
+    convenience init(cornerRadius: CGFloat, ignoredSafeAreaEdges: Edge.Set, heightMode: HeightMode, popupPadding: EdgeInsets, dragGestureEnabled: Bool, dragDetents: [DragDetent]) {
         self.init()
 
         self.cornerRadius = cornerRadius

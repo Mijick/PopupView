@@ -31,7 +31,7 @@ public extension LocalConfig.Vertical {
     func bottomPadding(_ value: CGFloat) -> Self { self.popupPadding.bottom = value; return self }
 
     /// Distance of the entire popup (including its background) from the horizontal edges
-    func horizontalPadding(_ value: CGFloat) -> Self { self.popupPadding.horizontal = value; return self }
+    func horizontalPadding(_ value: CGFloat) -> Self { self.popupPadding.leading = value; self.popupPadding.trailing = value; return self }
 }
 
 // MARK: Gestures
