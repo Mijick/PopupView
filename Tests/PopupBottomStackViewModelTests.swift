@@ -380,7 +380,7 @@ extension PopupBottomStackViewModelTests {
         appendPopupsAndCheckBodyPadding(
             popups: popups,
             gestureTranslation: 0,
-            expectedValue: .init(top: 0, leading: screen.safeArea.leading, bottom: screen.safeArea.bottom - 37, trailing: screen.safeArea.trailing)
+            expectedValue: .init(top: 0, leading: screen.safeArea.leading, bottom: screen.safeArea.bottom, trailing: screen.safeArea.trailing)
         )
     }
     func test_calculateBodyPadding_withFullscreenHeightMode_ignoringSafeArea_top() {
