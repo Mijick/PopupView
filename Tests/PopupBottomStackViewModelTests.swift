@@ -631,12 +631,35 @@ extension PopupBottomStackViewModelTests {
 
 // MARK: Calculating Stack Overlay Opacity
 extension PopupBottomStackViewModelTests {
-    // trzy na liscie, ostatni
-    // cztery na liscie, ostatni z gesture ujemnym
-    // piec na lisice, ostatni z gesture dodatnim
-    // cztery na liscie, drugi
-    // trzy na liscie, pierwszy z gesture translation
-    // trzy na liscie, drugi z gesture translation
+    func test_calculateStackOverlayOpacity_withThreePopupsStacked_whenNoGestureTranslation_last() {
+        let popups = [
+            createPopupInstanceForPopupHeightTests(heightMode: .fullscreen, popupHeight: 1360),
+            createPopupInstanceForPopupHeightTests(heightMode: .auto, popupHeight: 233),
+            createPopupInstanceForPopupHeightTests(heightMode: .auto, popupHeight: 512)
+        ]
+
+        appendPopupsAndCheckStackOverlayOpacity(
+            popups: popups,
+            gestureTranslation: 0,
+            calculateForIndex: 2,
+            expectedValueBuilder: { _ in 0 }
+        )
+    }
+    func test_calculateStackOverlayOpacity_withFourPopupsStacked_whenGestureTranslationIsNegative_last() {
+
+    }
+    func test_calculateStackOverlayOpacity_withFourPopupsStacked_whenGestureTranslationIsNegative_first() {
+
+    }
+    func test_calculateStackOverlayOpacity_withFivePopupsStacked_whenGestureTranslationIsPositive_last() {
+
+    }
+    func test_calculateStackOverlayOpacity_withFourPopupsStacked_whenGestureTranslationIsPositive_second() {
+
+    }
+    func test_calculateStackOverlayOpacity_withFourPopupsStacked_whenNoGestureTranslation_second() {
+
+    }
 }
 
 
@@ -649,6 +672,15 @@ extension PopupBottomStackViewModelTests {
 
 
 private extension PopupBottomStackViewModelTests {
+    func appendPopupsAndCheckStackOverlayOpacity(popups: [AnyPopup], gestureTranslation: CGFloat, calculateForIndex index: Int, expectedValueBuilder: @escaping (ViewModel) -> CGFloat) {
+        appendPopupsAndPerformChecks(
+            popups: popups,
+            gestureTranslation: gestureTranslation,
+            calculatedValue: { [self] _ in testHook.calculateStackOverlayOpacity(for: viewModel.popups[index]) },
+            expectedValueBuilder: expectedValueBuilder)
+    }
+
+
     func appendPopupsAndCheckVerticalFixedSize(popups: [AnyPopup], gestureTranslation: CGFloat, calculateForIndex index: Int, expectedValue: Bool) {
         appendPopupsAndPerformChecks(
             popups: popups,
