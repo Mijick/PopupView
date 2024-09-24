@@ -396,7 +396,15 @@ extension PopupBottomStackViewModelTests {
 
 // MARK: Calculating Translation Progress
 extension PopupBottomStackViewModelTests {
+    func test_calculate() {
+        let popups = [
+            createPopupInstanceForPopupHeightTests(heightMode: .auto, popupHeight: 300)
+        ]
+        
+    }
 
+
+    // 3 testy
 }
 
 // MARK: Calculating Corner Radius
@@ -427,27 +435,7 @@ extension PopupBottomStackViewModelTests {
 
 
 private extension PopupBottomStackViewModelTests {
-    func appendPopupsAndCheckBodyPadding(popups: [AnyPopup], gestureTranslation: CGFloat, expectedValue: EdgeInsets) {
-        viewModel.popups = popups
-        viewModel.popups = recalculatePopupHeights()
-        viewModel.gestureTranslation = gestureTranslation
-
-        let expect = expectation(description: "results")
-        viewModel.$activePopupHeight
-            .receive(on: RunLoop.main)
-            .dropFirst(3)
-            .sink { [self] _ in
-                XCTAssertEqual(testHook.calculateBodyPadding(for: popups.last!), expectedValue)
-                expect.fulfill()
-            }
-            .store(in: &cancellables)
-        wait(for: [expect], timeout: 3)
-    }
-}
-
-
-private extension PopupBottomStackViewModelTests {
-    func appendPopupsAndCheckActivePopupHeight(popups: [AnyPopup], gestureTranslation: CGFloat, expectedValue: CGFloat) {
+    func appendPopupsAndPerformChecks<Value: Equatable>(popups: [AnyPopup], gestureTranslation: CGFloat, calculatedValue: @escaping (CGFloat?) -> (Value), expectedValue: Value) {
         viewModel.popups = popups
         viewModel.popups = recalculatePopupHeights()
         viewModel.gestureTranslation = gestureTranslation
@@ -457,11 +445,34 @@ private extension PopupBottomStackViewModelTests {
             .receive(on: RunLoop.main)
             .dropFirst(3)
             .sink {
-                XCTAssertEqual($0, expectedValue)
+                XCTAssertEqual(calculatedValue($0), expectedValue)
                 expect.fulfill()
             }
             .store(in: &cancellables)
         wait(for: [expect], timeout: 3)
+    }
+
+
+
+    func appendPopupsAndCheckBodyPadding(popups: [AnyPopup], gestureTranslation: CGFloat, expectedValue: EdgeInsets) {
+        appendPopupsAndPerformChecks(
+            popups: popups,
+            gestureTranslation: gestureTranslation,
+            calculatedValue: { [self] _ in testHook.calculateBodyPadding(for: popups.last!) },
+            expectedValue: expectedValue
+        )
+    }
+}
+
+
+private extension PopupBottomStackViewModelTests {
+    func appendPopupsAndCheckActivePopupHeight(popups: [AnyPopup], gestureTranslation: CGFloat, expectedValue: CGFloat) {
+        appendPopupsAndPerformChecks(
+            popups: popups,
+            gestureTranslation: gestureTranslation,
+            calculatedValue: { $0 },
+            expectedValue: expectedValue
+        )
     }
 }
 private extension PopupBottomStackViewModelTests {
