@@ -99,9 +99,9 @@ private extension PopupStackView.ViewModel {
 extension PopupStackView.ViewModel {
     func calculateBodyPadding(for popup: AnyPopup) -> EdgeInsets { let activePopupHeight = activePopupHeight ?? 0, popupConfig = getConfig(popup); return .init(
         top: calculateTopBodyPadding(activePopupHeight: activePopupHeight, popupConfig: popupConfig),
-        leading: calculateLeadingBodyPadding(),
+        leading: calculateLeadingBodyPadding(popupConfig: popupConfig),
         bottom: calculateBottomBodyPadding(activePopupHeight: activePopupHeight, popupConfig: popupConfig),
-        trailing: calculateTrailingBodyPadding()
+        trailing: calculateTrailingBodyPadding(popupConfig: popupConfig)
     )}
 }
 private extension PopupStackView.ViewModel {
@@ -121,12 +121,14 @@ private extension PopupStackView.ViewModel {
             case .bottom: calculateVerticalPaddingAdhereEdge(safeAreaHeight: screen.safeArea.bottom, popupPadding: calculatePopupPadding().bottom)
         }
     }
-    func calculateLeadingBodyPadding() -> CGFloat {
-        screen.safeArea.leading
-    }
-    func calculateTrailingBodyPadding() -> CGFloat {
-        screen.safeArea.trailing
-    }
+    func calculateLeadingBodyPadding(popupConfig: Config) -> CGFloat { switch popupConfig.ignoredSafeAreaEdges.contains(.leading) {
+        case true: 0
+        case false: screen.safeArea.leading
+    }}
+    func calculateTrailingBodyPadding(popupConfig: Config) -> CGFloat { switch popupConfig.ignoredSafeAreaEdges.contains(.trailing) {
+        case true: 0
+        case false: screen.safeArea.trailing
+    }}
 }
 private extension PopupStackView.ViewModel {
     func calculateVerticalPaddingCounterEdge(popupHeight: CGFloat, safeArea: CGFloat) -> CGFloat {
