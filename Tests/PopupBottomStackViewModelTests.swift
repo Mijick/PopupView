@@ -396,15 +396,50 @@ extension PopupBottomStackViewModelTests {
 
 // MARK: Calculating Translation Progress
 extension PopupBottomStackViewModelTests {
-    func test_calculate() {
+    func test_calculateTranslationProgress_withNoGestureTranslation() {
         let popups = [
             createPopupInstanceForPopupHeightTests(heightMode: .auto, popupHeight: 300)
         ]
-        
+
+        appendPopupsAndCheckTranslationProgress(
+            popups: popups,
+            gestureTranslation: 0,
+            expectedValue: 0
+        )
     }
+    func test_calculateTranslationProgress_withPositiveGestureTranslation() {
+        let popups = [
+            createPopupInstanceForPopupHeightTests(heightMode: .auto, popupHeight: 300)
+        ]
 
+        appendPopupsAndCheckTranslationProgress(
+            popups: popups,
+            gestureTranslation: 250,
+            expectedValue: 250 / 300
+        )
+    }
+    func test_calculateTranslationProgress_withPositiveGestureTranslation_dragHeight() {
+        let popups = [
+            createPopupInstanceForPopupHeightTests(heightMode: .auto, popupHeight: 300, popupDragHeight: 120)
+        ]
 
-    // 3 testy
+        appendPopupsAndCheckTranslationProgress(
+            popups: popups,
+            gestureTranslation: 250,
+            expectedValue: (250 - 120) / 300
+        )
+    }
+    func test_calculateTranslationProgress_withNegativeGestureTranslation() {
+        let popups = [
+            createPopupInstanceForPopupHeightTests(heightMode: .auto, popupHeight: 300)
+        ]
+
+        appendPopupsAndCheckTranslationProgress(
+            popups: popups,
+            gestureTranslation: -175,
+            expectedValue: 0
+        )
+    }
 }
 
 // MARK: Calculating Corner Radius
@@ -452,6 +487,15 @@ private extension PopupBottomStackViewModelTests {
         wait(for: [expect], timeout: 3)
     }
 
+
+    func appendPopupsAndCheckTranslationProgress(popups: [AnyPopup], gestureTranslation: CGFloat, expectedValue: CGFloat) {
+        appendPopupsAndPerformChecks(
+            popups: popups,
+            gestureTranslation: gestureTranslation,
+            calculatedValue: { [self] _ in testHook.calculateTranslationProgress() },
+            expectedValue: expectedValue
+        )
+    }
 
 
     func appendPopupsAndCheckBodyPadding(popups: [AnyPopup], gestureTranslation: CGFloat, expectedValue: EdgeInsets) {
