@@ -906,10 +906,31 @@ private extension PopupBottomStackViewModelTests {
 
 // MARK: Calculating Attributes On Drag Gesture Ended
 extension PopupBottomStackViewModelTests {
+    func test_calculateValuesOnDragGestureEnded_withPositiveDragValue_whenDragGestureDisabled() {
+        let popups = [
+            createPopupInstanceForPopupHeightTests(heightMode: .auto, popupHeight: 344, dragDetents: [.fixed(370)])
+        ]
 
+    }
 }
 private extension PopupBottomStackViewModelTests {
+    func appendPopupsAndCheckGestureTranslationOnEnd(popups: [AnyPopup], gestureValue: CGFloat, expectedValues: (popupHeight: CGFloat, gestureTranslation: CGFloat)) {
+        viewModel.popups = popups
+        viewModel.popups = recalculatePopupHeights()
+        testHook.onPopupDragGestureEnded(gestureValue)
 
+        let expect = expectation(description: "results")
+        viewModel.$activePopupHeight
+            .receive(on: RunLoop.main)
+            .dropFirst(3)
+            .sink { [self] _ in
+                XCTAssertEqual(viewModel.activePopupHeight, expectedValues.popupHeight)
+                XCTAssertEqual(viewModel.gestureTranslation, expectedValues.gestureTranslation)
+                expect.fulfill()
+            }
+            .store(in: &cancellables)
+        wait(for: [expect], timeout: 3)
+    }
 }
 
 
