@@ -356,29 +356,34 @@ extension PopupBottomStackViewModelTests {
         appendPopupsAndCheckBodyPadding(
             popups: popups,
             gestureTranslation: 0,
-            expectedValue: .init(top: 0, leading: 0, bottom: screen.safeArea.bottom - 37, trailing: 0)
+            expectedValue: .init(top: 0, leading: screen.safeArea.leading, bottom: screen.safeArea.bottom - 37, trailing: screen.safeArea.trailing)
         )
     }
-    func test_calculateBodyPadding_withLargeHeightMode() {
-
-    }
     func test_calculateBodyPadding_withFullscreenHeightMode_ignoringSafeArea_top() {
+        let popups = [
+            createPopupInstanceForPopupHeightTests(heightMode: .fullscreen, popupHeight: 100, ignoredSafeAreaEdges: .top)
+        ]
 
+        appendPopupsAndCheckBodyPadding(
+            popups: popups,
+            gestureTranslation: 0,
+            expectedValue: .init(top: 0, leading: screen.safeArea.leading, bottom: screen.safeArea.bottom, trailing: screen.safeArea.trailing)
+        )
     }
     func test_calculateBodyPadding_withGestureTranslation() {
+        let popups = [
+            createPopupInstanceForPopupHeightTests(heightMode: .auto, popupHeight: 800)
+        ]
 
+        appendPopupsAndCheckBodyPadding(
+            popups: popups,
+            gestureTranslation: 300,
+            expectedValue: .init(top: screen.safeArea.top, leading: 0, bottom: screen.safeArea.bottom, trailing: 0)
+        )
     }
     func test_calculateBodyPadding_withGestureTranslation_dragHeight() {
 
     }
-
-
-    // normalny body padding
-    // z PopupPadding
-    // z ignoresSafeArea
-    // fullscreen
-    // z gestureTranslation
-    // z gesture Translation i dragHeight
 }
 
 // MARK: Calculating Translation Progress
@@ -507,6 +512,6 @@ private extension PopupBottomStackViewModelTests {
 private extension PopupBottomStackViewModelTests {
     var screen: ScreenProperties { .init(
         height: 1000,
-        safeArea: .init(top: 100, leading: 0, bottom: 50, trailing: 0)
+        safeArea: .init(top: 100, leading: 20, bottom: 50, trailing: 30)
     )}
 }
