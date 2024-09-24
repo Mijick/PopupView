@@ -335,6 +335,18 @@ extension PopupBottomStackViewModelTests {
             100 - 21
         )
     }
+    func test_calculateOffsetY_withStackingDisabled() {
+        viewModel.popups = [
+            createPopupInstanceForPopupHeightTests(heightMode: .auto, popupHeight: 350, popupDragHeight: 249),
+            createPopupInstanceForPopupHeightTests(heightMode: .auto, popupHeight: 133, popupDragHeight: 21)
+        ]
+        ConfigContainer.vertical.isStackingPossible = false
+
+        XCTAssertEqual(
+            testHook.calculatePopupOffsetY(for: viewModel.popups[0]),
+            0
+        )
+    }
 }
 
 // MARK: Calculating Body Padding
