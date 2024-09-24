@@ -821,6 +821,61 @@ extension PopupBottomStackViewModelTests {
     }
 }
 
+// MARK: Calculating Attributes On Drag Gesture Changed
+extension PopupBottomStackViewModelTests {
+    func test() {
+        let popups = [
+            createPopupInstanceForPopupHeightTests(heightMode: .large, popupHeight: 344)
+        ]
+
+        appendPopupsAndCheckGestureTranslationOnChange(
+            popups: popups,
+            gestureValue: 11,
+            expectedValues: (popupHeight: 100, gestureTranslation: 100)
+        )
+    }
+}
+private extension PopupBottomStackViewModelTests {
+    func appendPopupsAndCheckGestureTranslationOnChange(popups: [AnyPopup], gestureValue: CGFloat, expectedValues: (popupHeight: CGFloat, gestureTranslation: CGFloat)) {
+        viewModel.popups = popups
+        viewModel.popups = recalculatePopupHeights()
+        testHook.onPopupDragGestureChanged(gestureValue)
+
+        let expect = expectation(description: "results")
+        viewModel.$activePopupHeight
+            .receive(on: RunLoop.main)
+            .dropFirst(3)
+            .sink { [self] _ in
+                XCTAssertEqual(viewModel.activePopupHeight, expectedValues.popupHeight)
+                XCTAssertEqual(viewModel.gestureTranslation, expectedValues.gestureTranslation)
+                expect.fulfill()
+            }
+            .store(in: &cancellables)
+        wait(for: [expect], timeout: 3)
+    }
+}
+
+// MARK: Calculating Attributes On Drag Gesture Ended
+extension PopupBottomStackViewModelTests {
+
+}
+private extension PopupBottomStackViewModelTests {
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
