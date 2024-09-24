@@ -284,12 +284,15 @@ extension PopupStackView.ViewModel {
         let invertedIndex = getInvertedIndex(of: popup),
             remainingTranslationProgress = 1 - translationProgress
 
-        let progressMultiplier = invertedIndex == 1 ? remainingTranslationProgress : max(0.6, remainingTranslationProgress)
+        let progressMultiplier = invertedIndex == 1 ? remainingTranslationProgress : max(minStackOverlayProgressMultiplier, remainingTranslationProgress)
         let overlayValue = min(stackOverlayFactor * .init(invertedIndex), maxStackOverlayFactor)
 
         let opacity = overlayValue * progressMultiplier
         return max(opacity, 0)
     }
+}
+private extension PopupStackView.ViewModel {
+    var minStackOverlayProgressMultiplier: CGFloat { 0.6 }
 }
 
 
@@ -465,6 +468,8 @@ extension PopupStackView.ViewModel.TestHook {
 extension PopupStackView.ViewModel.TestHook {
     @MainActor var stackOffset: CGFloat { target.stackOffset }
     @MainActor var stackScaleFactor: CGFloat { target.stackScaleFactor }
+    @MainActor var stackOverlayFactor: CGFloat { target.stackOverlayFactor }
     @MainActor var minScaleProgressMultiplier: CGFloat { target.minScaleProgressMultiplier }
+    @MainActor var minStackOverlayProgressMultiplier: CGFloat { target.minStackOverlayProgressMultiplier }
 }
 #endif

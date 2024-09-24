@@ -645,6 +645,21 @@ extension PopupBottomStackViewModelTests {
             expectedValueBuilder: { _ in 0 }
         )
     }
+    func test_calculateStackOverlayOpacity_withFourPopupsStacked_whenNoGestureTranslation_second() {
+        let popups = [
+            createPopupInstanceForPopupHeightTests(heightMode: .fullscreen, popupHeight: 1360),
+            createPopupInstanceForPopupHeightTests(heightMode: .auto, popupHeight: 233),
+            createPopupInstanceForPopupHeightTests(heightMode: .auto, popupHeight: 512),
+            createPopupInstanceForPopupHeightTests(heightMode: .auto, popupHeight: 812)
+        ]
+
+        appendPopupsAndCheckStackOverlayOpacity(
+            popups: popups,
+            gestureTranslation: 0,
+            calculateForIndex: 1,
+            expectedValueBuilder: { $0.testHook.stackOverlayFactor * 2 }
+        )
+    }
     func test_calculateStackOverlayOpacity_withFourPopupsStacked_whenGestureTranslationIsNegative_last() {
 
     }
@@ -655,9 +670,6 @@ extension PopupBottomStackViewModelTests {
 
     }
     func test_calculateStackOverlayOpacity_withFourPopupsStacked_whenGestureTranslationIsPositive_second() {
-
-    }
-    func test_calculateStackOverlayOpacity_withFourPopupsStacked_whenNoGestureTranslation_second() {
 
     }
 }
