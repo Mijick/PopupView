@@ -482,7 +482,7 @@ extension PopupBottomStackViewModelTests {
     }
     func test_calculateCornerRadius_withPopupPadding_bottom_first() {
         let popups = [
-            createPopupInstanceForPopupHeightTests(heightMode: .auto, popupHeight: 300, popupPadding: (top: 0, bottom: 12, horizontal: 0), cornerRadius: 1),
+            createPopupInstanceForPopupHeightTests(heightMode: .auto, popupHeight: 300, popupPadding: .init(top: 0, leading: 0, bottom: 12, trailing: 0), cornerRadius: 1),
             createPopupInstanceForPopupHeightTests(heightMode: .auto, popupHeight: 300, cornerRadius: 12)
         ]
 
@@ -495,7 +495,7 @@ extension PopupBottomStackViewModelTests {
     func test_calculateCornerRadius_withPopupPadding_bottom_last() {
         let popups = [
             createPopupInstanceForPopupHeightTests(heightMode: .auto, popupHeight: 300, cornerRadius: 1),
-            createPopupInstanceForPopupHeightTests(heightMode: .auto, popupHeight: 300, popupPadding: (top: 0, bottom: 12, horizontal: 0), cornerRadius: 12)
+            createPopupInstanceForPopupHeightTests(heightMode: .auto, popupHeight: 300, popupPadding: .init(top: 0, leading: 0, bottom: 12, trailing: 0), cornerRadius: 12)
         ]
 
         appendPopupsAndCheckCornerRadius(
@@ -507,7 +507,7 @@ extension PopupBottomStackViewModelTests {
     func test_calculateCornerRadius_withPopupPadding_all() {
         let popups = [
             createPopupInstanceForPopupHeightTests(heightMode: .auto, popupHeight: 300, cornerRadius: 1),
-            createPopupInstanceForPopupHeightTests(heightMode: .auto, popupHeight: 300, popupPadding: (top: 12, bottom: 12, horizontal: 24), cornerRadius: 12)
+            createPopupInstanceForPopupHeightTests(heightMode: .auto, popupHeight: 300, popupPadding: .init(top: 12, leading: 24, bottom: 12, trailing: 24), cornerRadius: 12)
         ]
 
         appendPopupsAndCheckCornerRadius(
@@ -755,7 +755,7 @@ extension PopupBottomStackViewModelTests {
 extension PopupBottomStackViewModelTests {
     func test_calculatePopupPaddings_withAutoHeightMode_whenLessThanScreen() {
         let popups = [
-            createPopupInstanceForPopupHeightTests(heightMode: .auto, popupHeight: 344, popupPadding: (top: 12, bottom: 33, horizontal: 17))
+            createPopupInstanceForPopupHeightTests(heightMode: .auto, popupHeight: 344, popupPadding: .init(top: 12, leading: 17, bottom: 33, trailing: 17))
         ]
 
         appendPopupsAndCheckPopupPadding(
@@ -780,7 +780,7 @@ extension PopupBottomStackViewModelTests {
     }
     func test_calculatePopupPaddings_withLargeHeightMode() {
         let popups = [
-            createPopupInstanceForPopupHeightTests(heightMode: .large, popupHeight: 344, popupPadding: (top: 12, bottom: 33, horizontal: 17))
+            createPopupInstanceForPopupHeightTests(heightMode: .large, popupHeight: 344, popupPadding: .init(top: 12, leading: 17, bottom: 33, trailing: 17))
         ]
 
         appendPopupsAndCheckPopupPadding(
@@ -791,7 +791,7 @@ extension PopupBottomStackViewModelTests {
     }
     func test_calculatePopupPaddings_withFullscreenHeightMode() {
         let popups = [
-            createPopupInstanceForPopupHeightTests(heightMode: .fullscreen, popupHeight: 344, popupPadding: (top: 12, bottom: 33, horizontal: 17))
+            createPopupInstanceForPopupHeightTests(heightMode: .fullscreen, popupHeight: 344, popupPadding: .init(top: 12, leading: 17, bottom: 33, trailing: 17))
         ]
 
         appendPopupsAndCheckPopupPadding(
@@ -901,7 +901,7 @@ private extension PopupBottomStackViewModelTests {
 
 // MARK: - Helpers
 private extension PopupBottomStackViewModelTests {
-    func createPopupInstanceForPopupHeightTests(heightMode: HeightMode, popupHeight: CGFloat, popupDragHeight: CGFloat? = nil, ignoredSafeAreaEdges: Edge.Set = [], popupPadding: (top: CGFloat, bottom: CGFloat, horizontal: CGFloat) = (0, 0, 0), cornerRadius: CGFloat = 0) -> AnyPopup {
+    func createPopupInstanceForPopupHeightTests(heightMode: HeightMode, popupHeight: CGFloat, popupDragHeight: CGFloat? = nil, ignoredSafeAreaEdges: Edge.Set = [], popupPadding: EdgeInsets = .init(), cornerRadius: CGFloat = 0) -> AnyPopup {
         let config = getConfigForPopupHeightTests(heightMode: heightMode, ignoredSafeAreaEdges: ignoredSafeAreaEdges, popupPadding: popupPadding, cornerRadius: cornerRadius)
 
         var popup = AnyPopup(config: config)
@@ -930,7 +930,7 @@ private extension PopupBottomStackViewModelTests {
     }
 }
 private extension PopupBottomStackViewModelTests {
-    func getConfigForPopupHeightTests(heightMode: HeightMode, ignoredSafeAreaEdges: Edge.Set, popupPadding: (top: CGFloat, bottom: CGFloat, horizontal: CGFloat), cornerRadius: CGFloat) -> Config { .init(
+    func getConfigForPopupHeightTests(heightMode: HeightMode, ignoredSafeAreaEdges: Edge.Set, popupPadding: EdgeInsets, cornerRadius: CGFloat) -> Config { .init(
         cornerRadius: cornerRadius,
         ignoredSafeAreaEdges: ignoredSafeAreaEdges,
         heightMode: heightMode,
