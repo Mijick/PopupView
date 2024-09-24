@@ -537,10 +537,35 @@ extension PopupBottomStackViewModelTests {
         )
     }
     func test_calculateScaleX_withNegativeGestureTranslation_fourPopupsStacked_third() {
+        let popups = [
+            createPopupInstanceForPopupHeightTests(heightMode: .auto, popupHeight: 300),
+            createPopupInstanceForPopupHeightTests(heightMode: .auto, popupHeight: 120),
+            createPopupInstanceForPopupHeightTests(heightMode: .auto, popupHeight: 360),
+            createPopupInstanceForPopupHeightTests(heightMode: .auto, popupHeight: 1360)
+        ]
 
+        appendPopupsAndCheckScaleX(
+            popups: popups,
+            gestureTranslation: -100,
+            calculateForIndex: 2,
+            expectedValue: 1 - testHook.stackScaleFactor * 1
+        )
     }
     func test_calculateScaleX_withPositiveGestureTranslation_fivePopupsStacked_second() {
+        let popups = [
+            createPopupInstanceForPopupHeightTests(heightMode: .auto, popupHeight: 300),
+            createPopupInstanceForPopupHeightTests(heightMode: .auto, popupHeight: 120),
+            createPopupInstanceForPopupHeightTests(heightMode: .auto, popupHeight: 360),
+            createPopupInstanceForPopupHeightTests(heightMode: .auto, popupHeight: 1360),
+            createPopupInstanceForPopupHeightTests(heightMode: .auto, popupHeight: 123)
+        ]
 
+        appendPopupsAndCheckScaleX(
+            popups: popups,
+            gestureTranslation: 100,
+            calculateForIndex: 1,
+            expectedValue: 1 - testHook.stackScaleFactor * 3 + testHook.calculateTranslationProgress()
+        )
     }
 }
 
@@ -573,22 +598,7 @@ extension PopupBottomStackViewModelTests {
 
 
 private extension PopupBottomStackViewModelTests {
-    func appendPopupsAndPerformChecks<Value: Equatable>(popups: [AnyPopup], gestureTranslation: CGFloat, calculatedValue: @escaping (CGFloat?) -> (Value), expectedValue: Value) {
-        viewModel.popups = popups
-        viewModel.popups = recalculatePopupHeights()
-        viewModel.gestureTranslation = gestureTranslation
 
-        let expect = expectation(description: "results")
-        viewModel.$activePopupHeight
-            .receive(on: RunLoop.main)
-            .dropFirst(3)
-            .sink {
-                XCTAssertEqual(calculatedValue($0), expectedValue)
-                expect.fulfill()
-            }
-            .store(in: &cancellables)
-        wait(for: [expect], timeout: 3)
-    }
 
     func appendPopupsAndCheckScaleX(popups: [AnyPopup], gestureTranslation: CGFloat, calculateForIndex index: Int, expectedValue: CGFloat) {
         appendPopupsAndPerformChecks(
@@ -663,6 +673,22 @@ private extension PopupBottomStackViewModelTests {
     }
     func calculateLastPopupHeight() -> CGFloat {
         testHook.calculatePopupHeight(height: viewModel.popups.last!.height!, popupConfig: viewModel.popups.last!.config as! Config)
+    }
+    func appendPopupsAndPerformChecks<Value: Equatable>(popups: [AnyPopup], gestureTranslation: CGFloat, calculatedValue: @escaping (CGFloat?) -> (Value), expectedValue: Value) {
+        viewModel.popups = popups
+        viewModel.popups = recalculatePopupHeights()
+        viewModel.gestureTranslation = gestureTranslation
+
+        let expect = expectation(description: "results")
+        viewModel.$activePopupHeight
+            .receive(on: RunLoop.main)
+            .dropFirst(3)
+            .sink {
+                XCTAssertEqual(calculatedValue($0), expectedValue)
+                expect.fulfill()
+            }
+            .store(in: &cancellables)
+        wait(for: [expect], timeout: 3)
     }
 }
 private extension PopupBottomStackViewModelTests {
