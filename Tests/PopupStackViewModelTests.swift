@@ -20,10 +20,19 @@ final class PopupStackViewModelTests: XCTestCase {
     private var cancellables = Set<AnyCancellable>()
 
     override func setUpWithError() throws {
+        topViewModel.screen = screen
+        topViewModel.updatePopup = { [self] in if let index = topViewModel.popups.firstIndex(of: $0) {
+            topViewModel.popups[index] = $0
+            topViewModel.testHook.recalculateActivePopupHeight()
+        }}
+        topViewModel.closePopup = { [self] in if let popup = $0, let index = topViewModel.popups.firstIndex(of: popup) {
+            topViewModel.popups.remove(at: index)
+        }}
+
         bottomViewModel.screen = screen
         bottomViewModel.updatePopup = { [self] in if let index = bottomViewModel.popups.firstIndex(of: $0) {
             bottomViewModel.popups[index] = $0
-            testHook.recalculateActivePopupHeight()
+            bottomViewModel.testHook.recalculateActivePopupHeight()
         }}
         bottomViewModel.closePopup = { [self] in if let popup = $0, let index = bottomViewModel.popups.firstIndex(of: popup) {
             bottomViewModel.popups.remove(at: index)
@@ -83,7 +92,7 @@ extension PopupStackViewModelTests {
 
         XCTAssertEqual(
             calculateLastPopupHeight(bottomViewModel),
-            screen.height - screen.safeArea.top - testHook.stackOffset * 4
+            screen.height - screen.safeArea.top - bottomViewModel.testHook.stackOffset * 4
         )
     }
     func test_calculatePopupHeight_withLargeHeightMode_whenOnePopupStacked() {
@@ -105,7 +114,7 @@ extension PopupStackViewModelTests {
 
         XCTAssertEqual(
             calculateLastPopupHeight(bottomViewModel),
-            screen.height - screen.safeArea.top - testHook.stackOffset * 2
+            screen.height - screen.safeArea.top - bottomViewModel.testHook.stackOffset * 2
         )
     }
     func test_calculatePopupHeight_withFullscreenHeightMode_whenOnePopupStacked() {
@@ -139,7 +148,7 @@ extension PopupStackViewModelTests {
 
         XCTAssertEqual(
             calculateLastPopupHeight(bottomViewModel),
-            screen.height - screen.safeArea.top - 2 * testHook.stackOffset
+            screen.height - screen.safeArea.top - 2 * bottomViewModel.testHook.stackOffset
         )
     }
     func test_calculatePopupHeight_withFullscreenHeightMode_whenThreePopupsStacked_popupPadding() {
