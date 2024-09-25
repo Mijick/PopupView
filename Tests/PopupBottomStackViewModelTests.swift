@@ -146,6 +146,11 @@ extension PopupBottomStackViewModelTests {
         )
     }
 }
+private extension PopupBottomStackViewModelTests {
+    func calculateLastPopupHeight() -> CGFloat {
+        testHook.calculatePopupHeight(height: viewModel.popups.last!.height!, popupConfig: viewModel.popups.last!.config as! Config)
+    }
+}
 
 // MARK: Calculating Active Popup Height
 extension PopupBottomStackViewModelTests {
@@ -1118,9 +1123,6 @@ private extension PopupBottomStackViewModelTests {
         popup.height = popupHeight
         popup.dragHeight = popupDragHeight
         return popup
-    }
-    func calculateLastPopupHeight() -> CGFloat {
-        testHook.calculatePopupHeight(height: viewModel.popups.last!.height!, popupConfig: viewModel.popups.last!.config as! Config)
     }
     func appendPopupsAndPerformChecks<Value: Equatable>(popups: [AnyPopup], gestureTranslation: CGFloat, calculatedValue: @escaping (CGFloat?) -> (Value), expectedValueBuilder: @escaping (ViewModel) -> Value) {
         viewModel.popups = popups
