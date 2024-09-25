@@ -973,6 +973,17 @@ extension PopupBottomStackViewModelTests {
             expectedValues: (popupHeight: largeScreenHeight, gestureTranslation: 0)
         )
     }
+    func test_calculateValuesOnDragGestureEnded_withNegativeDragValue_whenDragDetentsSet_5() {
+        let popups = [
+            createPopupInstanceForPopupHeightTests(heightMode: .auto, popupHeight: 344, dragDetents: [.fixed(440), .fixed(520), .large, .fullscreen])
+        ]
+
+        appendPopupsAndCheckGestureTranslationOnEnd(
+            popups: popups,
+            gestureValue: -600,
+            expectedValues: (popupHeight: fullscreenHeight, gestureTranslation: 0)
+        )
+    }
 }
 private extension PopupBottomStackViewModelTests {
     func appendPopupsAndCheckGestureTranslationOnEnd(popups: [AnyPopup], gestureValue: CGFloat, expectedValues: (popupHeight: CGFloat, gestureTranslation: CGFloat)) {
