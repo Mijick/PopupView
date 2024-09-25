@@ -1019,7 +1019,7 @@ extension PopupBottomStackViewModelTests {
         appendPopupsAndCheckGestureTranslationOnEnd(
             popups: popups,
             gestureValue: -200,
-            expectedValues: (popupHeight: 344, gestureTranslation: 0)
+            expectedValues: (popupHeight: 344, shouldPopupBeDismissed: false)
         )
     }
     func test_calculateValuesOnDragGestureEnded_withNegativeDragValue_whenDragDetentsSet_1() {
@@ -1030,7 +1030,7 @@ extension PopupBottomStackViewModelTests {
         appendPopupsAndCheckGestureTranslationOnEnd(
             popups: popups,
             gestureValue: -200,
-            expectedValues: (popupHeight: 440, gestureTranslation: 0)
+            expectedValues: (popupHeight: 440, shouldPopupBeDismissed: false)
         )
     }
     func test_calculateValuesOnDragGestureEnded_withNegativeDragValue_whenDragDetentsSet_2() {
@@ -1041,7 +1041,7 @@ extension PopupBottomStackViewModelTests {
         appendPopupsAndCheckGestureTranslationOnEnd(
             popups: popups,
             gestureValue: -120,
-            expectedValues: (popupHeight: 520, gestureTranslation: 0)
+            expectedValues: (popupHeight: 520, shouldPopupBeDismissed: false)
         )
     }
     func test_calculateValuesOnDragGestureEnded_withNegativeDragValue_whenDragDetentsSet_3() {
@@ -1052,7 +1052,7 @@ extension PopupBottomStackViewModelTests {
         appendPopupsAndCheckGestureTranslationOnEnd(
             popups: popups,
             gestureValue: -42,
-            expectedValues: (popupHeight: 440, gestureTranslation: 0)
+            expectedValues: (popupHeight: 440, shouldPopupBeDismissed: false)
         )
     }
     func test_calculateValuesOnDragGestureEnded_withNegativeDragValue_whenDragDetentsSet_4() {
@@ -1063,7 +1063,7 @@ extension PopupBottomStackViewModelTests {
         appendPopupsAndCheckGestureTranslationOnEnd(
             popups: popups,
             gestureValue: -300,
-            expectedValues: (popupHeight: largeScreenHeight, gestureTranslation: 0)
+            expectedValues: (popupHeight: largeScreenHeight, shouldPopupBeDismissed: false)
         )
     }
     func test_calculateValuesOnDragGestureEnded_withNegativeDragValue_whenDragDetentsSet_5() {
@@ -1074,23 +1074,46 @@ extension PopupBottomStackViewModelTests {
         appendPopupsAndCheckGestureTranslationOnEnd(
             popups: popups,
             gestureValue: -600,
-            expectedValues: (popupHeight: fullscreenHeight, gestureTranslation: 0)
+            expectedValues: (popupHeight: fullscreenHeight, shouldPopupBeDismissed: false)
+        )
+    }
+    func test_calculateValuesOnDragGestureEnded_withPositiveDragValue_1() {
+        let popups = [
+            createPopupInstanceForPopupHeightTests(heightMode: .auto, popupHeight: 400)
+        ]
+
+        appendPopupsAndCheckGestureTranslationOnEnd(
+            popups: popups,
+            gestureValue: 50,
+            expectedValues: (popupHeight: 400, shouldPopupBeDismissed: false)
+        )
+    }
+    func test_calculateValuesOnDragGestureEnded_withPositiveDragValue_2() {
+        let popups = [
+            createPopupInstanceForPopupHeightTests(heightMode: .auto, popupHeight: 400)
+        ]
+
+        appendPopupsAndCheckGestureTranslationOnEnd(
+            popups: popups,
+            gestureValue: 300,
+            expectedValues: (popupHeight: 400, shouldPopupBeDismissed: true)
         )
     }
 }
 private extension PopupBottomStackViewModelTests {
-    func appendPopupsAndCheckGestureTranslationOnEnd(popups: [AnyPopup], gestureValue: CGFloat, expectedValues: (popupHeight: CGFloat, gestureTranslation: CGFloat)) {
+    func appendPopupsAndCheckGestureTranslationOnEnd(popups: [AnyPopup], gestureValue: CGFloat, expectedValues: (popupHeight: CGFloat, shouldPopupBeDismissed: Bool)) {
         viewModel.popups = popups
         viewModel.popups = recalculatePopupHeights()
         viewModel.gestureTranslation = gestureValue
+        testHook.recalculateTranslationProgress()
         testHook.onPopupDragGestureEnded(gestureValue)
 
         let expect = expectation(description: "results")
         viewModel.$activePopupHeight
-            .dropFirst(6)
+            .dropFirst(expectedValues.shouldPopupBeDismissed ? 4 : 6)
             .sink { [self] _ in
+                XCTAssertEqual(viewModel.popups.count, expectedValues.shouldPopupBeDismissed ? 0 : 1)
                 XCTAssertEqual(viewModel.activePopupHeight, expectedValues.popupHeight)
-                XCTAssertEqual(viewModel.gestureTranslation, expectedValues.gestureTranslation)
                 expect.fulfill()
             }
             .store(in: &cancellables)
