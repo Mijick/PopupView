@@ -1098,13 +1098,11 @@ private extension PopupBottomStackViewModelTests {
 }
 
 
-
-
-
-
-
-
 // MARK: - Helpers
+
+
+
+// MARK: Methods
 private extension PopupBottomStackViewModelTests {
     func createPopupInstanceForPopupHeightTests(heightMode: HeightMode, popupHeight: CGFloat, popupDragHeight: CGFloat? = nil, ignoredSafeAreaEdges: Edge.Set = [], popupPadding: EdgeInsets = .init(), cornerRadius: CGFloat = 0, dragGestureEnabled: Bool = true, dragDetents: [DragDetent] = []) -> AnyPopup {
         let config = getConfigForPopupHeightTests(heightMode: heightMode, ignoredSafeAreaEdges: ignoredSafeAreaEdges, popupPadding: popupPadding, cornerRadius: cornerRadius, dragGestureEnabled: dragGestureEnabled, dragDetents: dragDetents)
@@ -1147,26 +1145,20 @@ private extension PopupBottomStackViewModelTests {
     }}
 }
 
-
-private extension PopupBottomStackViewModelTests {
-    typealias Config = LocalConfig.Vertical
-    typealias ViewModel = PopupStackView<Config>.ViewModel
-
-    var testHook: PopupStackView<Config>.ViewModel.TestHook { viewModel.testHook }
-
-
-
-    var fullscreenHeight: CGFloat { screen.height }
-    var largeScreenHeight: CGFloat { fullscreenHeight - screen.safeArea.top }
-}
-
-
-
-
-// MARK: Helpers
+// MARK: Screen
 private extension PopupBottomStackViewModelTests {
     var screen: ScreenProperties { .init(
         height: 1000,
         safeArea: .init(top: 100, leading: 20, bottom: 50, trailing: 30)
     )}
+    var fullscreenHeight: CGFloat { screen.height }
+    var largeScreenHeight: CGFloat { fullscreenHeight - screen.safeArea.top }
+}
+
+// MARK: Typealiases
+private extension PopupBottomStackViewModelTests {
+    typealias Config = LocalConfig.Vertical
+    typealias ViewModel = PopupStackView<Config>.ViewModel
+
+    var testHook: PopupStackView<Config>.ViewModel.TestHook { viewModel.testHook }
 }
