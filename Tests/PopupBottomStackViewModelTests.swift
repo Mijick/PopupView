@@ -20,6 +20,10 @@ final class PopupBottomStackViewModelTests: XCTestCase {
 
     override func setUpWithError() throws {
         viewModel.screen = screen
+        viewModel.updatePopup = { [self] in if let index = viewModel.popups.firstIndex(of: $0) {
+            viewModel.popups[index] = $0
+            testHook.recalculateActivePopupHeight()
+        }}
     }
 }
 
@@ -1075,7 +1079,6 @@ private extension PopupBottomStackViewModelTests {
         viewModel.popups = popups
         viewModel.popups = recalculatePopupHeights()
         viewModel.gestureTranslation = gestureValue
-        viewModel.updatePopup = updatePopupOnDragGestureEnded
         testHook.onPopupDragGestureEnded(gestureValue)
 
         let expect = expectation(description: "results")
@@ -1089,12 +1092,6 @@ private extension PopupBottomStackViewModelTests {
             .store(in: &cancellables)
         wait(for: [expect], timeout: 3)
     }
-}
-private extension PopupBottomStackViewModelTests {
-    func updatePopupOnDragGestureEnded(_ popup: AnyPopup) { if let index = viewModel.popups.firstIndex(of: popup) {
-        viewModel.popups[index] = popup
-        testHook.recalculateActivePopupHeight()
-    }}
 }
 
 
