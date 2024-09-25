@@ -159,8 +159,18 @@ extension PopupStackViewModelTests {
         ]
 
         XCTAssertEqual(
-            calculateLastPopupHeight(),
-            fullscreenHeight
+            calculateLastPopupHeight(bottomViewModel),
+            screen.height
+        )
+    }
+    func test_calculatePopupHeight_withLargeHeightMode_whenPopupsHaveTopAlignment() {
+        topViewModel.popups = [
+            createPopupInstanceForPopupHeightTests(heightMode: .large, popupHeight: 100)
+        ]
+
+        XCTAssertEqual(
+            calculateLastPopupHeight(topViewModel),
+            screen.height - screen.safeArea.bottom
         )
     }
 }
