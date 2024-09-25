@@ -28,6 +28,7 @@ final class PopupBottomStackViewModelTests: XCTestCase {
 }
 
 
+
 // MARK: - Test Cases
 
 
@@ -1093,6 +1094,7 @@ private extension PopupBottomStackViewModelTests {
         wait(for: [expect], timeout: 3)
     }
 }
+
 
 
 // MARK: - Helpers
