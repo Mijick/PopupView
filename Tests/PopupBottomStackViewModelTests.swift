@@ -15,7 +15,7 @@ import Combine
 @testable import MijickPopups
 
 final class PopupBottomStackViewModelTests: XCTestCase {
-    //@ObservedObject private var topViewModel: ViewModel = .init(alignment: .top)
+    @ObservedObject private var topViewModel: ViewModel = .init(alignment: .top)
     @ObservedObject private var bottomViewModel: ViewModel = .init(alignment: .bottom)
     private var cancellables = Set<AnyCancellable>()
 
