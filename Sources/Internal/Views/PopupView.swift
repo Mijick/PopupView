@@ -51,7 +51,9 @@ private extension PopupView {
             .onChange(popupManager.views.isEmpty, completion: onViewsCountChange)
             .onAppear() {
                 topStackViewModel.updatePopup = updatePopup
+                topStackViewModel.closePopup = closePopup
                 bottomStackViewModel.updatePopup = updatePopup
+                bottomStackViewModel.closePopup = closePopup
             }
             .onChange(of: popupManager.views.map { [$0.height, $0.dragHeight] }) { _ in
                 topStackViewModel.popups = getViews(TopPopupConfig.self)
@@ -102,6 +104,9 @@ private extension PopupView {
 private extension PopupView {
     func updatePopup(_ popup: AnyPopup) { if let index = popupManager.views.firstIndex(of: popup) {
         popupManager.views[index] = popup
+    }}
+    func closePopup(_ popup: AnyPopup?) { if let popup {
+        PopupManager.dismissPopup(id: popup.id.value)
     }}
     func onViewsCountChange(_ count: Bool) {
         zIndex.reshuffle(popupManager.views.last?.config)

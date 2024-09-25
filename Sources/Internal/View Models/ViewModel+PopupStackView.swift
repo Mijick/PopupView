@@ -15,6 +15,7 @@ extension PopupStackView { @MainActor class ViewModel: ObservableObject {
     let alignment: VerticalEdge
 
     var updatePopup: ((AnyPopup) -> ())? = nil
+    var closePopup: ((AnyPopup?) -> ())? = nil
 
 
 
@@ -488,6 +489,7 @@ extension PopupStackView.ViewModel.TestHook {
     @MainActor func calculateVerticalFixedSize(for popup: AnyPopup) -> Bool { target.calculateVerticalFixedSize(for: popup) }
     @MainActor func calculatePopupPadding() -> EdgeInsets { target.calculatePopupPadding() }
     @MainActor func recalculateActivePopupHeight() { target.activePopupHeight = target.calculateHeightForActivePopup() }
+    @MainActor func recalculateTranslationProgress() { target.translationProgress = target.calculateTranslationProgress() }
 
     @MainActor func onPopupDragGestureChanged(_ value: CGFloat) { target.onPopupDragGestureChanged(value) }
     @MainActor func onPopupDragGestureEnded(_ value: CGFloat) { target.onPopupDragGestureEnded(value) }

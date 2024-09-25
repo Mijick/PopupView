@@ -24,6 +24,9 @@ final class PopupBottomStackViewModelTests: XCTestCase {
             viewModel.popups[index] = $0
             testHook.recalculateActivePopupHeight()
         }}
+        viewModel.closePopup = { [self] in if let popup = $0, let index = viewModel.popups.firstIndex(of: popup) {
+            viewModel.popups.remove(at: index)
+        }}
     }
 }
 
