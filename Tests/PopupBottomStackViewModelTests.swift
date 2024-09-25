@@ -719,6 +719,16 @@ extension PopupBottomStackViewModelTests {
         )
     }
 }
+private extension PopupBottomStackViewModelTests {
+    func appendPopupsAndCheckVerticalFixedSize(popups: [AnyPopup], gestureTranslation: CGFloat, calculateForIndex index: Int, expectedValue: Bool) {
+        appendPopupsAndPerformChecks(
+            popups: popups,
+            gestureTranslation: gestureTranslation,
+            calculatedValue: { [self] _ in testHook.calculateVerticalFixedSize(for: viewModel.popups[index]) },
+            expectedValueBuilder: { _ in expectedValue }
+        )
+    }
+}
 
 // MARK: Calculating Stack Overlay Opacity
 extension PopupBottomStackViewModelTests {
@@ -817,6 +827,16 @@ extension PopupBottomStackViewModelTests {
         )
     }
 }
+private extension PopupBottomStackViewModelTests {
+    func appendPopupsAndCheckStackOverlayOpacity(popups: [AnyPopup], gestureTranslation: CGFloat, calculateForIndex index: Int, expectedValueBuilder: @escaping (ViewModel) -> CGFloat) {
+        appendPopupsAndPerformChecks(
+            popups: popups,
+            gestureTranslation: gestureTranslation,
+            calculatedValue: { [self] _ in testHook.calculateStackOverlayOpacity(for: viewModel.popups[index]) },
+            expectedValueBuilder: expectedValueBuilder
+        )
+    }
+}
 
 // MARK: Calculating Popup Padding
 extension PopupBottomStackViewModelTests {
@@ -884,6 +904,16 @@ extension PopupBottomStackViewModelTests {
             popups: popups,
             gestureTranslation: 0,
             expectedValue: .init(top: 0, leading: 17, bottom: 0, trailing: 17)
+        )
+    }
+}
+private extension PopupBottomStackViewModelTests {
+    func appendPopupsAndCheckPopupPadding(popups: [AnyPopup], gestureTranslation: CGFloat, expectedValue: EdgeInsets) {
+        appendPopupsAndPerformChecks(
+            popups: popups,
+            gestureTranslation: gestureTranslation,
+            calculatedValue: { [self] _ in testHook.calculatePopupPadding() },
+            expectedValueBuilder: { _ in expectedValue }
         )
     }
 }
@@ -1066,49 +1096,6 @@ private extension PopupBottomStackViewModelTests {
         testHook.recalculateActivePopupHeight()
     }}
 }
-
-
-
-
-
-
-
-
-
-
-
-private extension PopupBottomStackViewModelTests {
-    func appendPopupsAndCheckPopupPadding(popups: [AnyPopup], gestureTranslation: CGFloat, expectedValue: EdgeInsets) {
-        appendPopupsAndPerformChecks(
-            popups: popups,
-            gestureTranslation: gestureTranslation,
-            calculatedValue: { [self] _ in testHook.calculatePopupPadding() },
-            expectedValueBuilder: { _ in expectedValue }
-        )
-    }
-
-
-
-    func appendPopupsAndCheckStackOverlayOpacity(popups: [AnyPopup], gestureTranslation: CGFloat, calculateForIndex index: Int, expectedValueBuilder: @escaping (ViewModel) -> CGFloat) {
-        appendPopupsAndPerformChecks(
-            popups: popups,
-            gestureTranslation: gestureTranslation,
-            calculatedValue: { [self] _ in testHook.calculateStackOverlayOpacity(for: viewModel.popups[index]) },
-            expectedValueBuilder: expectedValueBuilder
-        )
-    }
-
-
-    func appendPopupsAndCheckVerticalFixedSize(popups: [AnyPopup], gestureTranslation: CGFloat, calculateForIndex index: Int, expectedValue: Bool) {
-        appendPopupsAndPerformChecks(
-            popups: popups,
-            gestureTranslation: gestureTranslation,
-            calculatedValue: { [self] _ in testHook.calculateVerticalFixedSize(for: viewModel.popups[index]) },
-            expectedValueBuilder: { _ in expectedValue }
-        )
-    }
-}
-
 
 
 
