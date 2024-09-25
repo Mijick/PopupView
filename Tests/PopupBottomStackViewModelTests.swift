@@ -918,23 +918,40 @@ private extension PopupBottomStackViewModelTests {
 
 // MARK: Calculating Attributes On Drag Gesture Ended
 extension PopupBottomStackViewModelTests {
-    func test_calculateValuesOnDragGestureEnded_withPositiveDragValue_whenDragGestureDisabled() {
+    func test_calculateValuesOnDragGestureEnded_withNegativeDragValue_whenNoDragDetents() {
         let popups = [
-            createPopupInstanceForPopupHeightTests(heightMode: .auto, popupHeight: 344, dragDetents: [.fixed(370)])
+            createPopupInstanceForPopupHeightTests(heightMode: .auto, popupHeight: 344)
         ]
 
+        appendPopupsAndCheckGestureTranslationOnEnd(
+            popups: popups,
+            gestureValue: -200,
+            expectedValues: (popupHeight: 344, gestureTranslation: 0)
+        )
+    }
+    func test_calculateValuesOnDragGestureEnded_withNegativeDragValue_whenDragDetensSet_1() {
+        let popups = [
+            createPopupInstanceForPopupHeightTests(heightMode: .auto, popupHeight: 344, dragDetents: [.fixed(440)])
+        ]
+
+        appendPopupsAndCheckGestureTranslationOnEnd(
+            popups: popups,
+            gestureValue: -200,
+            expectedValues: (popupHeight: 440.0, gestureTranslation: 0)
+        )
     }
 }
 private extension PopupBottomStackViewModelTests {
     func appendPopupsAndCheckGestureTranslationOnEnd(popups: [AnyPopup], gestureValue: CGFloat, expectedValues: (popupHeight: CGFloat, gestureTranslation: CGFloat)) {
         viewModel.popups = popups
         viewModel.popups = recalculatePopupHeights()
+        viewModel.gestureTranslation = gestureValue
+        viewModel.updatePopup = updatePopupOnDragGestureEnded
         testHook.onPopupDragGestureEnded(gestureValue)
 
         let expect = expectation(description: "results")
         viewModel.$activePopupHeight
-            .receive(on: RunLoop.main)
-            .dropFirst(3)
+            .dropFirst(6)
             .sink { [self] _ in
                 XCTAssertEqual(viewModel.activePopupHeight, expectedValues.popupHeight)
                 XCTAssertEqual(viewModel.gestureTranslation, expectedValues.gestureTranslation)
@@ -944,13 +961,12 @@ private extension PopupBottomStackViewModelTests {
         wait(for: [expect], timeout: 3)
     }
 }
-
-
-
-
-
-
-
+private extension PopupBottomStackViewModelTests {
+    func updatePopupOnDragGestureEnded(_ popup: AnyPopup) { if let index = viewModel.popups.firstIndex(of: popup) {
+        viewModel.popups[index] = popup
+        testHook.recalculateActivePopupHeight()
+    }}
+}
 
 
 
