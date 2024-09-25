@@ -274,6 +274,16 @@ extension PopupBottomStackViewModelTests {
         )
     }
 }
+private extension PopupBottomStackViewModelTests {
+    func appendPopupsAndCheckActivePopupHeight(popups: [AnyPopup], gestureTranslation: CGFloat, expectedValue: CGFloat) {
+        appendPopupsAndPerformChecks(
+            popups: popups,
+            gestureTranslation: gestureTranslation,
+            calculatedValue: { $0 },
+            expectedValueBuilder: { _ in expectedValue }
+        )
+    }
+}
 
 // MARK: Calculating Offset
 extension PopupBottomStackViewModelTests {
@@ -1098,16 +1108,7 @@ private extension PopupBottomStackViewModelTests {
 }
 
 
-private extension PopupBottomStackViewModelTests {
-    func appendPopupsAndCheckActivePopupHeight(popups: [AnyPopup], gestureTranslation: CGFloat, expectedValue: CGFloat) {
-        appendPopupsAndPerformChecks(
-            popups: popups,
-            gestureTranslation: gestureTranslation,
-            calculatedValue: { $0 },
-            expectedValueBuilder: { _ in expectedValue }
-        )
-    }
-}
+
 
 
 
