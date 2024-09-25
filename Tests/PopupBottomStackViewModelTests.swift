@@ -18,11 +18,11 @@ final class PopupBottomStackViewModelTests: XCTestCase {
     @ObservedObject private var viewModel: ViewModel = .init(alignment: .bottom)
     private var cancellables = Set<AnyCancellable>()
 
-
     override func setUpWithError() throws {
         viewModel.screen = screen
     }
 }
+
 
 // MARK: - Test Cases
 
