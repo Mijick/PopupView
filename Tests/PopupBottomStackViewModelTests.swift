@@ -929,7 +929,7 @@ extension PopupBottomStackViewModelTests {
             expectedValues: (popupHeight: 344, gestureTranslation: 0)
         )
     }
-    func test_calculateValuesOnDragGestureEnded_withNegativeDragValue_whenDragDetensSet_1() {
+    func test_calculateValuesOnDragGestureEnded_withNegativeDragValue_whenDragDetentsSet_1() {
         let popups = [
             createPopupInstanceForPopupHeightTests(heightMode: .auto, popupHeight: 344, dragDetents: [.fixed(440)])
         ]
@@ -937,7 +937,40 @@ extension PopupBottomStackViewModelTests {
         appendPopupsAndCheckGestureTranslationOnEnd(
             popups: popups,
             gestureValue: -200,
-            expectedValues: (popupHeight: 440.0, gestureTranslation: 0)
+            expectedValues: (popupHeight: 440, gestureTranslation: 0)
+        )
+    }
+    func test_calculateValuesOnDragGestureEnded_withNegativeDragValue_whenDragDetentsSet_2() {
+        let popups = [
+            createPopupInstanceForPopupHeightTests(heightMode: .auto, popupHeight: 344, dragDetents: [.fixed(440), .fixed(520)])
+        ]
+
+        appendPopupsAndCheckGestureTranslationOnEnd(
+            popups: popups,
+            gestureValue: -120,
+            expectedValues: (popupHeight: 520, gestureTranslation: 0)
+        )
+    }
+    func test_calculateValuesOnDragGestureEnded_withNegativeDragValue_whenDragDetentsSet_3() {
+        let popups = [
+            createPopupInstanceForPopupHeightTests(heightMode: .auto, popupHeight: 344, dragDetents: [.fixed(440), .fixed(520)])
+        ]
+
+        appendPopupsAndCheckGestureTranslationOnEnd(
+            popups: popups,
+            gestureValue: -42,
+            expectedValues: (popupHeight: 440, gestureTranslation: 0)
+        )
+    }
+    func test_calculateValuesOnDragGestureEnded_withNegativeDragValue_whenDragDetentsSet_4() {
+        let popups = [
+            createPopupInstanceForPopupHeightTests(heightMode: .auto, popupHeight: 344, dragDetents: [.fixed(440), .fixed(520), .large, .fullscreen])
+        ]
+
+        appendPopupsAndCheckGestureTranslationOnEnd(
+            popups: popups,
+            gestureValue: -300,
+            expectedValues: (popupHeight: largeScreenHeight, gestureTranslation: 0)
         )
     }
 }
