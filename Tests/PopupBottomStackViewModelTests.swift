@@ -444,6 +444,16 @@ extension PopupBottomStackViewModelTests {
         )
     }
 }
+private extension PopupBottomStackViewModelTests {
+    func appendPopupsAndCheckBodyPadding(popups: [AnyPopup], gestureTranslation: CGFloat, expectedValue: EdgeInsets) {
+        appendPopupsAndPerformChecks(
+            popups: popups,
+            gestureTranslation: gestureTranslation,
+            calculatedValue: { [self] _ in testHook.calculateBodyPadding(for: popups.last!) },
+            expectedValueBuilder: { _ in expectedValue }
+        )
+    }
+}
 
 // MARK: Calculating Translation Progress
 extension PopupBottomStackViewModelTests {
@@ -489,6 +499,16 @@ extension PopupBottomStackViewModelTests {
             popups: popups,
             gestureTranslation: -175,
             expectedValue: 0
+        )
+    }
+}
+private extension PopupBottomStackViewModelTests {
+    func appendPopupsAndCheckTranslationProgress(popups: [AnyPopup], gestureTranslation: CGFloat, expectedValue: CGFloat) {
+        appendPopupsAndPerformChecks(
+            popups: popups,
+            gestureTranslation: gestureTranslation,
+            calculatedValue: { [self] _ in testHook.calculateTranslationProgress() },
+            expectedValueBuilder: { _ in expectedValue }
         )
     }
 }
@@ -555,6 +575,16 @@ extension PopupBottomStackViewModelTests {
         )
     }
 }
+private extension PopupBottomStackViewModelTests {
+    func appendPopupsAndCheckCornerRadius(popups: [AnyPopup], gestureTranslation: CGFloat, expectedValue: [MijickPopups.VerticalEdge: CGFloat]) {
+        appendPopupsAndPerformChecks(
+            popups: popups,
+            gestureTranslation: gestureTranslation,
+            calculatedValue: { [self] _ in testHook.calculateCornerRadius() },
+            expectedValueBuilder: { _ in expectedValue }
+        )
+    }
+}
 
 // MARK: Calculating Scale X
 extension PopupBottomStackViewModelTests {
@@ -616,6 +646,16 @@ extension PopupBottomStackViewModelTests {
             gestureTranslation: 100,
             calculateForIndex: 1,
             expectedValueBuilder: { 1 - $0.testHook.stackScaleFactor * 3 * max(1 - $0.testHook.calculateTranslationProgress(), $0.testHook.minScaleProgressMultiplier) }
+        )
+    }
+}
+private extension PopupBottomStackViewModelTests {
+    func appendPopupsAndCheckScaleX(popups: [AnyPopup], gestureTranslation: CGFloat, calculateForIndex index: Int, expectedValueBuilder: @escaping (ViewModel) -> CGFloat) {
+        appendPopupsAndPerformChecks(
+            popups: popups,
+            gestureTranslation: gestureTranslation,
+            calculatedValue: { [self] _ in testHook.calculateScaleX(for: viewModel.popups[index]) },
+            expectedValueBuilder: expectedValueBuilder
         )
     }
 }
@@ -1064,44 +1104,6 @@ private extension PopupBottomStackViewModelTests {
             popups: popups,
             gestureTranslation: gestureTranslation,
             calculatedValue: { [self] _ in testHook.calculateVerticalFixedSize(for: viewModel.popups[index]) },
-            expectedValueBuilder: { _ in expectedValue }
-        )
-    }
-
-
-    func appendPopupsAndCheckScaleX(popups: [AnyPopup], gestureTranslation: CGFloat, calculateForIndex index: Int, expectedValueBuilder: @escaping (ViewModel) -> CGFloat) {
-        appendPopupsAndPerformChecks(
-            popups: popups,
-            gestureTranslation: gestureTranslation,
-            calculatedValue: { [self] _ in testHook.calculateScaleX(for: viewModel.popups[index]) },
-            expectedValueBuilder: expectedValueBuilder
-        )
-    }
-
-    func appendPopupsAndCheckCornerRadius(popups: [AnyPopup], gestureTranslation: CGFloat, expectedValue: [MijickPopups.VerticalEdge: CGFloat]) {
-        appendPopupsAndPerformChecks(
-            popups: popups,
-            gestureTranslation: gestureTranslation,
-            calculatedValue: { [self] _ in testHook.calculateCornerRadius() },
-            expectedValueBuilder: { _ in expectedValue }
-        )
-    }
-
-    func appendPopupsAndCheckTranslationProgress(popups: [AnyPopup], gestureTranslation: CGFloat, expectedValue: CGFloat) {
-        appendPopupsAndPerformChecks(
-            popups: popups,
-            gestureTranslation: gestureTranslation,
-            calculatedValue: { [self] _ in testHook.calculateTranslationProgress() },
-            expectedValueBuilder: { _ in expectedValue }
-        )
-    }
-
-
-    func appendPopupsAndCheckBodyPadding(popups: [AnyPopup], gestureTranslation: CGFloat, expectedValue: EdgeInsets) {
-        appendPopupsAndPerformChecks(
-            popups: popups,
-            gestureTranslation: gestureTranslation,
-            calculatedValue: { [self] _ in testHook.calculateBodyPadding(for: popups.last!) },
             expectedValueBuilder: { _ in expectedValue }
         )
     }
