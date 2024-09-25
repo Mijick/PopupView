@@ -32,7 +32,7 @@ final class PopupBottomStackViewModelTests: XCTestCase {
 
 
 
-// MARK: Calculating Popup Height
+// MARK: Popup Height
 extension PopupBottomStackViewModelTests {
     func test_calculatePopupHeight_withAutoHeightMode_whenLessThanScreen_onePopupStacked() {
         viewModel.popups = [
@@ -156,7 +156,7 @@ private extension PopupBottomStackViewModelTests {
     }
 }
 
-// MARK: Calculating Active Popup Height
+// MARK: Active Popup Height
 extension PopupBottomStackViewModelTests {
     func test_calculateActivePopupHeight_withAutoHeightMode_whenLessThanScreen_onePopupStacked() {
         let popups = [
@@ -289,7 +289,7 @@ private extension PopupBottomStackViewModelTests {
     }
 }
 
-// MARK: Calculating Offset
+// MARK: Offset
 extension PopupBottomStackViewModelTests {
     func test_calculateOffsetY_withZeroGestureTranslation_fivePopupsStacked_thirdElement() {
         viewModel.popups = [
@@ -368,7 +368,7 @@ extension PopupBottomStackViewModelTests {
     }
 }
 
-// MARK: Calculating Body Padding
+// MARK: Body Padding
 extension PopupBottomStackViewModelTests {
     func test_calculateBodyPadding_withDefaultSettings() {
         let popups = [
@@ -517,7 +517,7 @@ private extension PopupBottomStackViewModelTests {
     }
 }
 
-// MARK: Calculating Corner Radius
+// MARK: Corner Radius
 extension PopupBottomStackViewModelTests {
     func test_calculateCornerRadius_withTwoPopupsStacked() {
         let popups = [
@@ -590,7 +590,7 @@ private extension PopupBottomStackViewModelTests {
     }
 }
 
-// MARK: Calculating Scale X
+// MARK: Scale X
 extension PopupBottomStackViewModelTests {
     func test_calculateScaleX_withNoGestureTranslation_threePopupsStacked_last() {
         let popups = [
@@ -664,7 +664,7 @@ private extension PopupBottomStackViewModelTests {
     }
 }
 
-// MARK: Calculating Fixed Size
+// MARK: Fixed Size
 extension PopupBottomStackViewModelTests {
     func test_calculateFixedSize_withAutoHeightMode_whenLessThanScreen_twoPopupsStacked() {
         let popups = [
@@ -734,7 +734,7 @@ private extension PopupBottomStackViewModelTests {
     }
 }
 
-// MARK: Calculating Stack Overlay Opacity
+// MARK: Stack Overlay Opacity
 extension PopupBottomStackViewModelTests {
     func test_calculateStackOverlayOpacity_withThreePopupsStacked_whenNoGestureTranslation_last() {
         let popups = [
@@ -842,7 +842,7 @@ private extension PopupBottomStackViewModelTests {
     }
 }
 
-// MARK: Calculating Popup Padding
+// MARK: Popup Padding
 extension PopupBottomStackViewModelTests {
     func test_calculatePopupPaddings_withAutoHeightMode_whenLessThanScreen() {
         let popups = [
@@ -922,7 +922,7 @@ private extension PopupBottomStackViewModelTests {
     }
 }
 
-// MARK: Calculating Attributes On Drag Gesture Changed
+// MARK: On Drag Gesture Changed
 extension PopupBottomStackViewModelTests {
     func test_calculateValuesOnDragGestureChanged_withPositiveDragValue_whenDragGestureDisabled() {
         let popups = [
@@ -1005,7 +1005,7 @@ private extension PopupBottomStackViewModelTests {
     }
 }
 
-// MARK: Calculating Attributes On Drag Gesture Ended
+// MARK: On Drag Gesture Ended
 extension PopupBottomStackViewModelTests {
     func test_calculateValuesOnDragGestureEnded_withNegativeDragValue_whenNoDragDetents() {
         let popups = [
