@@ -69,7 +69,7 @@ extension PopupStackViewModelTests {
 
         XCTAssertEqual(
             calculateLastPopupHeight(bottomViewModel),
-            fullscreenHeight - screen.safeArea.top
+            screen.height - screen.safeArea.top
         )
     }
     func test_calculatePopupHeight_withAutoHeightMode_whenBiggerThanScreen_fivePopupStacked() {
@@ -83,7 +83,7 @@ extension PopupStackViewModelTests {
 
         XCTAssertEqual(
             calculateLastPopupHeight(bottomViewModel),
-            fullscreenHeight - screen.safeArea.top - testHook.stackOffset * 4
+            screen.height - screen.safeArea.top - testHook.stackOffset * 4
         )
     }
     func test_calculatePopupHeight_withLargeHeightMode_whenOnePopupStacked() {
@@ -93,7 +93,7 @@ extension PopupStackViewModelTests {
 
         XCTAssertEqual(
             calculateLastPopupHeight(bottomViewModel),
-            fullscreenHeight - screen.safeArea.top
+            screen.height - screen.safeArea.top
         )
     }
     func test_calculatePopupHeight_withLargeHeightMode_whenThreePopupStacked() {
@@ -105,7 +105,7 @@ extension PopupStackViewModelTests {
 
         XCTAssertEqual(
             calculateLastPopupHeight(bottomViewModel),
-            fullscreenHeight - screen.safeArea.top - testHook.stackOffset * 2
+            screen.height - screen.safeArea.top - testHook.stackOffset * 2
         )
     }
     func test_calculatePopupHeight_withFullscreenHeightMode_whenOnePopupStacked() {
@@ -115,7 +115,7 @@ extension PopupStackViewModelTests {
 
         XCTAssertEqual(
             calculateLastPopupHeight(bottomViewModel),
-            fullscreenHeight
+            screen.height
         )
     }
     func test_calculatePopupHeight_withFullscreenHeightMode_whenThreePopupsStacked() {
@@ -127,7 +127,7 @@ extension PopupStackViewModelTests {
 
         XCTAssertEqual(
             calculateLastPopupHeight(bottomViewModel),
-            fullscreenHeight
+            screen.height
         )
     }
     func test_calculatePopupHeight_withLargeHeightMode_whenThreePopupsStacked_popupPadding() {
@@ -139,7 +139,7 @@ extension PopupStackViewModelTests {
 
         XCTAssertEqual(
             calculateLastPopupHeight(bottomViewModel),
-            fullscreenHeight - screen.safeArea.top - 2 * testHook.stackOffset
+            screen.height - screen.safeArea.top - 2 * testHook.stackOffset
         )
     }
     func test_calculatePopupHeight_withFullscreenHeightMode_whenThreePopupsStacked_popupPadding() {
@@ -156,8 +156,8 @@ extension PopupStackViewModelTests {
     }
 }
 private extension PopupStackViewModelTests {
-    func calculateLastPopupHeight() -> CGFloat {
-        testHook.calculatePopupHeight(height: bottomViewModel.popups.last!.height!, popupConfig: bottomViewModel.popups.last!.config as! Config)
+    func calculateLastPopupHeight(_ viewModel: ViewModel) -> CGFloat {
+        viewModel.testHook.calculatePopupHeight(height: viewModel.popups.last!.height!, popupConfig: viewModel.popups.last!.config as! Config)
     }
 }
 
@@ -184,7 +184,7 @@ extension PopupStackViewModelTests {
         appendPopupsAndCheckActivePopupHeight(
             popups: popups,
             gestureTranslation: 0,
-            expectedValue: fullscreenHeight - screen.safeArea.top - 2 * testHook.stackOffset
+            expectedValue: screen.height - screen.safeArea.top - 2 * testHook.stackOffset
         )
     }
     func test_calculateActivePopupHeight_withLargeHeightMode_whenThreePopupsStacked() {
@@ -197,7 +197,7 @@ extension PopupStackViewModelTests {
         appendPopupsAndCheckActivePopupHeight(
             popups: popups,
             gestureTranslation: 0,
-            expectedValue: fullscreenHeight - screen.safeArea.top - 2 * testHook.stackOffset
+            expectedValue: screen.height - screen.safeArea.top - 2 * testHook.stackOffset
         )
     }
     func test_calculateActivePopupHeight_withAutoHeightMode_whenGestureIsNegative_twoPopupsStacked() {
@@ -209,7 +209,7 @@ extension PopupStackViewModelTests {
         appendPopupsAndCheckActivePopupHeight(
             popups: popups,
             gestureTranslation: -51,
-            expectedValue: fullscreenHeight - screen.safeArea.top - testHook.stackOffset * 1 + 51
+            expectedValue: screen.height - screen.safeArea.top - testHook.stackOffset * 1 + 51
         )
     }
     func test_calculateActivePopupHeight_withLargeHeightMode_whenGestureIsNegative_onePopupStacked() {
@@ -220,7 +220,7 @@ extension PopupStackViewModelTests {
         appendPopupsAndCheckActivePopupHeight(
             popups: popups,
             gestureTranslation: -99,
-            expectedValue: fullscreenHeight - screen.safeArea.top + 99
+            expectedValue: screen.height - screen.safeArea.top + 99
         )
     }
     func test_calculateActivePopupHeight_withFullscreenHeightMode_whenGestureIsNegative_twoPopupsStacked() {
@@ -232,7 +232,7 @@ extension PopupStackViewModelTests {
         appendPopupsAndCheckActivePopupHeight(
             popups: popups,
             gestureTranslation: -21,
-            expectedValue: fullscreenHeight
+            expectedValue: screen.height
         )
     }
     func test_calculateActivePopupHeight_withAutoHeightMode_whenGestureIsPositive_threePopupsStacked() {
@@ -256,7 +256,7 @@ extension PopupStackViewModelTests {
         appendPopupsAndCheckActivePopupHeight(
             popups: popups,
             gestureTranslation: 31,
-            expectedValue: fullscreenHeight
+            expectedValue: screen.height
         )
     }
     func test_calculateActivePopupHeight_withAutoHeightMode_whenGestureIsNegative_hasDragHeightStored_twoPopupsStacked() {
@@ -279,7 +279,7 @@ extension PopupStackViewModelTests {
         appendPopupsAndCheckActivePopupHeight(
             popups: popups,
             gestureTranslation: 350,
-            expectedValue: fullscreenHeight - screen.safeArea.top
+            expectedValue: screen.height - screen.safeArea.top
         )
     }
 }
@@ -1064,7 +1064,7 @@ extension PopupStackViewModelTests {
         appendPopupsAndCheckGestureTranslationOnEnd(
             popups: popups,
             gestureValue: -300,
-            expectedValues: (popupHeight: fullscreenHeight - screen.safeArea.top, shouldPopupBeDismissed: false)
+            expectedValues: (popupHeight: screen.height - screen.safeArea.top, shouldPopupBeDismissed: false)
         )
     }
     func test_calculateValuesOnDragGestureEnded_withNegativeDragValue_whenDragDetentsSet_5() {
@@ -1075,7 +1075,7 @@ extension PopupStackViewModelTests {
         appendPopupsAndCheckGestureTranslationOnEnd(
             popups: popups,
             gestureValue: -600,
-            expectedValues: (popupHeight: fullscreenHeight, shouldPopupBeDismissed: false)
+            expectedValues: (popupHeight: screen.height, shouldPopupBeDismissed: false)
         )
     }
     func test_calculateValuesOnDragGestureEnded_withPositiveDragValue_1() {
@@ -1177,8 +1177,6 @@ private extension PopupStackViewModelTests {
         height: 1000,
         safeArea: .init(top: 100, leading: 20, bottom: 50, trailing: 30)
     )}
-    var fullscreenHeight: CGFloat { screen.height }
-    var largeScreenHeight: CGFloat { fullscreenHeight - screen.safeArea.top }
 }
 
 // MARK: Typealiases
