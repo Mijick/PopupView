@@ -1103,13 +1103,7 @@ private extension PopupBottomStackViewModelTests {
         )
     }
 }
-private extension PopupBottomStackViewModelTests {
-    func recalculatePopupHeights() -> [AnyPopup] { viewModel.popups.map {
-        var popup = $0
-        popup.height = testHook.calculatePopupHeight(height: $0.height!, popupConfig: $0.config as! Config)
-        return popup
-    }}
-}
+
 
 
 
@@ -1154,10 +1148,12 @@ private extension PopupBottomStackViewModelTests {
         dragGestureEnabled: dragGestureEnabled,
         dragDetents: dragDetents
     )}
+    func recalculatePopupHeights() -> [AnyPopup] { viewModel.popups.map {
+        var popup = $0
+        popup.height = testHook.calculatePopupHeight(height: $0.height!, popupConfig: $0.config as! Config)
+        return popup
+    }}
 }
-
-
-
 
 
 private extension PopupBottomStackViewModelTests {
