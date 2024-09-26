@@ -24,7 +24,7 @@ extension PopupStackView { class ViewModel: ObservableObject { init(alignment: V
 
 
     private(set) var activePopupHeight: CGFloat? = nil
-    @Published private(set) var screen: ScreenProperties = .init()
+    private(set) var screen: ScreenProperties = .init()
     private var isKeyboardActive: Bool = false
 
 
@@ -50,6 +50,8 @@ extension PopupStackView.ViewModel {
     }
     func updateScreenProperty(_ newScreen: ScreenProperties) {
         screen = newScreen
+
+        Task { @MainActor in objectWillChange.send() }
     }
     func updateKeyboardProperty(_ isActive: Bool) {
         isKeyboardActive = isActive
