@@ -1111,6 +1111,19 @@ extension PopupStackViewModelTests {
             expectedValues: (popupHeight: 344, gestureTranslation: 11)
         )
     }
+    func test_calculateValuesOnDragGestureChanged_withPositiveDragValue_whenDragGestureEnabled_topPopupsAlignment() {
+        let popups = [
+            createPopupInstanceForPopupHeightTests(heightMode: .auto, popupHeight: 344)
+        ]
+
+        appendPopupsAndCheckGestureTranslationOnChange(
+            viewModel: topViewModel,
+            popups: popups,
+            gestureValue: 11,
+            dragGestureEnabled: true,
+            expectedValues: (popupHeight: 344, gestureTranslation: 0)
+        )
+    }
     func test_calculateValuesOnDragGestureChanged_withNegativeDragValue_whenNoDragDetents() {
         let popups = [
             createPopupInstanceForPopupHeightTests(heightMode: .auto, popupHeight: 344, dragDetents: [])
