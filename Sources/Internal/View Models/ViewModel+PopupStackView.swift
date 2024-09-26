@@ -38,11 +38,6 @@ private extension PopupStackView.ViewModel {
             activePopupHeight = activePopupHeightCandidate
         }}
     }
-    func onScreenChanged() {
-        Task { @MainActor in
-            objectWillChange.send()
-        }
-    }
     func onGestureTranslationChanged() {
         let translationProgressCandidate = calculateTranslationProgress()
         let activePopupHeightCandidate = calculateHeightForActivePopup()
