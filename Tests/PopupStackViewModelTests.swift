@@ -45,6 +45,33 @@ final class PopupStackViewModelTests: XCTestCase {
 // MARK: - Test Cases
 
 
+// MARK: Inverted Index
+extension PopupStackViewModelTests {
+    func test_getInvertedIndex_1() {
+        bottomViewModel.popups = [
+            createPopupInstanceForPopupHeightTests(heightMode: .auto, popupHeight: 150)
+        ]
+
+        XCTAssertEqual(
+            bottomViewModel.testHook.getInvertedIndex(of: bottomViewModel.popups[0]),
+            0
+        )
+    }
+    func test_getInvertedIndex_2() {
+        bottomViewModel.popups = [
+            createPopupInstanceForPopupHeightTests(heightMode: .auto, popupHeight: 150),
+            createPopupInstanceForPopupHeightTests(heightMode: .auto, popupHeight: 150),
+            createPopupInstanceForPopupHeightTests(heightMode: .auto, popupHeight: 150),
+            createPopupInstanceForPopupHeightTests(heightMode: .auto, popupHeight: 150),
+            createPopupInstanceForPopupHeightTests(heightMode: .auto, popupHeight: 150)
+        ]
+
+        XCTAssertEqual(
+            bottomViewModel.testHook.getInvertedIndex(of: bottomViewModel.popups[3]),
+            1
+        )
+    }
+}
 
 // MARK: Popup Height
 extension PopupStackViewModelTests {
