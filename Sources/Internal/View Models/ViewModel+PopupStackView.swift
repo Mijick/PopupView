@@ -20,7 +20,7 @@ extension PopupStackView { @MainActor class ViewModel: ObservableObject { init(a
 
 
 
-    private var gestureTranslation: CGFloat = 0
+
 
 
     private(set) var activePopupHeight: CGFloat? = nil
@@ -28,7 +28,7 @@ extension PopupStackView { @MainActor class ViewModel: ObservableObject { init(a
     @Published private(set) var isKeyboardActive: Bool = false
 
 
-    
+    private var gestureTranslation: CGFloat = 0
     private var translationProgress: CGFloat = 0
 }}
 
