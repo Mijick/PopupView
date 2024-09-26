@@ -506,6 +506,10 @@ extension PopupStackView.ViewModel.TestHook {
 
     @MainActor func onPopupDragGestureChanged(_ value: CGFloat) { target.onPopupDragGestureChanged(value) }
     @MainActor func onPopupDragGestureEnded(_ value: CGFloat) { target.onPopupDragGestureEnded(value) }
+
+
+    @MainActor func updatePopupsProperty(_ newPopups: [AnyPopup]) { target.updatePopupsProperty(newPopups) }
+    @MainActor func updateGestureTranslation(_ newGestureTranslation: CGFloat) { target.updateGestureTranslation(newGestureTranslation) }
 }
 extension PopupStackView.ViewModel.TestHook {
     @MainActor var stackOffset: CGFloat { target.stackOffset }
@@ -515,5 +519,6 @@ extension PopupStackView.ViewModel.TestHook {
     @MainActor var minStackOverlayProgressMultiplier: CGFloat { target.minStackOverlayProgressMultiplier }
     @MainActor var maxStackOverlayFactor: CGFloat { target.maxStackOverlayFactor }
     @MainActor var dragTranslationThreshold: CGFloat { target.dragTranslationThreshold }
+    @MainActor var gestureTranslation: CGFloat { target.gestureTranslation }
 }
 #endif
