@@ -1295,21 +1295,27 @@ extension PopupStackViewModelTests {
             expectedValues: (popupHeight: 400, shouldPopupBeDismissed: true)
         )
     }
+    func test_1() {
+        
+    }
+    func test_2() {
+
+    }
 }
 private extension PopupStackViewModelTests {
-    func appendPopupsAndCheckGestureTranslationOnEnd(popups: [AnyPopup], gestureValue: CGFloat, expectedValues: (popupHeight: CGFloat, shouldPopupBeDismissed: Bool)) {
-        bottomViewModel.popups = popups
-        bottomViewModel.popups = recalculatePopupHeights(bottomViewModel)
-        bottomViewModel.gestureTranslation = gestureValue
-        bottomViewModel.testHook.recalculateTranslationProgress()
-        bottomViewModel.testHook.onPopupDragGestureEnded(gestureValue)
+    func appendPopupsAndCheckGestureTranslationOnEnd(viewModel: ViewModel, popups: [AnyPopup], gestureValue: CGFloat, expectedValues: (popupHeight: CGFloat, shouldPopupBeDismissed: Bool)) {
+        viewModel.popups = popups
+        viewModel.popups = recalculatePopupHeights(viewModel)
+        viewModel.gestureTranslation = gestureValue
+        viewModel.testHook.recalculateTranslationProgress()
+        viewModel.testHook.onPopupDragGestureEnded(gestureValue)
 
         let expect = expectation(description: "results")
-        bottomViewModel.$activePopupHeight
+        viewModel.$activePopupHeight
             .dropFirst(expectedValues.shouldPopupBeDismissed ? 4 : 6)
-            .sink { [self] _ in
-                XCTAssertEqual(bottomViewModel.popups.count, expectedValues.shouldPopupBeDismissed ? 0 : 1)
-                XCTAssertEqual(bottomViewModel.activePopupHeight, expectedValues.popupHeight)
+            .sink { _ in
+                XCTAssertEqual(viewModel.popups.count, expectedValues.shouldPopupBeDismissed ? 0 : 1)
+                XCTAssertEqual(viewModel.activePopupHeight, expectedValues.popupHeight)
                 expect.fulfill()
             }
             .store(in: &cancellables)
