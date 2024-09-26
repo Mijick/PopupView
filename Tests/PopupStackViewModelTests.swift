@@ -545,6 +545,7 @@ extension PopupStackViewModelTests {
         ]
 
         appendPopupsAndCheckBodyPadding(
+            viewModel: bottomViewModel,
             popups: popups,
             gestureTranslation: 0,
             expectedValue: .init(top: screen.safeArea.top, leading: screen.safeArea.leading, bottom: screen.safeArea.bottom, trailing: screen.safeArea.trailing)
@@ -556,6 +557,7 @@ extension PopupStackViewModelTests {
         ]
 
         appendPopupsAndCheckBodyPadding(
+            viewModel: bottomViewModel,
             popups: popups,
             gestureTranslation: 0,
             expectedValue: .init(top: 0, leading: screen.safeArea.leading, bottom: 0, trailing: screen.safeArea.trailing)
@@ -567,6 +569,7 @@ extension PopupStackViewModelTests {
         ]
 
         appendPopupsAndCheckBodyPadding(
+            viewModel: bottomViewModel,
             popups: popups,
             gestureTranslation: 0,
             expectedValue: .init(top: 0, leading: 0, bottom: 0, trailing: 0)
@@ -578,6 +581,7 @@ extension PopupStackViewModelTests {
         ]
 
         appendPopupsAndCheckBodyPadding(
+            viewModel: bottomViewModel,
             popups: popups,
             gestureTranslation: 0,
             expectedValue: .init(top: 0, leading: screen.safeArea.leading, bottom: screen.safeArea.bottom, trailing: screen.safeArea.trailing)
@@ -589,6 +593,7 @@ extension PopupStackViewModelTests {
         ]
 
         appendPopupsAndCheckBodyPadding(
+            viewModel: bottomViewModel,
             popups: popups,
             gestureTranslation: 0,
             expectedValue: .init(top: 0, leading: screen.safeArea.leading, bottom: screen.safeArea.bottom, trailing: screen.safeArea.trailing)
@@ -600,6 +605,7 @@ extension PopupStackViewModelTests {
         ]
 
         appendPopupsAndCheckBodyPadding(
+            viewModel: bottomViewModel,
             popups: popups,
             gestureTranslation: -300,
             expectedValue: .init(top: screen.safeArea.top, leading: screen.safeArea.leading, bottom: screen.safeArea.bottom, trailing: screen.safeArea.trailing)
@@ -611,19 +617,32 @@ extension PopupStackViewModelTests {
         ]
 
         appendPopupsAndCheckBodyPadding(
+            viewModel: bottomViewModel,
             popups: popups,
             gestureTranslation: 21,
             expectedValue: .init(top: screen.safeArea.top - 21, leading: screen.safeArea.leading, bottom: screen.safeArea.bottom, trailing: screen.safeArea.trailing)
         )
     }
+    func test_calculateBodyPadding_withGestureTranslation_dragHeight_topPopupsAlignment() {
+        let popups = [
+            createPopupInstanceForPopupHeightTests(heightMode: .auto, popupHeight: 300, popupDragHeight: 700)
+        ]
+
+        appendPopupsAndCheckBodyPadding(
+            viewModel: topViewModel,
+            popups: popups,
+            gestureTranslation: -21,
+            expectedValue: .init(top: screen.safeArea.top, leading: screen.safeArea.leading, bottom: screen.safeArea.bottom - 21, trailing: screen.safeArea.trailing)
+        )
+    }
 }
 private extension PopupStackViewModelTests {
-    func appendPopupsAndCheckBodyPadding(popups: [AnyPopup], gestureTranslation: CGFloat, expectedValue: EdgeInsets) {
+    func appendPopupsAndCheckBodyPadding(viewModel: ViewModel, popups: [AnyPopup], gestureTranslation: CGFloat, expectedValue: EdgeInsets) {
         appendPopupsAndPerformChecks(
-            viewModel: bottomViewModel,
+            viewModel: viewModel,
             popups: popups,
             gestureTranslation: gestureTranslation,
-            calculatedValue: { [self] _ in bottomViewModel.testHook.calculateBodyPadding(for: popups.last!) },
+            calculatedValue: { _ in viewModel.testHook.calculateBodyPadding(for: popups.last!) },
             expectedValueBuilder: { _ in expectedValue }
         )
     }
