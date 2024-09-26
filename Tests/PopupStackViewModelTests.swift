@@ -789,11 +789,23 @@ extension PopupStackViewModelTests {
             expectedValue: [.top: 0, .bottom: 0]
         )
     }
+    func test_calculateCornerRadius_whenPopupsHaveTopAlignment() {
+        let popups = [
+            createPopupInstanceForPopupHeightTests(heightMode: .auto, popupHeight: 300, cornerRadius: 12)
+        ]
+
+        appendPopupsAndCheckCornerRadius(
+            viewModel: topViewModel,
+            popups: popups,
+            gestureTranslation: 0,
+            expectedValue: [.top: 0, .bottom: 12]
+        )
+    }
 }
 private extension PopupStackViewModelTests {
-    func appendPopupsAndCheckCornerRadius(popups: [AnyPopup], gestureTranslation: CGFloat, expectedValue: [MijickPopups.VerticalEdge: CGFloat]) {
+    func appendPopupsAndCheckCornerRadius(viewModel: ViewModel, popups: [AnyPopup], gestureTranslation: CGFloat, expectedValue: [MijickPopups.VerticalEdge: CGFloat]) {
         appendPopupsAndPerformChecks(
-            viewModel: bottomViewModel,
+            viewModel: viewModel,
             popups: popups,
             gestureTranslation: gestureTranslation,
             calculatedValue: { $0.testHook.calculateCornerRadius() },
