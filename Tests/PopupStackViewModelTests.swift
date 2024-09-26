@@ -656,6 +656,7 @@ extension PopupStackViewModelTests {
         ]
 
         appendPopupsAndCheckTranslationProgress(
+            viewModel: bottomViewModel,
             popups: popups,
             gestureTranslation: 0,
             expectedValue: 0
@@ -667,6 +668,7 @@ extension PopupStackViewModelTests {
         ]
 
         appendPopupsAndCheckTranslationProgress(
+            viewModel: bottomViewModel,
             popups: popups,
             gestureTranslation: 250,
             expectedValue: 250 / 300
@@ -678,6 +680,7 @@ extension PopupStackViewModelTests {
         ]
 
         appendPopupsAndCheckTranslationProgress(
+            viewModel: bottomViewModel,
             popups: popups,
             gestureTranslation: 250,
             expectedValue: (250 - 120) / 300
@@ -689,19 +692,32 @@ extension PopupStackViewModelTests {
         ]
 
         appendPopupsAndCheckTranslationProgress(
+            viewModel: bottomViewModel,
             popups: popups,
             gestureTranslation: -175,
             expectedValue: 0
         )
     }
+    func test_calculateTranslationProgress_withNegativeGestureTranslation_whenTopPopupsAlignment() {
+        let popups = [
+            createPopupInstanceForPopupHeightTests(heightMode: .auto, popupHeight: 300)
+        ]
+
+        appendPopupsAndCheckTranslationProgress(
+            viewModel: topViewModel,
+            popups: popups,
+            gestureTranslation: -175,
+            expectedValue: 175 / 300
+        )
+    }
 }
 private extension PopupStackViewModelTests {
-    func appendPopupsAndCheckTranslationProgress(popups: [AnyPopup], gestureTranslation: CGFloat, expectedValue: CGFloat) {
+    func appendPopupsAndCheckTranslationProgress(viewModel: ViewModel, popups: [AnyPopup], gestureTranslation: CGFloat, expectedValue: CGFloat) {
         appendPopupsAndPerformChecks(
-            viewModel: bottomViewModel,
+            viewModel: viewModel,
             popups: popups,
             gestureTranslation: gestureTranslation,
-            calculatedValue: { [self] _ in bottomViewModel.testHook.calculateTranslationProgress() },
+            calculatedValue: { _ in viewModel.testHook.calculateTranslationProgress() },
             expectedValueBuilder: { _ in expectedValue }
         )
     }
