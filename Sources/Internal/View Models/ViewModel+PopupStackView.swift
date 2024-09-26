@@ -13,16 +13,16 @@ import SwiftUI
 
 extension PopupStackView { @MainActor class ViewModel: ObservableObject { init(alignment: VerticalEdge) { self.alignment = alignment }
     private(set) var alignment: VerticalEdge
+    private(set) var popups: [AnyPopup] = []
     private(set) var updatePopupAction: ((AnyPopup) -> ())!
     private(set) var closePopupAction: ((AnyPopup) -> ())!
 
 
 
-    var popups: [AnyPopup] = [] { didSet { onPopupsChanged() }}
     var gestureTranslation: CGFloat = 0 { didSet { onGestureTranslationChanged() }}
 
 
-    @Published private(set) var activePopupHeight: CGFloat? = nil
+    private(set) var activePopupHeight: CGFloat? = nil
     @Published private(set) var screen: ScreenProperties = .init()
     @Published private(set) var isKeyboardActive: Bool = false
 
@@ -31,20 +31,12 @@ extension PopupStackView { @MainActor class ViewModel: ObservableObject { init(a
     private(set) var translationProgress: CGFloat = 0
 }}
 private extension PopupStackView.ViewModel {
-    func onPopupsChanged() {
-        let activePopupHeightCandidate = calculateHeightForActivePopup()
-
-        Task { @MainActor in withAnimation(.transition) {
-            activePopupHeight = activePopupHeightCandidate
-        }}
-    }
     func onGestureTranslationChanged() {
-        let translationProgressCandidate = calculateTranslationProgress()
-        let activePopupHeightCandidate = calculateHeightForActivePopup()
+        translationProgress = calculateTranslationProgress()
+        activePopupHeight = calculateHeightForActivePopup()
 
         Task { @MainActor in withAnimation(gestureTranslation == 0 ? .transition : nil) {
-            translationProgress = translationProgressCandidate
-            activePopupHeight = activePopupHeightCandidate
+            objectWillChange.send()
         }}
     }
 }
@@ -59,6 +51,12 @@ extension PopupStackView.ViewModel {
 
 // MARK: Updating
 extension PopupStackView.ViewModel {
+    func updatePopupsProperty(_ newPopups: [AnyPopup]) {
+        popups = newPopups
+        activePopupHeight = calculateHeightForActivePopup()
+
+        Task { @MainActor in withAnimation(.transition) { objectWillChange.send() }}
+    }
     func updateScreenProperty(_ newScreen: ScreenProperties) {
         screen = newScreen
     }
