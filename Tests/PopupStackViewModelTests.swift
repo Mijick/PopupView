@@ -330,7 +330,7 @@ private extension PopupStackViewModelTests {
             viewModel: viewModel,
             popups: popups,
             gestureTranslation: gestureTranslation,
-            calculatedValue: { $0 },
+            calculatedValue: { $0.activePopupHeight },
             expectedValueBuilder: { _ in expectedValue }
         )
     }
@@ -531,7 +531,7 @@ private extension PopupStackViewModelTests {
             viewModel: viewModel,
             popups: popups,
             gestureTranslation: gestureTranslation,
-            calculatedValue: { _ in viewModel.testHook.calculatePopupPadding() },
+            calculatedValue: { $0.testHook.calculatePopupPadding() },
             expectedValueBuilder: { _ in expectedValue }
         )
     }
@@ -642,7 +642,7 @@ private extension PopupStackViewModelTests {
             viewModel: viewModel,
             popups: popups,
             gestureTranslation: gestureTranslation,
-            calculatedValue: { _ in viewModel.testHook.calculateBodyPadding(for: popups.last!) },
+            calculatedValue: { $0.testHook.calculateBodyPadding(for: popups.last!) },
             expectedValueBuilder: { _ in expectedValue }
         )
     }
@@ -717,7 +717,7 @@ private extension PopupStackViewModelTests {
             viewModel: viewModel,
             popups: popups,
             gestureTranslation: gestureTranslation,
-            calculatedValue: { _ in viewModel.testHook.calculateTranslationProgress() },
+            calculatedValue: { $0.testHook.calculateTranslationProgress() },
             expectedValueBuilder: { _ in expectedValue }
         )
     }
@@ -791,7 +791,7 @@ private extension PopupStackViewModelTests {
             viewModel: bottomViewModel,
             popups: popups,
             gestureTranslation: gestureTranslation,
-            calculatedValue: { [self] _ in bottomViewModel.testHook.calculateCornerRadius() },
+            calculatedValue: { $0.testHook.calculateCornerRadius() },
             expectedValueBuilder: { _ in expectedValue }
         )
     }
@@ -1263,7 +1263,7 @@ private extension PopupStackViewModelTests {
         popup.dragHeight = popupDragHeight
         return popup
     }
-    func appendPopupsAndPerformChecks<Value: Equatable>(viewModel: ViewModel, popups: [AnyPopup], gestureTranslation: CGFloat, calculatedValue: @escaping (CGFloat?) -> (Value), expectedValueBuilder: @escaping (ViewModel) -> Value) {
+    func appendPopupsAndPerformChecks<Value: Equatable>(viewModel: ViewModel, popups: [AnyPopup], gestureTranslation: CGFloat, calculatedValue: @escaping (ViewModel) -> (Value), expectedValueBuilder: @escaping (ViewModel) -> Value) {
         viewModel.popups = popups
         viewModel.popups = recalculatePopupHeights(viewModel)
         viewModel.gestureTranslation = gestureTranslation
