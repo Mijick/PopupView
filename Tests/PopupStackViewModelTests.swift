@@ -1163,11 +1163,18 @@ extension PopupStackViewModelTests {
             expectedValues: (popupHeight: 370 + bottomViewModel.testHook.dragTranslationThreshold, gestureTranslation: 344 - 370 - bottomViewModel.testHook.dragTranslationThreshold)
         )
     }
-    func test_1() {
+    func test_calculateValuesOnDragGestureChanged_withNegativeDragValue_whenDragDetentsLessThanDragValue_topPopupsAlignment() {
+        let popups = [
+            createPopupInstanceForPopupHeightTests(heightMode: .auto, popupHeight: 344, dragDetents: [.fixed(370)])
+        ]
 
-    }
-    func test_2() {
-
+        appendPopupsAndCheckGestureTranslationOnChange(
+            viewModel: topViewModel,
+            popups: popups,
+            gestureValue: -133,
+            dragGestureEnabled: true,
+            expectedValues: (popupHeight: 344, gestureTranslation: -133)
+        )
     }
 }
 private extension PopupStackViewModelTests {
