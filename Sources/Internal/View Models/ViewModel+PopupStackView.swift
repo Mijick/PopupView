@@ -403,9 +403,9 @@ extension PopupStackView.ViewModel {
     }
 }
 private extension PopupStackView.ViewModel {
-    func dismissLastItemIfNeeded() { if shouldDismissPopup() {
-        closePopup?(popups.last)
-    }}
+    func dismissLastItemIfNeeded() { if shouldDismissPopup() { if let popup = popups.last {
+        closePopupAction(popup)
+    }}}
     func updateTranslationValues() { if let activePopupHeight = popups.last?.height {
         let currentPopupHeight = calculateCurrentPopupHeight(activePopupHeight)
         let popupTargetHeights = calculatePopupTargetHeightsFromDragDetents(activePopupHeight)

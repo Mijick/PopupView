@@ -103,9 +103,9 @@ private extension PopupView {
     func updatePopup(_ popup: AnyPopup) { if let index = popupManager.views.firstIndex(of: popup) {
         popupManager.views[index] = popup
     }}
-    func closePopup(_ popup: AnyPopup?) { if let popup {
+    func closePopup(_ popup: AnyPopup) {
         PopupManager.dismissPopup(id: popup.id.value)
-    }}
+    }
     func onViewsCountChange(_ count: Bool) {
         zIndex.reshuffle(popupManager.views.last?.config)
     }
