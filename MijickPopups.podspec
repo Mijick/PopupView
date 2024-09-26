@@ -16,5 +16,5 @@ Pod::Spec.new do |s|
   s.homepage              = 'https://github.com/Mijick/Popups.git'
   s.license               = { :type => 'MIT', :file => 'LICENSE' }
   s.author                = { 'Tomasz Kurylik' => 'tomasz.kurylik@mijick.com' }
-  s.source                = { :git => 'https://github.com/Mijick/PopupView.git', :tag => s.version.to_s }
+  s.source                = { :git => 'https://github.com/Mijick/Popups.git', :tag => s.version.to_s }
 end
