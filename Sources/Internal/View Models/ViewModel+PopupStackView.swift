@@ -14,12 +14,13 @@ import SwiftUI
 extension PopupStackView { @MainActor class ViewModel: ObservableObject { init(alignment: VerticalEdge) { self.alignment = alignment }
     private(set) var alignment: VerticalEdge
     private(set) var popups: [AnyPopup] = []
-    private(set) var updatePopupAction: ((AnyPopup) -> ())!
-    private(set) var closePopupAction: ((AnyPopup) -> ())!
+
+    private var updatePopupAction: ((AnyPopup) -> ())!
+    private var closePopupAction: ((AnyPopup) -> ())!
 
 
 
-    var gestureTranslation: CGFloat = 0 { didSet { onGestureTranslationChanged() }}
+    private var gestureTranslation: CGFloat = 0 { didSet { onGestureTranslationChanged() }}
 
 
     private(set) var activePopupHeight: CGFloat? = nil
@@ -28,7 +29,7 @@ extension PopupStackView { @MainActor class ViewModel: ObservableObject { init(a
 
 
     
-    private(set) var translationProgress: CGFloat = 0
+    private var translationProgress: CGFloat = 0
 }}
 private extension PopupStackView.ViewModel {
     func onGestureTranslationChanged() {
