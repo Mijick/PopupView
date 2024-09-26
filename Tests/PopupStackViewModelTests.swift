@@ -1091,6 +1091,7 @@ extension PopupStackViewModelTests {
         ]
 
         appendPopupsAndCheckGestureTranslationOnChange(
+            viewModel: bottomViewModel,
             popups: popups,
             gestureValue: 11,
             dragGestureEnabled: false,
@@ -1103,6 +1104,7 @@ extension PopupStackViewModelTests {
         ]
 
         appendPopupsAndCheckGestureTranslationOnChange(
+            viewModel: bottomViewModel,
             popups: popups,
             gestureValue: 11,
             dragGestureEnabled: true,
@@ -1115,6 +1117,7 @@ extension PopupStackViewModelTests {
         ]
 
         appendPopupsAndCheckGestureTranslationOnChange(
+            viewModel: bottomViewModel,
             popups: popups,
             gestureValue: -133,
             dragGestureEnabled: true,
@@ -1127,6 +1130,7 @@ extension PopupStackViewModelTests {
         ]
 
         appendPopupsAndCheckGestureTranslationOnChange(
+            viewModel: bottomViewModel,
             popups: popups,
             gestureValue: -40,
             dragGestureEnabled: true,
@@ -1139,26 +1143,33 @@ extension PopupStackViewModelTests {
         ]
 
         appendPopupsAndCheckGestureTranslationOnChange(
+            viewModel: bottomViewModel,
             popups: popups,
             gestureValue: -133,
             dragGestureEnabled: true,
             expectedValues: (popupHeight: 370 + bottomViewModel.testHook.dragTranslationThreshold, gestureTranslation: 344 - 370 - bottomViewModel.testHook.dragTranslationThreshold)
         )
     }
+    func test_1() {
+
+    }
+    func test_2() {
+
+    }
 }
 private extension PopupStackViewModelTests {
-    func appendPopupsAndCheckGestureTranslationOnChange(popups: [AnyPopup], gestureValue: CGFloat, dragGestureEnabled: Bool, expectedValues: (popupHeight: CGFloat, gestureTranslation: CGFloat)) {
-        bottomViewModel.popups = popups
-        bottomViewModel.popups = recalculatePopupHeights(bottomViewModel)
-        bottomViewModel.testHook.onPopupDragGestureChanged(gestureValue)
+    func appendPopupsAndCheckGestureTranslationOnChange(viewModel: ViewModel, popups: [AnyPopup], gestureValue: CGFloat, dragGestureEnabled: Bool, expectedValues: (popupHeight: CGFloat, gestureTranslation: CGFloat)) {
+        viewModel.popups = popups
+        viewModel.popups = recalculatePopupHeights(viewModel)
+        viewModel.testHook.onPopupDragGestureChanged(gestureValue)
 
         let expect = expectation(description: "results")
-        bottomViewModel.$activePopupHeight
+        viewModel.$activePopupHeight
             .receive(on: RunLoop.main)
             .dropFirst(dragGestureEnabled ? 3 : 2)
-            .sink { [self] _ in
-                XCTAssertEqual(bottomViewModel.activePopupHeight, expectedValues.popupHeight)
-                XCTAssertEqual(bottomViewModel.gestureTranslation, expectedValues.gestureTranslation)
+            .sink { _ in
+                XCTAssertEqual(viewModel.activePopupHeight, expectedValues.popupHeight)
+                XCTAssertEqual(viewModel.gestureTranslation, expectedValues.gestureTranslation)
                 expect.fulfill()
             }
             .store(in: &cancellables)
