@@ -58,12 +58,12 @@ private extension PopupView {
                 bottomStackViewModel.popups = getViews(BottomPopupConfig.self)
             }
             .onChange(of: keyboardManager.isActive) { _ in
-                topStackViewModel.isKeyboardActive = keyboardManager.isActive
-                bottomStackViewModel.isKeyboardActive = keyboardManager.isActive
+                topStackViewModel.updateKeyboardProperty(keyboardManager.isActive)
+                bottomStackViewModel.updateKeyboardProperty(keyboardManager.isActive)
             }
             .onChange(of: screenManager.properties) { _ in
-                topStackViewModel.screen = screenManager.properties
-                bottomStackViewModel.screen = screenManager.properties
+                topStackViewModel.updateScreenProperty(screenManager.properties)
+                bottomStackViewModel.updateScreenProperty(screenManager.properties)
             }
     }
 }

@@ -20,11 +20,12 @@ extension PopupStackView { @MainActor class ViewModel: ObservableObject { init(a
 
     var popups: [AnyPopup] = [] { didSet { onPopupsChanged() }}
     var gestureTranslation: CGFloat = 0 { didSet { onGestureTranslationChanged() }}
-    var screen: ScreenProperties = .init() { didSet { onScreenChanged() }}
 
 
-    @Published var isKeyboardActive: Bool = false
     @Published private(set) var activePopupHeight: CGFloat? = nil
+    @Published private(set) var screen: ScreenProperties = .init()
+    @Published private(set) var isKeyboardActive: Bool = false
+
 
     
     private(set) var translationProgress: CGFloat = 0
@@ -58,6 +59,16 @@ extension PopupStackView.ViewModel {
     func setup(updatePopupAction: @escaping (AnyPopup) -> (), closePopupAction: @escaping (AnyPopup) -> ()) {
         self.updatePopupAction = updatePopupAction
         self.closePopupAction = closePopupAction
+    }
+}
+
+// MARK: Updating
+extension PopupStackView.ViewModel {
+    func updateScreenProperty(_ newScreen: ScreenProperties) {
+        screen = newScreen
+    }
+    func updateKeyboardProperty(_ isActive: Bool) {
+        isKeyboardActive = isActive
     }
 }
 
