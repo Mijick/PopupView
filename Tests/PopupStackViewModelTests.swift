@@ -866,7 +866,7 @@ private extension PopupStackViewModelTests {
             viewModel: bottomViewModel,
             popups: popups,
             gestureTranslation: gestureTranslation,
-            calculatedValue: { [self] _ in bottomViewModel.testHook.calculateScaleX(for: bottomViewModel.popups[index]) },
+            calculatedValue: { $0.testHook.calculateScaleX(for: $0.popups[index]) },
             expectedValueBuilder: expectedValueBuilder
         )
     }
@@ -937,7 +937,7 @@ private extension PopupStackViewModelTests {
             viewModel: bottomViewModel,
             popups: popups,
             gestureTranslation: gestureTranslation,
-            calculatedValue: { [self] _ in bottomViewModel.testHook.calculateVerticalFixedSize(for: bottomViewModel.popups[index]) },
+            calculatedValue: { $0.testHook.calculateVerticalFixedSize(for: $0.popups[index]) },
             expectedValueBuilder: { _ in expectedValue }
         )
     }
@@ -1046,7 +1046,7 @@ private extension PopupStackViewModelTests {
             viewModel: bottomViewModel,
             popups: popups,
             gestureTranslation: gestureTranslation,
-            calculatedValue: { [self] _ in bottomViewModel.testHook.calculateStackOverlayOpacity(for: bottomViewModel.popups[index]) },
+            calculatedValue: { $0.testHook.calculateStackOverlayOpacity(for: $0.popups[index]) },
             expectedValueBuilder: expectedValueBuilder
         )
     }
@@ -1272,8 +1272,8 @@ private extension PopupStackViewModelTests {
         viewModel.$activePopupHeight
             .receive(on: RunLoop.main)
             .dropFirst(3)
-            .sink {
-                XCTAssertEqual(calculatedValue($0), expectedValueBuilder(viewModel))
+            .sink { _ in
+                XCTAssertEqual(calculatedValue(viewModel), expectedValueBuilder(viewModel))
                 expect.fulfill()
             }
             .store(in: &cancellables)
