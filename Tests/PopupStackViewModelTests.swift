@@ -89,14 +89,28 @@ extension PopupStackViewModelTests {
         )
     }
     func test_updatePopup_2() {
+        let popups = [
+            createPopupInstanceForPopupHeightTests(heightMode: .auto, popupHeight: 100),
+            createPopupInstanceForPopupHeightTests(heightMode: .auto, popupHeight: 50),
+            createPopupInstanceForPopupHeightTests(heightMode: .auto, popupHeight: 25),
+            createPopupInstanceForPopupHeightTests(heightMode: .auto, popupHeight: 15),
+            createPopupInstanceForPopupHeightTests(heightMode: .auto, popupHeight: 2137)
+        ]
 
+        appendPopupsAndPerformChecksaaa(
+            viewModel: bottomViewModel,
+            popups: popups,
+            updatePopupAt: 2,
+            popupUpdateBuilder: { $0.height = 1371 },
+            expectedValue: (height: 1371, dragHeight: nil)
+        )
     }
     func test_updatePopup_3() {
 
     }
 }
 private extension PopupStackViewModelTests {
-    func appendPopupsAndPerformChecksaaa(viewModel: ViewModel, popups: [AnyPopup], updatePopupAt index: Int, popupUpdateBuilder: @escaping (inout AnyPopup) -> (), expectedValue: (height: CGFloat, dragHeight: CGFloat)) {
+    func appendPopupsAndPerformChecksaaa(viewModel: ViewModel, popups: [AnyPopup], updatePopupAt index: Int, popupUpdateBuilder: @escaping (inout AnyPopup) -> (), expectedValue: (height: CGFloat?, dragHeight: CGFloat?)) {
         viewModel.popups = popups
         viewModel.testHook.update(popup: popups[index], popupUpdateBuilder)
 
