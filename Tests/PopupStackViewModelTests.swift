@@ -413,6 +413,29 @@ extension PopupStackViewModelTests {
             0
         )
     }
+    func test_calculateOffsetY_withPopupsHaveTopAlignment_1() {
+        topViewModel.popups = [
+            createPopupInstanceForPopupHeightTests(heightMode: .auto, popupHeight: 350, popupDragHeight: 249),
+            createPopupInstanceForPopupHeightTests(heightMode: .auto, popupHeight: 133, popupDragHeight: 21)
+        ]
+
+        XCTAssertEqual(
+            topViewModel.testHook.calculatePopupOffsetY(for: topViewModel.popups[0]),
+            topViewModel.testHook.stackOffset
+        )
+    }
+    func test_calculateOffsetY_withPopupsHaveTopAlignment_2() {
+        topViewModel.popups = [
+            createPopupInstanceForPopupHeightTests(heightMode: .auto, popupHeight: 350, popupDragHeight: 249),
+            createPopupInstanceForPopupHeightTests(heightMode: .auto, popupHeight: 133, popupDragHeight: 21)
+        ]
+        topViewModel.gestureTranslation = -100
+
+        XCTAssertEqual(
+            topViewModel.testHook.calculatePopupOffsetY(for: topViewModel.popups[1]),
+            21 - 100
+        )
+    }
 }
 
 // MARK: Popup Padding
