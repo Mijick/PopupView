@@ -446,6 +446,7 @@ extension PopupStackViewModelTests {
         ]
 
         appendPopupsAndCheckPopupPadding(
+            viewModel: bottomViewModel,
             popups: popups,
             gestureTranslation: 0,
             expectedValue: .init(top: 12, leading: 17, bottom: 33, trailing: 17)
@@ -457,6 +458,7 @@ extension PopupStackViewModelTests {
         ]
 
         appendPopupsAndCheckPopupPadding(
+            viewModel: bottomViewModel,
             popups: popups,
             gestureTranslation: 0,
             expectedValue: .init(top: 0, leading: 17, bottom: 23, trailing: 17)
@@ -468,9 +470,22 @@ extension PopupStackViewModelTests {
         ]
 
         appendPopupsAndCheckPopupPadding(
+            viewModel: bottomViewModel,
             popups: popups,
             gestureTranslation: 0,
             expectedValue: .init(top: 6, leading: 17, bottom: 33, trailing: 17)
+        )
+    }
+    func test_calculatePopupPaddings_withAutoHeightMode_almostLikeScreen_topPopupsAlignment() {
+        let popups = [
+            createPopupInstanceForPopupHeightTests(heightMode: .auto, popupHeight: 911, popupPadding: .init(top: 12, leading: 17, bottom: 33, trailing: 17))
+        ]
+
+        appendPopupsAndCheckPopupPadding(
+            viewModel: topViewModel,
+            popups: popups,
+            gestureTranslation: 0,
+            expectedValue: .init(top: 12, leading: 17, bottom: 27, trailing: 17)
         )
     }
     func test_calculatePopupPaddings_withAutoHeightMode_whenBiggerThanScreen() {
@@ -479,6 +494,7 @@ extension PopupStackViewModelTests {
         ]
 
         appendPopupsAndCheckPopupPadding(
+            viewModel: bottomViewModel,
             popups: popups,
             gestureTranslation: 0,
             expectedValue: .init(top: 0, leading: 17, bottom: 0, trailing: 17)
@@ -490,6 +506,7 @@ extension PopupStackViewModelTests {
         ]
 
         appendPopupsAndCheckPopupPadding(
+            viewModel: bottomViewModel,
             popups: popups,
             gestureTranslation: 0,
             expectedValue: .init(top: 0, leading: 17, bottom: 0, trailing: 17)
@@ -501,6 +518,7 @@ extension PopupStackViewModelTests {
         ]
 
         appendPopupsAndCheckPopupPadding(
+            viewModel: bottomViewModel,
             popups: popups,
             gestureTranslation: 0,
             expectedValue: .init(top: 0, leading: 17, bottom: 0, trailing: 17)
@@ -508,12 +526,12 @@ extension PopupStackViewModelTests {
     }
 }
 private extension PopupStackViewModelTests {
-    func appendPopupsAndCheckPopupPadding(popups: [AnyPopup], gestureTranslation: CGFloat, expectedValue: EdgeInsets) {
+    func appendPopupsAndCheckPopupPadding(viewModel: ViewModel, popups: [AnyPopup], gestureTranslation: CGFloat, expectedValue: EdgeInsets) {
         appendPopupsAndPerformChecks(
-            viewModel: bottomViewModel,
+            viewModel: viewModel,
             popups: popups,
             gestureTranslation: gestureTranslation,
-            calculatedValue: { [self] _ in bottomViewModel.testHook.calculatePopupPadding() },
+            calculatedValue: { _ in viewModel.testHook.calculatePopupPadding() },
             expectedValueBuilder: { _ in expectedValue }
         )
     }
