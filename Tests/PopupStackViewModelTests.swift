@@ -978,6 +978,7 @@ extension PopupStackViewModelTests {
         ]
 
         appendPopupsAndCheckStackOverlayOpacity(
+            viewModel: bottomViewModel,
             popups: popups,
             gestureTranslation: 0,
             calculateForIndex: 2,
@@ -993,6 +994,7 @@ extension PopupStackViewModelTests {
         ]
 
         appendPopupsAndCheckStackOverlayOpacity(
+            viewModel: bottomViewModel,
             popups: popups,
             gestureTranslation: 0,
             calculateForIndex: 1,
@@ -1008,6 +1010,7 @@ extension PopupStackViewModelTests {
         ]
 
         appendPopupsAndCheckStackOverlayOpacity(
+            viewModel: bottomViewModel,
             popups: popups,
             gestureTranslation: -123,
             calculateForIndex: 3,
@@ -1029,6 +1032,7 @@ extension PopupStackViewModelTests {
         ]
 
         appendPopupsAndCheckStackOverlayOpacity(
+            viewModel: bottomViewModel,
             popups: popups,
             gestureTranslation: -123,
             calculateForIndex: 0,
@@ -1043,6 +1047,7 @@ extension PopupStackViewModelTests {
         ]
 
         appendPopupsAndCheckStackOverlayOpacity(
+            viewModel: bottomViewModel,
             popups: popups,
             gestureTranslation: 494,
             calculateForIndex: 2,
@@ -1058,6 +1063,7 @@ extension PopupStackViewModelTests {
         ]
 
         appendPopupsAndCheckStackOverlayOpacity(
+            viewModel: bottomViewModel,
             popups: popups,
             gestureTranslation: 241,
             calculateForIndex: 2,
@@ -1066,9 +1072,9 @@ extension PopupStackViewModelTests {
     }
 }
 private extension PopupStackViewModelTests {
-    func appendPopupsAndCheckStackOverlayOpacity(popups: [AnyPopup], gestureTranslation: CGFloat, calculateForIndex index: Int, expectedValueBuilder: @escaping (ViewModel) -> CGFloat) {
+    func appendPopupsAndCheckStackOverlayOpacity(viewModel: ViewModel, popups: [AnyPopup], gestureTranslation: CGFloat, calculateForIndex index: Int, expectedValueBuilder: @escaping (ViewModel) -> CGFloat) {
         appendPopupsAndPerformChecks(
-            viewModel: bottomViewModel,
+            viewModel: viewModel,
             popups: popups,
             gestureTranslation: gestureTranslation,
             calculatedValue: { $0.testHook.calculateStackOverlayOpacity(for: $0.popups[index]) },
