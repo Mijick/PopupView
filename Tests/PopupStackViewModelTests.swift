@@ -305,6 +305,7 @@ extension PopupStackViewModelTests {
 private extension PopupStackViewModelTests {
     func appendPopupsAndCheckActivePopupHeight(popups: [AnyPopup], gestureTranslation: CGFloat, expectedValue: CGFloat) {
         appendPopupsAndPerformChecks(
+            viewModel: bottomViewModel,
             popups: popups,
             gestureTranslation: gestureTranslation,
             calculatedValue: { $0 },
@@ -464,6 +465,7 @@ extension PopupStackViewModelTests {
 private extension PopupStackViewModelTests {
     func appendPopupsAndCheckPopupPadding(popups: [AnyPopup], gestureTranslation: CGFloat, expectedValue: EdgeInsets) {
         appendPopupsAndPerformChecks(
+            viewModel: bottomViewModel,
             popups: popups,
             gestureTranslation: gestureTranslation,
             calculatedValue: { [self] _ in bottomViewModel.testHook.calculatePopupPadding() },
@@ -555,6 +557,7 @@ extension PopupStackViewModelTests {
 private extension PopupStackViewModelTests {
     func appendPopupsAndCheckBodyPadding(popups: [AnyPopup], gestureTranslation: CGFloat, expectedValue: EdgeInsets) {
         appendPopupsAndPerformChecks(
+            viewModel: bottomViewModel,
             popups: popups,
             gestureTranslation: gestureTranslation,
             calculatedValue: { [self] _ in bottomViewModel.testHook.calculateBodyPadding(for: popups.last!) },
@@ -613,6 +616,7 @@ extension PopupStackViewModelTests {
 private extension PopupStackViewModelTests {
     func appendPopupsAndCheckTranslationProgress(popups: [AnyPopup], gestureTranslation: CGFloat, expectedValue: CGFloat) {
         appendPopupsAndPerformChecks(
+            viewModel: bottomViewModel,
             popups: popups,
             gestureTranslation: gestureTranslation,
             calculatedValue: { [self] _ in bottomViewModel.testHook.calculateTranslationProgress() },
@@ -686,6 +690,7 @@ extension PopupStackViewModelTests {
 private extension PopupStackViewModelTests {
     func appendPopupsAndCheckCornerRadius(popups: [AnyPopup], gestureTranslation: CGFloat, expectedValue: [MijickPopups.VerticalEdge: CGFloat]) {
         appendPopupsAndPerformChecks(
+            viewModel: bottomViewModel,
             popups: popups,
             gestureTranslation: gestureTranslation,
             calculatedValue: { [self] _ in bottomViewModel.testHook.calculateCornerRadius() },
@@ -760,6 +765,7 @@ extension PopupStackViewModelTests {
 private extension PopupStackViewModelTests {
     func appendPopupsAndCheckScaleX(popups: [AnyPopup], gestureTranslation: CGFloat, calculateForIndex index: Int, expectedValueBuilder: @escaping (ViewModel) -> CGFloat) {
         appendPopupsAndPerformChecks(
+            viewModel: bottomViewModel,
             popups: popups,
             gestureTranslation: gestureTranslation,
             calculatedValue: { [self] _ in bottomViewModel.testHook.calculateScaleX(for: bottomViewModel.popups[index]) },
@@ -830,6 +836,7 @@ extension PopupStackViewModelTests {
 private extension PopupStackViewModelTests {
     func appendPopupsAndCheckVerticalFixedSize(popups: [AnyPopup], gestureTranslation: CGFloat, calculateForIndex index: Int, expectedValue: Bool) {
         appendPopupsAndPerformChecks(
+            viewModel: bottomViewModel,
             popups: popups,
             gestureTranslation: gestureTranslation,
             calculatedValue: { [self] _ in bottomViewModel.testHook.calculateVerticalFixedSize(for: bottomViewModel.popups[index]) },
@@ -938,6 +945,7 @@ extension PopupStackViewModelTests {
 private extension PopupStackViewModelTests {
     func appendPopupsAndCheckStackOverlayOpacity(popups: [AnyPopup], gestureTranslation: CGFloat, calculateForIndex index: Int, expectedValueBuilder: @escaping (ViewModel) -> CGFloat) {
         appendPopupsAndPerformChecks(
+            viewModel: bottomViewModel,
             popups: popups,
             gestureTranslation: gestureTranslation,
             calculatedValue: { [self] _ in bottomViewModel.testHook.calculateStackOverlayOpacity(for: bottomViewModel.popups[index]) },
@@ -1157,17 +1165,17 @@ private extension PopupStackViewModelTests {
         popup.dragHeight = popupDragHeight
         return popup
     }
-    func appendPopupsAndPerformChecks<Value: Equatable>(popups: [AnyPopup], gestureTranslation: CGFloat, calculatedValue: @escaping (CGFloat?) -> (Value), expectedValueBuilder: @escaping (ViewModel) -> Value) {
-        bottomViewModel.popups = popups
-        bottomViewModel.popups = recalculatePopupHeights()
-        bottomViewModel.gestureTranslation = gestureTranslation
+    func appendPopupsAndPerformChecks<Value: Equatable>(viewModel: ViewModel, popups: [AnyPopup], gestureTranslation: CGFloat, calculatedValue: @escaping (CGFloat?) -> (Value), expectedValueBuilder: @escaping (ViewModel) -> Value) {
+        viewModel.popups = popups
+        viewModel.popups = recalculatePopupHeights()
+        viewModel.gestureTranslation = gestureTranslation
 
         let expect = expectation(description: "results")
-        bottomViewModel.$activePopupHeight
+        viewModel.$activePopupHeight
             .receive(on: RunLoop.main)
             .dropFirst(3)
-            .sink { [self] in
-                XCTAssertEqual(calculatedValue($0), expectedValueBuilder(bottomViewModel))
+            .sink {
+                XCTAssertEqual(calculatedValue($0), expectedValueBuilder(viewModel))
                 expect.fulfill()
             }
             .store(in: &cancellables)
