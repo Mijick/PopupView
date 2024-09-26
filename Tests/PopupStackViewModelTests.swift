@@ -1205,6 +1205,7 @@ extension PopupStackViewModelTests {
         ]
 
         appendPopupsAndCheckGestureTranslationOnEnd(
+            viewModel: bottomViewModel,
             popups: popups,
             gestureValue: -200,
             expectedValues: (popupHeight: 344, shouldPopupBeDismissed: false)
@@ -1216,6 +1217,7 @@ extension PopupStackViewModelTests {
         ]
 
         appendPopupsAndCheckGestureTranslationOnEnd(
+            viewModel: bottomViewModel,
             popups: popups,
             gestureValue: -200,
             expectedValues: (popupHeight: 440, shouldPopupBeDismissed: false)
@@ -1227,6 +1229,7 @@ extension PopupStackViewModelTests {
         ]
 
         appendPopupsAndCheckGestureTranslationOnEnd(
+            viewModel: bottomViewModel,
             popups: popups,
             gestureValue: -120,
             expectedValues: (popupHeight: 520, shouldPopupBeDismissed: false)
@@ -1238,6 +1241,7 @@ extension PopupStackViewModelTests {
         ]
 
         appendPopupsAndCheckGestureTranslationOnEnd(
+            viewModel: bottomViewModel,
             popups: popups,
             gestureValue: -42,
             expectedValues: (popupHeight: 440, shouldPopupBeDismissed: false)
@@ -1249,6 +1253,7 @@ extension PopupStackViewModelTests {
         ]
 
         appendPopupsAndCheckGestureTranslationOnEnd(
+            viewModel: bottomViewModel,
             popups: popups,
             gestureValue: -300,
             expectedValues: (popupHeight: screen.height - screen.safeArea.top, shouldPopupBeDismissed: false)
@@ -1260,6 +1265,7 @@ extension PopupStackViewModelTests {
         ]
 
         appendPopupsAndCheckGestureTranslationOnEnd(
+            viewModel: bottomViewModel,
             popups: popups,
             gestureValue: -600,
             expectedValues: (popupHeight: screen.height, shouldPopupBeDismissed: false)
@@ -1271,6 +1277,7 @@ extension PopupStackViewModelTests {
         ]
 
         appendPopupsAndCheckGestureTranslationOnEnd(
+            viewModel: bottomViewModel,
             popups: popups,
             gestureValue: 50,
             expectedValues: (popupHeight: 400, shouldPopupBeDismissed: false)
@@ -1282,6 +1289,7 @@ extension PopupStackViewModelTests {
         ]
 
         appendPopupsAndCheckGestureTranslationOnEnd(
+            viewModel: bottomViewModel,
             popups: popups,
             gestureValue: 300,
             expectedValues: (popupHeight: 400, shouldPopupBeDismissed: true)
