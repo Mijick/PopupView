@@ -1211,7 +1211,7 @@ extension PopupStackViewModelTests {
             expectedValues: (popupHeight: 344, shouldPopupBeDismissed: false)
         )
     }
-    func test_calculateValuesOnDragGestureEnded_withNegativeDragValue_whenDragDetentsSet_1() {
+    func test_calculateValuesOnDragGestureEnded_withNegativeDragValue_whenDragDetentsSet_bottomPopupsAlignment_1() {
         let popups = [
             createPopupInstanceForPopupHeightTests(heightMode: .auto, popupHeight: 344, dragDetents: [.fixed(440)])
         ]
@@ -1223,7 +1223,7 @@ extension PopupStackViewModelTests {
             expectedValues: (popupHeight: 440, shouldPopupBeDismissed: false)
         )
     }
-    func test_calculateValuesOnDragGestureEnded_withNegativeDragValue_whenDragDetentsSet_2() {
+    func test_calculateValuesOnDragGestureEnded_withNegativeDragValue_whenDragDetentsSet_bottomPopupsAlignment_2() {
         let popups = [
             createPopupInstanceForPopupHeightTests(heightMode: .auto, popupHeight: 344, dragDetents: [.fixed(440), .fixed(520)])
         ]
@@ -1235,7 +1235,7 @@ extension PopupStackViewModelTests {
             expectedValues: (popupHeight: 520, shouldPopupBeDismissed: false)
         )
     }
-    func test_calculateValuesOnDragGestureEnded_withNegativeDragValue_whenDragDetentsSet_3() {
+    func test_calculateValuesOnDragGestureEnded_withNegativeDragValue_whenDragDetentsSet_bottomPopupsAlignment_3() {
         let popups = [
             createPopupInstanceForPopupHeightTests(heightMode: .auto, popupHeight: 344, dragDetents: [.fixed(440), .fixed(520)])
         ]
@@ -1247,7 +1247,7 @@ extension PopupStackViewModelTests {
             expectedValues: (popupHeight: 440, shouldPopupBeDismissed: false)
         )
     }
-    func test_calculateValuesOnDragGestureEnded_withNegativeDragValue_whenDragDetentsSet_4() {
+    func test_calculateValuesOnDragGestureEnded_withNegativeDragValue_whenDragDetentsSet_bottomPopupsAlignment_4() {
         let popups = [
             createPopupInstanceForPopupHeightTests(heightMode: .auto, popupHeight: 344, dragDetents: [.fixed(440), .fixed(520), .large, .fullscreen])
         ]
@@ -1259,7 +1259,7 @@ extension PopupStackViewModelTests {
             expectedValues: (popupHeight: screen.height - screen.safeArea.top, shouldPopupBeDismissed: false)
         )
     }
-    func test_calculateValuesOnDragGestureEnded_withNegativeDragValue_whenDragDetentsSet_5() {
+    func test_calculateValuesOnDragGestureEnded_withNegativeDragValue_whenDragDetentsSet_bottomPopupsAlignment_5() {
         let popups = [
             createPopupInstanceForPopupHeightTests(heightMode: .auto, popupHeight: 344, dragDetents: [.fixed(440), .fixed(520), .large, .fullscreen])
         ]
