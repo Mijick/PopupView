@@ -188,6 +188,7 @@ extension PopupStackViewModelTests {
         ]
 
         appendPopupsAndCheckActivePopupHeight(
+            viewModel: bottomViewModel,
             popups: popups,
             gestureTranslation: 0,
             expectedValue: 100
@@ -201,6 +202,7 @@ extension PopupStackViewModelTests {
         ]
 
         appendPopupsAndCheckActivePopupHeight(
+            viewModel: bottomViewModel,
             popups: popups,
             gestureTranslation: 0,
             expectedValue: screen.height - screen.safeArea.top - 2 * bottomViewModel.testHook.stackOffset
@@ -214,6 +216,7 @@ extension PopupStackViewModelTests {
         ]
 
         appendPopupsAndCheckActivePopupHeight(
+            viewModel: bottomViewModel,
             popups: popups,
             gestureTranslation: 0,
             expectedValue: screen.height - screen.safeArea.top - 2 * bottomViewModel.testHook.stackOffset
@@ -226,6 +229,7 @@ extension PopupStackViewModelTests {
         ]
 
         appendPopupsAndCheckActivePopupHeight(
+            viewModel: bottomViewModel,
             popups: popups,
             gestureTranslation: -51,
             expectedValue: screen.height - screen.safeArea.top - bottomViewModel.testHook.stackOffset * 1 + 51
@@ -237,6 +241,7 @@ extension PopupStackViewModelTests {
         ]
 
         appendPopupsAndCheckActivePopupHeight(
+            viewModel: bottomViewModel,
             popups: popups,
             gestureTranslation: -99,
             expectedValue: screen.height - screen.safeArea.top + 99
@@ -249,6 +254,7 @@ extension PopupStackViewModelTests {
         ]
 
         appendPopupsAndCheckActivePopupHeight(
+            viewModel: bottomViewModel,
             popups: popups,
             gestureTranslation: -21,
             expectedValue: screen.height
@@ -262,6 +268,7 @@ extension PopupStackViewModelTests {
         ]
 
         appendPopupsAndCheckActivePopupHeight(
+            viewModel: bottomViewModel,
             popups: popups,
             gestureTranslation: 100,
             expectedValue: 850
@@ -273,6 +280,7 @@ extension PopupStackViewModelTests {
         ]
 
         appendPopupsAndCheckActivePopupHeight(
+            viewModel: bottomViewModel,
             popups: popups,
             gestureTranslation: 31,
             expectedValue: screen.height
@@ -285,6 +293,7 @@ extension PopupStackViewModelTests {
         ]
 
         appendPopupsAndCheckActivePopupHeight(
+            viewModel: bottomViewModel,
             popups: popups,
             gestureTranslation: -93,
             expectedValue: 500 + 100 + 93
@@ -296,6 +305,7 @@ extension PopupStackViewModelTests {
         ]
 
         appendPopupsAndCheckActivePopupHeight(
+            viewModel: bottomViewModel,
             popups: popups,
             gestureTranslation: 350,
             expectedValue: screen.height - screen.safeArea.top
@@ -1167,7 +1177,7 @@ private extension PopupStackViewModelTests {
     }
     func appendPopupsAndPerformChecks<Value: Equatable>(viewModel: ViewModel, popups: [AnyPopup], gestureTranslation: CGFloat, calculatedValue: @escaping (CGFloat?) -> (Value), expectedValueBuilder: @escaping (ViewModel) -> Value) {
         viewModel.popups = popups
-        viewModel.popups = recalculatePopupHeights()
+        viewModel.popups = recalculatePopupHeights(viewModel)
         viewModel.gestureTranslation = gestureTranslation
 
         let expect = expectation(description: "results")
@@ -1191,9 +1201,9 @@ private extension PopupStackViewModelTests {
         dragGestureEnabled: dragGestureEnabled,
         dragDetents: dragDetents
     )}
-    func recalculatePopupHeights() -> [AnyPopup] { bottomViewModel.popups.map {
+    func recalculatePopupHeights(_ viewModel: ViewModel) -> [AnyPopup] { viewModel.popups.map {
         var popup = $0
-        popup.height = bottomViewModel.testHook.calculatePopupHeight(height: $0.height!, popupConfig: $0.config as! Config)
+        popup.height = viewModel.testHook.calculatePopupHeight(height: $0.height!, popupConfig: $0.config as! Config)
         return popup
     }}
 }
