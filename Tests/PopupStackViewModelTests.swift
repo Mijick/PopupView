@@ -1383,7 +1383,7 @@ extension PopupStackViewModelTests {
             viewModel: topViewModel,
             popups: popups,
             gestureValue: -300,
-            expectedValues: (popupHeight: 344, shouldPopupBeDismissed: true)
+            expectedValues: (popupHeight: nil, shouldPopupBeDismissed: true)
         )
     }
     func test_calculateValuesOnDragGestureEnded_withNegativeDragValue_whenDragDetentsSet_topPopupsAlignment_2() {
@@ -1419,7 +1419,7 @@ extension PopupStackViewModelTests {
             viewModel: bottomViewModel,
             popups: popups,
             gestureValue: 300,
-            expectedValues: (popupHeight: 400, shouldPopupBeDismissed: true)
+            expectedValues: (popupHeight: nil, shouldPopupBeDismissed: true)
         )
     }
     func test_calculateValuesOnDragGestureEnded_withPositiveDragValue_topPopupsAlignment_1() {
@@ -1460,7 +1460,7 @@ extension PopupStackViewModelTests {
     }
 }
 private extension PopupStackViewModelTests {
-    func appendPopupsAndCheckGestureTranslationOnEnd(viewModel: ViewModel, popups: [AnyPopup], gestureValue: CGFloat, expectedValues: (popupHeight: CGFloat, shouldPopupBeDismissed: Bool)) {
+    func appendPopupsAndCheckGestureTranslationOnEnd(viewModel: ViewModel, popups: [AnyPopup], gestureValue: CGFloat, expectedValues: (popupHeight: CGFloat?, shouldPopupBeDismissed: Bool)) {
         viewModel.testHook.updatePopupsProperty(popups)
         viewModel.testHook.updatePopupsProperty(recalculatePopupHeights(viewModel))
         viewModel.testHook.updateGestureTranslation(gestureValue)
@@ -1468,8 +1468,8 @@ private extension PopupStackViewModelTests {
         viewModel.testHook.onPopupDragGestureEnded(gestureValue)
 
         let expect = expectation(description: "results")
-        viewModel.$activePopupHeight
-            .dropFirst(expectedValues.shouldPopupBeDismissed ? 4 : 6)
+        viewModel.objectWillChange
+            .dropFirst(expectedValues.shouldPopupBeDismissed ? 3 : 4)
             .sink { _ in
                 XCTAssertEqual(viewModel.popups.count, expectedValues.shouldPopupBeDismissed ? 0 : 1)
                 XCTAssertEqual(viewModel.activePopupHeight, expectedValues.popupHeight)
