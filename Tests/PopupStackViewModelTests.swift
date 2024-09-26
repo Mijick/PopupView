@@ -1295,11 +1295,41 @@ extension PopupStackViewModelTests {
             expectedValues: (popupHeight: 400, shouldPopupBeDismissed: true)
         )
     }
-    func test_1() {
-        
-    }
-    func test_2() {
+    func test_calculateValuesOnDragGestureEnded_withPositiveDragValue_topPopupsAlignment_1() {
+        let popups = [
+            createPopupInstanceForPopupHeightTests(heightMode: .auto, popupHeight: 400)
+        ]
 
+        appendPopupsAndCheckGestureTranslationOnEnd(
+            viewModel: topViewModel,
+            popups: popups,
+            gestureValue: 400,
+            expectedValues: (popupHeight: 400, shouldPopupBeDismissed: false)
+        )
+    }
+    func test_calculateValuesOnDragGestureEnded_withPositiveDragValue_topPopupsAlignment_2() {
+        let popups = [
+            createPopupInstanceForPopupHeightTests(heightMode: .auto, popupHeight: 400, dragDetents: [.large])
+        ]
+
+        appendPopupsAndCheckGestureTranslationOnEnd(
+            viewModel: topViewModel,
+            popups: popups,
+            gestureValue: 100,
+            expectedValues: (popupHeight: 400, shouldPopupBeDismissed: false)
+        )
+    }
+    func test_calculateValuesOnDragGestureEnded_withPositiveDragValue_topPopupsAlignment_3() {
+        let popups = [
+            createPopupInstanceForPopupHeightTests(heightMode: .auto, popupHeight: 400, dragDetents: [.large])
+        ]
+
+        appendPopupsAndCheckGestureTranslationOnEnd(
+            viewModel: topViewModel,
+            popups: popups,
+            gestureValue: 400,
+            expectedValues: (popupHeight: screen.height - screen.safeArea.bottom, shouldPopupBeDismissed: false)
+        )
     }
 }
 private extension PopupStackViewModelTests {
