@@ -11,7 +11,7 @@
 
 import SwiftUI
 
-extension PopupStackView { @MainActor class ViewModel: ObservableObject { init(alignment: VerticalEdge) { self.alignment = alignment }
+extension PopupStackView { class ViewModel: ObservableObject { init(alignment: VerticalEdge) { self.alignment = alignment }
     private(set) var alignment: VerticalEdge
     private(set) var popups: [AnyPopup] = []
 
@@ -25,7 +25,7 @@ extension PopupStackView { @MainActor class ViewModel: ObservableObject { init(a
 
     private(set) var activePopupHeight: CGFloat? = nil
     @Published private(set) var screen: ScreenProperties = .init()
-    @Published private(set) var isKeyboardActive: Bool = false
+    private var isKeyboardActive: Bool = false
 
 
     private var gestureTranslation: CGFloat = 0
@@ -53,6 +53,8 @@ extension PopupStackView.ViewModel {
     }
     func updateKeyboardProperty(_ isActive: Bool) {
         isKeyboardActive = isActive
+
+        Task { @MainActor in objectWillChange.send() }
     }
 }
 private extension PopupStackView.ViewModel {
