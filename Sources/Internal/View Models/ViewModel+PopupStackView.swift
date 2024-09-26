@@ -20,7 +20,7 @@ extension PopupStackView { @MainActor class ViewModel: ObservableObject { init(a
 
 
 
-    private var gestureTranslation: CGFloat = 0 { didSet { onGestureTranslationChanged() }}
+    private var gestureTranslation: CGFloat = 0
 
 
     private(set) var activePopupHeight: CGFloat? = nil
@@ -31,16 +31,6 @@ extension PopupStackView { @MainActor class ViewModel: ObservableObject { init(a
     
     private var translationProgress: CGFloat = 0
 }}
-private extension PopupStackView.ViewModel {
-    func onGestureTranslationChanged() {
-        translationProgress = calculateTranslationProgress()
-        activePopupHeight = calculateHeightForActivePopup()
-
-        Task { @MainActor in withAnimation(gestureTranslation == 0 ? .transition : nil) {
-            objectWillChange.send()
-        }}
-    }
-}
 
 // MARK: Setup
 extension PopupStackView.ViewModel {
@@ -63,6 +53,17 @@ extension PopupStackView.ViewModel {
     }
     func updateKeyboardProperty(_ isActive: Bool) {
         isKeyboardActive = isActive
+    }
+}
+private extension PopupStackView.ViewModel {
+    func updateGestureTranslation(_ newGestureTranslation: CGFloat) {
+        gestureTranslation = newGestureTranslation
+        translationProgress = calculateTranslationProgress()
+        activePopupHeight = calculateHeightForActivePopup()
+
+        Task { @MainActor in withAnimation(gestureTranslation == 0 ? .transition : nil) {
+            objectWillChange.send()
+        }}
     }
 }
 
@@ -362,13 +363,14 @@ extension PopupStackView.ViewModel {
 // MARK: On Changed
 extension PopupStackView.ViewModel {
     func onPopupDragGestureChanged(_ value: CGFloat) { if dragGestureEnabled {
-        updateGestureTranslation(value)
+        let newGestureTranslation = calculateGestureTranslation(value)
+        updateGestureTranslation(newGestureTranslation)
     }}
 }
 private extension PopupStackView.ViewModel {
-    func updateGestureTranslation(_ value: CGFloat) { switch activePopupConfig.dragDetents.isEmpty {
-        case true: gestureTranslation = calculateGestureTranslationWhenNoDragDetents(value)
-        case false: gestureTranslation = calculateGestureTranslationWhenDragDetents(value)
+    func calculateGestureTranslation(_ value: CGFloat) -> CGFloat { switch activePopupConfig.dragDetents.isEmpty {
+        case true: calculateGestureTranslationWhenNoDragDetents(value)
+        case false: calculateGestureTranslationWhenDragDetents(value)
     }}
 }
 private extension PopupStackView.ViewModel {
@@ -464,7 +466,7 @@ private extension PopupStackView.ViewModel {
         update(popup: activePopup) { $0.dragHeight = targetDragHeight }
     }}
     func resetGestureTranslation() {
-        gestureTranslation = 0
+        updateGestureTranslation(0)
     }
     func shouldDismissPopup() -> Bool {
         translationProgress >= gestureClosingThresholdFactor
