@@ -73,6 +73,47 @@ extension PopupStackViewModelTests {
     }
 }
 
+// MARK: Update Popup
+extension PopupStackViewModelTests {
+    func test_updatePopup_1() {
+        let popups = [
+            createPopupInstanceForPopupHeightTests(heightMode: .auto, popupHeight: 0)
+        ]
+
+        appendPopupsAndPerformChecksaaa(
+            viewModel: bottomViewModel,
+            popups: popups,
+            updatePopupAt: 0,
+            popupUpdateBuilder: { $0.height = 100; $0.dragHeight = 100 },
+            expectedValue: (height: 100, dragHeight: 100)
+        )
+    }
+    func test_updatePopup_2() {
+
+    }
+    func test_updatePopup_3() {
+
+    }
+}
+private extension PopupStackViewModelTests {
+    func appendPopupsAndPerformChecksaaa(viewModel: ViewModel, popups: [AnyPopup], updatePopupAt index: Int, popupUpdateBuilder: @escaping (inout AnyPopup) -> (), expectedValue: (height: CGFloat, dragHeight: CGFloat)) {
+        viewModel.popups = popups
+        viewModel.testHook.update(popup: popups[index], popupUpdateBuilder)
+
+        let expect = expectation(description: "results")
+        viewModel.$activePopupHeight
+            .receive(on: RunLoop.main)
+            .dropFirst(3)
+            .sink { _ in
+                XCTAssertEqual(viewModel.popups[index].height, expectedValue.height)
+                XCTAssertEqual(viewModel.popups[index].dragHeight, expectedValue.dragHeight)
+                expect.fulfill()
+            }
+            .store(in: &cancellables)
+        wait(for: [expect], timeout: 3)
+    }
+}
+
 // MARK: Popup Height
 extension PopupStackViewModelTests {
     func test_calculatePopupHeight_withAutoHeightMode_whenLessThanScreen_onePopupStacked() {
