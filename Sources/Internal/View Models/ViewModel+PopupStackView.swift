@@ -479,6 +479,7 @@ extension PopupStackView.ViewModel { struct TestHook {
     init(target: PopupStackView.ViewModel) { self.target = target }
 }}
 extension PopupStackView.ViewModel.TestHook {
+    @MainActor func getInvertedIndex(of popup: AnyPopup) -> Int { target.getInvertedIndex(of: popup) }
     @MainActor func calculatePopupHeight(height: CGFloat, popupConfig: Config) -> CGFloat { target.calculateHeight(height, popupConfig) }
     @MainActor func calculatePopupOffsetY(for popup: AnyPopup) -> CGFloat { target.calculateOffsetY(for: popup) }
     @MainActor func calculateBodyPadding(for popup: AnyPopup) -> EdgeInsets { target.calculateBodyPadding(for: popup) }
