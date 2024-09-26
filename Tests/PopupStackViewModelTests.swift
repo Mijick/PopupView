@@ -1030,7 +1030,7 @@ extension PopupStackViewModelTests {
 private extension PopupStackViewModelTests {
     func appendPopupsAndCheckGestureTranslationOnChange(popups: [AnyPopup], gestureValue: CGFloat, dragGestureEnabled: Bool, expectedValues: (popupHeight: CGFloat, gestureTranslation: CGFloat)) {
         bottomViewModel.popups = popups
-        bottomViewModel.popups = recalculatePopupHeights()
+        bottomViewModel.popups = recalculatePopupHeights(bottomViewModel)
         bottomViewModel.testHook.onPopupDragGestureChanged(gestureValue)
 
         let expect = expectation(description: "results")
@@ -1141,7 +1141,7 @@ extension PopupStackViewModelTests {
 private extension PopupStackViewModelTests {
     func appendPopupsAndCheckGestureTranslationOnEnd(popups: [AnyPopup], gestureValue: CGFloat, expectedValues: (popupHeight: CGFloat, shouldPopupBeDismissed: Bool)) {
         bottomViewModel.popups = popups
-        bottomViewModel.popups = recalculatePopupHeights()
+        bottomViewModel.popups = recalculatePopupHeights(bottomViewModel)
         bottomViewModel.gestureTranslation = gestureValue
         bottomViewModel.testHook.recalculateTranslationProgress()
         bottomViewModel.testHook.onPopupDragGestureEnded(gestureValue)
