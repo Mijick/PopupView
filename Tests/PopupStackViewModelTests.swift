@@ -732,6 +732,7 @@ extension PopupStackViewModelTests {
         ]
 
         appendPopupsAndCheckCornerRadius(
+            viewModel: bottomViewModel,
             popups: popups,
             gestureTranslation: 0,
             expectedValue: [.top: 12, .bottom: 0]
@@ -744,6 +745,7 @@ extension PopupStackViewModelTests {
         ]
 
         appendPopupsAndCheckCornerRadius(
+            viewModel: bottomViewModel,
             popups: popups,
             gestureTranslation: 0,
             expectedValue: [.top: 12, .bottom: 0]
@@ -756,6 +758,7 @@ extension PopupStackViewModelTests {
         ]
 
         appendPopupsAndCheckCornerRadius(
+            viewModel: bottomViewModel,
             popups: popups,
             gestureTranslation: 0,
             expectedValue: [.top: 12, .bottom: 12]
@@ -768,6 +771,7 @@ extension PopupStackViewModelTests {
         ]
 
         appendPopupsAndCheckCornerRadius(
+            viewModel: bottomViewModel,
             popups: popups,
             gestureTranslation: 0,
             expectedValue: [.top: 12, .bottom: 12]
@@ -779,6 +783,7 @@ extension PopupStackViewModelTests {
         ]
 
         appendPopupsAndCheckCornerRadius(
+            viewModel: bottomViewModel,
             popups: popups,
             gestureTranslation: 0,
             expectedValue: [.top: 0, .bottom: 0]
