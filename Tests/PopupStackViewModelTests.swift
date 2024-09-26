@@ -311,11 +311,23 @@ extension PopupStackViewModelTests {
             expectedValue: screen.height - screen.safeArea.top
         )
     }
+    func test_calculateActivePopupHeight_withPopupsHaveTopAlignment() {
+        let popups = [
+            createPopupInstanceForPopupHeightTests(heightMode: .large, popupHeight: 1300)
+        ]
+
+        appendPopupsAndCheckActivePopupHeight(
+            viewModel: topViewModel,
+            popups: popups,
+            gestureTranslation: 0,
+            expectedValue: screen.height - screen.safeArea.bottom
+        )
+    }
 }
 private extension PopupStackViewModelTests {
-    func appendPopupsAndCheckActivePopupHeight(popups: [AnyPopup], gestureTranslation: CGFloat, expectedValue: CGFloat) {
+    func appendPopupsAndCheckActivePopupHeight(viewModel: ViewModel, popups: [AnyPopup], gestureTranslation: CGFloat, expectedValue: CGFloat) {
         appendPopupsAndPerformChecks(
-            viewModel: bottomViewModel,
+            viewModel: viewModel,
             popups: popups,
             gestureTranslation: gestureTranslation,
             calculatedValue: { $0 },
