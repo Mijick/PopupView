@@ -824,6 +824,7 @@ extension PopupStackViewModelTests {
         ]
 
         appendPopupsAndCheckScaleX(
+            viewModel: bottomViewModel,
             popups: popups,
             gestureTranslation: 0,
             calculateForIndex: 2,
@@ -839,6 +840,7 @@ extension PopupStackViewModelTests {
         ]
 
         appendPopupsAndCheckScaleX(
+            viewModel: bottomViewModel,
             popups: popups,
             gestureTranslation: 0,
             calculateForIndex: 1,
@@ -854,6 +856,7 @@ extension PopupStackViewModelTests {
         ]
 
         appendPopupsAndCheckScaleX(
+            viewModel: bottomViewModel,
             popups: popups,
             gestureTranslation: -100,
             calculateForIndex: 2,
@@ -870,6 +873,7 @@ extension PopupStackViewModelTests {
         ]
 
         appendPopupsAndCheckScaleX(
+            viewModel: bottomViewModel,
             popups: popups,
             gestureTranslation: 100,
             calculateForIndex: 1,
@@ -878,9 +882,9 @@ extension PopupStackViewModelTests {
     }
 }
 private extension PopupStackViewModelTests {
-    func appendPopupsAndCheckScaleX(popups: [AnyPopup], gestureTranslation: CGFloat, calculateForIndex index: Int, expectedValueBuilder: @escaping (ViewModel) -> CGFloat) {
+    func appendPopupsAndCheckScaleX(viewModel: ViewModel, popups: [AnyPopup], gestureTranslation: CGFloat, calculateForIndex index: Int, expectedValueBuilder: @escaping (ViewModel) -> CGFloat) {
         appendPopupsAndPerformChecks(
-            viewModel: bottomViewModel,
+            viewModel: viewModel,
             popups: popups,
             gestureTranslation: gestureTranslation,
             calculatedValue: { $0.testHook.calculateScaleX(for: $0.popups[index]) },
