@@ -11,7 +11,7 @@
 
 import SwiftUI
 
-extension PopupStackView { @MainActor class ViewModel: ObservableObject {
+extension PopupStackView { @MainActor class ViewModel: ObservableObject { init(alignment: VerticalEdge) { self.alignment = alignment }
     let alignment: VerticalEdge
 
     var updatePopup: ((AnyPopup) -> ())? = nil
@@ -29,10 +29,6 @@ extension PopupStackView { @MainActor class ViewModel: ObservableObject {
 
     
     private(set) var translationProgress: CGFloat = 0
-
-
-    // MARK: Initialiser
-    init(alignment: VerticalEdge) { self.alignment = alignment }
 }}
 private extension PopupStackView.ViewModel {
     func onPopupsChanged() {
