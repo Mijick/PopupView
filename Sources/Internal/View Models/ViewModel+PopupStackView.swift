@@ -506,6 +506,7 @@ extension PopupStackView.ViewModel.TestHook {
     @MainActor func calculatePopupPadding() -> EdgeInsets { target.calculatePopupPadding() }
     @MainActor func recalculateActivePopupHeight() { target.activePopupHeight = target.calculateHeightForActivePopup() }
     @MainActor func recalculateTranslationProgress() { target.translationProgress = target.calculateTranslationProgress() }
+    @MainActor func updateScreenProperty(_ newScreen: ScreenProperties) { target.updateScreenProperty(newScreen) }
 
     @MainActor func onPopupDragGestureChanged(_ value: CGFloat) { target.onPopupDragGestureChanged(value) }
     @MainActor func onPopupDragGestureEnded(_ value: CGFloat) { target.onPopupDragGestureEnded(value) }
