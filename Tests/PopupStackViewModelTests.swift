@@ -106,7 +106,22 @@ extension PopupStackViewModelTests {
         )
     }
     func test_updatePopup_3() {
+        let popups = [
+            createPopupInstanceForPopupHeightTests(heightMode: .auto, popupHeight: 100),
+            createPopupInstanceForPopupHeightTests(heightMode: .auto, popupHeight: 50),
+            createPopupInstanceForPopupHeightTests(heightMode: .auto, popupHeight: 25),
+            createPopupInstanceForPopupHeightTests(heightMode: .auto, popupHeight: 15),
+            createPopupInstanceForPopupHeightTests(heightMode: .auto, popupHeight: 2137),
+            createPopupInstanceForPopupHeightTests(heightMode: .auto, popupHeight: 77)
+        ]
 
+        appendPopupsAndPerformChecksaaa(
+            viewModel: bottomViewModel,
+            popups: popups,
+            updatePopupAt: 4,
+            popupUpdateBuilder: { $0.height = nil },
+            expectedValue: (height: nil, dragHeight: nil)
+        )
     }
 }
 private extension PopupStackViewModelTests {
