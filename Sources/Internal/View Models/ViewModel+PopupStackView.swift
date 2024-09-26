@@ -12,10 +12,9 @@
 import SwiftUI
 
 extension PopupStackView { @MainActor class ViewModel: ObservableObject { init(alignment: VerticalEdge) { self.alignment = alignment }
-    let alignment: VerticalEdge
-
-    var updatePopup: ((AnyPopup) -> ())? = nil
-    var closePopup: ((AnyPopup?) -> ())? = nil
+    private(set) var alignment: VerticalEdge
+    private(set) var updatePopupAction: ((AnyPopup) -> ())!
+    private(set) var closePopupAction: ((AnyPopup) -> ())!
 
 
 
@@ -54,11 +53,19 @@ private extension PopupStackView.ViewModel {
     }
 }
 
+// MARK: Setup
+extension PopupStackView.ViewModel {
+    func setup(updatePopupAction: @escaping (AnyPopup) -> (), closePopupAction: @escaping (AnyPopup) -> ()) {
+        self.updatePopupAction = updatePopupAction
+        self.closePopupAction = closePopupAction
+    }
+}
+
 extension PopupStackView.ViewModel {
     func update(popup: AnyPopup, _ action: @escaping (inout AnyPopup) -> ()) { Task { @MainActor in
         var popup = popup
         action(&popup)
-        updatePopup?(popup)
+        updatePopupAction(popup)
     }}
 }
 

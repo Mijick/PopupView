@@ -50,10 +50,8 @@ private extension PopupView {
             .onTapGesture(perform: onTap)
             .onChange(popupManager.views.isEmpty, completion: onViewsCountChange)
             .onAppear() {
-                topStackViewModel.updatePopup = updatePopup
-                topStackViewModel.closePopup = closePopup
-                bottomStackViewModel.updatePopup = updatePopup
-                bottomStackViewModel.closePopup = closePopup
+                topStackViewModel.setup(updatePopupAction: updatePopup, closePopupAction: closePopup)
+                bottomStackViewModel.setup(updatePopupAction: updatePopup, closePopupAction: closePopup)
             }
             .onChange(of: popupManager.views.map { [$0.height, $0.dragHeight] }) { _ in
                 topStackViewModel.popups = getViews(TopPopupConfig.self)
