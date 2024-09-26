@@ -902,6 +902,7 @@ extension PopupStackViewModelTests {
         ]
 
         appendPopupsAndCheckVerticalFixedSize(
+            viewModel: bottomViewModel,
             popups: popups,
             gestureTranslation: 0,
             calculateForIndex: 1,
@@ -915,6 +916,7 @@ extension PopupStackViewModelTests {
         ]
 
         appendPopupsAndCheckVerticalFixedSize(
+            viewModel: bottomViewModel,
             popups: popups,
             gestureTranslation: 0,
             calculateForIndex: 1,
@@ -929,6 +931,7 @@ extension PopupStackViewModelTests {
         ]
 
         appendPopupsAndCheckVerticalFixedSize(
+            viewModel: bottomViewModel,
             popups: popups,
             gestureTranslation: 0,
             calculateForIndex: 2,
@@ -945,6 +948,7 @@ extension PopupStackViewModelTests {
         ]
 
         appendPopupsAndCheckVerticalFixedSize(
+            viewModel: bottomViewModel,
             popups: popups,
             gestureTranslation: 0,
             calculateForIndex: 4,
@@ -953,9 +957,9 @@ extension PopupStackViewModelTests {
     }
 }
 private extension PopupStackViewModelTests {
-    func appendPopupsAndCheckVerticalFixedSize(popups: [AnyPopup], gestureTranslation: CGFloat, calculateForIndex index: Int, expectedValue: Bool) {
+    func appendPopupsAndCheckVerticalFixedSize(viewModel: ViewModel, popups: [AnyPopup], gestureTranslation: CGFloat, calculateForIndex index: Int, expectedValue: Bool) {
         appendPopupsAndPerformChecks(
-            viewModel: bottomViewModel,
+            viewModel: viewModel,
             popups: popups,
             gestureTranslation: gestureTranslation,
             calculatedValue: { $0.testHook.calculateVerticalFixedSize(for: $0.popups[index]) },
