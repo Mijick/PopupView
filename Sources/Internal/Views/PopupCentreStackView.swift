@@ -35,10 +35,10 @@ private extension PopupCentreStackView {
             .background(backgroundColour, overlayColour: .clear, corners: [.top: cornerRadius, .bottom: cornerRadius], shadow: popupShadow)
             .padding(.horizontal, config.horizontalPadding)
             .opacity(getOpacity(popup))
-            .compositingGroup()
             .focusSectionIfAvailable()
             .padding(.bottom, viewModel.isKeyboardActive ? viewModel.screen.safeArea.bottom : nil)
             .zIndex(2137)
+            .compositingGroup()
     }
 }
 
