@@ -40,7 +40,6 @@ private extension PopupStackView {
             .focusSectionIfAvailable()
             .padding(viewModel.calculatePopupPadding())
             .transition(transition)
-            .zIndex(viewModel.calculateZIndex(for: popup))
             .compositingGroup()
     }
 }

@@ -254,7 +254,7 @@ extension PopupStackView.ViewModel {
 extension PopupStackView.ViewModel {
     func calculateStackOverlayOpacity(for popup: AnyPopup) -> Double {
         guard popup != popups.last else { return 0 }
-        
+
         let invertedIndex = getInvertedIndex(of: popup),
             remainingTranslationProgress = 1 - translationProgress
 
@@ -310,15 +310,6 @@ private extension PopupStackView.ViewModel {
 
 
 
-
-
-
-// MARK: - Item ZIndex
-extension PopupStackView.ViewModel {
-    func calculateZIndex(for popup: AnyPopup) -> Double {
-        .init(popups.firstIndex(of: popup) ?? 2137)
-    }
-}
 
 
 
