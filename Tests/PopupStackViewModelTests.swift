@@ -86,7 +86,7 @@ extension PopupStackViewModelTests {
             createPopupInstanceForPopupHeightTests(heightMode: .auto, popupHeight: 0)
         ]
 
-        appendPopupsAndPerformChecksaaa(
+        appendPopupsAndCheckPopups(
             viewModel: bottomViewModel,
             popups: popups,
             updatePopupAt: 0,
@@ -103,7 +103,7 @@ extension PopupStackViewModelTests {
             createPopupInstanceForPopupHeightTests(heightMode: .auto, popupHeight: 2137)
         ]
 
-        appendPopupsAndPerformChecksaaa(
+        appendPopupsAndCheckPopups(
             viewModel: bottomViewModel,
             popups: popups,
             updatePopupAt: 2,
@@ -121,7 +121,7 @@ extension PopupStackViewModelTests {
             createPopupInstanceForPopupHeightTests(heightMode: .auto, popupHeight: 77)
         ]
 
-        appendPopupsAndPerformChecksaaa(
+        appendPopupsAndCheckPopups(
             viewModel: bottomViewModel,
             popups: popups,
             updatePopupAt: 4,
@@ -131,14 +131,14 @@ extension PopupStackViewModelTests {
     }
 }
 private extension PopupStackViewModelTests {
-    func appendPopupsAndPerformChecksaaa(viewModel: ViewModel, popups: [AnyPopup], updatePopupAt index: Int, popupUpdateBuilder: @escaping (inout AnyPopup) -> (), expectedValue: (height: CGFloat?, dragHeight: CGFloat?)) {
+    func appendPopupsAndCheckPopups(viewModel: ViewModel, popups: [AnyPopup], updatePopupAt index: Int, popupUpdateBuilder: @escaping (inout AnyPopup) -> (), expectedValue: (height: CGFloat?, dragHeight: CGFloat?)) {
         viewModel.testHook.updatePopupsProperty(popups)
         viewModel.testHook.update(popup: popups[index], popupUpdateBuilder)
 
         let expect = expectation(description: "results")
         viewModel.objectWillChange
             .receive(on: RunLoop.main)
-            .dropFirst(1)
+            .dropFirst(2)
             .sink { _ in
                 XCTAssertEqual(viewModel.popups[index].height, expectedValue.height)
                 XCTAssertEqual(viewModel.popups[index].dragHeight, expectedValue.dragHeight)
@@ -1289,7 +1289,7 @@ private extension PopupStackViewModelTests {
         let expect = expectation(description: "results")
         viewModel.objectWillChange
             .receive(on: RunLoop.main)
-            .dropFirst(dragGestureEnabled ? 2 : 1)
+            .dropFirst(dragGestureEnabled ? 3 : 2)
             .sink { _ in
                 XCTAssertEqual(viewModel.activePopupHeight, expectedValues.popupHeight)
                 XCTAssertEqual(viewModel.testHook.gestureTranslation, expectedValues.gestureTranslation)
@@ -1469,7 +1469,7 @@ private extension PopupStackViewModelTests {
 
         let expect = expectation(description: "results")
         viewModel.objectWillChange
-            .dropFirst(expectedValues.shouldPopupBeDismissed ? 3 : 4)
+            .dropFirst(expectedValues.shouldPopupBeDismissed ? 4 : 5)
             .sink { _ in
                 XCTAssertEqual(viewModel.popups.count, expectedValues.shouldPopupBeDismissed ? 0 : 1)
                 XCTAssertEqual(viewModel.activePopupHeight, expectedValues.popupHeight)
@@ -1504,7 +1504,7 @@ private extension PopupStackViewModelTests {
         let expect = expectation(description: "results")
         viewModel.objectWillChange
             .receive(on: RunLoop.main)
-            .dropFirst(2)
+            .dropFirst(3)
             .sink { _ in
                 XCTAssertEqual(calculatedValue(viewModel), expectedValueBuilder(viewModel))
                 expect.fulfill()

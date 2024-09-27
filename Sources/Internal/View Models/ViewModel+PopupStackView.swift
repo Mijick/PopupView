@@ -26,7 +26,7 @@ extension PopupStackView { class ViewModel: ObservableObject { init(alignment: V
     private var closePopupAction: ((AnyPopup) -> ())!
 }}
 
-// MARK: Setup
+// MARK: - Setup
 extension PopupStackView.ViewModel {
     func setup(updatePopupAction: @escaping (AnyPopup) -> (), closePopupAction: @escaping (AnyPopup) -> ()) {
         self.updatePopupAction = updatePopupAction
@@ -34,20 +34,20 @@ extension PopupStackView.ViewModel {
     }
 }
 
-// MARK: Updating
+// MARK: - Update
 extension PopupStackView.ViewModel {
-    func updatePopupsProperty(_ newPopups: [AnyPopup]) {
+    func updatePopupsValue(_ newPopups: [AnyPopup]) {
         popups = newPopups
         activePopupHeight = calculateHeightForActivePopup()
 
         Task { @MainActor in withAnimation(.transition) { objectWillChange.send() }}
     }
-    func updateScreenProperty(_ newScreen: ScreenProperties) {
+    func updateScreenValue(_ newScreen: ScreenProperties) {
         screen = newScreen
 
         Task { @MainActor in objectWillChange.send() }
     }
-    func updateKeyboardProperty(_ isActive: Bool) {
+    func updateKeyboardValue(_ isActive: Bool) {
         isKeyboardActive = isActive
 
         Task { @MainActor in objectWillChange.send() }
@@ -500,13 +500,13 @@ extension PopupStackView.ViewModel.TestHook {
     @MainActor func calculatePopupPadding() -> EdgeInsets { target.calculatePopupPadding() }
     @MainActor func recalculateActivePopupHeight() { target.activePopupHeight = target.calculateHeightForActivePopup() }
     @MainActor func recalculateTranslationProgress() { target.translationProgress = target.calculateTranslationProgress() }
-    @MainActor func updateScreenProperty(_ newScreen: ScreenProperties) { target.updateScreenProperty(newScreen) }
+    @MainActor func updateScreenProperty(_ newScreen: ScreenProperties) { target.updateScreenValue(newScreen) }
 
     @MainActor func onPopupDragGestureChanged(_ value: CGFloat) { target.onPopupDragGestureChanged(value) }
     @MainActor func onPopupDragGestureEnded(_ value: CGFloat) { target.onPopupDragGestureEnded(value) }
 
 
-    @MainActor func updatePopupsProperty(_ newPopups: [AnyPopup]) { target.updatePopupsProperty(newPopups) }
+    @MainActor func updatePopupsProperty(_ newPopups: [AnyPopup]) { target.updatePopupsValue(newPopups) }
     @MainActor func updateGestureTranslation(_ newGestureTranslation: CGFloat) { target.updateGestureTranslation(newGestureTranslation) }
 }
 extension PopupStackView.ViewModel.TestHook {
