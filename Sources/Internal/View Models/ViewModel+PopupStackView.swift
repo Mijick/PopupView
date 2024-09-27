@@ -66,7 +66,7 @@ extension PopupStackView.ViewModel {
 
 
 
-// MARK: Calculating Height For Active Popup
+// MARK: Height For Active Popup
 private extension PopupStackView.ViewModel {
     func calculateHeightForActivePopup() -> CGFloat? {
         guard let activePopupHeight = popups.last?.height else { return nil }
@@ -86,7 +86,7 @@ private extension PopupStackView.ViewModel {
     }}
 }
 
-// MARK: - Translation Progress
+// MARK: Translation Progress
 private extension PopupStackView.ViewModel {
     func calculateTranslationProgress() -> CGFloat { guard let activePopupHeight = popups.last?.height else { return 0 }; return switch alignment {
         case .top: abs(min(gestureTranslation + (popups.last?.dragHeight ?? 0), 0)) / activePopupHeight
@@ -94,7 +94,7 @@ private extension PopupStackView.ViewModel {
     }}
 }
 
-// MARK: - Calculating Paddings For Popup Body
+// MARK: Paddings For Popup Body
 extension PopupStackView.ViewModel {
     func calculateBodyPadding(for popup: AnyPopup) -> EdgeInsets { let activePopupHeight = activePopupHeight ?? 0, popupConfig = getConfig(popup); return .init(
         top: calculateTopBodyPadding(activePopupHeight: activePopupHeight, popupConfig: popupConfig),
@@ -140,7 +140,7 @@ private extension PopupStackView.ViewModel {
     }
 }
 
-// MARK: - Popup Padding
+// MARK: Popup Padding
 extension PopupStackView.ViewModel {
     func calculatePopupPadding() -> EdgeInsets { .init(
         top: calculateVerticalPopupPadding(for: .top),
@@ -176,7 +176,7 @@ private extension PopupStackView.ViewModel {
 
 
 
-// MARK: - Calculating Corner Radius
+// MARK: Corner Radius
 extension PopupStackView.ViewModel {
     func calculateCornerRadius() -> [VerticalEdge: CGFloat] {
         let cornerRadiusValue = calculateCornerRadiusValue(activePopupConfig)
@@ -209,7 +209,7 @@ extension PopupStackView.ViewModel {
 }
 
 
-// MARK: - Saving Height For Item
+// MARK: Saving Height For Item
 extension PopupStackView.ViewModel {
     func save(height: CGFloat, for popup: AnyPopup) { if gestureTranslation.isZero {
         let popupConfig = getConfig(popup)
@@ -247,7 +247,7 @@ private extension PopupStackView.ViewModel {
     }
 }
 
-// MARK: - Calculating Offset
+// MARK: Offset
 extension PopupStackView.ViewModel {
     func calculateOffsetY(for popup: AnyPopup) -> CGFloat { switch popup == popups.last {
         case true: calculateOffsetForActivePopup()
@@ -275,7 +275,7 @@ private extension PopupStackView.ViewModel {
     }
 }
 
-// MARK: - Calculating Scale
+// MARK: Scale
 extension PopupStackView.ViewModel {
     func calculateScaleX(for popup: AnyPopup) -> CGFloat { guard popup != popups.last else { return 1 }
         let invertedIndex = getInvertedIndex(of: popup),
@@ -290,7 +290,7 @@ private extension PopupStackView.ViewModel {
     var minScaleProgressMultiplier: CGFloat { 0.7 }
 }
 
-// MARK: - Fixed Size
+// MARK: Fixed Size
 extension PopupStackView.ViewModel {
     func calculateVerticalFixedSize(for popup: AnyPopup) -> Bool { switch getConfig(popup).heightMode {
         case .fullscreen, .large: false
@@ -318,12 +318,12 @@ private extension PopupStackView.ViewModel {
 
 
 
-// MARK: - Attributes
+// MARK: Attributes
 extension PopupStackView.ViewModel {
     var activePopupConfig: Config { getConfig(popups.last) }
 }
 
-// MARK: - Configurable Attributes
+// MARK: Configurable Attributes
 extension PopupStackView.ViewModel {
     var stackOffset: CGFloat { ConfigContainer.vertical.isStackingPossible ? 8 : 0 }
     var stackScaleFactor: CGFloat { 0.025 }
@@ -333,7 +333,7 @@ extension PopupStackView.ViewModel {
     var dragGestureEnabled: Bool { activePopupConfig.dragGestureEnabled }
 }
 
-// MARK: - Helpers
+// MARK: Helpers
 extension PopupStackView.ViewModel {
     func getInvertedIndex(of popup: AnyPopup) -> Int {
         let index = popups.firstIndex(of: popup) ?? 0
@@ -347,7 +347,10 @@ extension PopupStackView.ViewModel {
 }
 
 
+
 // MARK: - Gestures
+
+
 
 // MARK: On Changed
 extension PopupStackView.ViewModel {
@@ -483,7 +486,7 @@ private extension PopupStackView.ViewModel {
 
 
 
-// MARK: - Testing
+// MARK: - Test Methods
 #if DEBUG
 extension PopupStackView.ViewModel {
     var testHook: TestHook { .init(target: self) }
