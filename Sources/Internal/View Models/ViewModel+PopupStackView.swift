@@ -76,7 +76,9 @@ extension PopupStackView.ViewModel {
     )}
 }
 private extension PopupStackView.ViewModel {
-    func calculateVerticalPopupPadding(for edge: VerticalEdge) -> CGFloat { guard let activePopupHeight else { return 0 }
+    func calculateVerticalPopupPadding(for edge: VerticalEdge) -> CGFloat {
+        guard let activePopupHeight else { return 0 }
+        
         let largeScreenHeight = calculateLargeScreenHeight(),
             priorityPopupPaddingValue = calculatePriorityPopupPaddingValue(for: edge),
             remainingHeight = largeScreenHeight - activePopupHeight - priorityPopupPaddingValue
