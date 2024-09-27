@@ -284,7 +284,7 @@ extension PopupStackViewModelTests {
 }
 private extension PopupStackViewModelTests {
     func calculateLastPopupHeight(_ viewModel: ViewModel) -> CGFloat {
-        viewModel.testHook.calculatePopupHeight(height: viewModel.popups.last!.height!, popupConfig: viewModel.popups.last!.config as! Config)
+        viewModel.testHook.calculateHeight(height: viewModel.popups.last!.height!, popupConfig: viewModel.popups.last!.config as! Config)
     }
 }
 
@@ -456,7 +456,7 @@ extension PopupStackViewModelTests {
         ])
 
         XCTAssertEqual(
-            bottomViewModel.testHook.calculatePopupOffsetY(for: bottomViewModel.popups[2]),
+            bottomViewModel.testHook.calculateOffsetY(for: bottomViewModel.popups[2]),
             -bottomViewModel.testHook.stackOffset * 2
         )
     }
@@ -470,7 +470,7 @@ extension PopupStackViewModelTests {
         ])
 
         XCTAssertEqual(
-            bottomViewModel.testHook.calculatePopupOffsetY(for: bottomViewModel.popups[4]),
+            bottomViewModel.testHook.calculateOffsetY(for: bottomViewModel.popups[4]),
             0
         )
     }
@@ -481,7 +481,7 @@ extension PopupStackViewModelTests {
         bottomViewModel.testHook.updateGestureTranslation(-100)
 
         XCTAssertEqual(
-            bottomViewModel.testHook.calculatePopupOffsetY(for: bottomViewModel.popups[0]),
+            bottomViewModel.testHook.calculateOffsetY(for: bottomViewModel.popups[0]),
             0
         )
     }
@@ -493,7 +493,7 @@ extension PopupStackViewModelTests {
         bottomViewModel.testHook.updateGestureTranslation(100)
 
         XCTAssertEqual(
-            bottomViewModel.testHook.calculatePopupOffsetY(for: bottomViewModel.popups[0]),
+            bottomViewModel.testHook.calculateOffsetY(for: bottomViewModel.popups[0]),
             -bottomViewModel.testHook.stackOffset
         )
     }
@@ -505,7 +505,7 @@ extension PopupStackViewModelTests {
         bottomViewModel.testHook.updateGestureTranslation(100)
 
         XCTAssertEqual(
-            bottomViewModel.testHook.calculatePopupOffsetY(for: bottomViewModel.popups[1]),
+            bottomViewModel.testHook.calculateOffsetY(for: bottomViewModel.popups[1]),
             100 - 21
         )
     }
@@ -517,7 +517,7 @@ extension PopupStackViewModelTests {
         ConfigContainer.vertical.isStackingPossible = false
 
         XCTAssertEqual(
-            bottomViewModel.testHook.calculatePopupOffsetY(for: bottomViewModel.popups[0]),
+            bottomViewModel.testHook.calculateOffsetY(for: bottomViewModel.popups[0]),
             0
         )
     }
@@ -528,7 +528,7 @@ extension PopupStackViewModelTests {
         ])
 
         XCTAssertEqual(
-            topViewModel.testHook.calculatePopupOffsetY(for: topViewModel.popups[0]),
+            topViewModel.testHook.calculateOffsetY(for: topViewModel.popups[0]),
             topViewModel.testHook.stackOffset
         )
     }
@@ -540,7 +540,7 @@ extension PopupStackViewModelTests {
         topViewModel.testHook.updateGestureTranslation(-100)
 
         XCTAssertEqual(
-            topViewModel.testHook.calculatePopupOffsetY(for: topViewModel.popups[1]),
+            topViewModel.testHook.calculateOffsetY(for: topViewModel.popups[1]),
             21 - 100
         )
     }
@@ -1533,7 +1533,7 @@ private extension PopupStackViewModelTests {
     )}
     func recalculatePopupHeights(_ viewModel: ViewModel) -> [AnyPopup] { viewModel.popups.map {
         var popup = $0
-        popup.height = viewModel.testHook.calculatePopupHeight(height: $0.height!, popupConfig: $0.config as! Config)
+        popup.height = viewModel.testHook.calculateHeight(height: $0.height!, popupConfig: $0.config as! Config)
         return popup
     }}
 }

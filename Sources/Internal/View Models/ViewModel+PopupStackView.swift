@@ -516,17 +516,31 @@ extension PopupStackView.ViewModel { struct TestHook { init(target: PopupStackVi
 
 // MARK: Methods
 extension PopupStackView.ViewModel.TestHook {
+    @MainActor func calculatePopupPadding() -> EdgeInsets { target.calculatePopupPadding() }
+    @MainActor func calculateBodyPadding(for popup: AnyPopup) -> EdgeInsets { target.calculateBodyPadding(for: popup) }
+    @MainActor func calculateHeight(height: CGFloat, popupConfig: Config) -> CGFloat { target.calculateHeight(height, popupConfig) }
+    @MainActor func calculateOffsetY(for popup: AnyPopup) -> CGFloat { target.calculateOffsetY(for: popup) }
+    @MainActor func calculateScaleX(for popup: AnyPopup) -> CGFloat { target.calculateScaleX(for: popup) }
+    @MainActor func calculateVerticalFixedSize(for popup: AnyPopup) -> Bool { target.calculateVerticalFixedSize(for: popup) }
+    @MainActor func calculateStackOverlayOpacity(for popup: AnyPopup) -> CGFloat { target.calculateStackOverlayOpacity(for: popup) }
+    @MainActor func calculateCornerRadius() -> [VerticalEdge: CGFloat] { target.calculateCornerRadius() }
+    @MainActor func calculateTranslationProgress() -> CGFloat { target.calculateTranslationProgress() }
+
+
+
+
+
+
+
+
+
+
+
+
+
     @MainActor func getInvertedIndex(of popup: AnyPopup) -> Int { target.getInvertedIndex(of: popup) }
     @MainActor func update(popup: AnyPopup, _ action: @escaping (inout AnyPopup) -> ()) { target.updatePopup(popup, by: action) }
-    @MainActor func calculatePopupHeight(height: CGFloat, popupConfig: Config) -> CGFloat { target.calculateHeight(height, popupConfig) }
-    @MainActor func calculatePopupOffsetY(for popup: AnyPopup) -> CGFloat { target.calculateOffsetY(for: popup) }
-    @MainActor func calculateBodyPadding(for popup: AnyPopup) -> EdgeInsets { target.calculateBodyPadding(for: popup) }
-    @MainActor func calculateTranslationProgress() -> CGFloat { target.calculateTranslationProgress() }
-    @MainActor func calculateCornerRadius() -> [VerticalEdge: CGFloat] { target.calculateCornerRadius() }
-    @MainActor func calculateScaleX(for popup: AnyPopup) -> CGFloat { target.calculateScaleX(for: popup) }
-    @MainActor func calculateStackOverlayOpacity(for popup: AnyPopup) -> CGFloat { target.calculateStackOverlayOpacity(for: popup) }
-    @MainActor func calculateVerticalFixedSize(for popup: AnyPopup) -> Bool { target.calculateVerticalFixedSize(for: popup) }
-    @MainActor func calculatePopupPadding() -> EdgeInsets { target.calculatePopupPadding() }
+
     @MainActor func recalculateActivePopupHeight() { target.activePopupHeight = target.calculateHeightForActivePopup() }
     @MainActor func recalculateTranslationProgress() { target.translationProgress = target.calculateTranslationProgress() }
     @MainActor func updateScreenProperty(_ newScreen: ScreenProperties) { target.updateScreenValue(newScreen) }
