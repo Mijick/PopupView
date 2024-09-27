@@ -346,7 +346,7 @@ private extension PopupStackView.ViewModel {
 
 
 
-// MARK: - Gestures
+// MARK: - GESTURES
 
 
 
@@ -486,7 +486,14 @@ private extension PopupStackView.ViewModel {
 
 
 
-// MARK: - Test Methods
+
+
+// MARK: - TEST METHODS
+
+
+
+
+
 #if DEBUG
 extension PopupStackView.ViewModel {
     var testHook: TestHook { .init(target: self) }
