@@ -18,6 +18,7 @@ struct PopupView: View {
     @ObservedObject private var keyboardManager: KeyboardManager = .shared
     @ObservedObject private var screenManager: ScreenManager = .shared
     @StateObject private var topStackViewModel: PopupStackView.ViewModel = .init(alignment: .top)
+    @StateObject private var centreStackViewModel: PopupCentreStackView.ViewModel = .init()
     @StateObject private var bottomStackViewModel: PopupStackView.ViewModel = .init(alignment: .bottom)
 
 
@@ -51,18 +52,22 @@ private extension PopupView {
             .onChange(popupManager.views.isEmpty, completion: onViewsCountChange)
             .onAppear() {
                 topStackViewModel.setup(updatePopupAction: updatePopup, closePopupAction: closePopup)
+                centreStackViewModel.setup(updatePopupAction: updatePopup, closePopupAction: closePopup)
                 bottomStackViewModel.setup(updatePopupAction: updatePopup, closePopupAction: closePopup)
             }
             .onChange(of: popupManager.views.map { [$0.height, $0.dragHeight] }) { _ in
                 topStackViewModel.updatePopupsValue(getViews(TopPopupConfig.self))
+                centreStackViewModel.updatePopupsValue(getViews(CentrePopupConfig.self))
                 bottomStackViewModel.updatePopupsValue(getViews(BottomPopupConfig.self))
             }
             .onChange(of: keyboardManager.isActive) { _ in
                 topStackViewModel.updateKeyboardValue(keyboardManager.isActive)
+                centreStackViewModel.updateKeyboardValue(keyboardManager.isActive)
                 bottomStackViewModel.updateKeyboardValue(keyboardManager.isActive)
             }
             .onChange(of: screenManager.properties) { _ in
                 topStackViewModel.updateScreenValue(screenManager.properties)
+                centreStackViewModel.updateScreenValue(screenManager.properties)
                 bottomStackViewModel.updateScreenValue(screenManager.properties)
             }
     }
@@ -86,8 +91,7 @@ private extension PopupView {
         PopupStackView(viewModel: topStackViewModel).zIndex(zIndex.top)
     }
     func createCentrePopupStackView() -> some View {
-        EmptyView()
-        //PopupCentreStackView(items: getViews(CentrePopupConfig.self)).zIndex(zIndex.centre)
+        PopupCentreStackView(viewModel: centreStackViewModel).zIndex(zIndex.centre)
     }
     func createBottomPopupStackView() -> some View {
         PopupStackView(viewModel: bottomStackViewModel).zIndex(zIndex.bottom)
