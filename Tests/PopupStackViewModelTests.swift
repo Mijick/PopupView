@@ -48,7 +48,12 @@ private extension PopupStackViewModelTests {
 
 
 
-// MARK: - Test Cases
+
+
+// MARK: - TEST CASES
+
+
+
 
 
 // MARK: Inverted Index
@@ -1170,7 +1175,7 @@ extension PopupStackViewModelTests {
             popups: popups,
             gestureTranslation: 241,
             calculateForIndex: 2,
-            expectedValueBuilder: { (1 - $0.testHook.calculateTranslationProgress()) * $0.stackOverlayFactor }
+            expectedValueBuilder: { (1 - $0.testHook.calculateTranslationProgress()) * $0.testHook.stackOverlayFactor }
         )
     }
 }
@@ -1482,7 +1487,11 @@ private extension PopupStackViewModelTests {
 
 
 
-// MARK: - Helpers
+
+
+// MARK: - HELPERS
+
+
 
 
 
