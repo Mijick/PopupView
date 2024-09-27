@@ -233,8 +233,8 @@ private extension PopupStackView.ViewModel {
         case .large: calculateLargeScreenHeight()
         case .fullscreen: getFullscreenHeight()
     }}
-    func updateHeight(_ newHeight: CGFloat, _ item: AnyPopup) { if item.height != newHeight {
-        update(popup: item) { $0.height = newHeight }
+    func updateHeight(_ newHeight: CGFloat, _ popup: AnyPopup) { if popup.height != newHeight {
+        update(popup: popup) { $0.height = newHeight }
     }}
 }
 private extension PopupStackView.ViewModel {
