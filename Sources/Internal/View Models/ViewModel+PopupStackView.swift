@@ -26,7 +26,13 @@ extension PopupStackView { class ViewModel: ObservableObject { init(alignment: V
     private var closePopupAction: ((AnyPopup) -> ())!
 }}
 
-// MARK: - Setup
+
+
+// MARK: - External Methods
+
+
+
+// MARK: Setup
 extension PopupStackView.ViewModel {
     func setup(updatePopupAction: @escaping (AnyPopup) -> (), closePopupAction: @escaping (AnyPopup) -> ()) {
         self.updatePopupAction = updatePopupAction
@@ -34,7 +40,7 @@ extension PopupStackView.ViewModel {
     }
 }
 
-// MARK: - Update
+// MARK: Update
 extension PopupStackView.ViewModel {
     func updatePopupsValue(_ newPopups: [AnyPopup]) {
         popups = newPopups
@@ -56,12 +62,11 @@ extension PopupStackView.ViewModel {
 
 
 
+// MARK: - Internal Methods
 
 
 
-
-
-// MARK: - Calculating Height For Active Popup
+// MARK: Calculating Height For Active Popup
 private extension PopupStackView.ViewModel {
     func calculateHeightForActivePopup() -> CGFloat? {
         guard let activePopupHeight = popups.last?.height else { return nil }
