@@ -11,35 +11,34 @@
 import SwiftUI
 
 struct PopupCentreStackView: View {
-    @Binding var items: [AnyPopup]
-    @ObservedObject private var screen: ScreenManager = .shared
-    @ObservedObject private var keyboardManager: KeyboardManager = .shared
+    @ObservedObject var viewModel: ViewModel
 
     
     var body: some View {
         ZStack(content: createPopupStack)
-            .id(items.isEmpty)
+            .id(viewModel.popups.isEmpty)
             .transition(getTransition())
-            .frame(maxWidth: .infinity, maxHeight: screen.properties.height)
-            .animation(.transition, value: config.horizontalPadding)
-            .animation(.transition, value: items)
-            .animation(.transition, value: items.last?.height)
+            .frame(maxWidth: .infinity, maxHeight: viewModel.screen.height)
+            //.animation(.transition, value: config.horizontalPadding)
+            //.animation(.transition, value: items)
+            //.animation(.transition, value: items.last?.height)
             //.animation(.keyboard, value: keyboardManager.height)
     }
 }
 private extension PopupCentreStackView {
     func createPopupStack() -> some View {
-        ForEach($items, id: \.self, content: createPopup)
+        ForEach(viewModel.popups, id: \.self, content: createPopup)
     }
 }
 private extension PopupCentreStackView {
-    func createPopup(_ item: Binding<AnyPopup>) -> some View {
-        item.wrappedValue.body
-            .onHeightChange { saveHeight($0, item) }
-            .frame(height: getHeight()).frame(maxWidth: .infinity, maxHeight: getHeight())
+    func createPopup(_ popup: AnyPopup) -> some View {
+        popup.body
+            .onHeightChange { viewModel.recalculateAndSave(height: $0, for: popup) }
+            .frame(height: viewModel.activePopupHeight)
+            .frame(maxWidth: .infinity, maxHeight: viewModel.activePopupHeight)
             .background(backgroundColour, overlayColour: .clear, corners: [.top: cornerRadius, .bottom: cornerRadius], shadow: popupShadow)
             .padding(.horizontal, config.horizontalPadding)
-            .opacity(getOpacity(item))
+            .opacity(getOpacity(popup))
             .compositingGroup()
             .focusSectionIfAvailable()
             //.padding(.bottom, keyboardManager.height == 0 ? nil : keyboardManager.height)
@@ -52,18 +51,13 @@ private extension PopupCentreStackView {
     func saveHeight(_ newHeight: CGFloat, _ item: Binding<AnyPopup>) { if item.wrappedValue.height != newHeight { Task { @MainActor in
         item.wrappedValue.height = newHeight
     }}}
-    func getOpacity(_ item: Binding<AnyPopup>) -> CGFloat {
-        items.last == item.wrappedValue ? 1 : 0
+    func getOpacity(_ popup: AnyPopup) -> CGFloat {
+        viewModel.popups.last == popup ? 1 : 0
     }
-    func getHeight() -> CGFloat { switch items.last?.height {
-        case 0: getInitialHeight()
-        default: items.last?.height ?? 0
-    }}
     func getTransition() -> AnyTransition {
-        .scale(scale: items.isEmpty ? ConfigContainer.centre.transitionExitScale : ConfigContainer.centre.transitionEntryScale)
+        .scale(scale: viewModel.popups.isEmpty ? ConfigContainer.centre.transitionExitScale : ConfigContainer.centre.transitionEntryScale)
         .combined(with: .opacity)
     }
-    func getInitialHeight() -> CGFloat { items.nextToLast?.height ?? 30 }
 }
 
 // MARK: - Flags & Values
@@ -71,5 +65,5 @@ extension PopupCentreStackView {
     var cornerRadius: CGFloat { config.cornerRadius }
     var popupShadow: Shadow { ConfigContainer.centre.shadow }
     var backgroundColour: Color { config.backgroundColour }
-    var config: CentrePopupConfig { (items.last?.config as? CentrePopupConfig) ?? .init() }
+    var config: CentrePopupConfig { (viewModel.popups.last?.config as? CentrePopupConfig) ?? .init() }
 }
