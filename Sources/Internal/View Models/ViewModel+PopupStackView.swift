@@ -98,44 +98,7 @@ private extension PopupStackView.ViewModel {
     }}
 }
 
-
-
-
-
-// MARK: Height For Active Popup
-private extension PopupStackView.ViewModel {
-    func calculateHeightForActivePopup() -> CGFloat? {
-        guard let activePopupHeight = popups.last?.height else { return nil }
-
-        let activePopupDragHeight = popups.last?.dragHeight ?? 0
-        let popupHeightFromGestureTranslation = activePopupHeight + activePopupDragHeight + gestureTranslation * getDragTranslationMultiplier()
-
-        let newHeightCandidate1 = max(activePopupHeight, popupHeightFromGestureTranslation),
-            newHeightCanditate2 = screen.height
-        return min(newHeightCandidate1, newHeightCanditate2)
-    }
-}
-private extension PopupStackView.ViewModel {
-    func getDragTranslationMultiplier() -> CGFloat { switch alignment {
-        case .top: 1
-        case .bottom: -1
-    }}
-}
-
-
-
-
-
-
-// MARK: Translation Progress
-private extension PopupStackView.ViewModel {
-    func calculateTranslationProgress() -> CGFloat { guard let activePopupHeight = popups.last?.height else { return 0 }; return switch alignment {
-        case .top: abs(min(gestureTranslation + (popups.last?.dragHeight ?? 0), 0)) / activePopupHeight
-        case .bottom: max(gestureTranslation - (popups.last?.dragHeight ?? 0), 0) / activePopupHeight
-    }}
-}
-
-// MARK: Paddings For Popup Body
+// MARK: Body Padding
 extension PopupStackView.ViewModel {
     func calculateBodyPadding(for popup: AnyPopup) -> EdgeInsets { let activePopupHeight = activePopupHeight ?? 0, popupConfig = getConfig(popup); return .init(
         top: calculateTopBodyPadding(activePopupHeight: activePopupHeight, popupConfig: popupConfig),
@@ -180,6 +143,44 @@ private extension PopupStackView.ViewModel {
         return max(paddingValueCandidate, 0)
     }
 }
+
+
+
+
+// MARK: Height For Active Popup
+private extension PopupStackView.ViewModel {
+    func calculateHeightForActivePopup() -> CGFloat? {
+        guard let activePopupHeight = popups.last?.height else { return nil }
+
+        let activePopupDragHeight = popups.last?.dragHeight ?? 0
+        let popupHeightFromGestureTranslation = activePopupHeight + activePopupDragHeight + gestureTranslation * getDragTranslationMultiplier()
+
+        let newHeightCandidate1 = max(activePopupHeight, popupHeightFromGestureTranslation),
+            newHeightCanditate2 = screen.height
+        return min(newHeightCandidate1, newHeightCanditate2)
+    }
+}
+private extension PopupStackView.ViewModel {
+    func getDragTranslationMultiplier() -> CGFloat { switch alignment {
+        case .top: 1
+        case .bottom: -1
+    }}
+}
+
+
+
+
+
+
+// MARK: Translation Progress
+private extension PopupStackView.ViewModel {
+    func calculateTranslationProgress() -> CGFloat { guard let activePopupHeight = popups.last?.height else { return 0 }; return switch alignment {
+        case .top: abs(min(gestureTranslation + (popups.last?.dragHeight ?? 0), 0)) / activePopupHeight
+        case .bottom: max(gestureTranslation - (popups.last?.dragHeight ?? 0), 0) / activePopupHeight
+    }}
+}
+
+
 
 
 
