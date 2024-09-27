@@ -234,7 +234,7 @@ private extension PopupStackView.ViewModel {
         case .fullscreen: getFullscreenHeight()
     }}
     func updateHeight(_ newHeight: CGFloat, _ popup: AnyPopup) { if popup.height != newHeight {
-        update(popup: popup) { $0.height = newHeight }
+        updatePopup(popup) { $0.height = newHeight }
     }}
 }
 private extension PopupStackView.ViewModel {
@@ -462,7 +462,7 @@ private extension PopupStackView.ViewModel {
         targetHeight - activePopupHeight
     }
     func updateDragHeight(_ targetDragHeight: CGFloat) { if let activePopup = popups.last {
-        update(popup: activePopup) { $0.dragHeight = targetDragHeight }
+        updatePopup(activePopup) { $0.dragHeight = targetDragHeight }
     }}
     func resetGestureTranslation() {
         updateGestureTranslation(0)
@@ -471,6 +471,8 @@ private extension PopupStackView.ViewModel {
         translationProgress >= gestureClosingThresholdFactor
     }
 }
+
+
 
 
 
@@ -489,7 +491,7 @@ extension PopupStackView.ViewModel { struct TestHook {
 }}
 extension PopupStackView.ViewModel.TestHook {
     @MainActor func getInvertedIndex(of popup: AnyPopup) -> Int { target.getInvertedIndex(of: popup) }
-    @MainActor func update(popup: AnyPopup, _ action: @escaping (inout AnyPopup) -> ()) { target.update(popup: popup, action) }
+    @MainActor func update(popup: AnyPopup, _ action: @escaping (inout AnyPopup) -> ()) { target.updatePopup(popup, by: action) }
     @MainActor func calculatePopupHeight(height: CGFloat, popupConfig: Config) -> CGFloat { target.calculateHeight(height, popupConfig) }
     @MainActor func calculatePopupOffsetY(for popup: AnyPopup) -> CGFloat { target.calculateOffsetY(for: popup) }
     @MainActor func calculateBodyPadding(for popup: AnyPopup) -> EdgeInsets { target.calculateBodyPadding(for: popup) }
