@@ -109,20 +109,20 @@ private extension PopupStackView.ViewModel {
             priorityPopupPaddingValue = calculatePriorityPopupPaddingValue(for: edge),
             remainingHeight = largeScreenHeight - activePopupHeight - priorityPopupPaddingValue
 
-        let popupPaddingCandidate = min(remainingHeight, activePopupConfig.popupPadding[edge])
+        let popupPaddingCandidate = min(remainingHeight, getActivePopupConfig().popupPadding[edge])
         return max(popupPaddingCandidate, 0)
     }
     func calculateLeadingPopupPadding() -> CGFloat {
-        activePopupConfig.popupPadding.leading
+        getActivePopupConfig().popupPadding.leading
     }
     func calculateTrailingPopupPadding() -> CGFloat {
-        activePopupConfig.popupPadding.trailing
+        getActivePopupConfig().popupPadding.trailing
     }
 }
 private extension PopupStackView.ViewModel {
     func calculatePriorityPopupPaddingValue(for edge: VerticalEdge) -> CGFloat { switch edge == alignment {
         case true: 0
-        case false: activePopupConfig.popupPadding[!edge]
+        case false: getActivePopupConfig().popupPadding[!edge]
     }}
 }
 
@@ -220,7 +220,7 @@ private extension PopupStackView.ViewModel {
 // MARK: Corner Radius
 extension PopupStackView.ViewModel {
     func calculateCornerRadius() -> [VerticalEdge: CGFloat] {
-        let cornerRadiusValue = calculateCornerRadiusValue(activePopupConfig)
+        let cornerRadiusValue = calculateCornerRadiusValue(getActivePopupConfig())
         return [
             .top: calculateTopCornerRadius(cornerRadiusValue),
             .bottom: calculateBottomCornerRadius(cornerRadiusValue)
@@ -270,6 +270,7 @@ private extension PopupStackView.ViewModel {
 }
 
 
+// MARK: - Helpers
 
 
 
@@ -303,45 +304,8 @@ private extension PopupStackView.ViewModel {
     }}
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// MARK: Attributes
-extension PopupStackView.ViewModel {
-    var activePopupConfig: Config { getConfig(popups.last) }
-}
-
-// MARK: Configurable Attributes
-extension PopupStackView.ViewModel {
-    var stackOffset: CGFloat { ConfigContainer.vertical.isStackingPossible ? 8 : 0 }
-    var stackScaleFactor: CGFloat { 0.025 }
-    var stackOverlayFactor: CGFloat { 0.1 }
-    var maxStackOverlayFactor: CGFloat { 0.48 }
-    var gestureClosingThresholdFactor: CGFloat { ConfigContainer.vertical.dragGestureProgressToClose }
-    var dragGestureEnabled: Bool { activePopupConfig.dragGestureEnabled }
-}
-
-// MARK: Helpers
-extension PopupStackView.ViewModel {
+// MARK: Others
+private extension PopupStackView.ViewModel {
     func getInvertedIndex(of popup: AnyPopup) -> Int {
         let index = popups.firstIndex(of: popup) ?? 0
         let invertedIndex = popups.count - 1 - index
@@ -351,7 +315,21 @@ extension PopupStackView.ViewModel {
         let config = item?.config as? Config
         return config ?? .init()
     }
+    func getActivePopupConfig() -> Config {
+        getConfig(popups.last)
+    }
 }
+
+// MARK: Attributes
+private extension PopupStackView.ViewModel {
+    var stackScaleFactor: CGFloat { 0.025 }
+    var stackOverlayFactor: CGFloat { 0.1 }
+    var maxStackOverlayFactor: CGFloat { 0.48 }
+    var stackOffset: CGFloat { ConfigContainer.vertical.isStackingPossible ? 8 : 0 }
+    var gestureClosingThresholdFactor: CGFloat { ConfigContainer.vertical.dragGestureProgressToClose }
+    var dragGestureEnabled: Bool { getActivePopupConfig().dragGestureEnabled }
+}
+
 
 
 
@@ -367,7 +345,7 @@ extension PopupStackView.ViewModel {
     }}
 }
 private extension PopupStackView.ViewModel {
-    func calculateGestureTranslation(_ value: CGFloat) -> CGFloat { switch activePopupConfig.dragDetents.isEmpty {
+    func calculateGestureTranslation(_ value: CGFloat) -> CGFloat { switch getActivePopupConfig().dragDetents.isEmpty {
         case true: calculateGestureTranslationWhenNoDragDetents(value)
         case false: calculateGestureTranslationWhenDragDetents(value)
     }}
@@ -430,7 +408,7 @@ private extension PopupStackView.ViewModel {
         let currentPopupHeight = activePopupHeight + currentDragHeight
         return currentPopupHeight
     }
-    func calculatePopupTargetHeightsFromDragDetents(_ activePopupHeight: CGFloat) -> [CGFloat] { activePopupConfig.dragDetents
+    func calculatePopupTargetHeightsFromDragDetents(_ activePopupHeight: CGFloat) -> [CGFloat] { getActivePopupConfig().dragDetents
             .map { switch $0 {
                 case .fixed(let targetHeight): min(targetHeight, calculateLargeScreenHeight())
                 case .fraction(let fraction): min(fraction * activePopupHeight, calculateLargeScreenHeight())
