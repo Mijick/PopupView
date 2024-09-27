@@ -57,23 +57,7 @@ extension PopupStackView.ViewModel {
 
 
 
-private extension PopupStackView.ViewModel {
-    func updateGestureTranslation(_ newGestureTranslation: CGFloat) {
-        gestureTranslation = newGestureTranslation
-        translationProgress = calculateTranslationProgress()
-        activePopupHeight = calculateHeightForActivePopup()
 
-        Task { @MainActor in withAnimation(gestureTranslation == 0 ? .transition : nil) { objectWillChange.send() }}
-    }
-}
-private extension PopupStackView.ViewModel {
-    func updatePopup(_ popup: AnyPopup, by popupUpdateBuilder: @escaping (inout AnyPopup) -> ()) {
-        var popup = popup
-        popupUpdateBuilder(&popup)
-
-        Task { @MainActor in updatePopupAction(popup) }
-    }
-}
 
 
 
@@ -474,7 +458,23 @@ private extension PopupStackView.ViewModel {
 }
 
 
+private extension PopupStackView.ViewModel {
+    func updateGestureTranslation(_ newGestureTranslation: CGFloat) {
+        gestureTranslation = newGestureTranslation
+        translationProgress = calculateTranslationProgress()
+        activePopupHeight = calculateHeightForActivePopup()
 
+        Task { @MainActor in withAnimation(gestureTranslation == 0 ? .transition : nil) { objectWillChange.send() }}
+    }
+}
+private extension PopupStackView.ViewModel {
+    func updatePopup(_ popup: AnyPopup, by popupUpdateBuilder: @escaping (inout AnyPopup) -> ()) {
+        var popup = popup
+        popupUpdateBuilder(&popup)
+
+        Task { @MainActor in updatePopupAction(popup) }
+    }
+}
 
 
 
