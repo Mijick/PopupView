@@ -66,6 +66,42 @@ extension PopupStackView.ViewModel {
 
 
 
+// MARK: Popup Padding
+extension PopupStackView.ViewModel {
+    func calculatePopupPadding() -> EdgeInsets { .init(
+        top: calculateVerticalPopupPadding(for: .top),
+        leading: calculateLeadingPopupPadding(),
+        bottom: calculateVerticalPopupPadding(for: .bottom),
+        trailing: calculateTrailingPopupPadding()
+    )}
+}
+private extension PopupStackView.ViewModel {
+    func calculateVerticalPopupPadding(for edge: VerticalEdge) -> CGFloat { guard let activePopupHeight else { return 0 }
+        let largeScreenHeight = calculateLargeScreenHeight(),
+            priorityPopupPaddingValue = calculatePriorityPopupPaddingValue(for: edge),
+            remainingHeight = largeScreenHeight - activePopupHeight - priorityPopupPaddingValue
+
+        let popupPaddingCandidate = min(remainingHeight, activePopupConfig.popupPadding[edge])
+        return max(popupPaddingCandidate, 0)
+    }
+    func calculateLeadingPopupPadding() -> CGFloat {
+        activePopupConfig.popupPadding.leading
+    }
+    func calculateTrailingPopupPadding() -> CGFloat {
+        activePopupConfig.popupPadding.trailing
+    }
+}
+private extension PopupStackView.ViewModel {
+    func calculatePriorityPopupPaddingValue(for edge: VerticalEdge) -> CGFloat { switch edge == alignment {
+        case true: 0
+        case false: activePopupConfig.popupPadding[!edge]
+    }}
+}
+
+
+
+
+
 // MARK: Height For Active Popup
 private extension PopupStackView.ViewModel {
     func calculateHeightForActivePopup() -> CGFloat? {
@@ -85,6 +121,11 @@ private extension PopupStackView.ViewModel {
         case .bottom: -1
     }}
 }
+
+
+
+
+
 
 // MARK: Translation Progress
 private extension PopupStackView.ViewModel {
@@ -140,37 +181,7 @@ private extension PopupStackView.ViewModel {
     }
 }
 
-// MARK: Popup Padding
-extension PopupStackView.ViewModel {
-    func calculatePopupPadding() -> EdgeInsets { .init(
-        top: calculateVerticalPopupPadding(for: .top),
-        leading: calculateLeadingPopupPadding(),
-        bottom: calculateVerticalPopupPadding(for: .bottom),
-        trailing: calculateTrailingPopupPadding()
-    )}
-}
-private extension PopupStackView.ViewModel {
-    func calculateVerticalPopupPadding(for edge: VerticalEdge) -> CGFloat { guard let activePopupHeight else { return 0 }
-        let largeScreenHeight = calculateLargeScreenHeight(),
-            priorityPopupPaddingValue = calculatePriorityPopupPaddingValue(for: edge),
-            remainingHeight = largeScreenHeight - activePopupHeight - priorityPopupPaddingValue
 
-        let popupPaddingCandidate = min(remainingHeight, activePopupConfig.popupPadding[edge])
-        return max(popupPaddingCandidate, 0)
-    }
-    func calculateLeadingPopupPadding() -> CGFloat {
-        activePopupConfig.popupPadding.leading
-    }
-    func calculateTrailingPopupPadding() -> CGFloat {
-        activePopupConfig.popupPadding.trailing
-    }
-}
-private extension PopupStackView.ViewModel {
-    func calculatePriorityPopupPaddingValue(for edge: VerticalEdge) -> CGFloat { switch edge == alignment {
-        case true: 0
-        case false: activePopupConfig.popupPadding[!edge]
-    }}
-}
 
 
 
