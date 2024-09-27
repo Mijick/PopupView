@@ -63,9 +63,7 @@ private extension PopupStackView.ViewModel {
         translationProgress = calculateTranslationProgress()
         activePopupHeight = calculateHeightForActivePopup()
 
-        Task { @MainActor in withAnimation(gestureTranslation == 0 ? .transition : nil) {
-            objectWillChange.send()
-        }}
+        Task { @MainActor in withAnimation(gestureTranslation == 0 ? .transition : nil) { objectWillChange.send() }}
     }
 }
 private extension PopupStackView.ViewModel {
