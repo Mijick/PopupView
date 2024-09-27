@@ -54,6 +54,15 @@ extension PopupStackView.ViewModel {
     }
 }
 
+
+
+
+// MARK: - VIEW METHODS
+
+
+
+
+
 // MARK: Recalculate & Update Popup Height
 extension PopupStackView.ViewModel {
     func recalculateAndSave(height: CGFloat, for popup: AnyPopup) { if gestureTranslation.isZero {
@@ -270,7 +279,10 @@ private extension PopupStackView.ViewModel {
 }
 
 
-// MARK: - Helpers
+
+
+
+// MARK: - HELPERS
 
 
 
@@ -333,7 +345,10 @@ private extension PopupStackView.ViewModel {
 
 
 
+
 // MARK: - Gestures
+
+
 
 
 
