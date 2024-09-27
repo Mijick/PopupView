@@ -217,7 +217,30 @@ private extension PopupStackView.ViewModel {
     var minScaleProgressMultiplier: CGFloat { 0.7 }
 }
 
-
+// MARK: Corner Radius
+extension PopupStackView.ViewModel {
+    func calculateCornerRadius() -> [VerticalEdge: CGFloat] {
+        let cornerRadiusValue = calculateCornerRadiusValue(activePopupConfig)
+        return [
+            .top: calculateTopCornerRadius(cornerRadiusValue),
+            .bottom: calculateBottomCornerRadius(cornerRadiusValue)
+        ]
+    }
+}
+private extension PopupStackView.ViewModel {
+    func calculateCornerRadiusValue(_ activePopupConfig: Config) -> CGFloat { switch activePopupConfig.heightMode {
+        case .auto, .large: activePopupConfig.cornerRadius
+        case .fullscreen: 0
+    }}
+    func calculateTopCornerRadius(_ cornerRadiusValue: CGFloat) -> CGFloat { switch alignment {
+        case .top: calculatePopupPadding().top != 0 ? cornerRadiusValue : 0
+        case .bottom: cornerRadiusValue
+    }}
+    func calculateBottomCornerRadius(_ cornerRadiusValue: CGFloat) -> CGFloat { switch alignment {
+        case .top: cornerRadiusValue
+        case .bottom: calculatePopupPadding().bottom != 0 ? cornerRadiusValue : 0
+    }}
+}
 
 
 
@@ -260,30 +283,7 @@ private extension PopupStackView.ViewModel {
 
 
 
-// MARK: Corner Radius
-extension PopupStackView.ViewModel {
-    func calculateCornerRadius() -> [VerticalEdge: CGFloat] {
-        let cornerRadiusValue = calculateCornerRadiusValue(activePopupConfig)
-        return [
-            .top: calculateTopCornerRadius(cornerRadiusValue),
-            .bottom: calculateBottomCornerRadius(cornerRadiusValue)
-        ]
-    }
-}
-private extension PopupStackView.ViewModel {
-    func calculateCornerRadiusValue(_ activePopupConfig: Config) -> CGFloat { switch activePopupConfig.heightMode {
-        case .auto, .large: activePopupConfig.cornerRadius
-        case .fullscreen: 0
-    }}
-    func calculateTopCornerRadius(_ cornerRadiusValue: CGFloat) -> CGFloat { switch alignment {
-        case .top: calculatePopupPadding().top != 0 ? cornerRadiusValue : 0
-        case .bottom: cornerRadiusValue
-    }}
-    func calculateBottomCornerRadius(_ cornerRadiusValue: CGFloat) -> CGFloat { switch alignment {
-        case .top: cornerRadiusValue
-        case .bottom: calculatePopupPadding().bottom != 0 ? cornerRadiusValue : 0
-    }}
-}
+
 
 // MARK: - Item ZIndex
 extension PopupStackView.ViewModel {
