@@ -148,7 +148,7 @@ private extension PopupStackView.ViewModel {
 
 // MARK: Calculate & Save Popup Height
 extension PopupStackView.ViewModel {
-    func save(height: CGFloat, for popup: AnyPopup) { if gestureTranslation.isZero {
+    func recalculateAndSave(height: CGFloat, for popup: AnyPopup) { if gestureTranslation.isZero {
         let popupConfig = getConfig(popup)
         let newHeight = calculateHeight(height, popupConfig)
         updateHeight(newHeight, popup)
