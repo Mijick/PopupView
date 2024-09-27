@@ -261,6 +261,13 @@ private extension PopupStackView.ViewModel {
     }}
 }
 
+// MARK: - Z Index
+extension PopupStackView.ViewModel {
+    func calculateZIndex(for popup: AnyPopup) -> Double {
+        .init(popups.firstIndex(of: popup) ?? 2137)
+    }
+}
+
 // MARK: Fixed Size
 extension PopupStackView.ViewModel {
     func calculateVerticalFixedSize(for popup: AnyPopup) -> Bool { switch getConfig(popup).heightMode {
