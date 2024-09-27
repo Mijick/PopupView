@@ -200,7 +200,22 @@ private extension PopupStackView.ViewModel {
     }
 }
 
+// MARK: Scale X
+extension PopupStackView.ViewModel {
+    func calculateScaleX(for popup: AnyPopup) -> CGFloat {
+        guard popup != popups.last else { return 1 }
 
+        let invertedIndex = getInvertedIndex(of: popup),
+            remainingTranslationProgress = 1 - translationProgress
+
+        let progressMultiplier = invertedIndex == 1 ? remainingTranslationProgress : max(minScaleProgressMultiplier, remainingTranslationProgress)
+        let scaleValue = .init(invertedIndex) * stackScaleFactor * progressMultiplier
+        return 1 - scaleValue
+    }
+}
+private extension PopupStackView.ViewModel {
+    var minScaleProgressMultiplier: CGFloat { 0.7 }
+}
 
 
 
@@ -282,20 +297,7 @@ extension PopupStackView.ViewModel {
 
 
 
-// MARK: Scale
-extension PopupStackView.ViewModel {
-    func calculateScaleX(for popup: AnyPopup) -> CGFloat { guard popup != popups.last else { return 1 }
-        let invertedIndex = getInvertedIndex(of: popup),
-            remainingTranslationProgress = 1 - translationProgress
 
-        let progressMultiplier = invertedIndex == 1 ? remainingTranslationProgress : max(minScaleProgressMultiplier, remainingTranslationProgress)
-        let scaleValue = .init(invertedIndex) * stackScaleFactor * progressMultiplier
-        return 1 - scaleValue
-    }
-}
-private extension PopupStackView.ViewModel {
-    var minScaleProgressMultiplier: CGFloat { 0.7 }
-}
 
 // MARK: Fixed Size
 extension PopupStackView.ViewModel {
