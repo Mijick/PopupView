@@ -406,10 +406,10 @@ private extension PopupStackView.ViewModel {
 
 // MARK: On Ended
 extension PopupStackView.ViewModel {
-    func onPopupDragGestureEnded(_ value: CGFloat) { guard value != 0 else { return }
+    func onPopupDragGestureEnded(_ value: CGFloat) { if value != 0 {
         dismissLastItemIfNeeded()
         updateTranslationValues()
-    }
+    }}
 }
 private extension PopupStackView.ViewModel {
     func dismissLastItemIfNeeded() { if shouldDismissPopup() { if let popup = popups.last {
@@ -433,7 +433,8 @@ private extension PopupStackView.ViewModel {
         let currentPopupHeight = activePopupHeight + currentDragHeight
         return currentPopupHeight
     }
-    func calculatePopupTargetHeightsFromDragDetents(_ activePopupHeight: CGFloat) -> [CGFloat] { getActivePopupConfig().dragDetents
+    func calculatePopupTargetHeightsFromDragDetents(_ activePopupHeight: CGFloat) -> [CGFloat] {
+        getActivePopupConfig().dragDetents
             .map { switch $0 {
                 case .fixed(let targetHeight): min(targetHeight, calculateLargeScreenHeight())
                 case .fraction(let fraction): min(fraction * activePopupHeight, calculateLargeScreenHeight())
