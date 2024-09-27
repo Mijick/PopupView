@@ -53,6 +53,10 @@ extension PopupStackView.ViewModel {
         Task { @MainActor in objectWillChange.send() }
     }
 }
+
+
+
+
 private extension PopupStackView.ViewModel {
     func updateGestureTranslation(_ newGestureTranslation: CGFloat) {
         gestureTranslation = newGestureTranslation
@@ -64,8 +68,7 @@ private extension PopupStackView.ViewModel {
         }}
     }
 }
-
-extension PopupStackView.ViewModel {
+private extension PopupStackView.ViewModel {
     func update(popup: AnyPopup, _ action: @escaping (inout AnyPopup) -> ()) { Task { @MainActor in
         var popup = popup
         action(&popup)
