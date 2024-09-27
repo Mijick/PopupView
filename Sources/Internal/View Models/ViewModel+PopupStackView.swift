@@ -63,6 +63,22 @@ extension PopupStackView.ViewModel {
         Task { @MainActor in objectWillChange.send() }
     }
 }
+private extension PopupStackView.ViewModel {
+    func updatePopup(_ popup: AnyPopup, by popupUpdateBuilder: @escaping (inout AnyPopup) -> ()) {
+        var popup = popup
+        popupUpdateBuilder(&popup)
+
+        Task { @MainActor in updatePopupAction(popup) }
+    }
+    func updateGestureTranslation(_ newGestureTranslation: CGFloat) {
+        gestureTranslation = newGestureTranslation
+        translationProgress = calculateTranslationProgress()
+        activePopupHeight = calculateHeightForActivePopup()
+
+        Task { @MainActor in withAnimation(gestureTranslation == 0 ? .transition : nil) { objectWillChange.send() }}
+    }
+}
+
 
 
 
@@ -334,21 +350,6 @@ private extension PopupStackView.ViewModel {
 }
 
 // MARK: Others
-private extension PopupStackView.ViewModel {
-    func updatePopup(_ popup: AnyPopup, by popupUpdateBuilder: @escaping (inout AnyPopup) -> ()) {
-        var popup = popup
-        popupUpdateBuilder(&popup)
-
-        Task { @MainActor in updatePopupAction(popup) }
-    }
-    func updateGestureTranslation(_ newGestureTranslation: CGFloat) {
-        gestureTranslation = newGestureTranslation
-        translationProgress = calculateTranslationProgress()
-        activePopupHeight = calculateHeightForActivePopup()
-
-        Task { @MainActor in withAnimation(gestureTranslation == 0 ? .transition : nil) { objectWillChange.send() }}
-    }
-}
 private extension PopupStackView.ViewModel {
     func getInvertedIndex(of popup: AnyPopup) -> Int {
         let index = popups.firstIndex(of: popup) ?? 0
