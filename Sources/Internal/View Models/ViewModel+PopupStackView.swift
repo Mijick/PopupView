@@ -15,21 +15,15 @@ extension PopupStackView { class ViewModel: ObservableObject { init(alignment: V
     private(set) var alignment: VerticalEdge
     private(set) var popups: [AnyPopup] = []
 
-    private var updatePopupAction: ((AnyPopup) -> ())!
-    private var closePopupAction: ((AnyPopup) -> ())!
-
-
-
-
-
-
     private(set) var activePopupHeight: CGFloat? = nil
     private(set) var screen: ScreenProperties = .init()
     private(set) var isKeyboardActive: Bool = false
 
-
     private var gestureTranslation: CGFloat = 0
     private var translationProgress: CGFloat = 0
+
+    private var updatePopupAction: ((AnyPopup) -> ())!
+    private var closePopupAction: ((AnyPopup) -> ())!
 }}
 
 // MARK: Setup
