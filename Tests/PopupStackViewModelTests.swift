@@ -138,7 +138,7 @@ extension PopupStackViewModelTests {
 private extension PopupStackViewModelTests {
     func appendPopupsAndCheckPopups(viewModel: ViewModel, popups: [AnyPopup], updatePopupAt index: Int, popupUpdateBuilder: @escaping (inout AnyPopup) -> (), expectedValue: (height: CGFloat?, dragHeight: CGFloat?)) {
         viewModel.testHook.updatePopupsValue(popups)
-        viewModel.testHook.updatePopup(popups[index], popupUpdateBuilder)
+        viewModel.testHook.updatePopup(popups[index], by: popupUpdateBuilder)
 
         let expect = expectation(description: "results")
         viewModel.objectWillChange
