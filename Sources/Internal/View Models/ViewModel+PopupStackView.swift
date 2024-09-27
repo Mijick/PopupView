@@ -146,10 +146,7 @@ private extension PopupStackView.ViewModel {
     }
 }
 
-
-
-
-// MARK: Height For Active Popup
+// MARK: Active Popup Height
 private extension PopupStackView.ViewModel {
     func calculateHeightForActivePopup() -> CGFloat? {
         guard let activePopupHeight = popups.last?.height else { return nil }
