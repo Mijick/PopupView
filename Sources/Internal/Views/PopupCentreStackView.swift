@@ -19,10 +19,6 @@ struct PopupCentreStackView: View {
             .id(viewModel.popups.isEmpty)
             .transition(getTransition())
             .frame(maxWidth: .infinity, maxHeight: viewModel.screen.height)
-            //.animation(.transition, value: config.horizontalPadding)
-            //.animation(.transition, value: items)
-            //.animation(.transition, value: items.last?.height)
-            //.animation(.keyboard, value: keyboardManager.height)
     }
 }
 private extension PopupCentreStackView {
@@ -41,7 +37,7 @@ private extension PopupCentreStackView {
             .opacity(getOpacity(popup))
             .compositingGroup()
             .focusSectionIfAvailable()
-            //.padding(.bottom, keyboardManager.height == 0 ? nil : keyboardManager.height)
+            .padding(.bottom, viewModel.isKeyboardActive ? viewModel.screen.safeArea.bottom : nil)
             .zIndex(2137)
     }
 }
