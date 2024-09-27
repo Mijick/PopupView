@@ -242,6 +242,34 @@ private extension PopupStackView.ViewModel {
     }}
 }
 
+// MARK: Fixed Size
+extension PopupStackView.ViewModel {
+    func calculateVerticalFixedSize(for popup: AnyPopup) -> Bool { switch getConfig(popup).heightMode {
+        case .fullscreen, .large: false
+        case .auto: activePopupHeight != calculateLargeScreenHeight()
+    }}
+}
+
+// MARK: - Stack Overlay Opacity
+extension PopupStackView.ViewModel {
+    func calculateStackOverlayOpacity(for popup: AnyPopup) -> Double {
+        guard popup != popups.last else { return 0 }
+        
+        let invertedIndex = getInvertedIndex(of: popup),
+            remainingTranslationProgress = 1 - translationProgress
+
+        let progressMultiplier = invertedIndex == 1 ? remainingTranslationProgress : max(minStackOverlayProgressMultiplier, remainingTranslationProgress)
+        let overlayValue = min(stackOverlayFactor * .init(invertedIndex), maxStackOverlayFactor)
+
+        let opacity = overlayValue * progressMultiplier
+        return max(opacity, 0)
+    }
+}
+private extension PopupStackView.ViewModel {
+    var minStackOverlayProgressMultiplier: CGFloat { 0.6 }
+}
+
+
 
 
 
@@ -299,30 +327,9 @@ extension PopupStackView.ViewModel {
 
 
 
-// MARK: Fixed Size
-extension PopupStackView.ViewModel {
-    func calculateVerticalFixedSize(for popup: AnyPopup) -> Bool { switch getConfig(popup).heightMode {
-        case .fullscreen, .large: false
-        case .auto: activePopupHeight != calculateLargeScreenHeight()
-    }}
-}
 
-// MARK: - Stack Overlay Opacity
-extension PopupStackView.ViewModel {
-    func calculateStackOverlayOpacity(for popup: AnyPopup) -> Double { guard popup != popups.last else { return 0 }
-        let invertedIndex = getInvertedIndex(of: popup),
-            remainingTranslationProgress = 1 - translationProgress
 
-        let progressMultiplier = invertedIndex == 1 ? remainingTranslationProgress : max(minStackOverlayProgressMultiplier, remainingTranslationProgress)
-        let overlayValue = min(stackOverlayFactor * .init(invertedIndex), maxStackOverlayFactor)
 
-        let opacity = overlayValue * progressMultiplier
-        return max(opacity, 0)
-    }
-}
-private extension PopupStackView.ViewModel {
-    var minStackOverlayProgressMultiplier: CGFloat { 0.6 }
-}
 
 
 
