@@ -26,12 +26,6 @@ extension PopupStackView { class ViewModel: ObservableObject { init(alignment: V
     private var closePopupAction: ((AnyPopup) -> ())!
 }}
 
-
-
-// MARK: - External Methods
-
-
-
 // MARK: Setup View Model
 extension PopupStackView.ViewModel {
     func setup(updatePopupAction: @escaping (AnyPopup) -> (), closePopupAction: @escaping (AnyPopup) -> ()) {
@@ -59,12 +53,6 @@ extension PopupStackView.ViewModel {
         Task { @MainActor in objectWillChange.send() }
     }
 }
-
-
-
-// MARK: - Internal Methods
-
-
 
 // MARK: Popup Padding
 extension PopupStackView.ViewModel {
