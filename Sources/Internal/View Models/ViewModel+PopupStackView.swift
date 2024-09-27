@@ -26,7 +26,17 @@ extension PopupStackView { class ViewModel: ObservableObject { init(alignment: V
     private var closePopupAction: ((AnyPopup) -> ())!
 }}
 
-// MARK: Setup View Model
+
+
+
+
+// MARK: - SETUP & UPDATE
+
+
+
+
+
+// MARK: Setup
 extension PopupStackView.ViewModel {
     func setup(updatePopupAction: @escaping (AnyPopup) -> (), closePopupAction: @escaping (AnyPopup) -> ()) {
         self.updatePopupAction = updatePopupAction
@@ -34,7 +44,7 @@ extension PopupStackView.ViewModel {
     }
 }
 
-// MARK: Update Values
+// MARK: Update
 extension PopupStackView.ViewModel {
     func updatePopupsValue(_ newPopups: [AnyPopup]) {
         popups = newPopups
