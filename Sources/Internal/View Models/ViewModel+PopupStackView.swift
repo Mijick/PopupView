@@ -504,22 +504,17 @@ private extension PopupStackView.ViewModel {
 
 
 // MARK: - TESTING
-
-
-
-
-
 #if DEBUG
-extension PopupStackView.ViewModel {
-    var testHook: TestHook { .init(target: self) }
-}
 
 
 
-extension PopupStackView.ViewModel { struct TestHook {
+
+
+extension PopupStackView.ViewModel { struct TestHook { init(target: PopupStackView.ViewModel) { self.target = target }
     private let target: PopupStackView.ViewModel
-    init(target: PopupStackView.ViewModel) { self.target = target }
 }}
+
+// MARK: Methods
 extension PopupStackView.ViewModel.TestHook {
     @MainActor func getInvertedIndex(of popup: AnyPopup) -> Int { target.getInvertedIndex(of: popup) }
     @MainActor func update(popup: AnyPopup, _ action: @escaping (inout AnyPopup) -> ()) { target.updatePopup(popup, by: action) }
@@ -543,6 +538,8 @@ extension PopupStackView.ViewModel.TestHook {
     @MainActor func updatePopupsProperty(_ newPopups: [AnyPopup]) { target.updatePopupsValue(newPopups) }
     @MainActor func updateGestureTranslation(_ newGestureTranslation: CGFloat) { target.updateGestureTranslation(newGestureTranslation) }
 }
+
+// MARK: Variables
 extension PopupStackView.ViewModel.TestHook {
     @MainActor var stackOffset: CGFloat { target.stackOffset }
     @MainActor var stackScaleFactor: CGFloat { target.stackScaleFactor }
@@ -552,5 +549,10 @@ extension PopupStackView.ViewModel.TestHook {
     @MainActor var maxStackOverlayFactor: CGFloat { target.maxStackOverlayFactor }
     @MainActor var dragTranslationThreshold: CGFloat { target.dragTranslationThreshold }
     @MainActor var gestureTranslation: CGFloat { target.gestureTranslation }
+}
+
+// MARK: Test Hook
+extension PopupStackView.ViewModel {
+    var testHook: TestHook { .init(target: self) }
 }
 #endif
