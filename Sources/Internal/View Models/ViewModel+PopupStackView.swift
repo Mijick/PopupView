@@ -172,7 +172,33 @@ private extension PopupStackView.ViewModel {
     }
 }
 
+// MARK: Offset Y
+extension PopupStackView.ViewModel {
+    func calculateOffsetY(for popup: AnyPopup) -> CGFloat { switch popup == popups.last {
+        case true: calculateOffsetForActivePopup()
+        case false: calculateOffsetForStackedPopup(popup)
+    }}
+}
+private extension PopupStackView.ViewModel {
+    func calculateOffsetForActivePopup() -> CGFloat {
+        let lastPopupDragHeight = popups.last?.dragHeight ?? 0
 
+        return switch alignment {
+            case .top: min(gestureTranslation + lastPopupDragHeight, 0)
+            case .bottom: max(gestureTranslation - lastPopupDragHeight, 0)
+        }
+    }
+    func calculateOffsetForStackedPopup(_ popup: AnyPopup) -> CGFloat {
+        let invertedIndex = getInvertedIndex(of: popup)
+        let offsetValue = stackOffset * .init(invertedIndex)
+        let alignmentMultiplier = switch alignment {
+            case .top: 1.0
+            case .bottom: -1.0
+        }
+
+        return offsetValue * alignmentMultiplier
+    }
+}
 
 
 
@@ -254,33 +280,7 @@ extension PopupStackView.ViewModel {
 
 
 
-// MARK: Offset
-extension PopupStackView.ViewModel {
-    func calculateOffsetY(for popup: AnyPopup) -> CGFloat { switch popup == popups.last {
-        case true: calculateOffsetForActivePopup()
-        case false: calculateOffsetForStackedPopup(popup)
-    }}
-}
-private extension PopupStackView.ViewModel {
-    func calculateOffsetForActivePopup() -> CGFloat {
-        let lastPopupDragHeight = popups.last?.dragHeight ?? 0
 
-        return switch alignment {
-            case .top: min(gestureTranslation + lastPopupDragHeight, 0)
-            case .bottom: max(gestureTranslation - lastPopupDragHeight, 0)
-        }
-    }
-    func calculateOffsetForStackedPopup(_ popup: AnyPopup) -> CGFloat {
-        let invertedIndex = getInvertedIndex(of: popup)
-        let offsetValue = stackOffset * .init(invertedIndex)
-        let alignmentMultiplier = switch alignment {
-            case .top: 1.0
-            case .bottom: -1.0
-        }
-
-        return offsetValue * alignmentMultiplier
-    }
-}
 
 // MARK: Scale
 extension PopupStackView.ViewModel {
