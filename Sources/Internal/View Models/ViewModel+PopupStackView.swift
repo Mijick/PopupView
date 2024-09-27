@@ -67,11 +67,12 @@ private extension PopupStackView.ViewModel {
     }
 }
 private extension PopupStackView.ViewModel {
-    func update(popup: AnyPopup, _ action: @escaping (inout AnyPopup) -> ()) { Task { @MainActor in
+    func updatePopup(_ popup: AnyPopup, by popupUpdateBuilder: @escaping (inout AnyPopup) -> ()) {
         var popup = popup
-        action(&popup)
-        updatePopupAction(popup)
-    }}
+        popupUpdateBuilder(&popup)
+
+        Task { @MainActor in updatePopupAction(popup) }
+    }
 }
 
 
