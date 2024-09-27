@@ -525,34 +525,18 @@ extension PopupStackView.ViewModel.TestHook {
     @MainActor func calculateStackOverlayOpacity(for popup: AnyPopup) -> CGFloat { target.calculateStackOverlayOpacity(for: popup) }
     @MainActor func calculateCornerRadius() -> [VerticalEdge: CGFloat] { target.calculateCornerRadius() }
     @MainActor func calculateTranslationProgress() -> CGFloat { target.calculateTranslationProgress() }
-
-
-
-
-
-
-
-
-
-
-
-
-
     @MainActor func getInvertedIndex(of popup: AnyPopup) -> Int { target.getInvertedIndex(of: popup) }
 
-
-    @MainActor func recalculateActivePopupHeight() { target.activePopupHeight = target.calculateHeightForActivePopup() }
-    @MainActor func recalculateTranslationProgress() { target.translationProgress = target.calculateTranslationProgress() }
-
-
-    @MainActor func onPopupDragGestureChanged(_ value: CGFloat) { target.onPopupDragGestureChanged(value) }
-    @MainActor func onPopupDragGestureEnded(_ value: CGFloat) { target.onPopupDragGestureEnded(value) }
-
+    @MainActor func calculateAndUpdateActivePopupHeight() { target.activePopupHeight = target.calculateHeightForActivePopup() }
+    @MainActor func calculateAndUpdateTranslationProgress() { target.translationProgress = target.calculateTranslationProgress() }
 
     @MainActor func updatePopupsValue(_ newPopups: [AnyPopup]) { target.updatePopupsValue(newPopups) }
     @MainActor func updateScreenValue(_ newScreen: ScreenProperties) { target.updateScreenValue(newScreen) }
     @MainActor func updateGestureTranslation(_ newGestureTranslation: CGFloat) { target.updateGestureTranslation(newGestureTranslation) }
     @MainActor func updatePopup(_ popup: AnyPopup, by popupUpdateBuilder: @escaping (inout AnyPopup) -> ()) { target.updatePopup(popup, by: popupUpdateBuilder) }
+
+    @MainActor func onPopupDragGestureChanged(_ value: CGFloat) { target.onPopupDragGestureChanged(value) }
+    @MainActor func onPopupDragGestureEnded(_ value: CGFloat) { target.onPopupDragGestureEnded(value) }
 }
 
 // MARK: Variables

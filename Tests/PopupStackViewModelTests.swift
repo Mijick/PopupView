@@ -36,7 +36,7 @@ private extension PopupStackViewModelTests {
         popups[index] = popup
 
         viewModel.testHook.updatePopupsValue(popups)
-        viewModel.testHook.recalculateActivePopupHeight()
+        viewModel.testHook.calculateAndUpdateActivePopupHeight()
     }}
     func closePopupAction(_ viewModel: ViewModel, _ popup: AnyPopup) { if let index = viewModel.popups.firstIndex(of: popup) {
         var popups = viewModel.popups
@@ -1469,7 +1469,7 @@ private extension PopupStackViewModelTests {
         viewModel.testHook.updatePopupsValue(popups)
         viewModel.testHook.updatePopupsValue(recalculatePopupHeights(viewModel))
         viewModel.testHook.updateGestureTranslation(gestureValue)
-        viewModel.testHook.recalculateTranslationProgress()
+        viewModel.testHook.calculateAndUpdateTranslationProgress()
         viewModel.testHook.onPopupDragGestureEnded(gestureValue)
 
         let expect = expectation(description: "results")
