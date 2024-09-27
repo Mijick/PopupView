@@ -203,11 +203,6 @@ private extension PopupStackView.ViewModel {
     }}
 }
 
-
-
-
-
-
 // MARK: Translation Progress
 private extension PopupStackView.ViewModel {
     func calculateTranslationProgress() -> CGFloat { guard let activePopupHeight = popups.last?.height else { return 0 }; return switch alignment {
