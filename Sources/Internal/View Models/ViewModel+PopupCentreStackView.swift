@@ -71,3 +71,10 @@ extension PopupCentreStackView.ViewModel {
         popups.last == popup ? 1 : 0
     }
 }
+
+
+private extension PopupCentreStackView.ViewModel {
+    func updateHeight(_ newHeight: CGFloat, _ popup: AnyPopup) { if popup.height != newHeight {
+        updatePopup(popup) { $0.height = newHeight }
+    }}
+}

@@ -29,16 +29,6 @@ class ViewModel<Config: LocalConfig>: ObservableObject {
     func calculatePopupPadding() -> EdgeInsets { fatalError() }
 }
 
-
-
-
-
-// MARK: - SETUP & UPDATE
-
-
-
-
-
 // MARK: Setup
 extension ViewModel {
     func setup(updatePopupAction: @escaping (AnyPopup) -> (), closePopupAction: @escaping (AnyPopup) -> ()) {
@@ -65,8 +55,6 @@ extension ViewModel {
 
         Task { @MainActor in objectWillChange.send() }
     }
-}
-private extension ViewModel {
     func updatePopup(_ popup: AnyPopup, by popupUpdateBuilder: @escaping (inout AnyPopup) -> ()) {
         var popup = popup
         popupUpdateBuilder(&popup)
@@ -75,16 +63,7 @@ private extension ViewModel {
     }
 }
 
-
-
-extension ViewModel {
-    func updateHeight(_ newHeight: CGFloat, _ popup: AnyPopup) { if popup.height != newHeight {
-        updatePopup(popup) { $0.height = newHeight }
-    }}
-}
-
-
-
+// MARK: Helpers
 extension ViewModel {
     func getConfig(_ item: AnyPopup?) -> Config {
         let config = item?.config as? Config
