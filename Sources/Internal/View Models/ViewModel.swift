@@ -11,7 +11,7 @@
 
 import SwiftUI
 
-class ViewModel: ObservableObject {
+class ViewModel<Config: LocalConfig>: ObservableObject {
     private(set) var popups: [AnyPopup] = []
 
     private(set) var activePopupHeight: CGFloat? = nil
@@ -25,6 +25,7 @@ class ViewModel: ObservableObject {
 
     func calculateHeightForActivePopup() -> CGFloat? { fatalError() }
     func recalculateAndSave(height: CGFloat, for popup: AnyPopup) { fatalError() }
+    func calculateCornerRadius() -> [VerticalEdge: CGFloat] { fatalError() }
 }
 
 extension ViewModel {
@@ -69,3 +70,14 @@ extension ViewModel {
     }}
 }
 
+
+
+extension ViewModel {
+    func getConfig(_ item: AnyPopup?) -> Config {
+        let config = item?.config as? Config
+        return config ?? .init()
+    }
+    func getActivePopupConfig() -> Config {
+        getConfig(popups.last)
+    }
+}

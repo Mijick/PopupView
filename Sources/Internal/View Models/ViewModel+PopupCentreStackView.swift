@@ -11,16 +11,29 @@
 
 import SwiftUI
 
-extension PopupCentreStackView { class ViewModel: MijickPopups.ViewModel {
+extension PopupCentreStackView { class ViewModel: MijickPopups.ViewModel<LocalConfig.Centre> {
 
-    override func calculateHeightForActivePopup() -> CGFloat? {
-        popups.last?.height
-    }
-    override func recalculateAndSave(height: CGFloat, for popup: AnyPopup) {
-        updateHeight(height, popup)
-    }
+    override func calculateHeightForActivePopup() -> CGFloat? { _calculateHeightForActivePopup() }
+    override func recalculateAndSave(height: CGFloat, for popup: AnyPopup) { _recalculateAndSave(height: height, for: popup) }
+    override func calculateCornerRadius() -> [VerticalEdge : CGFloat] { _calculateCornerRadius() }
 }}
 
-extension PopupCentreStackView {
 
+
+private extension PopupCentreStackView.ViewModel {
+    func _calculateCornerRadius() -> [VerticalEdge : CGFloat] {[
+        .top: getActivePopupConfig().cornerRadius,
+        .bottom: getActivePopupConfig().cornerRadius
+    ]}
+
+
+    func _calculateHeightForActivePopup() -> CGFloat? {
+        popups.last?.height
+    }
+
+
+
+    func _recalculateAndSave(height: CGFloat, for popup: AnyPopup) {
+        updateHeight(height, popup)
+    }
 }
