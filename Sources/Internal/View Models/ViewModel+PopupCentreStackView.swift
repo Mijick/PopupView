@@ -16,6 +16,7 @@ extension PopupCentreStackView { class ViewModel: MijickPopups.ViewModel<LocalCo
     override func calculateHeightForActivePopup() -> CGFloat? { _calculateHeightForActivePopup() }
     override func recalculateAndSave(height: CGFloat, for popup: AnyPopup) { _recalculateAndSave(height: height, for: popup) }
     override func calculateCornerRadius() -> [VerticalEdge : CGFloat] { _calculateCornerRadius() }
+    override func calculatePopupPadding() -> EdgeInsets { _calculatePopupPadding() }
 }}
 
 
@@ -35,5 +36,32 @@ private extension PopupCentreStackView.ViewModel {
 
     func _recalculateAndSave(height: CGFloat, for popup: AnyPopup) {
         updateHeight(height, popup)
+    }
+
+
+    func _calculatePopupPadding() -> EdgeInsets { .init(
+        top: calculateVerticalPopupPadding(for: .top),
+        leading: calculateLeadingPopupPadding(),
+        bottom: calculateVerticalPopupPadding(for: .bottom),
+        trailing: calculateTrailingPopupPadding()
+    )}
+}
+private extension PopupCentreStackView.ViewModel {
+    func calculateVerticalPopupPadding(for edge: VerticalEdge) -> CGFloat {
+
+        let popupPaddingCandidate = getActivePopupConfig().popupPadding[edge]
+
+        let add = isKeyboardActive && edge == .bottom ? screen.safeArea.bottom : 0
+        print(add)
+        return popupPaddingCandidate + add
+
+
+        return max(popupPaddingCandidate, 0)
+    }
+    func calculateLeadingPopupPadding() -> CGFloat {
+        getActivePopupConfig().popupPadding.leading
+    }
+    func calculateTrailingPopupPadding() -> CGFloat {
+        getActivePopupConfig().popupPadding.trailing
     }
 }

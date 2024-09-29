@@ -26,6 +26,7 @@ class ViewModel<Config: LocalConfig>: ObservableObject {
     func calculateHeightForActivePopup() -> CGFloat? { fatalError() }
     func recalculateAndSave(height: CGFloat, for popup: AnyPopup) { fatalError() }
     func calculateCornerRadius() -> [VerticalEdge: CGFloat] { fatalError() }
+    func calculatePopupPadding() -> EdgeInsets { fatalError() }
 }
 
 extension ViewModel {
@@ -45,7 +46,7 @@ extension ViewModel {
     func updateScreenValue(_ newScreen: ScreenProperties) {
         screen = newScreen
 
-        Task { @MainActor in objectWillChange.send() }
+        Task { @MainActor in withAnimation(.transition) { objectWillChange.send() }}
     }
     func updateKeyboardValue(_ isActive: Bool) {
         isKeyboardActive = isActive

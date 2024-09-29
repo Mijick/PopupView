@@ -16,13 +16,13 @@ public class LocalConfig { required init() {}
     var cornerRadius: CGFloat = 0
     var tapOutsideClosesView: Bool = false
     var overlayColour: Color = .clear
+    var popupPadding: EdgeInsets = .init()
 }
 
 // MARK: - Vertical
 public extension LocalConfig { class Vertical: LocalConfig {
     var ignoredSafeAreaEdges: Edge.Set = []
     var heightMode: HeightMode = .auto
-    var popupPadding: EdgeInsets = .init()
     var dragGestureEnabled: Bool = false
     var dragDetents: [DragDetent] = []
 
@@ -35,6 +35,7 @@ public extension LocalConfig { class Vertical: LocalConfig {
         self.tapOutsideClosesView = ConfigContainer.vertical.tapOutsideClosesView
         self.overlayColour = ConfigContainer.vertical.overlayColour
         self.dragGestureEnabled = ConfigContainer.vertical.dragGestureEnabled
+        self.popupPadding = .init()
     }
 }}
 public extension LocalConfig.Vertical {
@@ -44,9 +45,6 @@ public extension LocalConfig.Vertical {
 
 // MARK: - Centre
 public extension LocalConfig { class Centre: LocalConfig {
-    var horizontalPadding: CGFloat = 12
-
-
     required init() {
         super.init()
 
@@ -54,6 +52,7 @@ public extension LocalConfig { class Centre: LocalConfig {
         self.cornerRadius = ConfigContainer.centre.cornerRadius
         self.tapOutsideClosesView = ConfigContainer.centre.tapOutsideClosesView
         self.overlayColour = ConfigContainer.centre.overlayColour
+        self.popupPadding = .init(top: 0, leading: 16, bottom: 0, trailing: 16)
     }
 }}
 
