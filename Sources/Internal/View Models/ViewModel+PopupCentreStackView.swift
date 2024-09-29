@@ -46,13 +46,12 @@ private extension PopupCentreStackView.ViewModel {
         trailing: calculateTrailingPopupPadding()
     )}
 }
-private extension PopupCentreStackView.ViewModel {
+extension PopupCentreStackView.ViewModel {
     func calculateVerticalPopupPadding(for edge: VerticalEdge) -> CGFloat {
 
         let popupPaddingCandidate = getActivePopupConfig().popupPadding[edge]
 
         let add = isKeyboardActive && edge == .bottom ? screen.safeArea.bottom : 0
-        print(add)
         return popupPaddingCandidate + add
 
 
@@ -63,5 +62,12 @@ private extension PopupCentreStackView.ViewModel {
     }
     func calculateTrailingPopupPadding() -> CGFloat {
         getActivePopupConfig().popupPadding.trailing
+    }
+
+
+
+
+    func calculateOpacity(for popup: AnyPopup) -> CGFloat {
+        popups.last == popup ? 1 : 0
     }
 }
