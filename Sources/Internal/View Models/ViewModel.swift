@@ -22,13 +22,24 @@ class ViewModel<Config: LocalConfig>: ObservableObject {
     private var closePopupAction: ((AnyPopup) -> ())!
 
 
-
+    // MARK: Methods to Override
     func calculateHeightForActivePopup() -> CGFloat? { fatalError() }
     func recalculateAndSave(height: CGFloat, for popup: AnyPopup) { fatalError() }
     func calculateCornerRadius() -> [VerticalEdge: CGFloat] { fatalError() }
     func calculatePopupPadding() -> EdgeInsets { fatalError() }
 }
 
+
+
+
+
+// MARK: - SETUP & UPDATE
+
+
+
+
+
+// MARK: Setup
 extension ViewModel {
     func setup(updatePopupAction: @escaping (AnyPopup) -> (), closePopupAction: @escaping (AnyPopup) -> ()) {
         self.updatePopupAction = updatePopupAction
@@ -36,6 +47,7 @@ extension ViewModel {
     }
 }
 
+// MARK: Update
 extension ViewModel {
     func updatePopupsValue(_ newPopups: [AnyPopup]) {
         popups = newPopups
