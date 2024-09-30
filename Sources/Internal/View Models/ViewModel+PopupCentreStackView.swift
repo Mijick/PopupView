@@ -21,11 +21,7 @@ extension PopupCentreStackView { class ViewModel: MijickPopups.ViewModel<LocalCo
 
 
 
-
-
 // MARK: - VIEW METHODS
-
-
 
 
 
@@ -106,8 +102,6 @@ private extension PopupCentreStackView.ViewModel {
 
 
 
-
-
 // MARK: Active Popup Height
 private extension PopupCentreStackView.ViewModel {
     func _calculateHeightForActivePopup() -> CGFloat? {
@@ -120,8 +114,6 @@ private extension PopupCentreStackView.ViewModel {
 
 
 // MARK: - TESTING
-
-
 
 
 
