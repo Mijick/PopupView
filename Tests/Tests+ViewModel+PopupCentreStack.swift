@@ -56,6 +56,7 @@ extension PopupCentreStackViewModelTests {
 
         appendPopupsAndCheckPopupPadding(
             popups: popups,
+            isKeyboardActive: false,
             expectedValue: .init()
         )
     }
@@ -68,20 +69,32 @@ extension PopupCentreStackViewModelTests {
 
         appendPopupsAndCheckPopupPadding(
             popups: popups,
+            isKeyboardActive: false,
             expectedValue: .init(top: 0, leading: 16, bottom: 0, trailing: 16)
         )
     }
-    func test_calculatePopupPadding_withKeyboardShown_whenKeyboardWontOverlapPopup() {
+    func test_calculatePopupPadding_withKeyboardShown_whenKeyboardNotOverlapingPopup() {
+        let popups = [
+            createPopupInstanceForPopupHeightTests(popupHeight: 350),
+            createPopupInstanceForPopupHeightTests(popupHeight: 72, popupPadding: .init(top: 0, leading: 11, bottom: 0, trailing: 11)),
+            createPopupInstanceForPopupHeightTests(popupHeight: 400, popupPadding: .init(top: 0, leading: 16, bottom: 0, trailing: 16))
+        ]
 
+        appendPopupsAndCheckPopupPadding(
+            popups: popups,
+            isKeyboardActive: true,
+            expectedValue: .init(top: 0, leading: 16, bottom: 0, trailing: 16)
+        )
     }
-    func test_calculatePopupPadding_withKeyboardShown_whenKeyboardWillOverlapPopup() {
+    func test_calculatePopupPadding_withKeyboardShown_whenKeyboardOverlapingPopup() {
 
     }
 }
 private extension PopupCentreStackViewModelTests {
-    func appendPopupsAndCheckPopupPadding(popups: [AnyPopup], expectedValue: EdgeInsets) {
+    func appendPopupsAndCheckPopupPadding(popups: [AnyPopup], isKeyboardActive: Bool, expectedValue: EdgeInsets) {
         appendPopupsAndPerformChecks(
             popups: popups,
+            isKeyboardActive: isKeyboardActive,
             calculatedValue: { $0.t_calculatePopupPadding() },
             expectedValueBuilder: { _ in expectedValue }
         )
@@ -133,14 +146,15 @@ private extension PopupCentreStackViewModelTests {
         popup.height = popupHeight
         return popup
     }
-    func appendPopupsAndPerformChecks<Value: Equatable>(popups: [AnyPopup], calculatedValue: @escaping (ViewModel) -> (Value), expectedValueBuilder: @escaping (ViewModel) -> Value) {
+    func appendPopupsAndPerformChecks<Value: Equatable>(popups: [AnyPopup], isKeyboardActive: Bool, calculatedValue: @escaping (ViewModel) -> (Value), expectedValueBuilder: @escaping (ViewModel) -> Value) {
         viewModel.t_updatePopupsValue(popups)
         viewModel.t_updatePopupsValue(recalculatePopupHeights(viewModel))
+        viewModel.t_updateKeyboardValue(isKeyboardActive)
 
         let expect = expectation(description: "results")
         viewModel.objectWillChange
             .receive(on: RunLoop.main)
-            .dropFirst(2)
+            .dropFirst(3)
             .sink { [self] in
                 XCTAssertEqual(calculatedValue(viewModel), expectedValueBuilder(viewModel))
                 expect.fulfill()
