@@ -14,15 +14,14 @@ import SwiftUI
 class ViewModel<Config: LocalConfig>: ObservableObject {
     private(set) var allPopups: [AnyPopup] = []
     private(set) var popups: [AnyPopup] = []
+    private(set) var updatePopupAction: ((AnyPopup) -> ())!
+    private(set) var closePopupAction: ((AnyPopup) -> ())!
 
-    private(set) var activePopupHeight: CGFloat? = nil
-    private(set) var screen: ScreenProperties = .init()
-    private(set) var isKeyboardActive: Bool = false
+    var activePopupHeight: CGFloat? = nil
+    var screen: ScreenProperties = .init()
+    var isKeyboardActive: Bool = false
 
-    private var updatePopupAction: ((AnyPopup) -> ())!
-    private var closePopupAction: ((AnyPopup) -> ())!
-
-
+    
     // MARK: Methods to Override
     func recalculateAndSave(height: CGFloat, for popup: AnyPopup) { fatalError() }
     func calculateHeightForActivePopup() -> CGFloat? { fatalError() }
