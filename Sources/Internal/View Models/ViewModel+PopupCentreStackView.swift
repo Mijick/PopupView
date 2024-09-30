@@ -19,6 +19,22 @@ extension PopupCentreStackView { class ViewModel: MijickPopups.ViewModel<LocalCo
 }}
 
 
+
+
+
+// MARK: - VIEW METHODS
+
+
+
+
+
+// MARK: Recalculate & Update Popup Height
+private extension PopupCentreStackView.ViewModel {
+    func _recalculateAndSave(height: CGFloat, for popup: AnyPopup) {
+        updateHeight(height, popup)
+    }
+}
+
 // MARK: Popup Padding
 private extension PopupCentreStackView.ViewModel {
     func _calculatePopupPadding() -> EdgeInsets { .init(
@@ -64,27 +80,25 @@ extension PopupCentreStackView.ViewModel {
 
 
 
+
+// MARK: - HELPERS
+
+
+
+
+
+// MARK: Active Popup Height
 private extension PopupCentreStackView.ViewModel {
-
-
-
     func _calculateHeightForActivePopup() -> CGFloat? {
         popups.last?.height
     }
-
-
-
-    func _recalculateAndSave(height: CGFloat, for popup: AnyPopup) {
-        updateHeight(height, popup)
-    }
-
-
-
 }
 
 
-private extension PopupCentreStackView.ViewModel {
-    func updateHeight(_ newHeight: CGFloat, _ popup: AnyPopup) { if popup.height != newHeight {
-        updatePopup(popup) { $0.height = newHeight }
-    }}
+
+
+
+// MARK: - TESTING
+extension ViewModel.TestHook {
+    @MainActor func dupa() {}
 }

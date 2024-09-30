@@ -64,6 +64,11 @@ extension ViewModel {
 }
 
 // MARK: Helpers
+extension  ViewModel {
+    func updateHeight(_ newHeight: CGFloat, _ popup: AnyPopup) { if popup.height != newHeight {
+        updatePopup(popup) { $0.height = newHeight }
+    }}
+}
 extension ViewModel {
     func getConfig(_ item: AnyPopup?) -> Config {
         let config = item?.config as? Config
