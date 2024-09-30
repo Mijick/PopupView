@@ -150,10 +150,40 @@ private extension PopupCentreStackViewModelTests {
 // MARK: Opacity
 extension PopupCentreStackViewModelTests {
     func test_calculatePopupOpacity_1() {
+        let popups = [
+            createPopupInstanceForPopupHeightTests(popupHeight: 350),
+            createPopupInstanceForPopupHeightTests(popupHeight: 72),
+            createPopupInstanceForPopupHeightTests(popupHeight: 400)
+        ]
 
+        appendPopupsAndCheckOpacity(
+            popups: popups,
+            calculateForIndex: 1,
+            expectedValue: 0
+        )
     }
     func test_calculatePopupOpacity_2() {
+        let popups = [
+            createPopupInstanceForPopupHeightTests(popupHeight: 350),
+            createPopupInstanceForPopupHeightTests(popupHeight: 72),
+            createPopupInstanceForPopupHeightTests(popupHeight: 400)
+        ]
 
+        appendPopupsAndCheckOpacity(
+            popups: popups,
+            calculateForIndex: 2,
+            expectedValue: 1
+        )
+    }
+}
+private extension PopupCentreStackViewModelTests {
+    func appendPopupsAndCheckOpacity(popups: [AnyPopup], calculateForIndex index: Int, expectedValue: CGFloat) {
+        appendPopupsAndPerformChecks(
+            popups: popups,
+            isKeyboardActive: false,
+            calculatedValue: { [self] in $0.t_calculateOpacity(for: viewModel.popups[index]) },
+            expectedValueBuilder: { _ in expectedValue }
+        )
     }
 }
 
