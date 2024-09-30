@@ -31,7 +31,20 @@ extension PopupCentreStackView { class ViewModel: MijickPopups.ViewModel<LocalCo
 // MARK: Recalculate & Update Popup Height
 private extension PopupCentreStackView.ViewModel {
     func _recalculateAndSave(height: CGFloat, for popup: AnyPopup) {
-        updateHeight(height, popup)
+        let newHeight = calculateHeight(height)
+        updateHeight(newHeight, popup)
+    }
+}
+private extension PopupCentreStackView.ViewModel {
+    func calculateHeight(_ height: CGFloat) -> CGFloat {
+        min(height, calculateLargeScreenHeight())
+    }
+}
+private extension PopupCentreStackView.ViewModel {
+    func calculateLargeScreenHeight() -> CGFloat {
+        let fullscreenHeight = screen.height,
+            safeAreaHeight = screen.safeArea.top + screen.safeArea.bottom
+        return fullscreenHeight - safeAreaHeight
     }
 }
 
@@ -102,5 +115,9 @@ private extension PopupCentreStackView.ViewModel {
 extension ViewModel.TestHook {
     @MainActor func calculateCornerRadius() -> [VerticalEdge: CGFloat] { target.calculateCornerRadius() }
     @MainActor func calculatePopupPadding() -> EdgeInsets { target.calculatePopupPadding() }
-    
+
 }
+
+
+
+// zindex
