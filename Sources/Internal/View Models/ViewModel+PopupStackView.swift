@@ -510,6 +510,7 @@ extension PopupStackView.ViewModel.TestHook {
     @MainActor func calculateAndUpdateActivePopupHeight() { target.activePopupHeight = target.calculateHeightForActivePopup() }
     @MainActor func calculateAndUpdateTranslationProgress() { target.translationProgress = target.calculateTranslationProgress() }
 
+    @MainActor func setup(updatePopupAction: @escaping (AnyPopup) -> (), closePopupAction: @escaping (AnyPopup) -> ()) { target.setup(updatePopupAction: updatePopupAction, closePopupAction: closePopupAction) }
     @MainActor func updatePopupsValue(_ newPopups: [AnyPopup]) { target.updatePopupsValue(newPopups) }
     @MainActor func updateScreenValue(_ newScreen: ScreenProperties) { target.updateScreenValue(newScreen) }
     @MainActor func updateGestureTranslation(_ newGestureTranslation: CGFloat) { target.updateGestureTranslation(newGestureTranslation) }

@@ -114,20 +114,12 @@ private extension PopupCentreStackView.ViewModel {
 
 
 
-extension PopupCentreStackView.ViewModel { struct TestHook { init(target: PopupCentreStackView.ViewModel) { self.target = target }
-    private let target: PopupCentreStackView.ViewModel
-}}
-
 // MARK: Methods
-extension PopupCentreStackView.ViewModel.TestHook {
-    @MainActor func calculatePopupPadding() -> EdgeInsets { target.calculatePopupPadding() }
-    @MainActor func calculateCornerRadius() -> [VerticalEdge: CGFloat] { target.calculateCornerRadius() }
-    @MainActor func calculateOpacity(for popup: AnyPopup) -> CGFloat { target.calculateOpacity(for: popup) }
-    @MainActor func calculateVerticalFixedSize(for popup: AnyPopup) -> Bool { target.calculateVerticalFixedSize(for: popup) }
-}
-
-// MARK: Test Hook
 extension PopupCentreStackView.ViewModel {
-    var testHook: TestHook { .init(target: self) }
+    @MainActor func t_calculateHeightForActivePopup() -> CGFloat? { calculateHeightForActivePopup() }
+    @MainActor func t_calculatePopupPadding() -> EdgeInsets { calculatePopupPadding() }
+    @MainActor func t_calculateCornerRadius() -> [VerticalEdge: CGFloat] { calculateCornerRadius() }
+    @MainActor func t_calculateOpacity(for popup: AnyPopup) -> CGFloat { calculateOpacity(for: popup) }
+    @MainActor func t_calculateVerticalFixedSize(for popup: AnyPopup) -> Bool { calculateVerticalFixedSize(for: popup) }
 }
 #endif

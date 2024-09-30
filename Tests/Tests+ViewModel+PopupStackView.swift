@@ -27,7 +27,7 @@ final class PopupStackViewModelTests: XCTestCase {
 private extension PopupStackViewModelTests {
     func setup(_ viewModel: ViewModel) {
         viewModel.testHook.updateScreenValue(screen)
-        viewModel.setup(updatePopupAction: { self.updatePopupAction(viewModel, $0) }, closePopupAction: { self.closePopupAction(viewModel, $0) })
+        viewModel.testHook.setup(updatePopupAction: { self.updatePopupAction(viewModel, $0) }, closePopupAction: { self.closePopupAction(viewModel, $0) })
     }
 }
 private extension PopupStackViewModelTests {
