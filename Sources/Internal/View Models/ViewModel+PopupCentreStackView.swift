@@ -96,8 +96,6 @@ private extension PopupCentreStackView.ViewModel {
 
 
 
-
-
 // MARK: - HELPERS
 
 
@@ -111,14 +109,25 @@ private extension PopupCentreStackView.ViewModel {
 
 
 
-
-
 // MARK: - TESTING
+#if DEBUG
 
 
 
+extension PopupCentreStackView.ViewModel { struct TestHook { init(target: PopupCentreStackView.ViewModel) { self.target = target }
+    private let target: PopupCentreStackView.ViewModel
+}}
+
+// MARK: Methods
 extension PopupCentreStackView.ViewModel.TestHook {
     @MainActor func calculateCornerRadius() -> [VerticalEdge: CGFloat] { target.calculateCornerRadius() }
     @MainActor func calculatePopupPadding() -> EdgeInsets { target.calculatePopupPadding() }
+    @MainActor func calculateOpacity(for popup: AnyPopup) -> CGFloat { target.calculateOpacity(for: popup) }
     @MainActor func calculateVerticalFixedSize(for popup: AnyPopup) -> Bool { target.calculateVerticalFixedSize(for: popup) }
 }
+
+// MARK: Test Hook
+extension PopupCentreStackView.ViewModel {
+    var testHook: TestHook { .init(target: self) }
+}
+#endif

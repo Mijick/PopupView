@@ -92,13 +92,3 @@ extension ViewModel {
         getConfig(popups.last)
     }
 }
-
-// MARK: Tests
-#if DEBUG
-extension ViewModel { struct TestHook {
-    let target: ViewModel
-}}
-extension ViewModel {
-    var testHook: TestHook { .init(target: self) }
-}
-#endif
