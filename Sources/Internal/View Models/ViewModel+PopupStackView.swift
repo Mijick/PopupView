@@ -11,19 +11,21 @@
 
 import SwiftUI
 
-extension PopupStackView { class ViewModel: ObservableObject { init(alignment: VerticalEdge) { self.alignment = alignment }
+extension PopupStackView { class ViewModel: MijickPopups.ViewModel<LocalConfig.Vertical> {
+    // MARK: Attributes
     private(set) var alignment: VerticalEdge
-    private(set) var popups: [AnyPopup] = []
+    private(set) var gestureTranslation: CGFloat = 0
+    private(set) var translationProgress: CGFloat = 0
 
-    private(set) var activePopupHeight: CGFloat? = nil
-    private(set) var screen: ScreenProperties = .init()
-    private(set) var isKeyboardActive: Bool = false
+    // MARK: Overridden Methods
+    override func recalculateAndSave(height: CGFloat, for popup: AnyPopup) { _recalculateAndSave(height: height, for: popup) }
+    override func calculateHeightForActivePopup() -> CGFloat? { _calculateHeightForActivePopup() }
+    override func calculatePopupPadding() -> EdgeInsets { _calculatePopupPadding() }
+    override func calculateCornerRadius() -> [VerticalEdge : CGFloat] { _calculateCornerRadius() }
+    override func calculateVerticalFixedSize(for popup: AnyPopup) -> Bool { _calculateVerticalFixedSize(for: popup) }
 
-    private var gestureTranslation: CGFloat = 0
-    private var translationProgress: CGFloat = 0
-
-    private var updatePopupAction: ((AnyPopup) -> ())!
-    private var closePopupAction: ((AnyPopup) -> ())!
+    // MARK: Initialiser
+    init(alignment: VerticalEdge) { self.alignment = alignment }
 }}
 
 
