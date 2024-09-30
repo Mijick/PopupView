@@ -19,25 +19,8 @@ extension PopupCentreStackView { class ViewModel: MijickPopups.ViewModel<LocalCo
 }}
 
 
-
+// MARK: Popup Padding
 private extension PopupCentreStackView.ViewModel {
-    func _calculateCornerRadius() -> [VerticalEdge : CGFloat] {[
-        .top: getActivePopupConfig().cornerRadius,
-        .bottom: getActivePopupConfig().cornerRadius
-    ]}
-
-
-    func _calculateHeightForActivePopup() -> CGFloat? {
-        popups.last?.height
-    }
-
-
-
-    func _recalculateAndSave(height: CGFloat, for popup: AnyPopup) {
-        updateHeight(height, popup)
-    }
-
-
     func _calculatePopupPadding() -> EdgeInsets { .init(
         top: calculateVerticalPopupPadding(for: .top),
         leading: calculateLeadingPopupPadding(),
@@ -45,7 +28,7 @@ private extension PopupCentreStackView.ViewModel {
         trailing: calculateTrailingPopupPadding()
     )}
 }
-extension PopupCentreStackView.ViewModel {
+private extension PopupCentreStackView.ViewModel {
     func calculateVerticalPopupPadding(for edge: VerticalEdge) -> CGFloat {
 
         let popupPaddingCandidate = getActivePopupConfig().popupPadding[edge]
@@ -62,6 +45,38 @@ extension PopupCentreStackView.ViewModel {
     func calculateTrailingPopupPadding() -> CGFloat {
         getActivePopupConfig().popupPadding.trailing
     }
+}
+
+// MARK: Corner Radius
+private extension PopupCentreStackView.ViewModel {
+    func _calculateCornerRadius() -> [VerticalEdge : CGFloat] {[
+        .top: getActivePopupConfig().cornerRadius,
+        .bottom: getActivePopupConfig().cornerRadius
+    ]}
+}
+
+
+
+
+private extension PopupCentreStackView.ViewModel {
+
+
+
+    func _calculateHeightForActivePopup() -> CGFloat? {
+        popups.last?.height
+    }
+
+
+
+    func _recalculateAndSave(height: CGFloat, for popup: AnyPopup) {
+        updateHeight(height, popup)
+    }
+
+
+
+}
+extension PopupCentreStackView.ViewModel {
+
 
 
 
