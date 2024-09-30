@@ -114,10 +114,36 @@ private extension PopupCentreStackViewModelTests {
 // MARK: Corner Radius
 extension PopupCentreStackViewModelTests {
     func test_calculateCornerRadius_withCornerRadiusZero() {
+        let popups = [
+            createPopupInstanceForPopupHeightTests(popupHeight: 234, cornerRadius: 20),
+            createPopupInstanceForPopupHeightTests(popupHeight: 234, cornerRadius: 0),
+        ]
 
+        appendPopupsAndCheckCornerRadius(
+            popups: popups,
+            expectedValue: [.top: 0, .bottom: 0]
+        )
     }
     func test_calculateCornerRadius_withCornerRadiusNonZero() {
+        let popups = [
+            createPopupInstanceForPopupHeightTests(popupHeight: 234, cornerRadius: 20),
+            createPopupInstanceForPopupHeightTests(popupHeight: 234, cornerRadius: 24),
+        ]
 
+        appendPopupsAndCheckCornerRadius(
+            popups: popups,
+            expectedValue: [.top: 24, .bottom: 24]
+        )
+    }
+}
+private extension PopupCentreStackViewModelTests {
+    func appendPopupsAndCheckCornerRadius(popups: [AnyPopup], expectedValue: [MijickPopups.VerticalEdge: CGFloat]) {
+        appendPopupsAndPerformChecks(
+            popups: popups,
+            isKeyboardActive: false,
+            calculatedValue: { $0.t_calculateCornerRadius() },
+            expectedValueBuilder: { _ in expectedValue }
+        )
     }
 }
 
