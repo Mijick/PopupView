@@ -22,17 +22,6 @@ public extension GlobalConfig.Vertical {
 
 
 
-// MARK: - Centre
-public extension GlobalConfig.Centre {
-    /// Scale of the initial state of the popup animation while opening
-    func transitionEntryScale(_ value: CGFloat) -> Self { self.transitionEntryScale = value; return self }
-
-    /// Scale of the final state of the popup animation while closing
-    func transitionExitScale(_ value: CGFloat) -> Self { self.transitionExitScale = value; return self }
-}
-
-
-
 
 
 

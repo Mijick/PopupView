@@ -27,7 +27,4 @@ public extension GlobalConfig { class Vertical: GlobalConfig {
 }}
 
 // MARK: Centre
-public extension GlobalConfig { class Centre: GlobalConfig {
-    var transitionEntryScale: CGFloat = 1.16
-    var transitionExitScale: CGFloat = 0.82
-}}
+public extension GlobalConfig { class Centre: GlobalConfig {}}

@@ -29,7 +29,7 @@ private extension PopupCentreStackView {
 private extension PopupCentreStackView {
     func createPopup(_ popup: AnyPopup) -> some View {
         popup.body
-            .fixedSize(horizontal: false, vertical: viewModel.calculateVerticalFixedSize())
+            .fixedSize(horizontal: false, vertical: viewModel.calculateVerticalFixedSize(for: popup))
             .onHeightChange { viewModel.recalculateAndSave(height: $0, for: popup) }
             .frame(height: viewModel.activePopupHeight)
             .frame(maxWidth: .infinity, maxHeight: viewModel.activePopupHeight)
@@ -37,7 +37,6 @@ private extension PopupCentreStackView {
             .opacity(viewModel.calculateOpacity(for: popup))
             .focusSectionIfAvailable()
             .padding(viewModel.calculatePopupPadding())
-            .zIndex(2137)
             .compositingGroup()
     }
 }
@@ -45,11 +44,12 @@ private extension PopupCentreStackView {
 // MARK: Helpers
 private extension PopupCentreStackView {
     func getTransition() -> AnyTransition {
-        .scale(scale: viewModel.popups.isEmpty ? ConfigContainer.centre.transitionExitScale : ConfigContainer.centre.transitionEntryScale)
+        .scale(scale: transitionScale)
         .combined(with: .opacity)
     }
     func getBackgroundColour(for popup: AnyPopup) -> Color { popup.config.backgroundColour }
 }
 private extension PopupCentreStackView {
     var popupShadow: Shadow { ConfigContainer.centre.shadow }
+    var transitionScale: CGFloat { 1.12 }
 }
