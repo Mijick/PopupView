@@ -30,13 +30,27 @@ private extension PopupCentreStackView.ViewModel {
 }
 private extension PopupCentreStackView.ViewModel {
     func calculateVerticalPopupPadding(for edge: VerticalEdge) -> CGFloat {
+        guard let activePopupHeight,
+              isKeyboardActive && edge == .bottom
+        else { return 0 }
+
+        let remainingHeight = screen.height - activePopupHeight
+        let paddingCandidate = (remainingHeight / 2 - screen.safeArea.bottom) * 2
+        return abs(paddingCandidate)
+
+
+
+
+
+
+
         let popupPaddingCandidate = getActivePopupConfig().popupPadding[edge]
 
 
         let padding = (screen.height - (activePopupHeight ?? 0))
 
 
-        let activePopupHeight = activePopupHeight ?? 0
+        //let activePopupHeight = activePopupHeight ?? 0
         let halfHeight = activePopupHeight / 2
 
         if isKeyboardActive {
