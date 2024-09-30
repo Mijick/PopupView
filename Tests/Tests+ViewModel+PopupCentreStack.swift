@@ -87,7 +87,17 @@ extension PopupCentreStackViewModelTests {
         )
     }
     func test_calculatePopupPadding_withKeyboardShown_whenKeyboardOverlapingPopup() {
+        let popups = [
+            createPopupInstanceForPopupHeightTests(popupHeight: 350),
+            createPopupInstanceForPopupHeightTests(popupHeight: 72, popupPadding: .init(top: 0, leading: 11, bottom: 0, trailing: 11)),
+            createPopupInstanceForPopupHeightTests(popupHeight: 1000, popupPadding: .init(top: 0, leading: 16, bottom: 0, trailing: 16))
+        ]
 
+        appendPopupsAndCheckPopupPadding(
+            popups: popups,
+            isKeyboardActive: true,
+            expectedValue: .init(top: 0, leading: 16, bottom: 250, trailing: 16)
+        )
     }
 }
 private extension PopupCentreStackViewModelTests {
@@ -150,11 +160,12 @@ private extension PopupCentreStackViewModelTests {
         viewModel.t_updatePopupsValue(popups)
         viewModel.t_updatePopupsValue(recalculatePopupHeights(viewModel))
         viewModel.t_updateKeyboardValue(isKeyboardActive)
+        viewModel.t_updateScreenValue(isKeyboardActive ? screenWithKeyboard : screen)
 
         let expect = expectation(description: "results")
         viewModel.objectWillChange
             .receive(on: RunLoop.main)
-            .dropFirst(3)
+            .dropFirst(4)
             .sink { [self] in
                 XCTAssertEqual(calculatedValue(viewModel), expectedValueBuilder(viewModel))
                 expect.fulfill()
@@ -179,7 +190,11 @@ private extension PopupCentreStackViewModelTests {
 private extension PopupCentreStackViewModelTests {
     var screen: ScreenProperties { .init(
         height: 1000,
-        safeArea: .init(top: 100, leading: 20, bottom: viewModel.isKeyboardActive ? 200 : 50, trailing: 30)
+        safeArea: .init(top: 100, leading: 20, bottom: 50, trailing: 30)
+    )}
+    var screenWithKeyboard: ScreenProperties { .init(
+        height: 1000,
+        safeArea: .init(top: 100, leading: 20, bottom: 200, trailing: 30)
     )}
 }
 

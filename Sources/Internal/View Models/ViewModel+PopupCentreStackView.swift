@@ -62,7 +62,7 @@ private extension PopupCentreStackView.ViewModel {
 
         let remainingHeight = screen.height - activePopupHeight
         let paddingCandidate = (remainingHeight / 2 - screen.safeArea.bottom) * 2
-        return abs(paddingCandidate)
+        return abs(min(paddingCandidate, 0))
     }
     func calculateLeadingPopupPadding() -> CGFloat {
         getActivePopupConfig().popupPadding.leading
