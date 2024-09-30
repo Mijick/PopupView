@@ -120,8 +120,8 @@ extension PopupCentreStackView.ViewModel { struct TestHook { init(target: PopupC
 
 // MARK: Methods
 extension PopupCentreStackView.ViewModel.TestHook {
-    @MainActor func calculateCornerRadius() -> [VerticalEdge: CGFloat] { target.calculateCornerRadius() }
     @MainActor func calculatePopupPadding() -> EdgeInsets { target.calculatePopupPadding() }
+    @MainActor func calculateCornerRadius() -> [VerticalEdge: CGFloat] { target.calculateCornerRadius() }
     @MainActor func calculateOpacity(for popup: AnyPopup) -> CGFloat { target.calculateOpacity(for: popup) }
     @MainActor func calculateVerticalFixedSize(for popup: AnyPopup) -> Bool { target.calculateVerticalFixedSize(for: popup) }
 }
