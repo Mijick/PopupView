@@ -12,6 +12,7 @@
 import SwiftUI
 
 class ViewModel<Config: LocalConfig>: ObservableObject {
+    private(set) var allPopups: [AnyPopup] = []
     private(set) var popups: [AnyPopup] = []
 
     private(set) var activePopupHeight: CGFloat? = nil
@@ -41,7 +42,8 @@ extension ViewModel {
 // MARK: Update
 extension ViewModel {
     func updatePopupsValue(_ newPopups: [AnyPopup]) {
-        popups = newPopups
+        allPopups = newPopups
+        popups = newPopups.filter { $0.config is Config }
         activePopupHeight = calculateHeightForActivePopup()
 
         Task { @MainActor in withAnimation(.transition) { objectWillChange.send() }}
@@ -64,8 +66,19 @@ extension ViewModel {
     }
 }
 
+// MARK: View Methods
+extension ViewModel {
+    func calculateZIndex(for popup: AnyPopup?) -> CGFloat {
+        guard let popup,
+              let index = allPopups.firstIndex(of: popup)
+        else { return 2137 }
+
+        return .init(index + 2)
+    }
+}
+
 // MARK: Helpers
-extension  ViewModel {
+extension ViewModel {
     func updateHeight(_ newHeight: CGFloat, _ popup: AnyPopup) { if popup.height != newHeight {
         updatePopup(popup) { $0.height = newHeight }
     }}
