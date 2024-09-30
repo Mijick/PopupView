@@ -28,11 +28,7 @@ extension PopupStackView { class ViewModel: ObservableObject { init(alignment: V
 
 
 
-
-
 // MARK: - SETUP & UPDATE
-
-
 
 
 
@@ -81,11 +77,7 @@ private extension PopupStackView.ViewModel {
 
 
 
-
-
 // MARK: - VIEW METHODS
-
-
 
 
 
@@ -313,11 +305,7 @@ private extension PopupStackView.ViewModel {
 
 
 
-
-
 // MARK: - HELPERS
-
-
 
 
 
@@ -377,11 +365,7 @@ private extension PopupStackView.ViewModel {
 
 
 
-
-
 // MARK: - GESTURES
-
-
 
 
 
@@ -501,12 +485,8 @@ private extension PopupStackView.ViewModel {
 
 
 
-
-
 // MARK: - TESTING
 #if DEBUG
-
-
 
 
 
