@@ -47,10 +47,30 @@ private extension PopupCentreStackViewModelTests {
 
 // MARK: Popup Padding
 extension PopupCentreStackViewModelTests {
-    func test_calculatePopupPadding_withKeyboardHidden() {
-        
+    func test_calculatePopupPadding_withKeyboardHidden_whenCustomPaddingNotSet() {
+        let popups = [
+            createPopupInstanceForPopupHeightTests(popupHeight: 350),
+            createPopupInstanceForPopupHeightTests(popupHeight: 72),
+            createPopupInstanceForPopupHeightTests(popupHeight: 400)
+        ]
+
+        appendPopupsAndCheckPopupPadding(
+            popups: popups,
+            expectedValue: .init()
+        )
     }
-    func test_calculatePopupPadding_withKeyboardShown() {
+    func test_calculatePopupPadding_withKeyboardHidden_whenCustomPaddingSet() {
+        let popups = [
+            createPopupInstanceForPopupHeightTests(popupHeight: 350)
+        ]
+
+
+
+    }
+    func test_calculatePopupPadding_withKeyboardShown_whenKeyboardWontOverlapPopup() {
+
+    }
+    func test_calculatePopupPadding_withKeyboardShown_whenKeyboardWillOverlapPopup() {
 
     }
 }
