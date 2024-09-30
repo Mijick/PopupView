@@ -16,6 +16,7 @@ extension PopupCentreStackView { class ViewModel: MijickPopups.ViewModel<LocalCo
     override func calculateHeightForActivePopup() -> CGFloat? { _calculateHeightForActivePopup() }
     override func calculatePopupPadding() -> EdgeInsets { _calculatePopupPadding() }
     override func calculateCornerRadius() -> [VerticalEdge : CGFloat] { _calculateCornerRadius() }
+    override func calculateVerticalFixedSize(for popup: AnyPopup) -> Bool { _calculateVerticalFixedSize(for: popup) }
 }}
 
 

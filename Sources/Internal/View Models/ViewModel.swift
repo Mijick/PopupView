@@ -27,6 +27,7 @@ class ViewModel<Config: LocalConfig>: ObservableObject {
     func calculateHeightForActivePopup() -> CGFloat? { fatalError() }
     func calculatePopupPadding() -> EdgeInsets { fatalError() }
     func calculateCornerRadius() -> [VerticalEdge: CGFloat] { fatalError() }
+    func calculateVerticalFixedSize(for popup: AnyPopup) -> Bool { fatalError() }
 }
 
 // MARK: Setup
