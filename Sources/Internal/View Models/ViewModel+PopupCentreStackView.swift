@@ -54,6 +54,13 @@ private extension PopupCentreStackView.ViewModel {
     ]}
 }
 
+// MARK: Opacity
+extension PopupCentreStackView.ViewModel {
+    func calculateOpacity(for popup: AnyPopup) -> CGFloat {
+        popups.last == popup ? 1 : 0
+    }
+}
+
 
 
 
@@ -73,16 +80,6 @@ private extension PopupCentreStackView.ViewModel {
 
 
 
-}
-extension PopupCentreStackView.ViewModel {
-
-
-
-
-
-    func calculateOpacity(for popup: AnyPopup) -> CGFloat {
-        popups.last == popup ? 1 : 0
-    }
 }
 
 
