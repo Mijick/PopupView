@@ -91,6 +91,13 @@ extension PopupCentreStackView.ViewModel {
     }
 }
 
+// MARK: Fixed Size
+private extension PopupCentreStackView.ViewModel {
+    func _calculateVerticalFixedSize(for popup: AnyPopup) -> Bool {
+        activePopupHeight != calculateLargeScreenHeight()
+    }
+}
+
 
 
 
@@ -113,10 +120,15 @@ private extension PopupCentreStackView.ViewModel {
 
 
 // MARK: - TESTING
-extension ViewModel.TestHook {
+
+
+
+
+
+extension PopupCentreStackView.ViewModel.TestHook {
     @MainActor func calculateCornerRadius() -> [VerticalEdge: CGFloat] { target.calculateCornerRadius() }
     @MainActor func calculatePopupPadding() -> EdgeInsets { target.calculatePopupPadding() }
-
+    @MainActor func calculateVerticalFixedSize(for popup: AnyPopup) -> Bool { target.calculateVerticalFixedSize(for: popup) }
 }
 
 
