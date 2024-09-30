@@ -12,6 +12,7 @@
 import SwiftUI
 
 extension PopupCentreStackView { class ViewModel: MijickPopups.ViewModel<LocalConfig.Centre> {
+    // MARK: Overridden Methods
     override func recalculateAndSave(height: CGFloat, for popup: AnyPopup) { _recalculateAndSave(height: height, for: popup) }
     override func calculateHeightForActivePopup() -> CGFloat? { _calculateHeightForActivePopup() }
     override func calculatePopupPadding() -> EdgeInsets { _calculatePopupPadding() }

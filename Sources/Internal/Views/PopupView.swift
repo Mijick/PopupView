@@ -56,9 +56,9 @@ private extension PopupView {
                 bottomStackViewModel.setup(updatePopupAction: updatePopup, closePopupAction: closePopup)
             }
             .onChange(of: popupManager.views.map { [$0.height, $0.dragHeight] }) { _ in
-                topStackViewModel.updatePopupsValue(getViews(TopPopupConfig.self))
+                topStackViewModel.updatePopupsValue(popupManager.views)
                 centreStackViewModel.updatePopupsValue(popupManager.views)
-                bottomStackViewModel.updatePopupsValue(getViews(BottomPopupConfig.self))
+                bottomStackViewModel.updatePopupsValue(popupManager.views)
             }
             .onChange(of: keyboardManager.isActive) { _ in
                 topStackViewModel.updateKeyboardValue(keyboardManager.isActive)
@@ -88,18 +88,13 @@ private extension PopupView {
 
 private extension PopupView {
     func createTopPopupStackView() -> some View {
-        PopupStackView(viewModel: topStackViewModel).zIndex(zIndex.top)
+        PopupStackView(viewModel: topStackViewModel)
     }
     func createCentrePopupStackView() -> some View {
-        PopupCentreStackView(viewModel: centreStackViewModel)//.zIndex(zIndex.centre)
+        PopupCentreStackView(viewModel: centreStackViewModel)
     }
     func createBottomPopupStackView() -> some View {
-        PopupStackView(viewModel: bottomStackViewModel).zIndex(zIndex.bottom)
-    }
-}
-private extension PopupView {
-    func getViews<C: LocalConfig>(_ type: C.Type) -> [AnyPopup] {
-        popupManager.views.filter { $0.config is C }
+        PopupStackView(viewModel: bottomStackViewModel)
     }
 }
 
