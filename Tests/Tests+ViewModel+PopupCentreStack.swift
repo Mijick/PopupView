@@ -189,11 +189,41 @@ private extension PopupCentreStackViewModelTests {
 
 // MARK: Vertical Fixed Size
 extension PopupCentreStackViewModelTests {
-    func test_verticalFixedSize_withHeightSmallerThanScreen() {
+    func test_calculateVerticalFixedSize_withHeightSmallerThanScreen() {
+        let popups = [
+            createPopupInstanceForPopupHeightTests(popupHeight: 350),
+            createPopupInstanceForPopupHeightTests(popupHeight: 913),
+            createPopupInstanceForPopupHeightTests(popupHeight: 400)
+        ]
 
+        appendPopupsAndCheckVerticalFixedSize(
+            popups: popups,
+            calculateForIndex: 2,
+            expectedValue: true
+        )
     }
-    func test_verticalFixedSize_withHeightLargerThanScreen() {
+    func test_calculateVerticalFixedSize_withHeightLargerThanScreen() {
+        let popups = [
+            createPopupInstanceForPopupHeightTests(popupHeight: 350),
+            createPopupInstanceForPopupHeightTests(popupHeight: 72),
+            createPopupInstanceForPopupHeightTests(popupHeight: 913)
+        ]
 
+        appendPopupsAndCheckVerticalFixedSize(
+            popups: popups,
+            calculateForIndex: 2,
+            expectedValue: false
+        )
+    }
+}
+private extension PopupCentreStackViewModelTests {
+    func appendPopupsAndCheckVerticalFixedSize(popups: [AnyPopup], calculateForIndex index: Int, expectedValue: Bool) {
+        appendPopupsAndPerformChecks(
+            popups: popups,
+            isKeyboardActive: false,
+            calculatedValue: { $0.t_calculateVerticalFixedSize(for: $0.popups[index]) },
+            expectedValueBuilder: { _ in expectedValue }
+        )
     }
 }
 
