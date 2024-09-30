@@ -33,8 +33,8 @@ private extension PopupCentreStackView.ViewModel {
     }
 }
 private extension PopupCentreStackView.ViewModel {
-    func calculateHeight(_ height: CGFloat) -> CGFloat {
-        min(height, calculateLargeScreenHeight())
+    func calculateHeight(_ heightCandidate: CGFloat) -> CGFloat {
+        min(heightCandidate, calculateLargeScreenHeight())
     }
 }
 private extension PopupCentreStackView.ViewModel {
@@ -116,6 +116,7 @@ private extension PopupCentreStackView.ViewModel {
 
 // MARK: Methods
 extension PopupCentreStackView.ViewModel {
+    @MainActor func t_calculateHeight(heightCandidate: CGFloat) -> CGFloat { calculateHeight(heightCandidate) }
     @MainActor func t_calculatePopupPadding() -> EdgeInsets { calculatePopupPadding() }
     @MainActor func t_calculateCornerRadius() -> [VerticalEdge: CGFloat] { calculateCornerRadius() }
     @MainActor func t_calculateOpacity(for popup: AnyPopup) -> CGFloat { calculateOpacity(for: popup) }

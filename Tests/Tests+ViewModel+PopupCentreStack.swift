@@ -16,6 +16,7 @@ import Combine
 
 final class PopupCentreStackViewModelTests: XCTestCase {
     @ObservedObject private var viewModel: ViewModel = .init()
+    private var cancellables: Set<AnyCancellable> = .init()
 
     override func setUpWithError() throws {
         viewModel.t_updateScreenValue(screen)
@@ -47,11 +48,14 @@ private extension PopupCentreStackViewModelTests {
 // MARK: Popup Padding
 extension PopupCentreStackViewModelTests {
     func test_calculatePopupPadding_withKeyboardHidden() {
-
+        
     }
     func test_calculatePopupPadding_withKeyboardShown() {
 
     }
+}
+private extension PopupCentreStackViewModelTests {
+    
 }
 
 // MARK: Corner Radius
@@ -80,7 +84,7 @@ extension PopupCentreStackViewModelTests {
 
     }
     func test_verticalFixedSize_withHeightLargerThanScreen() {
-        
+
     }
 }
 
@@ -99,12 +103,32 @@ private extension PopupCentreStackViewModelTests {
         popup.height = popupHeight
         return popup
     }
+    func appendPopupsAndPerformChecks<Value: Equatable>(viewModel: ViewModel, popups: [AnyPopup], gestureTranslation: CGFloat, calculatedValue: @escaping (ViewModel) -> (Value), expectedValueBuilder: @escaping (ViewModel) -> Value) {
+        viewModel.t_updatePopupsValue(popups)
+        viewModel.t_updatePopupsValue(recalculatePopupHeights(viewModel))
+
+        let expect = expectation(description: "results")
+        viewModel.objectWillChange
+            .receive(on: RunLoop.main)
+            .dropFirst(2)
+            .sink { _ in
+                XCTAssertEqual(calculatedValue(viewModel), expectedValueBuilder(viewModel))
+                expect.fulfill()
+            }
+            .store(in: &cancellables)
+        wait(for: [expect], timeout: 3)
+    }
 }
 private extension PopupCentreStackViewModelTests {
     func getConfigForPopupHeightTests(cornerRadius: CGFloat, popupPadding: EdgeInsets) -> Config { .init(
         cornerRadius: cornerRadius,
         popupPadding: popupPadding
     )}
+    func recalculatePopupHeights(_ viewModel: ViewModel) -> [AnyPopup] { viewModel.popups.map {
+        var popup = $0
+        popup.height = viewModel.t_calculateHeight(heightCandidate: $0.height!)
+        return popup
+    }}
 }
 
 // MARK: Screen

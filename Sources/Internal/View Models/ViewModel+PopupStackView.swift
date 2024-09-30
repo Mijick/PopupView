@@ -90,8 +90,8 @@ extension PopupStackView.ViewModel {
     }}
 }
 private extension PopupStackView.ViewModel {
-    func calculateHeight(_ height: CGFloat, _ popupConfig: Config) -> CGFloat { switch popupConfig.heightMode {
-        case .auto: min(height, calculateLargeScreenHeight())
+    func calculateHeight(_ heightCandidate: CGFloat, _ popupConfig: Config) -> CGFloat { switch popupConfig.heightMode {
+        case .auto: min(heightCandidate, calculateLargeScreenHeight())
         case .large: calculateLargeScreenHeight()
         case .fullscreen: getFullscreenHeight()
     }}
@@ -498,7 +498,7 @@ extension PopupStackView.ViewModel { struct TestHook { init(target: PopupStackVi
 extension PopupStackView.ViewModel.TestHook {
     @MainActor func calculatePopupPadding() -> EdgeInsets { target.calculatePopupPadding() }
     @MainActor func calculateBodyPadding(for popup: AnyPopup) -> EdgeInsets { target.calculateBodyPadding(for: popup) }
-    @MainActor func calculateHeight(height: CGFloat, popupConfig: Config) -> CGFloat { target.calculateHeight(height, popupConfig) }
+    @MainActor func calculateHeight(heightCandidate: CGFloat, popupConfig: Config) -> CGFloat { target.calculateHeight(heightCandidate, popupConfig) }
     @MainActor func calculateOffsetY(for popup: AnyPopup) -> CGFloat { target.calculateOffsetY(for: popup) }
     @MainActor func calculateScaleX(for popup: AnyPopup) -> CGFloat { target.calculateScaleX(for: popup) }
     @MainActor func calculateVerticalFixedSize(for popup: AnyPopup) -> Bool { target.calculateVerticalFixedSize(for: popup) }

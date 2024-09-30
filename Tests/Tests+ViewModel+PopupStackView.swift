@@ -17,7 +17,7 @@ import Combine
 final class PopupStackViewModelTests: XCTestCase {
     @ObservedObject private var topViewModel: ViewModel = .init(alignment: .top)
     @ObservedObject private var bottomViewModel: ViewModel = .init(alignment: .bottom)
-    private var cancellables = Set<AnyCancellable>()
+    private var cancellables: Set<AnyCancellable> = .init()
 
     override func setUpWithError() throws {
         setup(topViewModel)
@@ -284,7 +284,7 @@ extension PopupStackViewModelTests {
 }
 private extension PopupStackViewModelTests {
     func calculateLastPopupHeight(_ viewModel: ViewModel) -> CGFloat {
-        viewModel.testHook.calculateHeight(height: viewModel.popups.last!.height!, popupConfig: viewModel.popups.last!.config as! Config)
+        viewModel.testHook.calculateHeight(heightCandidate: viewModel.popups.last!.height!, popupConfig: viewModel.popups.last!.config as! Config)
     }
 }
 
@@ -1533,7 +1533,7 @@ private extension PopupStackViewModelTests {
     )}
     func recalculatePopupHeights(_ viewModel: ViewModel) -> [AnyPopup] { viewModel.popups.map {
         var popup = $0
-        popup.height = viewModel.testHook.calculateHeight(height: $0.height!, popupConfig: $0.config as! Config)
+        popup.height = viewModel.testHook.calculateHeight(heightCandidate: $0.height!, popupConfig: $0.config as! Config)
         return popup
     }}
 }
