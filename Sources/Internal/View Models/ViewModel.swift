@@ -23,10 +23,10 @@ class ViewModel<Config: LocalConfig>: ObservableObject {
 
 
     // MARK: Methods to Override
-    func calculateHeightForActivePopup() -> CGFloat? { fatalError() }
     func recalculateAndSave(height: CGFloat, for popup: AnyPopup) { fatalError() }
-    func calculateCornerRadius() -> [VerticalEdge: CGFloat] { fatalError() }
+    func calculateHeightForActivePopup() -> CGFloat? { fatalError() }
     func calculatePopupPadding() -> EdgeInsets { fatalError() }
+    func calculateCornerRadius() -> [VerticalEdge: CGFloat] { fatalError() }
 }
 
 // MARK: Setup
