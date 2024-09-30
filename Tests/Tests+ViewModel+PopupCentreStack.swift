@@ -55,7 +55,13 @@ extension PopupCentreStackViewModelTests {
     }
 }
 private extension PopupCentreStackViewModelTests {
-    
+    func appendPopupsAndCheckPopupPadding(popups: [AnyPopup], expectedValue: EdgeInsets) {
+        appendPopupsAndPerformChecks(
+            popups: popups,
+            calculatedValue: { $0.t_calculatePopupPadding() },
+            expectedValueBuilder: { _ in expectedValue }
+        )
+    }
 }
 
 // MARK: Corner Radius
@@ -103,7 +109,7 @@ private extension PopupCentreStackViewModelTests {
         popup.height = popupHeight
         return popup
     }
-    func appendPopupsAndPerformChecks<Value: Equatable>(viewModel: ViewModel, popups: [AnyPopup], gestureTranslation: CGFloat, calculatedValue: @escaping (ViewModel) -> (Value), expectedValueBuilder: @escaping (ViewModel) -> Value) {
+    func appendPopupsAndPerformChecks<Value: Equatable>(popups: [AnyPopup], calculatedValue: @escaping (ViewModel) -> (Value), expectedValueBuilder: @escaping (ViewModel) -> Value) {
         viewModel.t_updatePopupsValue(popups)
         viewModel.t_updatePopupsValue(recalculatePopupHeights(viewModel))
 
@@ -111,7 +117,7 @@ private extension PopupCentreStackViewModelTests {
         viewModel.objectWillChange
             .receive(on: RunLoop.main)
             .dropFirst(2)
-            .sink { _ in
+            .sink { [self] in
                 XCTAssertEqual(calculatedValue(viewModel), expectedValueBuilder(viewModel))
                 expect.fulfill()
             }
