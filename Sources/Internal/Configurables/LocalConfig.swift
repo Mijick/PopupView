@@ -83,3 +83,17 @@ extension LocalConfig.Vertical {
     }
 }
 #endif
+
+
+
+
+#if DEBUG
+extension LocalConfig.Centre {
+    convenience init(cornerRadius: CGFloat, popupPadding: EdgeInsets) {
+        self.init()
+
+        self.cornerRadius = cornerRadius
+        self.popupPadding = popupPadding
+    }
+}
+#endif

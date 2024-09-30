@@ -44,16 +44,26 @@ private extension PopupCentreStackViewModelTests {
 
 
 
+// MARK: Popup Padding
 extension PopupCentreStackViewModelTests {
-    func test() {
-
+    func test_calculatePopupPadding_() {
+        
     }
 }
 
+// MARK: Corner Radius
+extension PopupCentreStackViewModelTests {
 
+}
 
-private extension PopupCentreStackViewModelTests {
-    
+// MARK: Opacity
+extension PopupCentreStackViewModelTests {
+
+}
+
+// MARK: Vertical Fixed Size
+extension PopupCentreStackViewModelTests {
+
 }
 
 
@@ -61,6 +71,23 @@ private extension PopupCentreStackViewModelTests {
 // MARK: - HELPERS
 
 
+
+// MARK: Methods
+private extension PopupCentreStackViewModelTests {
+    func createPopupInstanceForPopupHeightTests(popupHeight: CGFloat, popupPadding: EdgeInsets = .init(), cornerRadius: CGFloat = 0) -> AnyPopup {
+        let config = getConfigForPopupHeightTests(cornerRadius: cornerRadius, popupPadding: popupPadding)
+
+        var popup = AnyPopup(config: config)
+        popup.height = popupHeight
+        return popup
+    }
+}
+private extension PopupCentreStackViewModelTests {
+    func getConfigForPopupHeightTests(cornerRadius: CGFloat, popupPadding: EdgeInsets) -> Config { .init(
+        cornerRadius: cornerRadius,
+        popupPadding: popupPadding
+    )}
+}
 
 // MARK: Screen
 private extension PopupCentreStackViewModelTests {
@@ -72,6 +99,6 @@ private extension PopupCentreStackViewModelTests {
 
 // MARK: Typealiases
 private extension PopupCentreStackViewModelTests {
-    typealias Config = LocalConfig.Vertical
+    typealias Config = LocalConfig.Centre
     typealias ViewModel = PopupCentreStackView.ViewModel
 }

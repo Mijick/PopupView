@@ -116,7 +116,6 @@ private extension PopupCentreStackView.ViewModel {
 
 // MARK: Methods
 extension PopupCentreStackView.ViewModel {
-    @MainActor func t_calculateHeightForActivePopup() -> CGFloat? { calculateHeightForActivePopup() }
     @MainActor func t_calculatePopupPadding() -> EdgeInsets { calculatePopupPadding() }
     @MainActor func t_calculateCornerRadius() -> [VerticalEdge: CGFloat] { calculateCornerRadius() }
     @MainActor func t_calculateOpacity(for popup: AnyPopup) -> CGFloat { calculateOpacity(for: popup) }
