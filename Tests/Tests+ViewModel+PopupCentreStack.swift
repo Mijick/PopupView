@@ -46,24 +46,42 @@ private extension PopupCentreStackViewModelTests {
 
 // MARK: Popup Padding
 extension PopupCentreStackViewModelTests {
-    func test_calculatePopupPadding_() {
-        
+    func test_calculatePopupPadding_withKeyboardHidden() {
+
+    }
+    func test_calculatePopupPadding_withKeyboardShown() {
+
     }
 }
 
 // MARK: Corner Radius
 extension PopupCentreStackViewModelTests {
+    func test_calculateCornerRadius_withCornerRadiusZero() {
 
+    }
+    func test_calculateCornerRadius_withCornerRadiusNonZero() {
+
+    }
 }
 
 // MARK: Opacity
 extension PopupCentreStackViewModelTests {
+    func test_calculatePopupOpacity_1() {
 
+    }
+    func test_calculatePopupOpacity_2() {
+
+    }
 }
 
 // MARK: Vertical Fixed Size
 extension PopupCentreStackViewModelTests {
+    func test_verticalFixedSize_withHeightSmallerThanScreen() {
 
+    }
+    func test_verticalFixedSize_withHeightLargerThanScreen() {
+        
+    }
 }
 
 
@@ -93,7 +111,7 @@ private extension PopupCentreStackViewModelTests {
 private extension PopupCentreStackViewModelTests {
     var screen: ScreenProperties { .init(
         height: 800,
-        safeArea: .init(top: 100, leading: 20, bottom: 50, trailing: 30)
+        safeArea: .init(top: 100, leading: 20, bottom: viewModel.isKeyboardActive ? 200 : 50, trailing: 30)
     )}
 }
 
