@@ -100,5 +100,7 @@ private extension PopupCentreStackView.ViewModel {
 
 // MARK: - TESTING
 extension ViewModel.TestHook {
-    @MainActor func dupa() {}
+    @MainActor func calculateCornerRadius() -> [VerticalEdge: CGFloat] { target.calculateCornerRadius() }
+    @MainActor func calculatePopupPadding() -> EdgeInsets { target.calculatePopupPadding() }
+    
 }

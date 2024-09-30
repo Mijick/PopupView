@@ -81,9 +81,8 @@ extension ViewModel {
 
 // MARK: Tests
 #if DEBUG
-extension ViewModel { class TestHook {
-    private let target: ViewModel
-    init(target: ViewModel) { self.target = target }
+extension ViewModel { struct TestHook {
+    let target: ViewModel
 }}
 extension ViewModel {
     var testHook: TestHook { .init(target: self) }
