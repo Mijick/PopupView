@@ -34,40 +34,8 @@ extension PopupStackView { class ViewModel: MijickPopups.ViewModel<LocalConfig.V
 
 
 
-// MARK: Setup
-extension PopupStackView.ViewModel {
-    func setup(updatePopupAction: @escaping (AnyPopup) -> (), closePopupAction: @escaping (AnyPopup) -> ()) {
-        self.updatePopupAction = updatePopupAction
-        self.closePopupAction = closePopupAction
-    }
-}
-
 // MARK: Update
-extension PopupStackView.ViewModel {
-    func updatePopupsValue(_ newPopups: [AnyPopup]) {
-        popups = newPopups
-        activePopupHeight = calculateHeightForActivePopup()
-
-        Task { @MainActor in withAnimation(.transition) { objectWillChange.send() }}
-    }
-    func updateScreenValue(_ newScreen: ScreenProperties) {
-        screen = newScreen
-
-        Task { @MainActor in objectWillChange.send() }
-    }
-    func updateKeyboardValue(_ isActive: Bool) {
-        isKeyboardActive = isActive
-
-        Task { @MainActor in objectWillChange.send() }
-    }
-}
 private extension PopupStackView.ViewModel {
-    func updatePopup(_ popup: AnyPopup, by popupUpdateBuilder: @escaping (inout AnyPopup) -> ()) {
-        var popup = popup
-        popupUpdateBuilder(&popup)
-
-        Task { @MainActor in updatePopupAction(popup) }
-    }
     func updateGestureTranslation(_ newGestureTranslation: CGFloat) {
         gestureTranslation = newGestureTranslation
         translationProgress = calculateTranslationProgress()
