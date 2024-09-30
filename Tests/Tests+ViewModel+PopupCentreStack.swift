@@ -61,11 +61,15 @@ extension PopupCentreStackViewModelTests {
     }
     func test_calculatePopupPadding_withKeyboardHidden_whenCustomPaddingSet() {
         let popups = [
-            createPopupInstanceForPopupHeightTests(popupHeight: 350)
+            createPopupInstanceForPopupHeightTests(popupHeight: 350),
+            createPopupInstanceForPopupHeightTests(popupHeight: 72, popupPadding: .init(top: 0, leading: 11, bottom: 0, trailing: 11)),
+            createPopupInstanceForPopupHeightTests(popupHeight: 400, popupPadding: .init(top: 0, leading: 16, bottom: 0, trailing: 16))
         ]
 
-
-
+        appendPopupsAndCheckPopupPadding(
+            popups: popups,
+            expectedValue: .init(top: 0, leading: 16, bottom: 0, trailing: 16)
+        )
     }
     func test_calculatePopupPadding_withKeyboardShown_whenKeyboardWontOverlapPopup() {
 
@@ -160,7 +164,7 @@ private extension PopupCentreStackViewModelTests {
 // MARK: Screen
 private extension PopupCentreStackViewModelTests {
     var screen: ScreenProperties { .init(
-        height: 800,
+        height: 1000,
         safeArea: .init(top: 100, leading: 20, bottom: viewModel.isKeyboardActive ? 200 : 50, trailing: 30)
     )}
 }
