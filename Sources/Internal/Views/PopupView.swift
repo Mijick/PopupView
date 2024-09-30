@@ -49,7 +49,7 @@ private extension PopupView {
             .ignoresSafeArea()
             .animation(.transition, value: popupManager.views)
             .onTapGesture(perform: onTap)
-            .onChange(popupManager.views.isEmpty, completion: onViewsCountChange)
+        //.onChange(popupManager.views.isEmpty, completion: onViewsCountChange)
             .onAppear() {
                 topStackViewModel.setup(updatePopupAction: updatePopup, closePopupAction: closePopup)
                 centreStackViewModel.setup(updatePopupAction: updatePopup, closePopupAction: closePopup)
@@ -57,7 +57,7 @@ private extension PopupView {
             }
             .onChange(of: popupManager.views.map { [$0.height, $0.dragHeight] }) { _ in
                 topStackViewModel.updatePopupsValue(getViews(TopPopupConfig.self))
-                centreStackViewModel.updatePopupsValue(getViews(CentrePopupConfig.self))
+                centreStackViewModel.updatePopupsValue(popupManager.views)
                 bottomStackViewModel.updatePopupsValue(getViews(BottomPopupConfig.self))
             }
             .onChange(of: keyboardManager.isActive) { _ in
@@ -91,7 +91,7 @@ private extension PopupView {
         PopupStackView(viewModel: topStackViewModel).zIndex(zIndex.top)
     }
     func createCentrePopupStackView() -> some View {
-        PopupCentreStackView(viewModel: centreStackViewModel).zIndex(zIndex.centre)
+        PopupCentreStackView(viewModel: centreStackViewModel)//.zIndex(zIndex.centre)
     }
     func createBottomPopupStackView() -> some View {
         PopupStackView(viewModel: bottomStackViewModel).zIndex(zIndex.bottom)
