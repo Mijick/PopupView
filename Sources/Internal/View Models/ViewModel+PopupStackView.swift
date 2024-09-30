@@ -84,8 +84,8 @@ private extension PopupStackView.ViewModel {
 
 
 // MARK: Recalculate & Update Popup Height
-extension PopupStackView.ViewModel {
-    func recalculateAndSave(height: CGFloat, for popup: AnyPopup) { if gestureTranslation.isZero {
+private extension PopupStackView.ViewModel {
+    func _recalculateAndSave(height: CGFloat, for popup: AnyPopup) { if gestureTranslation.isZero {
         let popupConfig = getConfig(popup)
         let newHeight = calculateHeight(height, popupConfig)
         updateHeight(newHeight, popup)
@@ -122,8 +122,8 @@ private extension PopupStackView.ViewModel {
 }
 
 // MARK: Popup Padding
-extension PopupStackView.ViewModel {
-    func calculatePopupPadding() -> EdgeInsets { .init(
+private extension PopupStackView.ViewModel {
+    func _calculatePopupPadding() -> EdgeInsets { .init(
         top: calculateVerticalPopupPadding(for: .top),
         leading: calculateLeadingPopupPadding(),
         bottom: calculateVerticalPopupPadding(for: .bottom),
@@ -247,8 +247,8 @@ private extension PopupStackView.ViewModel {
 }
 
 // MARK: Corner Radius
-extension PopupStackView.ViewModel {
-    func calculateCornerRadius() -> [VerticalEdge: CGFloat] {
+private extension PopupStackView.ViewModel {
+    func _calculateCornerRadius() -> [VerticalEdge: CGFloat] {
         let cornerRadiusValue = calculateCornerRadiusValue(getActivePopupConfig())
         return [
             .top: calculateTopCornerRadius(cornerRadiusValue),
@@ -313,7 +313,7 @@ private extension PopupStackView.ViewModel {
 
 // MARK: Active Popup Height
 private extension PopupStackView.ViewModel {
-    func calculateHeightForActivePopup() -> CGFloat? {
+    func _calculateHeightForActivePopup() -> CGFloat? {
         guard let activePopupHeight = popups.last?.height else { return nil }
 
         let activePopupDragHeight = popups.last?.dragHeight ?? 0
