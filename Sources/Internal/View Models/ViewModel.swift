@@ -53,7 +53,7 @@ extension ViewModel {
     func updateKeyboardValue(_ isActive: Bool) {
         isKeyboardActive = isActive
 
-        Task { @MainActor in objectWillChange.send() }
+        Task { @MainActor in withAnimation(.transition) { objectWillChange.send() }}
     }
     func updatePopup(_ popup: AnyPopup, by popupUpdateBuilder: @escaping (inout AnyPopup) -> ()) {
         var popup = popup
