@@ -11,6 +11,7 @@
 
 import SwiftUI
 
+enum VM {}
 class ViewModel<Config: LocalConfig>: ObservableObject {
     private(set) var allPopups: [AnyPopup] = []
     private(set) var popups: [AnyPopup] = []

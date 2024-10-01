@@ -16,9 +16,9 @@ struct PopupView: View {
     @ObservedObject private var popupManager: PopupManager = .shared
     @ObservedObject private var keyboardManager: KeyboardManager = .shared
     @ObservedObject private var screenManager: ScreenManager = .shared
-    @StateObject private var topStackViewModel: PopupStackView<LocalConfig.Vertical.Top>.ViewModel<LocalConfig.Vertical.Top> = .init(alignment: .top)
-    @StateObject private var centreStackViewModel: PopupCentreStackView.ViewModel = .init()
-    @StateObject private var bottomStackViewModel: PopupStackView<LocalConfig.Vertical.Bottom>.ViewModel<LocalConfig.Vertical.Bottom> = .init(alignment: .bottom)
+    @StateObject private var topStackViewModel: VM.VerticalStack<TopPopupConfig> = .init(alignment: .top)
+    @StateObject private var centreStackViewModel: VM.CentreStack = .init()
+    @StateObject private var bottomStackViewModel: VM.VerticalStack<BottomPopupConfig> = .init(alignment: .bottom)
 
 
     var body: some View { createBody() }

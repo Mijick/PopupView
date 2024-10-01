@@ -11,8 +11,8 @@
 
 import SwiftUI
 
-struct PopupStackView<CA: LocalConfig.Vertical>: View {
-    @ObservedObject var viewModel: ViewModel<CA>
+struct PopupStackView<Config: LocalConfig.Vertical>: View {
+    @ObservedObject var viewModel: VM.VerticalStack<Config>
 
 
     var body: some View {
