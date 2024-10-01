@@ -16,6 +16,15 @@ enum VerticalEdge {
     case bottom
 }
 
+// MARK: Initialiser
+extension VerticalEdge {
+    init(_ config: LocalConfig.Type) { switch config.self {
+        case is TopPopupConfig.Type: self = .top
+        case is BottomPopupConfig.Type: self = .bottom
+        default: fatalError()
+    }}
+}
+
 // MARK: Negation
 extension VerticalEdge {
     static prefix func !(lhs: Self) -> Self { switch lhs {

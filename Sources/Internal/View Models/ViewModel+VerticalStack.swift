@@ -25,7 +25,7 @@ extension VM { class VerticalStack<Config: LocalConfig.Vertical>: ViewModel<Conf
     override func calculateVerticalFixedSize(for popup: AnyPopup) -> Bool { _calculateVerticalFixedSize(for: popup) }
 
     // MARK: Initialiser
-    init(alignment: VerticalEdge) { self.alignment = alignment }
+    override init() { self.alignment = .init(Config.self) }
 }}
 
 
