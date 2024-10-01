@@ -84,7 +84,7 @@ extension PopupStackViewModelTests {
 extension PopupStackViewModelTests {
     func test_updatePopup_1() {
         let popups = [
-            createPopupInstanceForPopupHeightTests(heightMode: .auto, popupHeight: 0)
+            createPopupInstanceForPopupHeightTests(type: BottomPopupConfig.self, heightMode: .auto, popupHeight: 0)
         ]
 
         appendPopupsAndCheckPopups(
@@ -97,11 +97,11 @@ extension PopupStackViewModelTests {
     }
     func test_updatePopup_2() {
         let popups = [
-            createPopupInstanceForPopupHeightTests(heightMode: .auto, popupHeight: 100),
-            createPopupInstanceForPopupHeightTests(heightMode: .auto, popupHeight: 50),
-            createPopupInstanceForPopupHeightTests(heightMode: .auto, popupHeight: 25),
-            createPopupInstanceForPopupHeightTests(heightMode: .auto, popupHeight: 15),
-            createPopupInstanceForPopupHeightTests(heightMode: .auto, popupHeight: 2137)
+            createPopupInstanceForPopupHeightTests(type: BottomPopupConfig.self, heightMode: .auto, popupHeight: 100),
+            createPopupInstanceForPopupHeightTests(type: BottomPopupConfig.self, heightMode: .auto, popupHeight: 50),
+            createPopupInstanceForPopupHeightTests(type: BottomPopupConfig.self, heightMode: .auto, popupHeight: 25),
+            createPopupInstanceForPopupHeightTests(type: BottomPopupConfig.self, heightMode: .auto, popupHeight: 15),
+            createPopupInstanceForPopupHeightTests(type: BottomPopupConfig.self, heightMode: .auto, popupHeight: 2137)
         ]
 
         appendPopupsAndCheckPopups(
@@ -114,12 +114,12 @@ extension PopupStackViewModelTests {
     }
     func test_updatePopup_3() {
         let popups = [
-            createPopupInstanceForPopupHeightTests(heightMode: .auto, popupHeight: 100),
-            createPopupInstanceForPopupHeightTests(heightMode: .auto, popupHeight: 50),
-            createPopupInstanceForPopupHeightTests(heightMode: .auto, popupHeight: 25),
-            createPopupInstanceForPopupHeightTests(heightMode: .auto, popupHeight: 15),
-            createPopupInstanceForPopupHeightTests(heightMode: .auto, popupHeight: 2137),
-            createPopupInstanceForPopupHeightTests(heightMode: .auto, popupHeight: 77)
+            createPopupInstanceForPopupHeightTests(type: BottomPopupConfig.self, heightMode: .auto, popupHeight: 100),
+            createPopupInstanceForPopupHeightTests(type: BottomPopupConfig.self, heightMode: .auto, popupHeight: 50),
+            createPopupInstanceForPopupHeightTests(type: BottomPopupConfig.self, heightMode: .auto, popupHeight: 25),
+            createPopupInstanceForPopupHeightTests(type: BottomPopupConfig.self, heightMode: .auto, popupHeight: 15),
+            createPopupInstanceForPopupHeightTests(type: BottomPopupConfig.self, heightMode: .auto, popupHeight: 2137),
+            createPopupInstanceForPopupHeightTests(type: BottomPopupConfig.self, heightMode: .auto, popupHeight: 77)
         ]
 
         appendPopupsAndCheckPopups(
