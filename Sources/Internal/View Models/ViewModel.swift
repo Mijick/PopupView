@@ -101,3 +101,8 @@ extension ViewModel {
     @MainActor func t_updatePopup(_ popup: AnyPopup, by popupUpdateBuilder: @escaping (inout AnyPopup) -> ()) { updatePopup(popup, by: popupUpdateBuilder) }
     @MainActor func t_calculateAndUpdateActivePopupHeight() { activePopupHeight = calculateHeightForActivePopup() }
 }
+
+// MARK: Test Variables
+extension ViewModel {
+    @MainActor var t_activePopupHeight: CGFloat? { activePopupHeight }
+}
