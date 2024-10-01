@@ -304,13 +304,6 @@ private extension PopupStackView.ViewModel {
         let invertedIndex = popups.count - 1 - index
         return invertedIndex
     }
-    func getConfig(_ item: AnyPopup?) -> Config {
-        let config = item?.config as? Config
-        return config ?? .init()
-    }
-    func getActivePopupConfig() -> Config {
-        getConfig(popups.last)
-    }
 }
 
 // MARK: Attributes
@@ -321,6 +314,11 @@ private extension PopupStackView.ViewModel {
     var stackOffset: CGFloat { ConfigContainer.vertical.isStackingPossible ? 8 : 0 }
     var gestureClosingThresholdFactor: CGFloat { ConfigContainer.vertical.dragGestureProgressToClose }
     var dragGestureEnabled: Bool { getActivePopupConfig().dragGestureEnabled }
+}
+
+// MARK: Typealiases
+private extension PopupStackView.ViewModel {
+    typealias Config = LocalConfig.Vertical
 }
 
 
