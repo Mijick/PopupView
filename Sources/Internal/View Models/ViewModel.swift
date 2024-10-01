@@ -94,7 +94,13 @@ extension ViewModel {
     }
 }
 
-// MARK: Test Methods
+
+// MARK: - TESTING
+#if DEBUG
+
+
+
+// MARK: Methods
 extension ViewModel {
     @MainActor func t_setup(updatePopupAction: @escaping (AnyPopup) -> (), closePopupAction: @escaping (AnyPopup) -> ()) { setup(updatePopupAction: updatePopupAction, closePopupAction: closePopupAction) }
     @MainActor func t_updatePopupsValue(_ newPopups: [AnyPopup]) { updatePopupsValue(newPopups) }
@@ -104,7 +110,8 @@ extension ViewModel {
     @MainActor func t_calculateAndUpdateActivePopupHeight() { activePopupHeight = calculateHeightForActivePopup() }
 }
 
-// MARK: Test Variables
+// MARK: Variables
 extension ViewModel {
     @MainActor var t_activePopupHeight: CGFloat? { activePopupHeight }
 }
+#endif
