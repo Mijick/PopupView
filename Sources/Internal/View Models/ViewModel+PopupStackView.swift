@@ -11,7 +11,7 @@
 
 import SwiftUI
 
-extension VM { class VerticalStack<C: LocalConfig.Vertical>: ViewModel<C> {
+extension VM { class VerticalStack<Config: LocalConfig.Vertical>: ViewModel<Config> {
     // MARK: Attributes
     private(set) var alignment: VerticalEdge
     private(set) var gestureTranslation: CGFloat = 0
@@ -316,11 +316,6 @@ private extension VM.VerticalStack {
     var dragGestureEnabled: Bool { getActivePopupConfig().dragGestureEnabled }
 }
 
-// MARK: Typealiases
-private extension VM.VerticalStack {
-    typealias Config = LocalConfig.Vertical
-}
-
 
 
 // MARK: - GESTURES
@@ -452,7 +447,7 @@ private extension VM.VerticalStack {
 extension VM.VerticalStack {
     @MainActor func t_calculatePopupPadding() -> EdgeInsets { calculatePopupPadding() }
     @MainActor func t_calculateBodyPadding(for popup: AnyPopup) -> EdgeInsets { calculateBodyPadding(for: popup) }
-    @MainActor func t_calculateHeight(heightCandidate: CGFloat, popupConfig: LocalConfig.Vertical) -> CGFloat { calculateHeight(heightCandidate, popupConfig) }
+    @MainActor func t_calculateHeight(heightCandidate: CGFloat, popupConfig: Config) -> CGFloat { calculateHeight(heightCandidate, popupConfig) }
     @MainActor func t_calculateOffsetY(for popup: AnyPopup) -> CGFloat { calculateOffsetY(for: popup) }
     @MainActor func t_calculateScaleX(for popup: AnyPopup) -> CGFloat { calculateScaleX(for: popup) }
     @MainActor func t_calculateVerticalFixedSize(for popup: AnyPopup) -> Bool { calculateVerticalFixedSize(for: popup) }
