@@ -15,8 +15,8 @@ import Combine
 @testable import MijickPopups
 
 final class PopupStackViewModelTests: XCTestCase {
-    @ObservedObject private var topViewModel: ViewModel = .init(alignment: .top)
-    @ObservedObject private var bottomViewModel: ViewModel = .init(alignment: .bottom)
+    @ObservedObject private var topViewModel: ViewModel<TopPopupConfig> = .init()
+    @ObservedObject private var bottomViewModel: ViewModel<BottomPopupConfig> = .init()
     private var cancellables: Set<AnyCancellable> = .init()
 
     override func setUpWithError() throws {
@@ -25,20 +25,20 @@ final class PopupStackViewModelTests: XCTestCase {
     }
 }
 private extension PopupStackViewModelTests {
-    func setup(_ viewModel: ViewModel) {
+    func setup<C: Config>(_ viewModel: ViewModel<C>) {
         viewModel.t_updateScreenValue(screen)
         viewModel.t_setup(updatePopupAction: { self.updatePopupAction(viewModel, $0) }, closePopupAction: { self.closePopupAction(viewModel, $0) })
     }
 }
 private extension PopupStackViewModelTests {
-    func updatePopupAction(_ viewModel: ViewModel, _ popup: AnyPopup) { if let index = viewModel.popups.firstIndex(of: popup) {
+    func updatePopupAction<C: Config>(_ viewModel: ViewModel<C>, _ popup: AnyPopup) { if let index = viewModel.popups.firstIndex(of: popup) {
         var popups = viewModel.popups
         popups[index] = popup
 
         viewModel.t_updatePopupsValue(popups)
         viewModel.t_calculateAndUpdateActivePopupHeight()
     }}
-    func closePopupAction(_ viewModel: ViewModel, _ popup: AnyPopup) { if let index = viewModel.popups.firstIndex(of: popup) {
+    func closePopupAction<C: Config>(_ viewModel: ViewModel<C>, _ popup: AnyPopup) { if let index = viewModel.popups.firstIndex(of: popup) {
         var popups = viewModel.popups
         popups.remove(at: index)
 
@@ -132,7 +132,7 @@ extension PopupStackViewModelTests {
     }
 }
 private extension PopupStackViewModelTests {
-    func appendPopupsAndCheckPopups(viewModel: ViewModel, popups: [AnyPopup], updatePopupAt index: Int, popupUpdateBuilder: @escaping (inout AnyPopup) -> (), expectedValue: (height: CGFloat?, dragHeight: CGFloat?)) {
+    func appendPopupsAndCheckPopups<C: Config>(viewModel: ViewModel<C>, popups: [AnyPopup], updatePopupAt index: Int, popupUpdateBuilder: @escaping (inout AnyPopup) -> (), expectedValue: (height: CGFloat?, dragHeight: CGFloat?)) {
         viewModel.t_updatePopupsValue(popups)
         viewModel.t_updatePopup(popups[index], by: popupUpdateBuilder)
 
@@ -279,8 +279,8 @@ extension PopupStackViewModelTests {
     }
 }
 private extension PopupStackViewModelTests {
-    func calculateLastPopupHeight(_ viewModel: ViewModel) -> CGFloat {
-        viewModel.t_calculateHeight(heightCandidate: viewModel.popups.last!.height!, popupConfig: viewModel.popups.last!.config as! Config)
+    func calculateLastPopupHeight<C: Config>(_ viewModel: ViewModel<C>) -> CGFloat {
+        viewModel.t_calculateHeight(heightCandidate: viewModel.popups.last!.height!, popupConfig: viewModel.popups.last!.config as! C)
     }
 }
 
@@ -429,7 +429,7 @@ extension PopupStackViewModelTests {
     }
 }
 private extension PopupStackViewModelTests {
-    func appendPopupsAndCheckActivePopupHeight(viewModel: ViewModel, popups: [AnyPopup], gestureTranslation: CGFloat, expectedValue: CGFloat) {
+    func appendPopupsAndCheckActivePopupHeight<C: Config>(viewModel: ViewModel<C>, popups: [AnyPopup], gestureTranslation: CGFloat, expectedValue: CGFloat) {
         appendPopupsAndPerformChecks(
             viewModel: viewModel,
             popups: popups,
@@ -1541,5 +1541,5 @@ private extension PopupStackViewModelTests {
 // MARK: Typealiases
 private extension PopupStackViewModelTests {
     typealias Config = LocalConfig.Vertical
-    typealias ViewModel = PopupVerticalStackView.ViewModel
+    typealias ViewModel = VM.VerticalStack
 }

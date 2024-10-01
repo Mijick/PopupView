@@ -27,16 +27,30 @@ public extension LocalConfig { class Vertical: LocalConfig {
     var dragDetents: [DragDetent] = []
 
 
-    required init() {
+    required init(backgroundColour: Color, cornerRadius: CGFloat, tapOutsideClosesView: Bool, overlayColour: Color, popupPadding: EdgeInsets, ignoredSafeAreaEdges: Edge.Set, heightMode: HeightMode, dragGestureEnabled: Bool, dragDetents: [DragDetent]) {
         super.init()
 
-        self.backgroundColour = ConfigContainer.vertical.backgroundColour
-        self.cornerRadius = ConfigContainer.vertical.cornerRadius
-        self.tapOutsideClosesView = ConfigContainer.vertical.tapOutsideClosesView
-        self.overlayColour = ConfigContainer.vertical.overlayColour
-        self.dragGestureEnabled = ConfigContainer.vertical.dragGestureEnabled
-        self.popupPadding = .init()
+        self.backgroundColour = backgroundColour
+        self.cornerRadius = cornerRadius
+        self.tapOutsideClosesView = tapOutsideClosesView
+        self.overlayColour = overlayColour
+        self.popupPadding = popupPadding
+        self.ignoredSafeAreaEdges = ignoredSafeAreaEdges
+        self.heightMode = heightMode
+        self.dragGestureEnabled = dragGestureEnabled
+        self.dragDetents = dragDetents
     }
+    required convenience init() { self.init(
+        backgroundColour: ConfigContainer.vertical.backgroundColour,
+        cornerRadius: ConfigContainer.vertical.cornerRadius,
+        tapOutsideClosesView: ConfigContainer.vertical.tapOutsideClosesView,
+        overlayColour: ConfigContainer.vertical.overlayColour,
+        popupPadding: .init(),
+        ignoredSafeAreaEdges: [],
+        heightMode: .auto,
+        dragGestureEnabled: ConfigContainer.vertical.dragGestureEnabled,
+        dragDetents: []
+    )}
 }}
 public extension LocalConfig.Vertical {
     class Top: LocalConfig.Vertical {}
@@ -68,21 +82,6 @@ public typealias BottomPopupConfig = LocalConfig.Vertical.Bottom
 
 
 
-
-#if DEBUG
-extension LocalConfig.Vertical {
-    convenience init(cornerRadius: CGFloat, ignoredSafeAreaEdges: Edge.Set, heightMode: HeightMode, popupPadding: EdgeInsets, dragGestureEnabled: Bool, dragDetents: [DragDetent]) {
-        self.init()
-
-        self.cornerRadius = cornerRadius
-        self.ignoredSafeAreaEdges = ignoredSafeAreaEdges
-        self.heightMode = heightMode
-        self.popupPadding = popupPadding
-        self.dragGestureEnabled = dragGestureEnabled
-        self.dragDetents = dragDetents
-    }
-}
-#endif
 
 
 
