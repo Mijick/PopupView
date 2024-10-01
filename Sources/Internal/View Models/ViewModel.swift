@@ -113,6 +113,7 @@ extension ViewModel {
 
 // MARK: Variables
 extension ViewModel {
+    @MainActor var t_popups: [AnyPopup] { popups }
     @MainActor var t_activePopupHeight: CGFloat? { activePopupHeight }
 }
 #endif
