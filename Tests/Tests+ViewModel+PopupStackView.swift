@@ -56,7 +56,7 @@ private extension PopupStackViewModelTests {
 extension PopupStackViewModelTests {
     func test_getInvertedIndex_1() {
         bottomViewModel.t_updatePopupsValue([
-            createPopupInstanceForPopupHeightTests(heightMode: .auto, popupHeight: 150)
+            createPopupInstanceForPopupHeightTests(type: BottomPopupConfig.self, heightMode: .auto, popupHeight: 150)
         ])
 
         XCTAssertEqual(
@@ -66,11 +66,11 @@ extension PopupStackViewModelTests {
     }
     func test_getInvertedIndex_2() {
         bottomViewModel.t_updatePopupsValue([
-            createPopupInstanceForPopupHeightTests(heightMode: .auto, popupHeight: 150),
-            createPopupInstanceForPopupHeightTests(heightMode: .auto, popupHeight: 150),
-            createPopupInstanceForPopupHeightTests(heightMode: .auto, popupHeight: 150),
-            createPopupInstanceForPopupHeightTests(heightMode: .auto, popupHeight: 150),
-            createPopupInstanceForPopupHeightTests(heightMode: .auto, popupHeight: 150)
+            createPopupInstanceForPopupHeightTests(type: BottomPopupConfig.self, heightMode: .auto, popupHeight: 150),
+            createPopupInstanceForPopupHeightTests(type: BottomPopupConfig.self, heightMode: .auto, popupHeight: 150),
+            createPopupInstanceForPopupHeightTests(type: BottomPopupConfig.self, heightMode: .auto, popupHeight: 150),
+            createPopupInstanceForPopupHeightTests(type: BottomPopupConfig.self, heightMode: .auto, popupHeight: 150),
+            createPopupInstanceForPopupHeightTests(type: BottomPopupConfig.self, heightMode: .auto, popupHeight: 150)
         ])
 
         XCTAssertEqual(
@@ -154,7 +154,7 @@ private extension PopupStackViewModelTests {
 extension PopupStackViewModelTests {
     func test_calculatePopupHeight_withAutoHeightMode_whenLessThanScreen_onePopupStacked() {
         bottomViewModel.t_updatePopupsValue([
-            createPopupInstanceForPopupHeightTests(heightMode: .auto, popupHeight: 150)
+            createPopupInstanceForPopupHeightTests(type: BottomPopupConfig.self, heightMode: .auto, popupHeight: 150)
         ])
 
         XCTAssertEqual(
@@ -164,10 +164,10 @@ extension PopupStackViewModelTests {
     }
     func test_calculatePopupHeight_withAutoHeightMode_whenLessThanScreen_fourPopupsStacked() {
         bottomViewModel.t_updatePopupsValue([
-            createPopupInstanceForPopupHeightTests(heightMode: .auto, popupHeight: 150),
-            createPopupInstanceForPopupHeightTests(heightMode: .auto, popupHeight: 200),
-            createPopupInstanceForPopupHeightTests(heightMode: .auto, popupHeight: 300),
-            createPopupInstanceForPopupHeightTests(heightMode: .auto, popupHeight: 100)
+            createPopupInstanceForPopupHeightTests(type: BottomPopupConfig.self, heightMode: .auto, popupHeight: 150),
+            createPopupInstanceForPopupHeightTests(type: BottomPopupConfig.self, heightMode: .auto, popupHeight: 200),
+            createPopupInstanceForPopupHeightTests(type: BottomPopupConfig.self, heightMode: .auto, popupHeight: 300),
+            createPopupInstanceForPopupHeightTests(type: BottomPopupConfig.self, heightMode: .auto, popupHeight: 100)
         ])
 
         XCTAssertEqual(
@@ -177,7 +177,7 @@ extension PopupStackViewModelTests {
     }
     func test_calculatePopupHeight_withAutoHeightMode_whenBiggerThanScreen_onePopupStacked() {
         bottomViewModel.t_updatePopupsValue([
-            createPopupInstanceForPopupHeightTests(heightMode: .auto, popupHeight: 2000)
+            createPopupInstanceForPopupHeightTests(type: BottomPopupConfig.self, heightMode: .auto, popupHeight: 2000)
         ])
 
         XCTAssertEqual(
@@ -187,11 +187,11 @@ extension PopupStackViewModelTests {
     }
     func test_calculatePopupHeight_withAutoHeightMode_whenBiggerThanScreen_fivePopupStacked() {
         bottomViewModel.t_updatePopupsValue([
-            createPopupInstanceForPopupHeightTests(heightMode: .auto, popupHeight: 150),
-            createPopupInstanceForPopupHeightTests(heightMode: .auto, popupHeight: 200),
-            createPopupInstanceForPopupHeightTests(heightMode: .auto, popupHeight: 300),
-            createPopupInstanceForPopupHeightTests(heightMode: .auto, popupHeight: 100),
-            createPopupInstanceForPopupHeightTests(heightMode: .auto, popupHeight: 2000)
+            createPopupInstanceForPopupHeightTests(type: BottomPopupConfig.self, heightMode: .auto, popupHeight: 150),
+            createPopupInstanceForPopupHeightTests(type: BottomPopupConfig.self, heightMode: .auto, popupHeight: 200),
+            createPopupInstanceForPopupHeightTests(type: BottomPopupConfig.self, heightMode: .auto, popupHeight: 300),
+            createPopupInstanceForPopupHeightTests(type: BottomPopupConfig.self, heightMode: .auto, popupHeight: 100),
+            createPopupInstanceForPopupHeightTests(type: BottomPopupConfig.self, heightMode: .auto, popupHeight: 2000)
         ])
 
         XCTAssertEqual(
@@ -201,7 +201,7 @@ extension PopupStackViewModelTests {
     }
     func test_calculatePopupHeight_withLargeHeightMode_whenOnePopupStacked() {
         bottomViewModel.t_updatePopupsValue([
-            createPopupInstanceForPopupHeightTests(heightMode: .large, popupHeight: 100)
+            createPopupInstanceForPopupHeightTests(type: BottomPopupConfig.self, heightMode: .large, popupHeight: 100)
         ])
 
         XCTAssertEqual(
@@ -211,9 +211,9 @@ extension PopupStackViewModelTests {
     }
     func test_calculatePopupHeight_withLargeHeightMode_whenThreePopupStacked() {
         bottomViewModel.t_updatePopupsValue([
-            createPopupInstanceForPopupHeightTests(heightMode: .large, popupHeight: 100),
-            createPopupInstanceForPopupHeightTests(heightMode: .large, popupHeight: 700),
-            createPopupInstanceForPopupHeightTests(heightMode: .large, popupHeight: 1000)
+            createPopupInstanceForPopupHeightTests(type: BottomPopupConfig.self, heightMode: .large, popupHeight: 100),
+            createPopupInstanceForPopupHeightTests(type: BottomPopupConfig.self, heightMode: .large, popupHeight: 700),
+            createPopupInstanceForPopupHeightTests(type: BottomPopupConfig.self, heightMode: .large, popupHeight: 1000)
         ])
 
         XCTAssertEqual(
@@ -223,7 +223,7 @@ extension PopupStackViewModelTests {
     }
     func test_calculatePopupHeight_withFullscreenHeightMode_whenOnePopupStacked() {
         bottomViewModel.t_updatePopupsValue([
-            createPopupInstanceForPopupHeightTests(heightMode: .fullscreen, popupHeight: 100)
+            createPopupInstanceForPopupHeightTests(type: BottomPopupConfig.self, heightMode: .fullscreen, popupHeight: 100)
         ])
 
         XCTAssertEqual(
@@ -233,9 +233,9 @@ extension PopupStackViewModelTests {
     }
     func test_calculatePopupHeight_withFullscreenHeightMode_whenThreePopupsStacked() {
         bottomViewModel.t_updatePopupsValue([
-            createPopupInstanceForPopupHeightTests(heightMode: .fullscreen, popupHeight: 100),
-            createPopupInstanceForPopupHeightTests(heightMode: .fullscreen, popupHeight: 2000),
-            createPopupInstanceForPopupHeightTests(heightMode: .fullscreen, popupHeight: 3000)
+            createPopupInstanceForPopupHeightTests(type: BottomPopupConfig.self, heightMode: .fullscreen, popupHeight: 100),
+            createPopupInstanceForPopupHeightTests(type: BottomPopupConfig.self, heightMode: .fullscreen, popupHeight: 2000),
+            createPopupInstanceForPopupHeightTests(type: BottomPopupConfig.self, heightMode: .fullscreen, popupHeight: 3000)
         ])
 
         XCTAssertEqual(
@@ -245,9 +245,9 @@ extension PopupStackViewModelTests {
     }
     func test_calculatePopupHeight_withLargeHeightMode_whenThreePopupsStacked_popupPadding() {
         bottomViewModel.t_updatePopupsValue([
-            createPopupInstanceForPopupHeightTests(heightMode: .fullscreen, popupHeight: 100),
-            createPopupInstanceForPopupHeightTests(heightMode: .fullscreen, popupHeight: 2000),
-            createPopupInstanceForPopupHeightTests(heightMode: .large, popupHeight: 3000, popupPadding: .init(top: 33, leading: 15, bottom: 21, trailing: 15))
+            createPopupInstanceForPopupHeightTests(type: BottomPopupConfig.self, heightMode: .fullscreen, popupHeight: 100),
+            createPopupInstanceForPopupHeightTests(type: BottomPopupConfig.self, heightMode: .fullscreen, popupHeight: 2000),
+            createPopupInstanceForPopupHeightTests(type: BottomPopupConfig.self, heightMode: .large, popupHeight: 3000, popupPadding: .init(top: 33, leading: 15, bottom: 21, trailing: 15))
         ])
 
         XCTAssertEqual(
@@ -257,9 +257,9 @@ extension PopupStackViewModelTests {
     }
     func test_calculatePopupHeight_withFullscreenHeightMode_whenThreePopupsStacked_popupPadding() {
         bottomViewModel.t_updatePopupsValue([
-            createPopupInstanceForPopupHeightTests(heightMode: .fullscreen, popupHeight: 100),
-            createPopupInstanceForPopupHeightTests(heightMode: .fullscreen, popupHeight: 2000),
-            createPopupInstanceForPopupHeightTests(heightMode: .fullscreen, popupHeight: 3000, popupPadding: .init(top: 33, leading: 15, bottom: 21, trailing: 15))
+            createPopupInstanceForPopupHeightTests(type: BottomPopupConfig.self, heightMode: .fullscreen, popupHeight: 100),
+            createPopupInstanceForPopupHeightTests(type: BottomPopupConfig.self, heightMode: .fullscreen, popupHeight: 2000),
+            createPopupInstanceForPopupHeightTests(type: BottomPopupConfig.self, heightMode: .fullscreen, popupHeight: 3000, popupPadding: .init(top: 33, leading: 15, bottom: 21, trailing: 15))
         ])
 
         XCTAssertEqual(
@@ -269,7 +269,7 @@ extension PopupStackViewModelTests {
     }
     func test_calculatePopupHeight_withLargeHeightMode_whenPopupsHaveTopAlignment() {
         topViewModel.t_updatePopupsValue([
-            createPopupInstanceForPopupHeightTests(heightMode: .large, popupHeight: 100)
+            createPopupInstanceForPopupHeightTests(type: TopPopupConfig.self, heightMode: .large, popupHeight: 100)
         ])
 
         XCTAssertEqual(
@@ -444,11 +444,11 @@ private extension PopupStackViewModelTests {
 extension PopupStackViewModelTests {
     func test_calculateOffsetY_withZeroGestureTranslation_fivePopupsStacked_thirdElement() {
         bottomViewModel.t_updatePopupsValue([
-            createPopupInstanceForPopupHeightTests(heightMode: .auto, popupHeight: 350),
-            createPopupInstanceForPopupHeightTests(heightMode: .auto, popupHeight: 120),
-            createPopupInstanceForPopupHeightTests(heightMode: .auto, popupHeight: 240),
-            createPopupInstanceForPopupHeightTests(heightMode: .auto, popupHeight: 670),
-            createPopupInstanceForPopupHeightTests(heightMode: .auto, popupHeight: 310)
+            createPopupInstanceForPopupHeightTests(type: BottomPopupConfig.self, heightMode: .auto, popupHeight: 350),
+            createPopupInstanceForPopupHeightTests(type: BottomPopupConfig.self, heightMode: .auto, popupHeight: 120),
+            createPopupInstanceForPopupHeightTests(type: BottomPopupConfig.self, heightMode: .auto, popupHeight: 240),
+            createPopupInstanceForPopupHeightTests(type: BottomPopupConfig.self, heightMode: .auto, popupHeight: 670),
+            createPopupInstanceForPopupHeightTests(type: BottomPopupConfig.self, heightMode: .auto, popupHeight: 310)
         ])
 
         XCTAssertEqual(
@@ -458,11 +458,11 @@ extension PopupStackViewModelTests {
     }
     func test_calculateOffsetY_withZeroGestureTranslation_fivePopupsStacked_lastElement() {
         bottomViewModel.t_updatePopupsValue([
-            createPopupInstanceForPopupHeightTests(heightMode: .auto, popupHeight: 350),
-            createPopupInstanceForPopupHeightTests(heightMode: .auto, popupHeight: 120),
-            createPopupInstanceForPopupHeightTests(heightMode: .auto, popupHeight: 240),
-            createPopupInstanceForPopupHeightTests(heightMode: .auto, popupHeight: 670),
-            createPopupInstanceForPopupHeightTests(heightMode: .auto, popupHeight: 310)
+            createPopupInstanceForPopupHeightTests(type: BottomPopupConfig.self, heightMode: .auto, popupHeight: 350),
+            createPopupInstanceForPopupHeightTests(type: BottomPopupConfig.self, heightMode: .auto, popupHeight: 120),
+            createPopupInstanceForPopupHeightTests(type: BottomPopupConfig.self, heightMode: .auto, popupHeight: 240),
+            createPopupInstanceForPopupHeightTests(type: BottomPopupConfig.self, heightMode: .auto, popupHeight: 670),
+            createPopupInstanceForPopupHeightTests(type: BottomPopupConfig.self, heightMode: .auto, popupHeight: 310)
         ])
 
         XCTAssertEqual(
@@ -472,7 +472,7 @@ extension PopupStackViewModelTests {
     }
     func test_calculateOffsetY_withNegativeGestureTranslation_dragHeight_onePopupStacked() {
         bottomViewModel.t_updatePopupsValue([
-            createPopupInstanceForPopupHeightTests(heightMode: .auto, popupHeight: 350, popupDragHeight: 100)
+            createPopupInstanceForPopupHeightTests(type: BottomPopupConfig.self, heightMode: .auto, popupHeight: 350, popupDragHeight: 100)
         ])
         bottomViewModel.t_updateGestureTranslation(-100)
 
@@ -483,8 +483,8 @@ extension PopupStackViewModelTests {
     }
     func test_calculateOffsetY_withPositiveGestureTranslation_dragHeight_twoPopupsStacked_firstElement() {
         bottomViewModel.t_updatePopupsValue([
-            createPopupInstanceForPopupHeightTests(heightMode: .auto, popupHeight: 350, popupDragHeight: 249),
-            createPopupInstanceForPopupHeightTests(heightMode: .auto, popupHeight: 133, popupDragHeight: 21)
+            createPopupInstanceForPopupHeightTests(type: BottomPopupConfig.self, heightMode: .auto, popupHeight: 350, popupDragHeight: 249),
+            createPopupInstanceForPopupHeightTests(type: BottomPopupConfig.self, heightMode: .auto, popupHeight: 133, popupDragHeight: 21)
         ])
         bottomViewModel.t_updateGestureTranslation(100)
 
@@ -495,8 +495,8 @@ extension PopupStackViewModelTests {
     }
     func test_calculateOffsetY_withPositiveGestureTranslation_dragHeight_twoPopupsStacked_lastElement() {
         bottomViewModel.t_updatePopupsValue([
-            createPopupInstanceForPopupHeightTests(heightMode: .auto, popupHeight: 350, popupDragHeight: 249),
-            createPopupInstanceForPopupHeightTests(heightMode: .auto, popupHeight: 133, popupDragHeight: 21)
+            createPopupInstanceForPopupHeightTests(type: BottomPopupConfig.self, heightMode: .auto, popupHeight: 350, popupDragHeight: 249),
+            createPopupInstanceForPopupHeightTests(type: BottomPopupConfig.self, heightMode: .auto, popupHeight: 133, popupDragHeight: 21)
         ])
         bottomViewModel.t_updateGestureTranslation(100)
 
@@ -507,8 +507,8 @@ extension PopupStackViewModelTests {
     }
     func test_calculateOffsetY_withStackingDisabled() {
         bottomViewModel.t_updatePopupsValue([
-            createPopupInstanceForPopupHeightTests(heightMode: .auto, popupHeight: 350, popupDragHeight: 249),
-            createPopupInstanceForPopupHeightTests(heightMode: .auto, popupHeight: 133, popupDragHeight: 21)
+            createPopupInstanceForPopupHeightTests(type: BottomPopupConfig.self, heightMode: .auto, popupHeight: 350, popupDragHeight: 249),
+            createPopupInstanceForPopupHeightTests(type: BottomPopupConfig.self, heightMode: .auto, popupHeight: 133, popupDragHeight: 21)
         ])
         ConfigContainer.vertical.isStackingPossible = false
 
@@ -519,8 +519,8 @@ extension PopupStackViewModelTests {
     }
     func test_calculateOffsetY_withPopupsHaveTopAlignment_1() {
         topViewModel.t_updatePopupsValue([
-            createPopupInstanceForPopupHeightTests(heightMode: .auto, popupHeight: 350, popupDragHeight: 249),
-            createPopupInstanceForPopupHeightTests(heightMode: .auto, popupHeight: 133, popupDragHeight: 21)
+            createPopupInstanceForPopupHeightTests(type: TopPopupConfig.self, heightMode: .auto, popupHeight: 350, popupDragHeight: 249),
+            createPopupInstanceForPopupHeightTests(type: TopPopupConfig.self, heightMode: .auto, popupHeight: 133, popupDragHeight: 21)
         ])
 
         XCTAssertEqual(
@@ -530,8 +530,8 @@ extension PopupStackViewModelTests {
     }
     func test_calculateOffsetY_withPopupsHaveTopAlignment_2() {
         topViewModel.t_updatePopupsValue([
-            createPopupInstanceForPopupHeightTests(heightMode: .auto, popupHeight: 350, popupDragHeight: 249),
-            createPopupInstanceForPopupHeightTests(heightMode: .auto, popupHeight: 133, popupDragHeight: 21)
+            createPopupInstanceForPopupHeightTests(type: TopPopupConfig.self, heightMode: .auto, popupHeight: 350, popupDragHeight: 249),
+            createPopupInstanceForPopupHeightTests(type: TopPopupConfig.self, heightMode: .auto, popupHeight: 133, popupDragHeight: 21)
         ])
         topViewModel.t_updateGestureTranslation(-100)
 
@@ -1489,8 +1489,8 @@ private extension PopupStackViewModelTests {
 
 // MARK: Methods
 private extension PopupStackViewModelTests {
-    func createPopupInstanceForPopupHeightTests(heightMode: HeightMode, popupHeight: CGFloat, popupDragHeight: CGFloat? = nil, ignoredSafeAreaEdges: Edge.Set = [], popupPadding: EdgeInsets = .init(), cornerRadius: CGFloat = 0, dragGestureEnabled: Bool = true, dragDetents: [DragDetent] = []) -> AnyPopup {
-        let config = getConfigForPopupHeightTests(heightMode: heightMode, ignoredSafeAreaEdges: ignoredSafeAreaEdges, popupPadding: popupPadding, cornerRadius: cornerRadius, dragGestureEnabled: dragGestureEnabled, dragDetents: dragDetents)
+    func createPopupInstanceForPopupHeightTests<C: Config>(type: C.Type, heightMode: HeightMode, popupHeight: CGFloat, popupDragHeight: CGFloat? = nil, ignoredSafeAreaEdges: Edge.Set = [], popupPadding: EdgeInsets = .init(), cornerRadius: CGFloat = 0, dragGestureEnabled: Bool = true, dragDetents: [DragDetent] = []) -> AnyPopup {
+        let config = getConfigForPopupHeightTests(type: type, heightMode: heightMode, ignoredSafeAreaEdges: ignoredSafeAreaEdges, popupPadding: popupPadding, cornerRadius: cornerRadius, dragGestureEnabled: dragGestureEnabled, dragDetents: dragDetents)
 
         var popup = AnyPopup(config: config)
         popup.height = popupHeight
@@ -1515,7 +1515,7 @@ private extension PopupStackViewModelTests {
     }
 }
 private extension PopupStackViewModelTests {
-    func getConfigForPopupHeightTests<C: Config>(heightMode: HeightMode, ignoredSafeAreaEdges: Edge.Set, popupPadding: EdgeInsets, cornerRadius: CGFloat, dragGestureEnabled: Bool, dragDetents: [DragDetent]) -> C { .init(
+    func getConfigForPopupHeightTests<C: Config>(type: C.Type, heightMode: HeightMode, ignoredSafeAreaEdges: Edge.Set, popupPadding: EdgeInsets, cornerRadius: CGFloat, dragGestureEnabled: Bool, dragDetents: [DragDetent]) -> C { .init(
         backgroundColour: .clear,
         cornerRadius: cornerRadius,
         tapOutsideClosesView: false,
