@@ -59,18 +59,23 @@ public extension LocalConfig.Vertical {
 
 // MARK: - Centre
 public extension LocalConfig { class Centre: LocalConfig {
-    required init() {
+    required init(backgroundColour: Color, cornerRadius: CGFloat, tapOutsideClosesView: Bool, overlayColour: Color, popupPadding: EdgeInsets) {
         super.init()
 
-        self.backgroundColour = ConfigContainer.centre.backgroundColour
-        self.cornerRadius = ConfigContainer.centre.cornerRadius
-        self.tapOutsideClosesView = ConfigContainer.centre.tapOutsideClosesView
-        self.overlayColour = ConfigContainer.centre.overlayColour
-        self.popupPadding = .init(top: 0, leading: 16, bottom: 0, trailing: 16)
+        self.backgroundColour = backgroundColour
+        self.cornerRadius = cornerRadius
+        self.tapOutsideClosesView = tapOutsideClosesView
+        self.overlayColour = overlayColour
+        self.popupPadding = popupPadding
     }
+    required convenience init() { self.init(
+        backgroundColour: ConfigContainer.centre.backgroundColour,
+        cornerRadius: ConfigContainer.centre.cornerRadius,
+        tapOutsideClosesView: ConfigContainer.centre.tapOutsideClosesView,
+        overlayColour: ConfigContainer.centre.overlayColour,
+        popupPadding: .init(top: 0, leading: 16, bottom: 0, trailing: 16)
+    )}
 }}
-
-
 
 
 
@@ -78,21 +83,3 @@ public extension LocalConfig { class Centre: LocalConfig {
 public typealias TopPopupConfig = LocalConfig.Vertical.Top
 public typealias CentrePopupConfig = LocalConfig.Centre
 public typealias BottomPopupConfig = LocalConfig.Vertical.Bottom
-
-
-
-
-
-
-
-
-#if DEBUG
-extension LocalConfig.Centre {
-    convenience init(cornerRadius: CGFloat, popupPadding: EdgeInsets) {
-        self.init()
-
-        self.cornerRadius = cornerRadius
-        self.popupPadding = popupPadding
-    }
-}
-#endif
