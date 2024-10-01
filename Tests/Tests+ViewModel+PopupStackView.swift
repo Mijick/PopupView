@@ -434,7 +434,7 @@ private extension PopupStackViewModelTests {
             viewModel: viewModel,
             popups: popups,
             gestureTranslation: gestureTranslation,
-            calculatedValue: { $0.activePopupHeight },
+            calculatedValue: { $0.t_activePopupHeight },
             expectedValueBuilder: { _ in expectedValue }
         )
     }
@@ -1473,7 +1473,7 @@ private extension PopupStackViewModelTests {
             .dropFirst(expectedValues.shouldPopupBeDismissed ? 4 : 5)
             .sink { _ in
                 XCTAssertEqual(viewModel.popups.count, expectedValues.shouldPopupBeDismissed ? 0 : 1)
-                XCTAssertEqual(viewModel.activePopupHeight, expectedValues.popupHeight)
+                XCTAssertEqual(viewModel.t_activePopupHeight, expectedValues.popupHeight)
                 expect.fulfill()
             }
             .store(in: &cancellables)
