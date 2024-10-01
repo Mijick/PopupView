@@ -448,50 +448,35 @@ private extension PopupStackView.ViewModel {
 
 
 
-extension PopupStackView.ViewModel { struct TestHook { init(target: PopupStackView.ViewModel) { self.target = target }
-    private let target: PopupStackView.ViewModel
-}}
-
 // MARK: Methods
-extension PopupStackView.ViewModel.TestHook {
-    @MainActor func calculatePopupPadding() -> EdgeInsets { target.calculatePopupPadding() }
-    @MainActor func calculateBodyPadding(for popup: AnyPopup) -> EdgeInsets { target.calculateBodyPadding(for: popup) }
-    @MainActor func calculateHeight(heightCandidate: CGFloat, popupConfig: Config) -> CGFloat { target.calculateHeight(heightCandidate, popupConfig) }
-    @MainActor func calculateOffsetY(for popup: AnyPopup) -> CGFloat { target.calculateOffsetY(for: popup) }
-    @MainActor func calculateScaleX(for popup: AnyPopup) -> CGFloat { target.calculateScaleX(for: popup) }
-    @MainActor func calculateVerticalFixedSize(for popup: AnyPopup) -> Bool { target.calculateVerticalFixedSize(for: popup) }
-    @MainActor func calculateStackOverlayOpacity(for popup: AnyPopup) -> CGFloat { target.calculateStackOverlayOpacity(for: popup) }
-    @MainActor func calculateCornerRadius() -> [VerticalEdge: CGFloat] { target.calculateCornerRadius() }
-    @MainActor func calculateTranslationProgress() -> CGFloat { target.calculateTranslationProgress() }
-    @MainActor func getInvertedIndex(of popup: AnyPopup) -> Int { target.getInvertedIndex(of: popup) }
+extension PopupStackView.ViewModel {
+    @MainActor func t_calculatePopupPadding() -> EdgeInsets { calculatePopupPadding() }
+    @MainActor func t_calculateBodyPadding(for popup: AnyPopup) -> EdgeInsets { calculateBodyPadding(for: popup) }
+    @MainActor func t_calculateHeight(heightCandidate: CGFloat, popupConfig: LocalConfig.Vertical) -> CGFloat { calculateHeight(heightCandidate, popupConfig) }
+    @MainActor func t_calculateOffsetY(for popup: AnyPopup) -> CGFloat { calculateOffsetY(for: popup) }
+    @MainActor func t_calculateScaleX(for popup: AnyPopup) -> CGFloat { calculateScaleX(for: popup) }
+    @MainActor func t_calculateVerticalFixedSize(for popup: AnyPopup) -> Bool { calculateVerticalFixedSize(for: popup) }
+    @MainActor func t_calculateStackOverlayOpacity(for popup: AnyPopup) -> CGFloat { calculateStackOverlayOpacity(for: popup) }
+    @MainActor func t_calculateCornerRadius() -> [VerticalEdge: CGFloat] { calculateCornerRadius() }
+    @MainActor func t_calculateTranslationProgress() -> CGFloat { calculateTranslationProgress() }
+    @MainActor func t_getInvertedIndex(of popup: AnyPopup) -> Int { getInvertedIndex(of: popup) }
 
-    @MainActor func calculateAndUpdateActivePopupHeight() { target.activePopupHeight = target.calculateHeightForActivePopup() }
-    @MainActor func calculateAndUpdateTranslationProgress() { target.translationProgress = target.calculateTranslationProgress() }
+    @MainActor func t_calculateAndUpdateTranslationProgress() { translationProgress = calculateTranslationProgress() }
+    @MainActor func t_updateGestureTranslation(_ newGestureTranslation: CGFloat) { updateGestureTranslation(newGestureTranslation) }
 
-    @MainActor func setup(updatePopupAction: @escaping (AnyPopup) -> (), closePopupAction: @escaping (AnyPopup) -> ()) { target.setup(updatePopupAction: updatePopupAction, closePopupAction: closePopupAction) }
-    @MainActor func updatePopupsValue(_ newPopups: [AnyPopup]) { target.updatePopupsValue(newPopups) }
-    @MainActor func updateScreenValue(_ newScreen: ScreenProperties) { target.updateScreenValue(newScreen) }
-    @MainActor func updateGestureTranslation(_ newGestureTranslation: CGFloat) { target.updateGestureTranslation(newGestureTranslation) }
-    @MainActor func updatePopup(_ popup: AnyPopup, by popupUpdateBuilder: @escaping (inout AnyPopup) -> ()) { target.updatePopup(popup, by: popupUpdateBuilder) }
-
-    @MainActor func onPopupDragGestureChanged(_ value: CGFloat) { target.onPopupDragGestureChanged(value) }
-    @MainActor func onPopupDragGestureEnded(_ value: CGFloat) { target.onPopupDragGestureEnded(value) }
+    @MainActor func t_onPopupDragGestureChanged(_ value: CGFloat) { onPopupDragGestureChanged(value) }
+    @MainActor func t_onPopupDragGestureEnded(_ value: CGFloat) { onPopupDragGestureEnded(value) }
 }
 
 // MARK: Variables
-extension PopupStackView.ViewModel.TestHook {
-    @MainActor var stackOffset: CGFloat { target.stackOffset }
-    @MainActor var stackScaleFactor: CGFloat { target.stackScaleFactor }
-    @MainActor var stackOverlayFactor: CGFloat { target.stackOverlayFactor }
-    @MainActor var minScaleProgressMultiplier: CGFloat { target.minScaleProgressMultiplier }
-    @MainActor var minStackOverlayProgressMultiplier: CGFloat { target.minStackOverlayProgressMultiplier }
-    @MainActor var maxStackOverlayFactor: CGFloat { target.maxStackOverlayFactor }
-    @MainActor var dragTranslationThreshold: CGFloat { target.dragTranslationThreshold }
-    @MainActor var gestureTranslation: CGFloat { target.gestureTranslation }
-}
-
-// MARK: Test Hook
 extension PopupStackView.ViewModel {
-    var testHook: TestHook { .init(target: self) }
+    @MainActor var t_stackOffset: CGFloat { stackOffset }
+    @MainActor var t_stackScaleFactor: CGFloat { stackScaleFactor }
+    @MainActor var t_stackOverlayFactor: CGFloat { stackOverlayFactor }
+    @MainActor var t_minScaleProgressMultiplier: CGFloat { minScaleProgressMultiplier }
+    @MainActor var t_minStackOverlayProgressMultiplier: CGFloat { minStackOverlayProgressMultiplier }
+    @MainActor var t_maxStackOverlayFactor: CGFloat { maxStackOverlayFactor }
+    @MainActor var t_dragTranslationThreshold: CGFloat { dragTranslationThreshold }
+    @MainActor var t_gestureTranslation: CGFloat { gestureTranslation }
 }
 #endif
