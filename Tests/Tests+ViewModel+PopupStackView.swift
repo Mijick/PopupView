@@ -288,7 +288,7 @@ private extension PopupStackViewModelTests {
 extension PopupStackViewModelTests {
     func test_calculateActivePopupHeight_withAutoHeightMode_whenLessThanScreen_onePopupStacked() {
         let popups = [
-            createPopupInstanceForPopupHeightTests(heightMode: .auto, popupHeight: 100)
+            createPopupInstanceForPopupHeightTests(type: BottomPopupConfig.self, heightMode: .auto, popupHeight: 100)
         ]
 
         appendPopupsAndCheckActivePopupHeight(
@@ -300,9 +300,9 @@ extension PopupStackViewModelTests {
     }
     func test_calculateActivePopupHeight_withAutoHeightMode_whenBiggerThanScreen_threePopupsStacked() {
         let popups = [
-            createPopupInstanceForPopupHeightTests(heightMode: .auto, popupHeight: 3000),
-            createPopupInstanceForPopupHeightTests(heightMode: .auto, popupHeight: 1000),
-            createPopupInstanceForPopupHeightTests(heightMode: .auto, popupHeight: 2000)
+            createPopupInstanceForPopupHeightTests(type: BottomPopupConfig.self, heightMode: .auto, popupHeight: 3000),
+            createPopupInstanceForPopupHeightTests(type: BottomPopupConfig.self, heightMode: .auto, popupHeight: 1000),
+            createPopupInstanceForPopupHeightTests(type: BottomPopupConfig.self, heightMode: .auto, popupHeight: 2000)
         ]
 
         appendPopupsAndCheckActivePopupHeight(
@@ -314,9 +314,9 @@ extension PopupStackViewModelTests {
     }
     func test_calculateActivePopupHeight_withLargeHeightMode_whenThreePopupsStacked() {
         let popups = [
-            createPopupInstanceForPopupHeightTests(heightMode: .auto, popupHeight: 350),
-            createPopupInstanceForPopupHeightTests(heightMode: .fullscreen, popupHeight: 1000),
-            createPopupInstanceForPopupHeightTests(heightMode: .large, popupHeight: 2000)
+            createPopupInstanceForPopupHeightTests(type: BottomPopupConfig.self, heightMode: .auto, popupHeight: 350),
+            createPopupInstanceForPopupHeightTests(type: BottomPopupConfig.self, heightMode: .fullscreen, popupHeight: 1000),
+            createPopupInstanceForPopupHeightTests(type: BottomPopupConfig.self, heightMode: .large, popupHeight: 2000)
         ]
 
         appendPopupsAndCheckActivePopupHeight(
@@ -328,8 +328,8 @@ extension PopupStackViewModelTests {
     }
     func test_calculateActivePopupHeight_withAutoHeightMode_whenGestureIsNegative_twoPopupsStacked() {
         let popups = [
-            createPopupInstanceForPopupHeightTests(heightMode: .auto, popupHeight: 350),
-            createPopupInstanceForPopupHeightTests(heightMode: .auto, popupHeight: 2000)
+            createPopupInstanceForPopupHeightTests(type: BottomPopupConfig.self, heightMode: .auto, popupHeight: 350),
+            createPopupInstanceForPopupHeightTests(type: BottomPopupConfig.self, heightMode: .auto, popupHeight: 2000)
         ]
 
         appendPopupsAndCheckActivePopupHeight(
@@ -341,7 +341,7 @@ extension PopupStackViewModelTests {
     }
     func test_calculateActivePopupHeight_withLargeHeightMode_whenGestureIsNegative_onePopupStacked() {
         let popups = [
-            createPopupInstanceForPopupHeightTests(heightMode: .large, popupHeight: 350)
+            createPopupInstanceForPopupHeightTests(type: BottomPopupConfig.self, heightMode: .large, popupHeight: 350)
         ]
 
         appendPopupsAndCheckActivePopupHeight(
@@ -353,8 +353,8 @@ extension PopupStackViewModelTests {
     }
     func test_calculateActivePopupHeight_withFullscreenHeightMode_whenGestureIsNegative_twoPopupsStacked() {
         let popups = [
-            createPopupInstanceForPopupHeightTests(heightMode: .auto, popupHeight: 100),
-            createPopupInstanceForPopupHeightTests(heightMode: .fullscreen, popupHeight: 250)
+            createPopupInstanceForPopupHeightTests(type: BottomPopupConfig.self, heightMode: .auto, popupHeight: 100),
+            createPopupInstanceForPopupHeightTests(type: BottomPopupConfig.self, heightMode: .fullscreen, popupHeight: 250)
         ]
 
         appendPopupsAndCheckActivePopupHeight(
@@ -366,9 +366,9 @@ extension PopupStackViewModelTests {
     }
     func test_calculateActivePopupHeight_withAutoHeightMode_whenGestureIsPositive_threePopupsStacked() {
         let popups = [
-            createPopupInstanceForPopupHeightTests(heightMode: .large, popupHeight: 350),
-            createPopupInstanceForPopupHeightTests(heightMode: .fullscreen, popupHeight: 1000),
-            createPopupInstanceForPopupHeightTests(heightMode: .auto, popupHeight: 850)
+            createPopupInstanceForPopupHeightTests(type: BottomPopupConfig.self, heightMode: .large, popupHeight: 350),
+            createPopupInstanceForPopupHeightTests(type: BottomPopupConfig.self, heightMode: .fullscreen, popupHeight: 1000),
+            createPopupInstanceForPopupHeightTests(type: BottomPopupConfig.self, heightMode: .auto, popupHeight: 850)
         ]
 
         appendPopupsAndCheckActivePopupHeight(
@@ -380,7 +380,7 @@ extension PopupStackViewModelTests {
     }
     func test_calculateActivePopupHeight_withFullscreenHeightMode_whenGestureIsPositive_onePopupStacked() {
         let popups = [
-            createPopupInstanceForPopupHeightTests(heightMode: .fullscreen, popupHeight: 350)
+            createPopupInstanceForPopupHeightTests(type: BottomPopupConfig.self, heightMode: .fullscreen, popupHeight: 350)
         ]
 
         appendPopupsAndCheckActivePopupHeight(
@@ -392,8 +392,8 @@ extension PopupStackViewModelTests {
     }
     func test_calculateActivePopupHeight_withAutoHeightMode_whenGestureIsNegative_hasDragHeightStored_twoPopupsStacked() {
         let popups = [
-            createPopupInstanceForPopupHeightTests(heightMode: .fullscreen, popupHeight: 350),
-            createPopupInstanceForPopupHeightTests(heightMode: .auto, popupHeight: 500, popupDragHeight: 100)
+            createPopupInstanceForPopupHeightTests(type: BottomPopupConfig.self, heightMode: .fullscreen, popupHeight: 350),
+            createPopupInstanceForPopupHeightTests(type: BottomPopupConfig.self, heightMode: .auto, popupHeight: 500, popupDragHeight: 100)
         ]
 
         appendPopupsAndCheckActivePopupHeight(
@@ -405,7 +405,7 @@ extension PopupStackViewModelTests {
     }
     func test_calculateActivePopupHeight_withAutoHeightMode_whenGestureIsPositive_hasDragHeightStored_onePopupStacked() {
         let popups = [
-            createPopupInstanceForPopupHeightTests(heightMode: .auto, popupHeight: 1300, popupDragHeight: 100)
+            createPopupInstanceForPopupHeightTests(type: BottomPopupConfig.self, heightMode: .auto, popupHeight: 1300, popupDragHeight: 100)
         ]
 
         appendPopupsAndCheckActivePopupHeight(
@@ -417,7 +417,7 @@ extension PopupStackViewModelTests {
     }
     func test_calculateActivePopupHeight_withPopupsHaveTopAlignment() {
         let popups = [
-            createPopupInstanceForPopupHeightTests(heightMode: .large, popupHeight: 1300)
+            createPopupInstanceForPopupHeightTests(type: TopPopupConfig.self, heightMode: .large, popupHeight: 1300)
         ]
 
         appendPopupsAndCheckActivePopupHeight(
@@ -546,7 +546,7 @@ extension PopupStackViewModelTests {
 extension PopupStackViewModelTests {
     func test_calculatePopupPaddings_withAutoHeightMode_whenLessThanScreen() {
         let popups = [
-            createPopupInstanceForPopupHeightTests(heightMode: .auto, popupHeight: 344, popupPadding: .init(top: 12, leading: 17, bottom: 33, trailing: 17))
+            createPopupInstanceForPopupHeightTests(type: BottomPopupConfig.self, heightMode: .auto, popupHeight: 344, popupPadding: .init(top: 12, leading: 17, bottom: 33, trailing: 17))
         ]
 
         appendPopupsAndCheckPopupPadding(
