@@ -13,16 +13,17 @@ import SwiftUI
 
 enum VM {}
 class ViewModel<Config: LocalConfig>: ObservableObject {
+    // MARK: Attributes
     private(set) var allPopups: [AnyPopup] = []
     private(set) var popups: [AnyPopup] = []
     private(set) var updatePopupAction: ((AnyPopup) -> ())!
     private(set) var closePopupAction: ((AnyPopup) -> ())!
 
+    // MARK: Subclass Attributes
     var activePopupHeight: CGFloat? = nil
     var screen: ScreenProperties = .init()
     var isKeyboardActive: Bool = false
 
-    
     // MARK: Methods to Override
     func recalculateAndSave(height: CGFloat, for popup: AnyPopup) { fatalError() }
     func calculateHeightForActivePopup() -> CGFloat? { fatalError() }
