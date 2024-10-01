@@ -11,7 +11,7 @@
 
 import SwiftUI
 
-extension PopupStackView { class ViewModel: MijickPopups.ViewModel<LocalConfig.Vertical> {
+extension PopupStackView { class ViewModel<C: LocalConfig.Vertical>: MijickPopups.ViewModel<C> {
     // MARK: Attributes
     private(set) var alignment: VerticalEdge
     private(set) var gestureTranslation: CGFloat = 0
