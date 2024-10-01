@@ -13,7 +13,6 @@ import SwiftUI
 // MARK: - iOS / macOS Implementation
 #if os(iOS) || os(macOS) || os(visionOS) || os(watchOS)
 struct PopupView: View {
-    @State private var zIndex: ZIndex = .init()
     @ObservedObject private var popupManager: PopupManager = .shared
     @ObservedObject private var keyboardManager: KeyboardManager = .shared
     @ObservedObject private var screenManager: ScreenManager = .shared
@@ -49,7 +48,6 @@ private extension PopupView {
             .ignoresSafeArea()
             .animation(.transition, value: popupManager.views)
             .onTapGesture(perform: onTap)
-        //.onChange(popupManager.views.isEmpty, completion: onViewsCountChange)
             .onAppear() {
                 topStackViewModel.setup(updatePopupAction: updatePopup, closePopupAction: closePopup)
                 centreStackViewModel.setup(updatePopupAction: updatePopup, closePopupAction: closePopup)
@@ -105,9 +103,6 @@ private extension PopupView {
     func closePopup(_ popup: AnyPopup) {
         PopupManager.dismissPopup(id: popup.id.value)
     }
-    func onViewsCountChange(_ count: Bool) {
-        zIndex.reshuffle(popupManager.views.last?.config)
-    }
     func onTap() { if tapOutsideClosesPopup {
         PopupManager.dismiss()
     }}
@@ -116,31 +111,4 @@ private extension PopupView {
 private extension PopupView {
     var tapOutsideClosesPopup: Bool { popupManager.views.last?.config.tapOutsideClosesView ?? false }
     var overlayColour: Color { popupManager.views.last?.config.overlayColour ?? .clear }
-}
-
-
-// MARK: - Counting zIndexes
-// Purpose: To ensure that the stacks are displayed in the correct order
-// Example: There are three bottom popups on the screen, and the user wants to display the centre one - to make sure they are displayed in the right order, we need to count the indexes; otherwise centre popup would be hidden by the bottom three.
-extension PopupView { struct ZIndex {
-    private var values: [Double] = [1, 1, 1]
-}}
-extension PopupView.ZIndex {
-    mutating func reshuffle(_ lastConfig: (LocalConfig)?) { if let lastConfig {
-        if lastConfig is TopPopupConfig { reshuffle(0) }
-        else if lastConfig is CentrePopupConfig { reshuffle(1) }
-        else if lastConfig is BottomPopupConfig { reshuffle(2) }
-    }}
-}
-private extension PopupView.ZIndex {
-    mutating func reshuffle(_ index: Int) { if values[index] != 3 {
-        values.enumerated().forEach {
-            values[$0.offset] = $0.offset == index ? 3 : max(1, $0.element - 1)
-        }
-    }}
-}
-private extension PopupView.ZIndex {
-    var top: Double { values[0] }
-    var centre: Double { values[1] }
-    var bottom: Double { values[2] }
 }
