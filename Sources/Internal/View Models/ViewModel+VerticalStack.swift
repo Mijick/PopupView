@@ -1,5 +1,5 @@
 //
-//  ViewModel+PopupStackView.swift of MijickPopups
+//  ViewModel+VerticalStack.swift of MijickPopups
 //
 //  Created by Tomasz Kurylik
 //    - Twitter: https://twitter.com/tkurylik

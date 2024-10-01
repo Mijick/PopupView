@@ -1541,5 +1541,5 @@ private extension PopupStackViewModelTests {
 // MARK: Typealiases
 private extension PopupStackViewModelTests {
     typealias Config = LocalConfig.Vertical
-    typealias ViewModel = PopupStackView.ViewModel
+    typealias ViewModel = PopupVerticalStackView.ViewModel
 }

@@ -1,5 +1,5 @@
 //
-//  PopupStackView.swift of MijickPopups
+//  PopupVerticalStackView.swift of MijickPopups
 //
 //  Created by Tomasz Kurylik
 //    - Twitter: https://twitter.com/tkurylik
@@ -11,7 +11,7 @@
 
 import SwiftUI
 
-struct PopupStackView<Config: LocalConfig.Vertical>: View {
+struct PopupVerticalStackView<Config: LocalConfig.Vertical>: View {
     @ObservedObject var viewModel: VM.VerticalStack<Config>
 
 
@@ -21,12 +21,12 @@ struct PopupStackView<Config: LocalConfig.Vertical>: View {
             .onDragGesture(onChanged: viewModel.onPopupDragGestureChanged, onEnded: viewModel.onPopupDragGestureEnded)
     }
 }
-private extension PopupStackView {
+private extension PopupVerticalStackView {
     func createPopupStack() -> some View {
         ForEach(viewModel.popups, id: \.self, content: createPopup)
     }
 }
-private extension PopupStackView {
+private extension PopupVerticalStackView {
     func createPopup(_ popup: AnyPopup) -> some View {
         popup.body
             .padding(viewModel.calculateBodyPadding(for: popup))
@@ -46,11 +46,11 @@ private extension PopupStackView {
 }
 
 // MARK: Helpers
-private extension PopupStackView {
+private extension PopupVerticalStackView {
     func getBackgroundColour(for popup: AnyPopup) -> Color { popup.config.backgroundColour }
     func getStackOverlayColour(for popup: AnyPopup) -> Color { stackOverlayColour.opacity(viewModel.calculateStackOverlayOpacity(for: popup)) }
 }
-private extension PopupStackView {
+private extension PopupVerticalStackView {
     var popupShadow: Shadow { ConfigContainer.vertical.shadow }
     var stackOverlayColour: Color { .black }
     var transition: AnyTransition { .move(edge: viewModel.alignment.toEdge()) }

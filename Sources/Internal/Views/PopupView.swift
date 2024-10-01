@@ -86,13 +86,13 @@ private extension PopupView {
 
 private extension PopupView {
     func createTopPopupStackView() -> some View {
-        PopupStackView(viewModel: topStackViewModel)
+        PopupVerticalStackView(viewModel: topStackViewModel)
     }
     func createCentrePopupStackView() -> some View {
         PopupCentreStackView(viewModel: centreStackViewModel)
     }
     func createBottomPopupStackView() -> some View {
-        PopupStackView(viewModel: bottomStackViewModel)
+        PopupVerticalStackView(viewModel: bottomStackViewModel)
     }
 }
 
