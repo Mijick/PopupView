@@ -17,7 +17,7 @@ public extension View {
     #if os(iOS) || os(macOS) || os(visionOS) || os(watchOS)
         updateScreenSize()
             .frame(maxWidth: .infinity)
-            .overlay(PopupView(), alignment: .top)
+            .overlay(PopupView(popupManager: .shared), alignment: .top)
             .onAppear { _ = config(.init()) }
     #elseif os(tvOS)
         PopupView(rootView: updateScreenSize()).onAppear { _ = config(.init()) }

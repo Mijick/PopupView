@@ -13,7 +13,7 @@ import SwiftUI
 // MARK: - iOS / macOS Implementation
 #if os(iOS) || os(macOS) || os(visionOS) || os(watchOS)
 struct PopupView: View {
-    @ObservedObject private var popupManager: PopupManager = .shared
+    @ObservedObject var popupManager: PopupManager
     @ObservedObject private var keyboardManager: KeyboardManager = .shared
     @ObservedObject private var screenManager: ScreenManager = .shared
     @StateObject private var topStackViewModel: VM.VerticalStack<TopPopupConfig> = .init()
