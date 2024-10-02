@@ -12,7 +12,6 @@ import SwiftUI
 
 public class PopupManager: ObservableObject {
     @Published var views: [AnyPopup] = [] { willSet { onViewsChanged(newValue) }}
-    private var popupTemp: AnyPopup.Temp = .init()
 
     static let shared: PopupManager = .init()
     private init() {}
@@ -35,16 +34,6 @@ enum StackOperation {
 extension PopupManager {
     static func performOperation(_ operation: StackOperation) {
         shared.views.perform(operation)
-    }
-    static func setTempValue(environmentObject: (any ObservableObject)? = nil, dismissProperties: (popup: any Popup, seconds: Double)? = nil, onDismiss: (() -> ())? = nil) {
-        if let environmentObject { shared.popupTemp.environmentObject = environmentObject }
-        if let dismissProperties { shared.popupTemp.dismissTimer = DispatchSource.createAction(deadline: dismissProperties.seconds) { performOperation(.remove(dismissProperties.popup.id)) } }
-        if let onDismiss { shared.popupTemp.onDismiss = onDismiss }
-    }
-    static func readAndResetTempValues() -> AnyPopup.Temp {
-        let temp = shared.popupTemp
-        shared.popupTemp = .init()
-        return temp
     }
 }
 

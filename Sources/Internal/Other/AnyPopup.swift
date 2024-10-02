@@ -45,14 +45,6 @@ extension AnyPopup {
 }
 
 
-// MARK: - Temporary Values
-extension AnyPopup { struct Temp {
-    var environmentObject: (any ObservableObject)? = nil
-    var dismissTimer: DispatchSourceTimer? = nil
-    var onDismiss: () -> () = {}
-}}
-
-
 // MARK: - Testing
 #if DEBUG
 extension AnyPopup {
