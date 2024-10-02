@@ -10,25 +10,30 @@
 
 import SwiftUI
 
-struct AnyPopup: View, Hashable {
+struct AnyPopup: Popup, Hashable {
+    func createContent() -> AnyView { fatalError() }
+
+    typealias Config = LocalConfig
+    
     let id: ID
     let config: LocalConfig
-    let dismissTimer: DispatchSourceTimer?
-    let onDismiss: () -> ()
-    var height: CGFloat?
-    var dragHeight: CGFloat?
+    var dismissTimer: DispatchSourceTimer? = nil
+    var onDismiss: (() -> ())? = nil
+    var height: CGFloat? = nil
+    var dragHeight: CGFloat? = nil
     private let _body: AnyView
 
 
 
-    init(_ popup: some Popup) { let temp = PopupManager.readAndResetTempValues()
+    init(_ popup: some Popup, environmentObject: (any ObservableObject)? = nil) {
+        if let popup = popup as? AnyPopup {
+            self = popup
+            return
+        }
+
         self.id = popup.id
         self.config = popup.configurePopup(popup: .init())
-        self.dismissTimer = temp.dismissTimer
-        self.onDismiss = temp.onDismiss
-        self.height = nil
-        self.dragHeight = nil
-        self._body = popup.erased(with: temp.environmentObject)
+        self._body = popup.erased(with: environmentObject)
     }
     var body: some View { _body }
 }
