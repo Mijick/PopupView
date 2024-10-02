@@ -10,14 +10,6 @@
 
 import SwiftUI
 
-// MARK: - Erasing with EnvironmentObject
-extension View {
-    func erased(with object: (any ObservableObject)?) -> AnyView {
-        if let object { AnyView(environmentObject(object)) }
-        else { AnyView(self) }
-    }
-}
-
 // MARK: - Actions
 extension View {
     func focusSectionIfAvailable() -> some View {

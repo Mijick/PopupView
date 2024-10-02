@@ -30,8 +30,8 @@ public extension Popup {
 
 
 extension Popup {
-    func eraseObject(environmentObject: (any ObservableObject)? = nil, builder: (inout AnyPopup) -> ()) -> AnyPopup {
-        var popup = AnyPopup(self, environmentObject: environmentObject)
+    func eraseObject(builder: (inout AnyPopup) -> ()) -> AnyPopup {
+        var popup = AnyPopup(self)
         builder(&popup)
         return popup
     }

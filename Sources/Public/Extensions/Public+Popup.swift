@@ -25,7 +25,7 @@ public extension Popup {
     @discardableResult func dismissAfter(_ seconds: Double) -> some Popup { eraseObject { $0.dismissTimer = DispatchSource.createAction(deadline: seconds) { PopupManager.performOperation(.remove(id)) } }}
 
     /// Supplies an observable object to a view’s hierarchy
-    @discardableResult func setEnvironmentObject<T: ObservableObject>(_ object: T) -> some Popup { eraseObject(environmentObject: object) { _ in }}
+    @discardableResult func setEnvironmentObject<T: ObservableObject>(_ object: T) -> some Popup { eraseObject { $0._body = AnyView(environmentObject(object)) }}
 
     /// Action to be executed after popups is dismissed
     @discardableResult func onDismiss(_ action: @escaping () -> ()) -> some Popup { eraseObject { $0.onDismiss = action }}

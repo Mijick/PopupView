@@ -21,11 +21,10 @@ struct AnyPopup: Popup, Hashable {
     var onDismiss: (() -> ())? = nil
     var height: CGFloat? = nil
     var dragHeight: CGFloat? = nil
-    private let _body: AnyView
+    var _body: AnyView
 
 
-
-    init(_ popup: some Popup, environmentObject: (any ObservableObject)? = nil) {
+    init(_ popup: some Popup) {
         if let popup = popup as? AnyPopup {
             self = popup
             return
@@ -33,7 +32,7 @@ struct AnyPopup: Popup, Hashable {
 
         self.id = popup.id
         self.config = popup.configurePopup(popup: .init())
-        self._body = popup.erased(with: environmentObject)
+        self._body = AnyView(popup)
     }
     var body: some View { _body }
 }
