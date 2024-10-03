@@ -12,9 +12,12 @@
 import SwiftUI
 
 extension View {
-    func updateScreenSize(manager: ScreenManager) -> some View { GeometryReader { reader in
-        frame(width: reader.size.width, height: reader.size.height).frame(maxWidth: .infinity, maxHeight: .infinity)
-            .onAppear { manager.update(reader) }
-            .onChange(of: reader.size) { _ in manager.update(reader) }
-    }}
+    func updateScreenSize(manager: ScreenManager) -> some View {
+
+
+        GeometryReader { reader in
+                onAppear { manager.update(reader) }
+                .onChange(of: reader.size) { _ in manager.update(reader) }
+        }
+    }
 }
