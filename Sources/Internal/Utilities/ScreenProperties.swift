@@ -11,7 +11,21 @@
 
 import SwiftUI
 
-struct ScreenProperties: Equatable {
+class ScreenProperties: Equatable {
+    static func == (lhs: ScreenProperties, rhs: ScreenProperties) -> Bool {
+        lhs.height == rhs.height &&
+        lhs.safeArea == rhs.safeArea
+    }
+    
     var height: CGFloat = .zero
     var safeArea: EdgeInsets = .init()
+}
+
+
+
+extension ScreenProperties {
+    func update(_ reader: GeometryProxy) {
+        height = reader.size.height + reader.safeAreaInsets.top + reader.safeAreaInsets.bottom
+        safeArea = reader.safeAreaInsets
+    }
 }

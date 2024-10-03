@@ -14,7 +14,6 @@ import SwiftUI
 #if os(iOS) || os(macOS) || os(visionOS) || os(watchOS)
 struct PopupView: View {
     @ObservedObject var popupManager: PopupManager
-    @ObservedObject var screenManager: ScreenManager
     @ObservedObject private var keyboardManager: KeyboardManager = .shared
     @StateObject private var topStackViewModel: VM.VerticalStack<TopPopupConfig> = .init()
     @StateObject private var centreStackViewModel: VM.CentreStack = .init()
@@ -44,8 +43,32 @@ struct PopupView: View {
 // MARK: - Common Part
 private extension PopupView {
     func createBody() -> some View {
-        createPopupStackView()
-            .ignoresSafeArea()
+        GeometryReader { reader in
+            createPopupStackView()
+                .ignoresSafeArea()
+                .onAppear {
+                    let screen = ScreenProperties()
+                    screen.update(reader)
+                    topStackViewModel.updateScreenValue(screen)
+                    centreStackViewModel.updateScreenValue(screen)
+                    bottomStackViewModel.updateScreenValue(screen)
+
+
+                }
+                .onChange(of: reader.size) { _ in
+                    let screen = ScreenProperties()
+                    screen.update(reader)
+                    topStackViewModel.updateScreenValue(screen)
+                    centreStackViewModel.updateScreenValue(screen)
+                    bottomStackViewModel.updateScreenValue(screen)
+
+
+                }
+        }
+
+
+
+
             .animation(.transition, value: popupManager.views)
             .onTapGesture(perform: onTap)
             .onAppear() {
@@ -62,11 +85,6 @@ private extension PopupView {
                 topStackViewModel.updateKeyboardValue(keyboardManager.isActive)
                 centreStackViewModel.updateKeyboardValue(keyboardManager.isActive)
                 bottomStackViewModel.updateKeyboardValue(keyboardManager.isActive)
-            }
-            .onChange(of: screenManager.properties) { _ in
-                topStackViewModel.updateScreenValue(screenManager.properties)
-                centreStackViewModel.updateScreenValue(screenManager.properties)
-                bottomStackViewModel.updateScreenValue(screenManager.properties)
             }
     }
 }
