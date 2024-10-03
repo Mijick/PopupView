@@ -13,10 +13,10 @@ import SwiftUI
 // MARK: - Presenting and Dismissing
 public extension PopupManager {
     /// Displays the popup. Stacks previous one
-    static func showAndStack(_ popup: some Popup) { getInstance().performOperation(.insertAndStack(.init(popup))) }
+    func showAndStack(_ popup: some Popup) { performOperation(.insertAndStack(.init(popup))) }
 
     /// Displays the popup. Closes previous one
-    static func showAndReplace(_ popup: some Popup) { getInstance().performOperation(.insertAndReplace(.init(popup))) }
+    func showAndReplace(_ popup: some Popup) { performOperation(.insertAndReplace(.init(popup))) }
 }
 public extension PopupManager {
     /// Dismisses the last popup on the stack

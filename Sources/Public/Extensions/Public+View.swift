@@ -13,14 +13,16 @@ import SwiftUI
 // MARK: - Initialising
 public extension View {
     /// Initialises the library. Use directly with the view in your @main structure
-    func implementPopupView(config: @escaping (ConfigContainer) -> ConfigContainer = { $0 }) -> some View {
+    func implementPopupView(id: PopupManagerInstance = .shared, config: @escaping (ConfigContainer) -> ConfigContainer = { $0 }) -> some View {
+        let popupManager = PopupManagerRegistry.register(instance: id)!
+
     #if os(iOS) || os(macOS) || os(visionOS) || os(watchOS)
-        updateScreenSize(manager: .shared)
+        return updateScreenSize(manager: .shared)
             .frame(maxWidth: .infinity)
-            .overlay(PopupView(popupManager: .getInstance(), screenManager: .shared), alignment: .top)
+            .overlay(PopupView(popupManager: popupManager, screenManager: .shared), alignment: .top)
             .onAppear { _ = config(.init()) }
     #elseif os(tvOS)
-        PopupView(rootView: updateScreenSize()).onAppear { _ = config(.init()) }
+        return PopupView(rootView: updateScreenSize()).onAppear { _ = config(.init()) }
     #endif
     }
 }
