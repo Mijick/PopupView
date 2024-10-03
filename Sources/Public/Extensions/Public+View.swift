@@ -15,11 +15,12 @@ public extension View {
     /// Initialises the library. Use directly with the view in your @main structure
     func implementPopupView(id: PopupManagerInstance = .shared, config: @escaping (ConfigContainer) -> ConfigContainer = { $0 }) -> some View {
         let popupManager = PopupManagerRegistry.register(instance: id)!
+        let screenManager = ScreenManager()
 
     #if os(iOS) || os(macOS) || os(visionOS) || os(watchOS)
-        return updateScreenSize(manager: .shared)
+        return updateScreenSize(manager: screenManager)
             .frame(maxWidth: .infinity)
-            .overlay(PopupView(popupManager: popupManager, screenManager: .shared), alignment: .top)
+            .overlay(PopupView(popupManager: popupManager, screenManager: screenManager), alignment: .top)
             .onAppear { _ = config(.init()) }
     #elseif os(tvOS)
         return PopupView(rootView: updateScreenSize()).onAppear { _ = config(.init()) }

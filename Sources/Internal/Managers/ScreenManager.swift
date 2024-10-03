@@ -13,9 +13,6 @@ import Combine
 
 class ScreenManager: ObservableObject {
     private(set) var properties: ScreenProperties = .init()
-
-    static let shared: ScreenManager = .init()
-    private init() {}
 }
 
 extension ScreenManager {
