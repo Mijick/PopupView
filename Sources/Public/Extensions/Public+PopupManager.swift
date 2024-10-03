@@ -10,14 +10,7 @@
 
 import SwiftUI
 
-// MARK: - Presenting and Dismissing
-public extension PopupManager {
-    /// Displays the popup. Stacks previous one
-    func showAndStack(_ popup: some Popup) { performOperation(.insertAndStack(.init(popup))) }
-
-    /// Displays the popup. Closes previous one
-    func showAndReplace(_ popup: some Popup) { performOperation(.insertAndReplace(.init(popup))) }
-}
+// MARK: - Dismissing
 public extension PopupManager {
     /// Dismisses the last popup on the stack
     static func dismiss() { getInstance().performOperation(.removeLast) }
@@ -33,4 +26,20 @@ public extension PopupManager {
 
     /// Dismisses all the popups on the stack
     static func dismissAll() { getInstance().performOperation(.removeAll) }
+}
+public extension PopupManager {
+    /// Dismisses the last popup on the stack
+    func dismiss() { performOperation(.removeLast) }
+
+    /// Dismisses all the popups of provided ID on the stack
+    func dismissPopup(id: String) { performOperation(.remove(.init(value: id))) }
+
+    /// Dismisses all the popups of provided type on the stack
+    func dismissPopup<P: Popup>(_ popup: P.Type) { performOperation(.remove(ID(popup))) }
+
+    /// Dismisses all the popups on the stack up to the popup with the selected type
+    func dismissAll<P: Popup>(upTo popup: P.Type) { performOperation(.removeAllUpTo(ID(popup))) }
+
+    /// Dismisses all the popups on the stack
+    func dismissAll() { performOperation(.removeAll) }
 }

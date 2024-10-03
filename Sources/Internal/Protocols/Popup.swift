@@ -31,7 +31,7 @@ public extension Popup {
 
 extension Popup {
     func eraseObject(builder: (inout AnyPopup) -> ()) -> AnyPopup {
-        var popup = AnyPopup(self)
+        var popup = AnyPopup(self, id: nil)
         builder(&popup)
         return popup
     }

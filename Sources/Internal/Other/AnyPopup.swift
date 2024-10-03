@@ -17,22 +17,31 @@ struct AnyPopup: Popup, Hashable {
     
     let id: ID
     let config: LocalConfig
-    var dismissTimer: DispatchSourceTimer? = nil
+
+    var dismissTimer: ABC? = nil
+
     var onDismiss: (() -> ())? = nil
     var height: CGFloat? = nil
     var dragHeight: CGFloat? = nil
     var _body: AnyView
 
 
-    init(_ popup: some Popup) {
+    init(_ popup: some Popup, id: PopupManagerInstance?) {
         if let popup = popup as? AnyPopup {
             self = popup
-            return
+            
+        } else {
+
+
+            self.id = popup.id
+            self.config = popup.configurePopup(popup: .init())
+            self._body = AnyView(popup)
         }
 
-        self.id = popup.id
-        self.config = popup.configurePopup(popup: .init())
-        self._body = AnyView(popup)
+
+        if let id {
+            dismissTimer?.upd(instance: id, id: self.id)
+        }
     }
     var body: some View { _body }
 }
@@ -58,3 +67,21 @@ extension AnyPopup {
     }
 }
 #endif
+
+
+
+class ABC {
+    var time: Double
+    var timer: DispatchSourceTimer? = nil
+
+
+    init(time: Double) {
+        self.time = time
+    }
+}
+
+extension ABC {
+    func upd(instance: PopupManagerInstance, id: ID) {
+        timer = DispatchSource.createAction(deadline: time) { PopupManager.getInstance(instance).dismissPopup(id: id.value) }
+    }
+}
