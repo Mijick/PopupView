@@ -17,7 +17,7 @@ public extension View {
     #if os(iOS) || os(macOS) || os(visionOS) || os(watchOS)
         updateScreenSize(manager: .shared)
             .frame(maxWidth: .infinity)
-            .overlay(PopupView(popupManager: .shared, screenManager: .shared), alignment: .top)
+            .overlay(PopupView(popupManager: .getInstance(), screenManager: .shared), alignment: .top)
             .onAppear { _ = config(.init()) }
     #elseif os(tvOS)
         PopupView(rootView: updateScreenSize()).onAppear { _ = config(.init()) }
@@ -44,7 +44,7 @@ public extension View {
 public extension View {
     /// Triggers every time the popup is at the top of the stack
     func onFocus(_ popup: some Popup, perform action: @escaping () -> ()) -> some View {
-        onReceive(PopupManager.shared.$views) { views in
+        onReceive(PopupManager.getInstance().$views) { views in
             if views.last?.id == popup.id { action() }
         }
     }
