@@ -15,9 +15,9 @@ public extension View {
     /// Initialises the library. Use directly with the view in your @main structure
     func implementPopupView(config: @escaping (ConfigContainer) -> ConfigContainer = { $0 }) -> some View {
     #if os(iOS) || os(macOS) || os(visionOS) || os(watchOS)
-        updateScreenSize()
+        updateScreenSize(manager: .shared)
             .frame(maxWidth: .infinity)
-            .overlay(PopupView(popupManager: .shared), alignment: .top)
+            .overlay(PopupView(popupManager: .shared, screenManager: .shared), alignment: .top)
             .onAppear { _ = config(.init()) }
     #elseif os(tvOS)
         PopupView(rootView: updateScreenSize()).onAppear { _ = config(.init()) }

@@ -19,10 +19,10 @@ class ScreenManager: ObservableObject {
 }
 
 extension ScreenManager {
-    static func update(_ reader: GeometryProxy) {
-        shared.properties.height = reader.size.height + reader.safeAreaInsets.top + reader.safeAreaInsets.bottom
-        shared.properties.safeArea = reader.safeAreaInsets
+    func update(_ reader: GeometryProxy) {
+        properties.height = reader.size.height + reader.safeAreaInsets.top + reader.safeAreaInsets.bottom
+        properties.safeArea = reader.safeAreaInsets
 
-        shared.objectWillChange.send()
+        objectWillChange.send()
     }
 }
