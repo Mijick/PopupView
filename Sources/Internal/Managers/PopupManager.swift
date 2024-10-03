@@ -32,8 +32,8 @@ enum StackOperation {
     case removeLast, remove(ID), removeAllUpTo(ID), removeAll
 }
 extension PopupManager {
-    static func performOperation(_ operation: StackOperation) {
-        shared.views.perform(operation)
+    func performOperation(_ operation: StackOperation) {
+        views.perform(operation)
     }
 }
 
