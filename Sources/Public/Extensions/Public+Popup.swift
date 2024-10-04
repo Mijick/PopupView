@@ -26,9 +26,6 @@ public extension Popup {
 
     /// Supplies an observable object to a view’s hierarchy
     func setEnvironmentObject<T: ObservableObject>(_ object: T) -> some Popup { eraseObject { $0._body = AnyView(environmentObject(object)) }}
-
-    /// Action to be executed after popups is dismissed
-    func onDismiss(_ action: @escaping () -> ()) -> some Popup { eraseObject { $0.onDismiss = action }}
 }
 
 // MARK: - Available Popups

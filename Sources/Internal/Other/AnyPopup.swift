@@ -11,7 +11,9 @@
 import SwiftUI
 
 struct AnyPopup: Popup, Hashable {
-    func createContent() -> AnyView { fatalError() }
+    func createContent() -> AnyView { _body }
+    func onFocus() { _onFocus() }
+    func onDismiss() { _onDismiss() }
 
     typealias Config = LocalConfig
     
@@ -20,7 +22,8 @@ struct AnyPopup: Popup, Hashable {
 
     var dismissTimer: PopupActionScheduler? = nil
 
-    var onDismiss: (() -> ())? = nil
+    var _onFocus: () -> () = {}
+    var _onDismiss: () -> () = {}
     var height: CGFloat? = nil
     var dragHeight: CGFloat? = nil
     var _body: AnyView
@@ -33,8 +36,13 @@ struct AnyPopup: Popup, Hashable {
         } else {
 
 
-            self.id = popup.id
+            self.id = .init(popup)
             self.config = popup.configurePopup(popup: .init())
+
+            self._onFocus = popup.onFocus
+            self._onDismiss = popup.onDismiss
+
+
             self._body = AnyView(popup)
         }
 
@@ -45,7 +53,6 @@ struct AnyPopup: Popup, Hashable {
             }
         }
     }
-    var body: some View { _body }
 }
 
 // MARK: - Hashable
@@ -62,7 +69,6 @@ extension AnyPopup {
         self.id = .init(value: UUID().uuidString)
         self.config = config
         self.dismissTimer = nil
-        self.onDismiss = {}
         self.height = nil
         self.dragHeight = nil
         self._body = .init(erasing: EmptyView())

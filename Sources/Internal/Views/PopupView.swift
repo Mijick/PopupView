@@ -86,6 +86,15 @@ private extension PopupView {
                 centreStackViewModel.updateKeyboardValue(keyboardManager.isActive)
                 bottomStackViewModel.updateKeyboardValue(keyboardManager.isActive)
             }
+            .onChange(of: popupManager.views) { [views = popupManager.views] newValue in
+                newValue
+                    .difference(from: views)
+                    .forEach { switch $0 {
+                        case .remove(_, let element, _): element.onDismiss()
+                        default: return
+                    }}
+                popupManager.views.last?.onFocus()
+            }
     }
 }
 

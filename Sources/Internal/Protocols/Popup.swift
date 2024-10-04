@@ -14,16 +14,17 @@ public protocol Popup: View {
     associatedtype Config: LocalConfig
     associatedtype V: View
 
-    var id: PopupID { get }
-
     func createContent() -> V
     func configurePopup(popup: Config) -> Config
+    func onFocus()
+    func onDismiss()
 }
 public extension Popup {
-    var id: PopupID { .init(self) }
     var body: V { createContent() }
 
     func configurePopup(popup: Config) -> Config { popup }
+    func onFocus() {}
+    func onDismiss() {}
 }
 
 

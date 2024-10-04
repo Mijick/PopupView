@@ -38,13 +38,3 @@ public extension View {
     /// Dismisses all the popups on the stack
     func dismissAll() { PopupManager.dismissAll() }
 }
-
-// MARK: - Actions
-public extension View {
-    /// Triggers every time the popup is at the top of the stack
-    func onFocus(_ popup: some Popup, perform action: @escaping () -> ()) -> some View {
-        onReceive(PopupManager.getInstance().$views) { views in
-            if views.last?.id == popup.id { action() }
-        }
-    }
-}

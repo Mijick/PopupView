@@ -11,19 +11,10 @@
 import SwiftUI
 
 public class PopupManager: ObservableObject {
-    @Published var views: [AnyPopup] = [] { willSet { onViewsChanged(newValue) }}
+    @Published var views: [AnyPopup] = []
 
     let id: PopupManagerID
     private init(id: PopupManagerID) { self.id = id }
-}
-private extension PopupManager {
-    func onViewsChanged(_ newViews: [AnyPopup]) { newViews
-        .difference(from: views)
-        .forEach { switch $0 {
-            case .remove(_, let element, _): element.onDismiss?()
-            default: return
-        }}
-    }
 }
 
 // MARK: - Operations
