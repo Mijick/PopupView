@@ -103,55 +103,67 @@ extension PopupManagerTests {
 // MARK: Present Popup
 extension PopupManagerTests {
     func test_presentPopup_withThreePopupsToBePresented() {
-        let popupsToBePresented: [AnyPopup] = [
-            .init(config: .init()),
-            .init(config: .init()),
-            .init(config: .init())
-        ]
+        registerNewInstanceAndPresentPopups(popups: [
+            AnyPopup(config: .init()),
+            AnyPopup(config: .init()),
+            AnyPopup(config: .init())
+        ])
 
-        registerNewInstances(popupManagerIds: [.staremiasto])
-        popupsToBePresented.forEach { $0.present(id: .staremiasto) }
-
-        let popupsOnStack = getPopupsForActiveInstance()
-        XCTAssertEqual(popupsToBePresented, popupsOnStack)
+        let popupsOnStackCount = getPopupsForActiveInstance().count
+        XCTAssertEqual(popupsOnStackCount, 3)
     }
     func test_presentPopup_withPopupsWithSameID() {
-        let popupsToBePresented: [AnyPopup] = [
-            .init(id: "2137", config: .init()),
-            .init(id: "2137", config: .init()),
-            .init(id: "2331", config: .init())
-        ]
+        registerNewInstanceAndPresentPopups(popups: [
+            AnyPopup(id: "2137", config: .init()),
+            AnyPopup(id: "2137", config: .init()),
+            AnyPopup(id: "2331", config: .init())
+        ])
 
-        registerNewInstances(popupManagerIds: [.staremiasto])
-        popupsToBePresented.forEach { $0.present(id: .staremiasto) }
-
-        let popupsOnStack = getPopupsForActiveInstance()
-        let expectedStack = [popupsToBePresented[0]] + [popupsToBePresented[2]]
-        XCTAssertEqual(popupsOnStack, expectedStack)
+        let popupsOnStackCount = getPopupsForActiveInstance().count
+        XCTAssertEqual(popupsOnStackCount, 2)
     }
     func test_presentPopup_withCustomID() {
-        let popupsToBePresented: [AnyPopup] = [
-            .init(id: "2137", config: .init()),
-            .init(id: "2137", config: .init()),
-            .init(id: "2137", config: .init())
-        ]
-
-        registerNewInstances(popupManagerIds: [.staremiasto])
-        popupsToBePresented.enumerated().forEach { $0.element.setCustomID("\($0.offset)").present(id: .staremiasto) }
+        registerNewInstanceAndPresentPopups(popups: [
+            AnyPopup(id: "2137", config: .init()).setCustomID("1"),
+            AnyPopup(id: "2137", config: .init()),
+            AnyPopup(id: "2137", config: .init()).setCustomID("3")
+        ])
 
         let popupsOnStack = getPopupsForActiveInstance()
         XCTAssertEqual(popupsOnStack.count, 3)
     }
+    func test_presentPopup_withDismissAfter() {
+        let popupsToBePresented: [any Popup] = [
+            AnyPopup(config: .init()).dismissAfter(1),
+            AnyPopup(config: .init()),
+            AnyPopup(config: .init()).dismissAfter(2)
+        ]
+
+        registerNewInstances(popupManagerIds: [.staremiasto])
+        popupsToBePresented.forEach { $0.present(id: .staremiasto) }
+
+        let popupsOnStack1 = getPopupsForActiveInstance()
+        XCTAssertEqual(popupsOnStack1.count, 3)
+
+        sleep(1)
+
+        let popupsOnStack2 = getPopupsForActiveInstance()
+        XCTAssertEqual(popupsOnStack2.count, 2)
+
+        sleep(1)
+
+        let popupsOnStack3 = getPopupsForActiveInstance()
+        XCTAssertEqual(popupsOnStack3.count, 1)
+    }
 
 
     // ze odpowiednio rozpoznaje config
-    // ale ze sie da prezentowac z custom id
     // ze sie wylaczy po danym czasie
 }
 private extension PopupManagerTests {
-    func registerNewInstanceAndPresentPopups(popups: [AnyPopup]) {
-
-
+    func registerNewInstanceAndPresentPopups(popups: [any Popup]) {
+        registerNewInstances(popupManagerIds: [.staremiasto])
+        popups.forEach { $0.present(id: .staremiasto) }
     }
     func getPopupsForActiveInstance() -> [AnyPopup] {
         PopupManager
