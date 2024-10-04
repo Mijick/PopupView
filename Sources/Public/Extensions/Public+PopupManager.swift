@@ -13,19 +13,6 @@ import SwiftUI
 // MARK: - Dismissing
 public extension PopupManager {
     /// Dismisses the last popup on the stack
-    static func dismiss() { getInstance().performOperation(.removeLast) }
-
-    /// Dismisses all the popups of provided ID on the stack
-    static func dismissPopup(id: String) { getInstance().performOperation(.remove(.init(value: id))) }
-
-    /// Dismisses all the popups of provided type on the stack
-    static func dismissPopup<P: Popup>(_ popup: P.Type) { getInstance().performOperation(.remove(.init(popup))) }
-
-    /// Dismisses all the popups on the stack
-    static func dismissAll() { getInstance().performOperation(.removeAll) }
-}
-public extension PopupManager {
-    /// Dismisses the last popup on the stack
     func dismiss() { performOperation(.removeLast) }
 
     /// Dismisses all the popups of provided ID on the stack
@@ -37,3 +24,29 @@ public extension PopupManager {
     /// Dismisses all the popups on the stack
     func dismissAll() { performOperation(.removeAll) }
 }
+public extension PopupManager {
+    /// Dismisses the last popup on the stack
+    static func dismiss() { getInstance().dismiss() }
+
+    /// Dismisses all the popups of provided ID on the stack
+    static func dismissPopup(id: String) { getInstance().dismissPopup(id: id) }
+
+    /// Dismisses all the popups of provided type on the stack
+    static func dismissPopup<P: Popup>(_ popup: P.Type) { getInstance().dismissPopup(popup) }
+
+    /// Dismisses all the popups on the stack
+    static func dismissAll() { getInstance().dismissAll() }
+}
+
+
+
+
+
+
+// dismissLast
+// dismiss(popup)
+// dismiss(popupID)
+// dismissAll
+
+
+// dismiss() -> tylko dla Popup
