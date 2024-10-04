@@ -13,27 +13,14 @@ import SwiftUI
 // MARK: - Dismissing
 public extension PopupManager {
     /// Dismisses the last popup on the stack
-    func dismiss() { performOperation(.removeLast) }
+    static func dismiss(manID: PopupManagerID = .shared) { getInstance(manID).performOperation(.removeLast) }
 
     /// Dismisses all the popups of provided ID on the stack
-    func dismissPopup(id: String) { performOperation(.remove(.init(rawValue: id))) }
+    static func dismissPopup(id: String, manID: PopupManagerID = .shared) { getInstance(manID).performOperation(.remove(.init(rawValue: id))) }
 
     /// Dismisses all the popups of provided type on the stack
-    func dismissPopup<P: Popup>(_ popup: P.Type) { performOperation(.remove(.init(popup))) }
+    static func dismissPopup<P: Popup>(_ popup: P.Type, manID: PopupManagerID = .shared) { getInstance(manID).performOperation(.remove(.init(popup))) }
 
     /// Dismisses all the popups on the stack
-    func dismissAll() { performOperation(.removeAll) }
-}
-public extension PopupManager {
-    /// Dismisses the last popup on the stack
-    static func dismiss() { getInstance().dismiss() }
-
-    /// Dismisses all the popups of provided ID on the stack
-    static func dismissPopup(id: String) { getInstance().dismissPopup(id: id) }
-
-    /// Dismisses all the popups of provided type on the stack
-    static func dismissPopup<P: Popup>(_ popup: P.Type) { getInstance().dismissPopup(popup) }
-
-    /// Dismisses all the popups on the stack
-    static func dismissAll() { getInstance().dismissAll() }
+    static func dismissAll(manID: PopupManagerID = .shared) { getInstance(manID).performOperation(.removeAll) }
 }
