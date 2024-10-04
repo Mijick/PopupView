@@ -69,21 +69,3 @@ extension AnyPopup {
     }
 }
 #endif
-
-
-
-class PopupActionScheduler {
-    private var secondsToDismiss: Double
-    private var action: DispatchSourceTimer?
-
-    init(secondsToDismiss: Double) { self.secondsToDismiss = secondsToDismiss }
-}
-
-extension PopupActionScheduler {
-    func startTimer(action: @escaping () -> ()) {
-        self.action = DispatchSource.makeTimerSource(queue: .main)
-        self.action?.schedule(deadline: .now() + max(0.6, secondsToDismiss))
-        self.action?.setEventHandler(handler: action)
-        self.action?.resume()
-    }
-}
