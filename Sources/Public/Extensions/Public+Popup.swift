@@ -13,10 +13,10 @@ import SwiftUI
 // MARK: - Presenting
 public extension Popup {
     /// Displays the popup. Stacks previous one
-    func showAndStack(id: PopupManagerInstance = .shared) { PopupManager.getInstance(id).performOperation(.insertAndStack(.init(self, id: id))) }
+    func showAndStack(id: PopupManagerID = .shared) { PopupManager.getInstance(id).performOperation(.insertAndStack(.init(self, id: id))) }
 
     /// Displays the popup. Closes previous one
-    func showAndReplace(id: PopupManagerInstance = .shared) { PopupManager.getInstance(id).performOperation(.insertAndReplace(.init(self, id: id))) }
+    func showAndReplace(id: PopupManagerID = .shared) { PopupManager.getInstance(id).performOperation(.insertAndReplace(.init(self, id: id))) }
 }
 
 // MARK: - Modifiers

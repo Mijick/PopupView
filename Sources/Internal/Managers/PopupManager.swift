@@ -13,8 +13,8 @@ import SwiftUI
 public class PopupManager: ObservableObject {
     @Published var views: [AnyPopup] = [] { willSet { onViewsChanged(newValue) }}
 
-    let instance: PopupManagerInstance
-    init(instance: PopupManagerInstance) { self.instance = instance }
+    let instance: PopupManagerID
+    init(instance: PopupManagerID) { self.instance = instance }
 }
 private extension PopupManager {
     func onViewsChanged(_ newViews: [AnyPopup]) { newViews
@@ -29,7 +29,7 @@ private extension PopupManager {
 // MARK: - Operations
 enum StackOperation {
     case insertAndReplace(AnyPopup), insertAndStack(AnyPopup)
-    case removeLast, remove(ID), removeAllUpTo(ID), removeAll
+    case removeLast, remove(PopupID), removeAllUpTo(PopupID), removeAll
 }
 extension PopupManager {
     func performOperation(_ operation: StackOperation) {
@@ -71,7 +71,7 @@ class PopupManagerRegistry {
     static var instances: [PopupManager] = []
 
 
-    static func register(instance: PopupManagerInstance) -> PopupManager? {
+    static func register(instance: PopupManagerID) -> PopupManager? {
         if !instances.contains(where: { $0.instance == instance }) {
             let a = PopupManager(instance: instance)
             instances.append(a)
@@ -84,21 +84,14 @@ class PopupManagerRegistry {
 
 
 
-public struct PopupManagerInstance: Equatable {
-    private var rawValue: String
 
-    public static let shared: PopupManagerInstance = .init("shared")
-
-
-    public init(_ rawValue: String) { self.rawValue = rawValue }
-}
 
 
 
 
 
 extension PopupManager {
-    static func getInstance(_ instance: PopupManagerInstance = .shared) -> PopupManager {
+    static func getInstance(_ instance: PopupManagerID = .shared) -> PopupManager {
         PopupManagerRegistry.instances.first(where: { $0.instance == instance })!
     }
 }

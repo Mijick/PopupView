@@ -14,13 +14,13 @@ public protocol Popup: View {
     associatedtype Config: LocalConfig
     associatedtype V: View
 
-    var id: ID { get }
+    var id: PopupID { get }
 
     func createContent() -> V
     func configurePopup(popup: Config) -> Config
 }
 public extension Popup {
-    var id: ID { .init(self) }
+    var id: PopupID { .init(self) }
     var body: V { createContent() }
 
     func configurePopup(popup: Config) -> Config { popup }

@@ -15,7 +15,7 @@ struct AnyPopup: Popup, Hashable {
 
     typealias Config = LocalConfig
     
-    let id: ID
+    let id: PopupID
     let config: LocalConfig
 
     var dismissTimer: ABC? = nil
@@ -26,7 +26,7 @@ struct AnyPopup: Popup, Hashable {
     var _body: AnyView
 
 
-    init(_ popup: some Popup, id: PopupManagerInstance?) {
+    init(_ popup: some Popup, id: PopupManagerID?) {
         if let popup = popup as? AnyPopup {
             self = popup
             
@@ -81,7 +81,7 @@ class ABC {
 }
 
 extension ABC {
-    func upd(instance: PopupManagerInstance, id: ID) {
+    func upd(instance: PopupManagerID, id: PopupID) {
         timer = DispatchSource.createAction(deadline: time) { PopupManager.getInstance(instance).dismissPopup(id: id.value) }
     }
 }

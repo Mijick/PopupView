@@ -19,10 +19,10 @@ public extension PopupManager {
     static func dismissPopup(id: String) { getInstance().performOperation(.remove(.init(value: id))) }
 
     /// Dismisses all the popups of provided type on the stack
-    static func dismissPopup<P: Popup>(_ popup: P.Type) { getInstance().performOperation(.remove(ID(popup))) }
+    static func dismissPopup<P: Popup>(_ popup: P.Type) { getInstance().performOperation(.remove(.init(popup))) }
 
     /// Dismisses all the popups on the stack up to the popup with the selected type
-    static func dismissAll<P: Popup>(upTo popup: P.Type) { getInstance().performOperation(.removeAllUpTo(ID(popup))) }
+    static func dismissAll<P: Popup>(upTo popup: P.Type) { getInstance().performOperation(.removeAllUpTo(.init(popup))) }
 
     /// Dismisses all the popups on the stack
     static func dismissAll() { getInstance().performOperation(.removeAll) }
@@ -35,10 +35,10 @@ public extension PopupManager {
     func dismissPopup(id: String) { performOperation(.remove(.init(value: id))) }
 
     /// Dismisses all the popups of provided type on the stack
-    func dismissPopup<P: Popup>(_ popup: P.Type) { performOperation(.remove(ID(popup))) }
+    func dismissPopup<P: Popup>(_ popup: P.Type) { performOperation(.remove(.init(popup))) }
 
     /// Dismisses all the popups on the stack up to the popup with the selected type
-    func dismissAll<P: Popup>(upTo popup: P.Type) { performOperation(.removeAllUpTo(ID(popup))) }
+    func dismissAll<P: Popup>(upTo popup: P.Type) { performOperation(.removeAllUpTo(.init(popup))) }
 
     /// Dismisses all the popups on the stack
     func dismissAll() { performOperation(.removeAll) }
