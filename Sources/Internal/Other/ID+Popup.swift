@@ -12,19 +12,20 @@
 import Foundation
 
 public struct PopupID {
-    let value: String
+    let rawValue: String
+
+    init(rawValue: String) { self.rawValue = rawValue + Self.separator + .init(describing: Date()) }
 }
 
 // MARK: - Initialisers
 extension PopupID {
     init<P: Popup>(_ object: P) { self.init(P.self) }
-    init<P: Popup>(_ type: P.Type) { self.value = .init(describing: P.self) + Self.separator + .init(describing: Date()) }
-    init() { self.value = "" }
+    init<P: Popup>(_ type: P.Type) { self.rawValue = .init(describing: P.self) + Self.separator + .init(describing: Date()) }
 }
 
 // MARK: - Equatable
 extension PopupID: Equatable {
-    public static func ==(lhs: Self, rhs: Self) -> Bool { lhs.value == rhs.value }
+    public static func ==(lhs: Self, rhs: Self) -> Bool { lhs.rawValue == rhs.rawValue }
     public static func ~=(lhs: Self, rhs: Self) -> Bool { getComponent(lhs) == getComponent(rhs) }
 }
 
@@ -36,7 +37,7 @@ extension PopupID: Hashable {
 
 // MARK: - Helpers
 private extension PopupID {
-    static func getComponent(_ object: Self) -> String { object.value.components(separatedBy: separator).first ?? "" }
+    static func getComponent(_ object: Self) -> String { object.rawValue.components(separatedBy: separator).first ?? "" }
 }
 private extension PopupID {
     static var separator: String { "/{}/" }

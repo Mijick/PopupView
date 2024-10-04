@@ -17,7 +17,7 @@ struct AnyPopup: Popup, Hashable {
 
     typealias Config = LocalConfig
     
-    let id: PopupID
+    var id: PopupID
     let config: LocalConfig
 
     var dismissTimer: PopupActionScheduler? = nil
@@ -66,7 +66,7 @@ extension AnyPopup {
 #if DEBUG
 extension AnyPopup {
     init(config: LocalConfig) {
-        self.id = .init(value: UUID().uuidString)
+        self.id = .init(rawValue: UUID().uuidString)
         self.config = config
         self.dismissTimer = nil
         self.height = nil
