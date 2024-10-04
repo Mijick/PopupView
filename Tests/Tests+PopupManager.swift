@@ -108,7 +108,9 @@ extension PopupManagerTests {
             .init(config: .init()),
             .init(config: .init())
         ]
-        registerNewInstanceAndPresentPopups(popups: popupsToBePresented)
+
+        registerNewInstances(popupManagerIds: [.staremiasto])
+        popupsToBePresented.forEach { $0.present(id: .staremiasto) }
 
         let popupsOnStack = getPopupsForActiveInstance()
         XCTAssertEqual(popupsToBePresented, popupsOnStack)
@@ -119,11 +121,26 @@ extension PopupManagerTests {
             .init(id: "2137", config: .init()),
             .init(id: "2331", config: .init())
         ]
-        registerNewInstanceAndPresentPopups(popups: popupsToBePresented)
+
+        registerNewInstances(popupManagerIds: [.staremiasto])
+        popupsToBePresented.forEach { $0.present(id: .staremiasto) }
 
         let popupsOnStack = getPopupsForActiveInstance()
         let expectedStack = [popupsToBePresented[0]] + [popupsToBePresented[2]]
         XCTAssertEqual(popupsOnStack, expectedStack)
+    }
+    func test_presentPopup_withCustomID() {
+        let popupsToBePresented: [AnyPopup] = [
+            .init(id: "2137", config: .init()),
+            .init(id: "2137", config: .init()),
+            .init(id: "2137", config: .init())
+        ]
+
+        registerNewInstances(popupManagerIds: [.staremiasto])
+        popupsToBePresented.enumerated().forEach { $0.element.setCustomID("\($0.offset)").present(id: .staremiasto) }
+
+        let popupsOnStack = getPopupsForActiveInstance()
+        XCTAssertEqual(popupsOnStack.count, 3)
     }
 
 
@@ -133,8 +150,8 @@ extension PopupManagerTests {
 }
 private extension PopupManagerTests {
     func registerNewInstanceAndPresentPopups(popups: [AnyPopup]) {
-        registerNewInstances(popupManagerIds: [.staremiasto])
-        popups.forEach { $0.present(id: .staremiasto) }
+
+
     }
     func getPopupsForActiveInstance() -> [AnyPopup] {
         PopupManager
