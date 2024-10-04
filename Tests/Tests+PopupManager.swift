@@ -16,7 +16,7 @@ import Combine
 
 final class PopupManagerTests: XCTestCase {
     override func setUpWithError() throws {
-        PopupManagerRegistry.t_clean()
+        PopupManagerRegistry.clean()
     }
 }
 
@@ -63,17 +63,17 @@ extension PopupManagerTests {
 }
 private extension PopupManagerTests {
     func registerNewInstances(popupManagerIds: [PopupManagerID]) {
-        popupManagerIds.forEach { _ = PopupManager.t_registerNewInstance(id: $0) }
+        popupManagerIds.forEach { _ = PopupManager.registerNewInstance(id: $0) }
     }
     func getRegisteredInstances() -> [PopupManagerID] {
-        PopupManagerRegistry.t_instances.map(\.id)
+        PopupManagerRegistry.instances.map(\.id)
     }
 }
 
 // MARK: Get Instance
 extension PopupManagerTests {
     func test_getInstance_withNoActiveInstances() {
-        let managerInstance = PopupManager.t_getInstance(id: .bronowice)
+        let managerInstance = PopupManager.getInstance(.bronowice)
         XCTAssertNil(managerInstance)
     }
     func test_getInstance_withRegisteredOtherInstances() {
@@ -85,7 +85,7 @@ extension PopupManagerTests {
             .grzegorzki
         ])
 
-        let managerInstance = PopupManager.t_getInstance(id: .bronowice)
+        let managerInstance = PopupManager.getInstance(.bronowice)
         XCTAssertNil(managerInstance)
     }
     func test_getInstance_withRegisteredDemandedInstance() {
@@ -95,7 +95,7 @@ extension PopupManagerTests {
             .grzegorzki
         ])
 
-        let managerInstance = PopupManager.t_getInstance(id: .grzegorzki)
+        let managerInstance = PopupManager.getInstance(.grzegorzki)
         XCTAssertNotNil(managerInstance)
     }
 }
@@ -155,19 +155,60 @@ extension PopupManagerTests {
 }
 private extension PopupManagerTests {
     func registerNewInstanceAndPresentPopups(popups: [any Popup]) {
-        registerNewInstances(popupManagerIds: [.staremiasto])
-        popups.forEach { $0.present(id: .staremiasto) }
+        registerNewInstances(popupManagerIds: [defaultPopupManagerID])
+        popups.forEach { $0.present(id: defaultPopupManagerID) }
     }
     func getPopupsForActiveInstance() -> [AnyPopup] {
         PopupManager
-            .t_getInstance(id: .staremiasto)?
+            .getInstance(defaultPopupManagerID)?
             .views ?? []
     }
 }
 
 // MARK: Dismiss Popup
 extension PopupManagerTests {
+    func test_dismissLastPopup_withNoPopupsOnStack() {
+        registerNewInstanceAndPresentPopups(popups: [])
+        PopupManager.dismiss(manID: defaultPopupManagerID)
 
+        let popupsOnStack = getPopupsForActiveInstance()
+        XCTAssertEqual(popupsOnStack.count, 0)
+    }
+    func test_dismissLastPopup_withThreePopupsOnStack() {
+        registerNewInstanceAndPresentPopups(popups: [
+            AnyPopup(config: .init()),
+            AnyPopup(config: .init()),
+            AnyPopup(config: .init())
+        ])
+        PopupManager.dismiss(manID: defaultPopupManagerID)
+
+        let popupsOnStack = getPopupsForActiveInstance()
+        XCTAssertEqual(popupsOnStack.count, 2)
+    }
+    func test_dismissAllPopups() {
+        registerNewInstanceAndPresentPopups(popups: [
+            AnyPopup(config: .init()),
+            AnyPopup(config: .init()),
+            AnyPopup(config: .init())
+        ])
+        PopupManager.dismissAll(manID: defaultPopupManagerID)
+
+        let popupsOnStack = getPopupsForActiveInstance()
+        XCTAssertEqual(popupsOnStack.count, 0)
+    }
+
+
+
+
+    // dismiss popup id
+    // dismiss popup id ale nie ma takiego
+    // dismiss popup gdzie jest custom id
+    // dismiss popup po typie
+}
+private extension PopupManagerTests {
+    func registerNewInstanceAndPresentPopups() {
+
+    }
 }
 
 
@@ -182,8 +223,10 @@ private extension PopupManagerTests {
         try! await Task.sleep(nanoseconds: UInt64(seconds * 1_000_000_000))
     }
 }
-private extension PopupManagerTests {
 
+// MARK: Variables
+private extension PopupManagerTests {
+    var defaultPopupManagerID: PopupManagerID { .staremiasto }
 }
 
 // MARK: Popup Manager Identifiers

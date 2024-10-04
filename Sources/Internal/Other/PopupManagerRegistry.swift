@@ -26,8 +26,5 @@ extension PopupManagerRegistry {
 
 
 extension PopupManagerRegistry {
-    static func t_clean() { instances = [] }
-}
-extension PopupManagerRegistry {
-    static var t_instances: [PopupManager] { instances }
+    static func clean() { instances = [] }
 }
