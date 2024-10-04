@@ -16,7 +16,7 @@ public extension PopupManager {
     func dismiss() { performOperation(.removeLast) }
 
     /// Dismisses all the popups of provided ID on the stack
-    func dismissPopup(id: String) { performOperation(.remove(.init(value: id))) }
+    func dismissPopup(id: String) { performOperation(.remove(.init(rawValue: id))) }
 
     /// Dismisses all the popups of provided type on the stack
     func dismissPopup<P: Popup>(_ popup: P.Type) { performOperation(.remove(.init(popup))) }
