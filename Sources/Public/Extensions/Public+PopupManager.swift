@@ -37,16 +37,3 @@ public extension PopupManager {
     /// Dismisses all the popups on the stack
     static func dismissAll() { getInstance().dismissAll() }
 }
-
-
-
-
-
-
-// dismissLast
-// dismiss(popup)
-// dismiss(popupID)
-// dismissAll
-
-
-// dismiss() -> tylko dla Popup
