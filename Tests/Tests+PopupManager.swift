@@ -100,12 +100,28 @@ extension PopupManagerTests {
     }
 }
 
-// MARK: Insert Operations
+// MARK: Present Popup
 extension PopupManagerTests {
+    func test_presentPopup() {
+        let a = AnyPopup(config: .init())
 
+
+    }
+    func test_2() {
+
+    }
+
+
+    // ze odpowiednio rozpoznaje config
+    // ze prezentuje to poprawnie
+    // ze dziala stack i replace
+    // ze sie odpowiednio zwieksza liczba popupow
+    // ze sie nie da prezentowac z tym samym idem
+    // ale ze sie da prezentowac z custom id
+    // ze sie wylaczy po danym czasie
 }
 
-// MARK: Remove Operations
+// MARK: Dismiss Popup
 extension PopupManagerTests {
 
 }

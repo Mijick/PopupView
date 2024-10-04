@@ -19,7 +19,7 @@ public class PopupManager: ObservableObject {
 
 // MARK: - Operations
 enum StackOperation {
-    case insertAndReplace(AnyPopup), insertAndStack(AnyPopup)
+    case insert(AnyPopup)
     case removeLast, removeExact(PopupID), remove(PopupID), removeAll
 }
 extension PopupManager {
@@ -38,8 +38,7 @@ private extension [AnyPopup] {
     func hideKeyboard() { KeyboardManager.hideKeyboard() }
     mutating func performOperation(_ operation: StackOperation) {
         switch operation {
-            case .insertAndReplace(let popup): replaceLast(popup, if: canBeInserted(popup))
-            case .insertAndStack(let popup): append(popup, if: canBeInserted(popup))
+            case .insert(let popup): append(popup, if: canBeInserted(popup))
             case .removeLast: removeLast()
             case .removeExact(let id): removeAll(where: { $0.id == id })
             case .remove(let id): removeAll(where: { $0.id ~= id })
