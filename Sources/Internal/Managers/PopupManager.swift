@@ -80,7 +80,7 @@ extension PopupManager {
 
 
 extension PopupManager {
-    static func getInstance(_ instance: PopupManagerID = .shared) -> PopupManager {
-        PopupManagerRegistry.instances.first(where: { $0.id == instance })!
+    static func getInstance(_ id: PopupManagerID) -> PopupManager {
+        PopupManagerRegistry.instances.first(where: { $0.id == id })!
     }
 }
