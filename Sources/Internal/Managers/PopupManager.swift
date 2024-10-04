@@ -13,8 +13,8 @@ import SwiftUI
 public class PopupManager: ObservableObject {
     @Published var views: [AnyPopup] = [] { willSet { onViewsChanged(newValue) }}
 
-    let instance: PopupManagerID
-    init(instance: PopupManagerID) { self.instance = instance }
+    let id: PopupManagerID
+    private init(id: PopupManagerID) { self.id = id }
 }
 private extension PopupManager {
     func onViewsChanged(_ newViews: [AnyPopup]) { newViews
@@ -67,18 +67,17 @@ private extension [AnyPopup] {
 
 
 
-class PopupManagerRegistry {
-    static var instances: [PopupManager] = []
 
 
-    static func register(instance: PopupManagerID) -> PopupManager? {
-        if !instances.contains(where: { $0.instance == instance }) {
-            let a = PopupManager(instance: instance)
-            instances.append(a)
-            return a
-        }
 
-        return nil
+
+
+extension PopupManager {
+    static func registerNewInstance(id: PopupManagerID) -> PopupManager {
+        let instanceToRegister = PopupManager(id: id)
+
+        let registeredInstance = PopupManagerRegistry.registerNewInstance(instanceToRegister)
+        return registeredInstance
     }
 }
 
@@ -89,9 +88,8 @@ class PopupManagerRegistry {
 
 
 
-
 extension PopupManager {
     static func getInstance(_ instance: PopupManagerID = .shared) -> PopupManager {
-        PopupManagerRegistry.instances.first(where: { $0.instance == instance })!
+        PopupManagerRegistry.instances.first(where: { $0.id == instance })!
     }
 }
