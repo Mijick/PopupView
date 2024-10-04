@@ -20,10 +20,12 @@ final class PopupManagerTests: XCTestCase {
 
 
     // co testować:
-    // 1. Tworzenie instancji
     // 2. Pobieranie instancji o danym id
     // 3. Operacje na views
-    
+
+    override func setUpWithError() throws {
+        PopupManagerRegistry.t_clean()
+    }
 }
 
 
