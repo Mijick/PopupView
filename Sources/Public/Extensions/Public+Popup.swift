@@ -22,7 +22,7 @@ public extension Popup {
 // MARK: - Modifiers
 public extension Popup {
     /// Closes popup after n seconds
-    func dismissAfter(_ seconds: Double) -> some Popup { eraseObject { $0.dismissTimer = .init(time: seconds) }}
+    func dismissAfter(_ seconds: Double) -> some Popup { eraseObject { $0.dismissTimer = .init(secondsToDismiss: seconds) }}
 
     /// Supplies an observable object to a view’s hierarchy
     func setEnvironmentObject<T: ObservableObject>(_ object: T) -> some Popup { eraseObject { $0._body = AnyView(environmentObject(object)) }}

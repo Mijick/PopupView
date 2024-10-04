@@ -40,7 +40,7 @@ struct AnyPopup: Popup, Hashable {
 
 
         if let id {
-            dismissTimer?.upd(instance: id, id: self.id)
+            dismissTimer?.startTimer(on: PopupManager.getInstance(id), for: self)
         }
     }
     var body: some View { _body }
@@ -71,18 +71,15 @@ extension AnyPopup {
 
 
 class PopupDismisser {
-    var secondsToDismiss: Double
-    var action: DispatchSourceTimer? = nil
+    private var secondsToDismiss: Double
+    private var action: DispatchSourceTimer? = nil
 
-
-    init(time: Double) {
-        self.secondsToDismiss = time
-    }
+    init(secondsToDismiss: Double) { self.secondsToDismiss = secondsToDismiss }
 }
 
 extension PopupDismisser {
-    func upd(instance: PopupManagerID, id: PopupID) {
-        action = DispatchSource.createAction(deadline: secondsToDismiss) { PopupManager.getInstance(instance).dismissPopup(id: id.value) }
+    func startTimer(on popupManager: PopupManager, for popup: some Popup) {
+        action = DispatchSource.createAction(deadline: secondsToDismiss) { popupManager.dismissPopup(id: popup.id.value) }
     }
 }
 
