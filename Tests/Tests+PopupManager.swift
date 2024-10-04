@@ -35,7 +35,11 @@ final class PopupManagerTests: XCTestCase {
 // MARK: Register New Instance
 extension PopupManagerTests {
     func test_registerNewInstance_1() {
-        PopupManager.registerNewInstance(id: .shared)
+        let instances = [
+            PopupManager.t_registerNewInstance(id: .staremiasto),
+            PopupManager.t_registerNewInstance(id: .grzegorzki),
+            PopupManager.t_registerNewInstance(id: .krowodrza)
+        ]
 
         PopupManagerRegistry.instances.count
     }
@@ -53,12 +57,20 @@ extension PopupManagerTests {
 
 // MARK: Get Instance
 extension PopupManagerTests {
+    func test_getInstance_1() {
+        PopupManager.getInstance(<#T##id: PopupManagerID##PopupManagerID#>)
+    }
+    func test_getInstance_2() {
 
+    }
+    func test_getInstance_3() {
+
+    }
 }
 
 // MARK: Insert Operations
 extension PopupManagerTests {
-    
+
 }
 
 // MARK: Remove Operations

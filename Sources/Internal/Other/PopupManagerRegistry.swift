@@ -12,7 +12,7 @@
 import Foundation
 
 class PopupManagerRegistry {
-    static var instances: [PopupManager] = []
+    static private(set) var instances: [PopupManager] = []
 }
 
 extension PopupManagerRegistry {
@@ -22,4 +22,10 @@ extension PopupManagerRegistry {
         instances.append(popupManager)
         return popupManager
     }
+}
+
+
+
+extension PopupManagerRegistry {
+    @MainActor static var t_instances: [PopupManager] { instances }
 }

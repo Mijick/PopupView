@@ -84,3 +84,16 @@ extension PopupManager {
         PopupManagerRegistry.instances.first(where: { $0.id == id })!
     }
 }
+
+
+
+
+
+extension PopupManager {
+    static func t_registerNewInstance(id: PopupManagerID) -> PopupManager {
+        registerNewInstance(id: id)
+    }
+    static func t_getInstance(id: PopupManagerID) -> PopupManager {
+        getInstance(id)
+    }
+}
