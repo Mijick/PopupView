@@ -132,25 +132,22 @@ extension PopupManagerTests {
         let popupsOnStack = getPopupsForActiveInstance()
         XCTAssertEqual(popupsOnStack.count, 3)
     }
-    func test_presentPopup_withDismissAfter() {
-        let popupsToBePresented: [any Popup] = [
-            AnyPopup(config: .init()).dismissAfter(1),
+    func test_presentPopup_withDismissAfter() async {
+        await registerNewInstanceAndPresentPopups(popups: [
+            AnyPopup(config: .init()).dismissAfter(0.7),
             AnyPopup(config: .init()),
-            AnyPopup(config: .init()).dismissAfter(2)
-        ]
-
-        registerNewInstances(popupManagerIds: [.staremiasto])
-        popupsToBePresented.forEach { $0.present(id: .staremiasto) }
+            AnyPopup(config: .init()).dismissAfter(1.5)
+        ])
 
         let popupsOnStack1 = getPopupsForActiveInstance()
         XCTAssertEqual(popupsOnStack1.count, 3)
 
-        sleep(1)
+        await wait(seconds: 1)
 
         let popupsOnStack2 = getPopupsForActiveInstance()
         XCTAssertEqual(popupsOnStack2.count, 2)
 
-        sleep(1)
+        await wait(seconds: 1)
 
         let popupsOnStack3 = getPopupsForActiveInstance()
         XCTAssertEqual(popupsOnStack3.count, 1)
@@ -185,7 +182,9 @@ extension PopupManagerTests {
 
 // MARK: Methods
 private extension PopupManagerTests {
-
+    func wait(seconds: Double) async {
+        try! await Task.sleep(nanoseconds: UInt64(seconds * 1_000_000_000))
+    }
 }
 private extension PopupManagerTests {
 
