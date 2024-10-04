@@ -77,11 +77,12 @@ extension PopupManager {
 
 
 
-
-
 extension PopupManager {
-    static func getInstance(_ id: PopupManagerID) -> PopupManager {
-        PopupManagerRegistry.instances.first(where: { $0.id == id })!
+    static func getInstance(_ id: PopupManagerID) -> PopupManager? {
+        let managerObject = PopupManagerRegistry.instances.first(where: { $0.id == id })
+
+        Logger.log(if: managerObject == nil, level: .fault, message: "PopupManager instance must be registered before use. More details can be found in the documentation.")
+        return managerObject
     }
 }
 
@@ -93,7 +94,7 @@ extension PopupManager {
     static func t_registerNewInstance(id: PopupManagerID) -> PopupManager {
         registerNewInstance(id: id)
     }
-    static func t_getInstance(id: PopupManagerID) -> PopupManager {
+    static func t_getInstance(id: PopupManagerID) -> PopupManager? {
         getInstance(id)
     }
 }
