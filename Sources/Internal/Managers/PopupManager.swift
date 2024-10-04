@@ -29,7 +29,7 @@ private extension PopupManager {
 // MARK: - Operations
 enum StackOperation {
     case insertAndReplace(AnyPopup), insertAndStack(AnyPopup)
-    case removeLast, removeExact(PopupID), remove(PopupID), removeAllUpTo(PopupID), removeAll
+    case removeLast, removeExact(PopupID), remove(PopupID), removeAll
 }
 extension PopupManager {
     func performOperation(_ operation: StackOperation) {
@@ -52,7 +52,6 @@ private extension [AnyPopup] {
             case .removeLast: removeLast()
             case .removeExact(let id): removeAll(where: { $0.id == id })
             case .remove(let id): removeAll(where: { $0.id ~= id })
-            case .removeAllUpTo(let id): removeAllUpToElement(where: { $0.id ~= id })
             case .removeAll: removeAll()
         }
     }
