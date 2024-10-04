@@ -27,5 +27,5 @@ extension PopupManagerRegistry {
 
 
 extension PopupManagerRegistry {
-    @MainActor static var t_instances: [PopupManager] { instances }
+    static var t_instances: [PopupManager] { instances }
 }

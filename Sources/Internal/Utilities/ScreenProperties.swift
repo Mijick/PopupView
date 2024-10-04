@@ -19,6 +19,12 @@ class ScreenProperties: Equatable {
     
     var height: CGFloat = .zero
     var safeArea: EdgeInsets = .init()
+
+
+    init(height: CGFloat = .zero, safeArea: EdgeInsets = .init()) {
+        self.height = height
+        self.safeArea = safeArea
+    }
 }
 
 

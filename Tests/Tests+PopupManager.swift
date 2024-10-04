@@ -34,31 +34,52 @@ final class PopupManagerTests: XCTestCase {
 
 // MARK: Register New Instance
 extension PopupManagerTests {
-    func test_registerNewInstance_1() {
-        let instances = [
-            PopupManager.t_registerNewInstance(id: .staremiasto),
-            PopupManager.t_registerNewInstance(id: .grzegorzki),
-            PopupManager.t_registerNewInstance(id: .krowodrza)
+    func test_registerNewInstance_withNoInstancesToRegister() {
+        let popupManagerIds: [PopupManagerID] = []
+
+        registerNewInstances(popupManagerIds: popupManagerIds)
+        XCTAssertEqual(popupManagerIds, getRegisteredInstances())
+    }
+    func test_registerNewInstance_withUniqueInstancesToRegister() {
+        let popupManagerIds: [PopupManagerID] = [
+            .staremiasto,
+            .grzegorzki,
+            .krowodrza,
+            .bronowice
         ]
 
-        PopupManagerRegistry.instances.count
+        registerNewInstances(popupManagerIds: popupManagerIds)
+        XCTAssertEqual(popupManagerIds, getRegisteredInstances())
     }
-    func test_registerNewInstance_2() {
-        PopupManager.registerNewInstance(id: .shared)
+    func test_registerNewInstance_withRepeatingInstancesToRegister() {
+        let popupManagerIds: [PopupManagerID] = [
+            .staremiasto,
+            .grzegorzki,
+            .krowodrza,
+            .bronowice,
+            .bronowice,
+            .pradnikbialy,
+            .pradnikczerwony,
+            .krowodrza
+        ]
 
-        PopupManagerRegistry.instances.count
+        registerNewInstances(popupManagerIds: popupManagerIds)
+        XCTAssertNotEqual(popupManagerIds, getRegisteredInstances())
     }
-    func test_registerNewInstance_3() {
-        PopupManager.registerNewInstance(id: .shared)
-
-        PopupManagerRegistry.instances.count
+}
+private extension PopupManagerTests {
+    func registerNewInstances(popupManagerIds: [PopupManagerID]) {
+        popupManagerIds.forEach { _ = PopupManager.t_registerNewInstance(id: $0) }
+    }
+    func getRegisteredInstances() -> [PopupManagerID] {
+        PopupManagerRegistry.t_instances.map(\.id)
     }
 }
 
 // MARK: Get Instance
 extension PopupManagerTests {
     func test_getInstance_1() {
-        PopupManager.getInstance(<#T##id: PopupManagerID##PopupManagerID#>)
+        //PopupManager.getInstance(<#T##id: PopupManagerID##PopupManagerID#>)
     }
     func test_getInstance_2() {
 
