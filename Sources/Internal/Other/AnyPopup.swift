@@ -18,7 +18,7 @@ struct AnyPopup: Popup, Hashable {
     let id: PopupID
     let config: LocalConfig
 
-    var dismissTimer: ABC? = nil
+    var dismissTimer: PopupDismisser? = nil
 
     var onDismiss: (() -> ())? = nil
     var height: CGFloat? = nil
@@ -70,18 +70,30 @@ extension AnyPopup {
 
 
 
-class ABC {
-    var time: Double
-    var timer: DispatchSourceTimer? = nil
+class PopupDismisser {
+    var secondsToDismiss: Double
+    var action: DispatchSourceTimer? = nil
 
 
     init(time: Double) {
-        self.time = time
+        self.secondsToDismiss = time
     }
 }
 
-extension ABC {
+extension PopupDismisser {
     func upd(instance: PopupManagerID, id: PopupID) {
-        timer = DispatchSource.createAction(deadline: time) { PopupManager.getInstance(instance).dismissPopup(id: id.value) }
+        action = DispatchSource.createAction(deadline: secondsToDismiss) { PopupManager.getInstance(instance).dismissPopup(id: id.value) }
+    }
+}
+
+
+
+extension DispatchSource {
+    static func createAction(deadline seconds: Double, event: @escaping () -> ()) -> DispatchSourceTimer {
+        let action = DispatchSource.makeTimerSource(queue: .main)
+        action.schedule(deadline: .now() + max(0.6, seconds))
+        action.setEventHandler(handler: event)
+        action.resume()
+        return action
     }
 }
