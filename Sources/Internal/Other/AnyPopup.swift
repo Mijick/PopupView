@@ -18,7 +18,7 @@ struct AnyPopup: Popup, Hashable {
     let id: PopupID
     let config: LocalConfig
 
-    var dismissTimer: PopupDismisser? = nil
+    var dismissTimer: PopupActionScheduler? = nil
 
     var onDismiss: (() -> ())? = nil
     var height: CGFloat? = nil
@@ -40,7 +40,10 @@ struct AnyPopup: Popup, Hashable {
 
 
         if let id {
-            dismissTimer?.startTimer(on: PopupManager.getInstance(id), for: self)
+            dismissTimer?.startTimer { [self] in
+                print(self.id.value)
+                PopupManager.getInstance(id).dismissPopup(id: self.id.value)
+            }
         }
     }
     var body: some View { _body }
@@ -70,27 +73,18 @@ extension AnyPopup {
 
 
 
-class PopupDismisser {
+class PopupActionScheduler {
     private var secondsToDismiss: Double
-    private var action: DispatchSourceTimer? = nil
+    private var action: DispatchSourceTimer?
 
     init(secondsToDismiss: Double) { self.secondsToDismiss = secondsToDismiss }
 }
 
-extension PopupDismisser {
-    func startTimer(on popupManager: PopupManager, for popup: some Popup) {
-        action = DispatchSource.createAction(deadline: secondsToDismiss) { popupManager.dismissPopup(id: popup.id.value) }
-    }
-}
-
-
-
-extension DispatchSource {
-    static func createAction(deadline seconds: Double, event: @escaping () -> ()) -> DispatchSourceTimer {
-        let action = DispatchSource.makeTimerSource(queue: .main)
-        action.schedule(deadline: .now() + max(0.6, seconds))
-        action.setEventHandler(handler: event)
-        action.resume()
-        return action
+extension PopupActionScheduler {
+    func startTimer(action: @escaping () -> ()) {
+        self.action = DispatchSource.makeTimerSource(queue: .main)
+        self.action?.schedule(deadline: .now() + max(0.6, secondsToDismiss))
+        self.action?.setEventHandler(handler: action)
+        self.action?.resume()
     }
 }
