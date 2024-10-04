@@ -15,14 +15,6 @@ import Combine
 @testable import MijickPopups
 
 final class PopupManagerTests: XCTestCase {
-
-
-
-
-    // co testować:
-    // 2. Pobieranie instancji o danym id
-    // 3. Operacje na views
-
     override func setUpWithError() throws {
         PopupManagerRegistry.t_clean()
     }
@@ -80,14 +72,31 @@ private extension PopupManagerTests {
 
 // MARK: Get Instance
 extension PopupManagerTests {
-    func test_getInstance_1() {
-        //PopupManager.getInstance(<#T##id: PopupManagerID##PopupManagerID#>)
+    func test_getInstance_withNoActiveInstances() {
+        let managerInstance = PopupManager.t_getInstance(id: .bronowice)
+        XCTAssertNil(managerInstance)
     }
-    func test_getInstance_2() {
+    func test_getInstance_withRegisteredOtherInstances() {
+        registerNewInstances(popupManagerIds: [
+            .krowodrza,
+            .staremiasto,
+            .pradnikczerwony,
+            .pradnikbialy,
+            .grzegorzki
+        ])
 
+        let managerInstance = PopupManager.t_getInstance(id: .bronowice)
+        XCTAssertNil(managerInstance)
     }
-    func test_getInstance_3() {
+    func test_getInstance_withRegisteredDemandedInstance() {
+        registerNewInstances(popupManagerIds: [
+            .krowodrza,
+            .staremiasto,
+            .grzegorzki
+        ])
 
+        let managerInstance = PopupManager.t_getInstance(id: .grzegorzki)
+        XCTAssertNotNil(managerInstance)
     }
 }
 
@@ -100,6 +109,7 @@ extension PopupManagerTests {
 extension PopupManagerTests {
 
 }
+
 
 
 // MARK: - HELPERS
