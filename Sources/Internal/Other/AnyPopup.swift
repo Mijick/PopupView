@@ -65,8 +65,8 @@ extension AnyPopup {
 // MARK: - Testing
 #if DEBUG
 extension AnyPopup {
-    init(config: LocalConfig) {
-        self.id = .init(rawValue: UUID().uuidString)
+    init(id: String = UUID().uuidString, config: LocalConfig) {
+        self.id = .init(rawValue: id)
         self.config = config
         self.dismissTimer = nil
         self.height = nil
