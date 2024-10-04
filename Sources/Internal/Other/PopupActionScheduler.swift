@@ -19,7 +19,7 @@ class PopupActionScheduler {
 }
 
 extension PopupActionScheduler {
-    func startTimer(action: @escaping () -> ()) {
+    func schedule(action: @escaping () -> ()) {
         self.action = DispatchSource.makeTimerSource(queue: .main)
         self.action?.schedule(deadline: .now() + max(0.6, secondsToDismiss))
         self.action?.setEventHandler(handler: action)
