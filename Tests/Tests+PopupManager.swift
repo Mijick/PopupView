@@ -152,10 +152,6 @@ extension PopupManagerTests {
         let popupsOnStack3 = getPopupsForActiveInstance()
         XCTAssertEqual(popupsOnStack3.count, 1)
     }
-
-
-    // ze odpowiednio rozpoznaje config
-    // ze sie wylaczy po danym czasie
 }
 private extension PopupManagerTests {
     func registerNewInstanceAndPresentPopups(popups: [any Popup]) {
