@@ -128,7 +128,7 @@ private extension PopupView {
         popupManager.views[index] = popup
     }}
     func closePopup(_ popup: AnyPopup) {
-        PopupManager.dismissPopup(id: popup.id.value)
+        PopupManager.dismissPopup(id: popup.id.rawValue)
     }
     func onTap() { if tapOutsideClosesPopup {
         PopupManager.dismiss()
