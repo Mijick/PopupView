@@ -11,7 +11,6 @@
 
 import XCTest
 import SwiftUI
-import Combine
 @testable import MijickPopups
 
 final class PopupManagerTests: XCTestCase {
@@ -59,6 +58,7 @@ extension PopupManagerTests {
 
         registerNewInstances(popupManagerIds: popupManagerIds)
         XCTAssertNotEqual(popupManagerIds, getRegisteredInstances())
+        XCTAssertEqual(getRegisteredInstances().count, 6)
     }
 }
 private extension PopupManagerTests {
@@ -72,11 +72,11 @@ private extension PopupManagerTests {
 
 // MARK: Get Instance
 extension PopupManagerTests {
-    func test_getInstance_withNoActiveInstances() {
+    func test_getInstance_whenNoInstancesAreRegistered() {
         let managerInstance = PopupManager.getInstance(.bronowice)
         XCTAssertNil(managerInstance)
     }
-    func test_getInstance_withRegisteredOtherInstances() {
+    func test_getInstance_whenInstanceIsNotRegistered() {
         registerNewInstances(popupManagerIds: [
             .krowodrza,
             .staremiasto,
@@ -88,7 +88,7 @@ extension PopupManagerTests {
         let managerInstance = PopupManager.getInstance(.bronowice)
         XCTAssertNil(managerInstance)
     }
-    func test_getInstance_withRegisteredDemandedInstance() {
+    func test_getInstance_whenInstanceIsRegistered() {
         registerNewInstances(popupManagerIds: [
             .krowodrza,
             .staremiasto,
@@ -109,8 +109,8 @@ extension PopupManagerTests {
             AnyPopup(config: .init())
         ])
 
-        let popupsOnStackCount = getPopupsForActiveInstance().count
-        XCTAssertEqual(popupsOnStackCount, 3)
+        let popupsOnStack = getPopupsForActiveInstance()
+        XCTAssertEqual(popupsOnStack.count, 3)
     }
     func test_presentPopup_withPopupsWithSameID() {
         registerNewInstanceAndPresentPopups(popups: [
@@ -119,8 +119,8 @@ extension PopupManagerTests {
             AnyPopup(id: "2331", config: .init())
         ])
 
-        let popupsOnStackCount = getPopupsForActiveInstance().count
-        XCTAssertEqual(popupsOnStackCount, 2)
+        let popupsOnStack = getPopupsForActiveInstance()
+        XCTAssertEqual(popupsOnStack.count, 2)
     }
     func test_presentPopup_withCustomID() {
         registerNewInstanceAndPresentPopups(popups: [
@@ -151,17 +151,6 @@ extension PopupManagerTests {
 
         let popupsOnStack3 = getPopupsForActiveInstance()
         XCTAssertEqual(popupsOnStack3.count, 1)
-    }
-}
-private extension PopupManagerTests {
-    func registerNewInstanceAndPresentPopups(popups: [any Popup]) {
-        registerNewInstances(popupManagerIds: [defaultPopupManagerID])
-        popups.forEach { $0.present(id: defaultPopupManagerID) }
-    }
-    func getPopupsForActiveInstance() -> [AnyPopup] {
-        PopupManager
-            .getInstance(defaultPopupManagerID)?
-            .views ?? []
     }
 }
 
@@ -267,6 +256,15 @@ extension PopupManagerTests {
 
 // MARK: Methods
 private extension PopupManagerTests {
+    func registerNewInstanceAndPresentPopups(popups: [any Popup]) {
+        registerNewInstances(popupManagerIds: [defaultPopupManagerID])
+        popups.forEach { $0.present(id: defaultPopupManagerID) }
+    }
+    func getPopupsForActiveInstance() -> [AnyPopup] {
+        PopupManager
+            .getInstance(defaultPopupManagerID)?
+            .views ?? []
+    }
     func wait(seconds: Double) async {
         try! await Task.sleep(nanoseconds: UInt64(seconds * 1_000_000_000))
     }
