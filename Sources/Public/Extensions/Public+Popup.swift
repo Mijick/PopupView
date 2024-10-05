@@ -10,6 +10,16 @@
 
 import SwiftUI
 
+public protocol Popup: View {
+    associatedtype Config: LocalConfig
+
+    func configurePopup(popup: Config) -> Config
+    func onFocus()
+    func onDismiss()
+}
+
+
+
 // MARK: - Presenting
 public extension Popup {
     /// Displays the popup. Stacks previous one

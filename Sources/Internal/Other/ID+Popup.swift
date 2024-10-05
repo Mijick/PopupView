@@ -11,7 +11,7 @@
 
 import Foundation
 
-public struct PopupID {
+struct PopupID {
     let rawValue: String
 }
 
