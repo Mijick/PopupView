@@ -12,16 +12,12 @@ import SwiftUI
 
 public protocol Popup: View {
     associatedtype Config: LocalConfig
-    associatedtype V: View
 
-    func createContent() -> V
     func configurePopup(popup: Config) -> Config
     func onFocus()
     func onDismiss()
 }
 public extension Popup {
-    var body: V { createContent() }
-
     func configurePopup(popup: Config) -> Config { popup }
     func onFocus() {}
     func onDismiss() {}
