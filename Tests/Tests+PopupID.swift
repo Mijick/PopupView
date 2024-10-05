@@ -45,22 +45,34 @@ extension PopupIDTests {
     }
 }
 
-// MARK: Equality
+// MARK: Is Same Type
 extension PopupIDTests {
-    func test_popupIdsEqual_1() {
+    func test_isSameType_1() {
+        let popupID1 = PopupID.create(from: TestTopPopup.self),
+            popupID2 = PopupID.create(from: TestBottomPopup.self)
 
-
-
+        let result = popupID1.isSameType(as: popupID2)
+        XCTAssertEqual(result, false)
+    }
+    func test_isSameType_2() {
 
     }
-    func test_popupIdsEqual_2() {
+    func test_isSameType_3() {
 
     }
 }
 
-// MARK: Ze takie cos ~=
+// MARK: Is Same Instance
 extension PopupIDTests {
-    
+    func test_isSameInstance_1() {
+
+    }
+    func test_isSameInstance_2() {
+
+    }
+    func test_isSameInstance_3() {
+
+    }
 }
 
 
