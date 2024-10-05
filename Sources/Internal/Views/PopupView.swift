@@ -128,7 +128,7 @@ private extension PopupView {
         popupManager.updateStack(popup)
     }
     func closePopup(_ popup: AnyPopup) {
-        popupManager.performOperation(.removeExact(popup.id))
+        popupManager.performOperation(.removeInstance(popup))
     }
     func onTap() { if tapOutsideClosesPopup {
         PopupManager.dismiss()
