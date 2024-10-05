@@ -21,7 +21,9 @@ import Combine
     private init() { subscribeToKeyboardEvents() }
 }
 extension KeyboardManager {
-    static func hideKeyboard() { UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil) }
+    static func hideKeyboard() { if shared.isActive {
+        UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
+    }}
 }
 
 private extension KeyboardManager {
