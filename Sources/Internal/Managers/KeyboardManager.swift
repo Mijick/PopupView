@@ -13,7 +13,7 @@ import Combine
 
 // MARK: -iOS Implementation
 #if os(iOS) || os(visionOS)
-class KeyboardManager: ObservableObject {
+@MainActor class KeyboardManager: ObservableObject {
     @Published private(set) var isActive: Bool = false
     private var subscription: [AnyCancellable] = []
 
