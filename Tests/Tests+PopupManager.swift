@@ -185,6 +185,24 @@ extension PopupManagerTests {
         let popupsOnStack = getPopupsForActiveInstance()
         XCTAssertEqual(popupsOnStack.count, 2)
     }
+    func test_dismissPopupWithID_withPopupOnStack() {
+        let popups: [AnyPopup] = [
+            .init(TestTopPopup(), id: nil),
+            .init(TestCentrePopup(), id: nil),
+            .init(TestBottomPopup(), id: nil)
+        ]
+        registerNewInstanceAndPresentPopups(popups: popups)
+
+        let popupsOnStackBefore = getPopupsForActiveInstance()
+        XCTAssertEqual(popups, popupsOnStackBefore)
+
+        PopupManager.dismissPopup(TestBottomPopup.self, manID: defaultPopupManagerID)
+
+        let popupsOnStackAfter = getPopupsForActiveInstance()
+        XCTAssertEqual([popups[0], popups[1]], popupsOnStackAfter)
+    }
+
+
     func test_dismissAllPopups() {
         registerNewInstanceAndPresentPopups(popups: [
             AnyPopup(config: .init()),
@@ -237,4 +255,15 @@ private extension PopupManagerID {
     static let pradnikbialy: Self = .init(rawValue: "pradnikbialy")
     static let krowodrza: Self = .init(rawValue: "krowodrza")
     static let bronowice: Self = .init(rawValue: "bronowice")
+}
+
+// MARK: Test Popups
+private struct TestTopPopup: TopPopup {
+    func createContent() -> some View { EmptyView() }
+}
+private struct TestCentrePopup: CentrePopup {
+    func createContent() -> some View { EmptyView() }
+}
+private struct TestBottomPopup: BottomPopup {
+    func createContent() -> some View { EmptyView() }
 }

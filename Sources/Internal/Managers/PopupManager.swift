@@ -80,7 +80,7 @@ extension PopupManager {
     static func getInstance(_ id: PopupManagerID) -> PopupManager? {
         let managerObject = PopupManagerRegistry.instances.first(where: { $0.id == id })
 
-        Logger.log(if: managerObject == nil, level: .fault, message: "PopupManager instance must be registered before use. More details can be found in the documentation.")
+        Logger.log(if: managerObject == nil, level: .fault, message: "PopupManager instance (\(id.rawValue)) must be registered before use. More details can be found in the documentation.")
         return managerObject
     }
 }
