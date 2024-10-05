@@ -1,5 +1,5 @@
 //
-//  Internal+Popup.swift of PopupView
+//  Popup.swift of PopupView
 //
 //  Created by Tomasz Kurylik
 //    - Twitter: https://twitter.com/tkurylik
