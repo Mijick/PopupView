@@ -26,7 +26,7 @@ extension PopupManager {
 
 // MARK: - Operations
 enum StackOperation {
-    case insert(AnyPopup)
+    case insert(any Popup)
     case removeLast, removeExact(PopupID), removeWithPopupType(any Popup.Type), removeWithID(String), removeAll
 }
 extension PopupManager {
@@ -40,7 +40,7 @@ private extension PopupManager {
     @MainActor func hideKeyboard() { KeyboardManager.hideKeyboard() }
     func perform(_ operation: StackOperation) {
         switch operation {
-            case .insert(let popup): stack.append(popup, if: canBeInserted(popup))
+            case .insert(let popup): stack.append(.init(popup, id: id), if: canBeInserted(popup))
             case .removeLast: stack.safelyRemoveLast()
             case .removeExact(let id): stack.removeAll(where: { $0.id.isSameInstance(as: id) })
             case .removeWithPopupType(let popupType): stack.removeAll(where: { $0.id.isSameType(as: popupType) })
@@ -50,7 +50,7 @@ private extension PopupManager {
     }
 }
 private extension PopupManager {
-    func canBeInserted(_ popup: AnyPopup) -> Bool { !stack.contains(where: { $0.id.isSameType(as: popup.id) }) }
+    func canBeInserted(_ popup: any Popup) -> Bool { !stack.contains(where: { $0.id.isSameType(as: type(of: popup)) }) }
 }
 
 
