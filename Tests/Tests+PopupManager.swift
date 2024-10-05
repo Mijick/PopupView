@@ -142,12 +142,12 @@ extension PopupManagerTests {
         let popupsOnStack1 = getPopupsForActiveInstance()
         XCTAssertEqual(popupsOnStack1.count, 3)
 
-        await wait(seconds: 1)
+        await Task.sleep(seconds: 1)
 
         let popupsOnStack2 = getPopupsForActiveInstance()
         XCTAssertEqual(popupsOnStack2.count, 2)
 
-        await wait(seconds: 1)
+        await Task.sleep(seconds: 1)
 
         let popupsOnStack3 = getPopupsForActiveInstance()
         XCTAssertEqual(popupsOnStack3.count, 1)
@@ -264,9 +264,6 @@ private extension PopupManagerTests {
         PopupManager
             .getInstance(defaultPopupManagerID)?
             .views ?? []
-    }
-    func wait(seconds: Double) async {
-        try! await Task.sleep(nanoseconds: UInt64(seconds * 1_000_000_000))
     }
 }
 
