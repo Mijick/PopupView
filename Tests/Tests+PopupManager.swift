@@ -185,7 +185,22 @@ extension PopupManagerTests {
         let popupsOnStack = getPopupsForActiveInstance()
         XCTAssertEqual(popupsOnStack.count, 2)
     }
-    func test_dismissPopupWithID_withPopupOnStack() {
+    func test_dismissPopupWithID_whenPopupNotOnStack() {
+        let popups: [AnyPopup] = [
+            .init(TestTopPopup(), id: nil),
+            .init(TestBottomPopup(), id: nil)
+        ]
+        registerNewInstanceAndPresentPopups(popups: popups)
+
+        let popupsOnStackBefore = getPopupsForActiveInstance()
+        XCTAssertEqual(popups, popupsOnStackBefore)
+
+        PopupManager.dismissPopup(TestCentrePopup.self, manID: defaultPopupManagerID)
+
+        let popupsOnStackAfter = getPopupsForActiveInstance()
+        XCTAssertEqual(popups, popupsOnStackAfter)
+    }
+    func test_dismissPopupWithID_whenPopupOnStack() {
         let popups: [AnyPopup] = [
             .init(TestTopPopup(), id: nil),
             .init(TestCentrePopup(), id: nil),
