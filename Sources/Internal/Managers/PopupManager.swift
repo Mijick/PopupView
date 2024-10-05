@@ -12,7 +12,7 @@ import SwiftUI
 
 @MainActor public class PopupManager: ObservableObject {
     let id: PopupManagerID
-    @Published private(set) var views: [AnyPopup] = []
+    private(set) var views: [AnyPopup] = []
 
     private init(id: PopupManagerID) { self.id = id }
 }
@@ -20,6 +20,7 @@ import SwiftUI
 extension PopupManager {
     func updateStack(_ popup: AnyPopup) { if let index = views.firstIndex(of: popup) {
         views[index] = popup
+        objectWillChange.send()
     }}
 }
 
@@ -32,6 +33,7 @@ extension PopupManager {
     func performOperation(_ operation: StackOperation) {
         hideKeyboard()
         perform(operation)
+        objectWillChange.send()
     }
 }
 private extension PopupManager {
