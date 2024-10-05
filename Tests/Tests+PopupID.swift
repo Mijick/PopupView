@@ -26,7 +26,7 @@ extension PopupIDTests {
     func test_createPopupID_1() {
         let dateString = String(describing: Date())
 
-        let popupID = PopupID(TestTopPopup.self)
+        let popupID = PopupID.create(from: TestTopPopup.self)
         let idComponents = popupID.rawValue.components(separatedBy: "/{}/")
 
         XCTAssertEqual(idComponents.count, 2)
@@ -36,7 +36,7 @@ extension PopupIDTests {
     func test_createPopupID_2() {
         let dateString = String(describing: Date())
 
-        let popupID = PopupID(TestCentrePopup())
+        let popupID = PopupID.create(from: TestCentrePopup.self)
         let idComponents = popupID.rawValue.components(separatedBy: "/{}/")
 
         XCTAssertEqual(idComponents.count, 2)
@@ -48,6 +48,9 @@ extension PopupIDTests {
 // MARK: Equality
 extension PopupIDTests {
     func test_popupIdsEqual_1() {
+
+
+
 
     }
     func test_popupIdsEqual_2() {
