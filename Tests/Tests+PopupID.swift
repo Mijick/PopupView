@@ -13,7 +13,7 @@ import XCTest
 import SwiftUI
 @testable import MijickPopups
 
-final class PopupIDTests: XCTestCase {}
+@MainActor final class PopupIDTests: XCTestCase {}
 
 
 
@@ -119,11 +119,11 @@ extension PopupIDTests {
 
 // MARK: Test Popups
 private struct TestTopPopup: TopPopup {
-    func createContent() -> some View { EmptyView() }
+    var body: some View { EmptyView() }
 }
 private struct TestCentrePopup: CentrePopup {
-    func createContent() -> some View { EmptyView() }
+    var body: some View { EmptyView() }
 }
 private struct TestBottomPopup: BottomPopup {
-    func createContent() -> some View { EmptyView() }
+    var body: some View { EmptyView() }
 }

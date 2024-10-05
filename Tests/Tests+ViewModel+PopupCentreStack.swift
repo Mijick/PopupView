@@ -14,11 +14,11 @@ import SwiftUI
 import Combine
 @testable import MijickPopups
 
-final class PopupCentreStackViewModelTests: XCTestCase {
+@MainActor final class PopupCentreStackViewModelTests: XCTestCase {
     @ObservedObject private var viewModel: ViewModel = .init()
     private var cancellables: Set<AnyCancellable> = .init()
 
-    override func setUpWithError() throws {
+    override func setUp() async throws {
         viewModel.t_updateScreenValue(screen)
         viewModel.t_setup(updatePopupAction: { [self] in updatePopupAction(viewModel, $0) }, closePopupAction: { [self] in closePopupAction(viewModel, $0) })
     }

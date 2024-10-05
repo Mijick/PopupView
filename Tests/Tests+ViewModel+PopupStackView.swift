@@ -14,12 +14,12 @@ import SwiftUI
 import Combine
 @testable import MijickPopups
 
-final class PopupStackViewModelTests: XCTestCase {
+@MainActor final class PopupStackViewModelTests: XCTestCase {
     @ObservedObject private var topViewModel: ViewModel<TopPopupConfig> = .init()
     @ObservedObject private var bottomViewModel: ViewModel<BottomPopupConfig> = .init()
     private var cancellables: Set<AnyCancellable> = .init()
 
-    override func setUpWithError() throws {
+    override func setUp() async throws {
         setup(topViewModel)
         setup(bottomViewModel)
     }

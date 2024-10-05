@@ -13,8 +13,8 @@ import XCTest
 import SwiftUI
 @testable import MijickPopups
 
-final class PopupManagerTests: XCTestCase {
-    override func setUpWithError() throws {
+@MainActor final class PopupManagerTests: XCTestCase {
+    override func setUp() async throws {
         PopupManagerRegistry.clean()
     }
 }
@@ -133,7 +133,7 @@ extension PopupManagerTests {
         XCTAssertEqual(popupsOnStack.count, 3)
     }
     func test_presentPopup_withDismissAfter() async {
-        await registerNewInstanceAndPresentPopups(popups: [
+        registerNewInstanceAndPresentPopups(popups: [
             AnyPopup(config: .init()).dismissAfter(0.7),
             AnyPopup(config: .init()),
             AnyPopup(config: .init()).dismissAfter(1.5)
@@ -263,7 +263,7 @@ private extension PopupManagerTests {
     func getPopupsForActiveInstance() -> [AnyPopup] {
         PopupManager
             .getInstance(defaultPopupManagerID)?
-            .views ?? []
+            .stack ?? []
     }
 }
 
@@ -284,11 +284,11 @@ private extension PopupManagerID {
 
 // MARK: Test Popups
 private struct TestTopPopup: TopPopup {
-    func createContent() -> some View { EmptyView() }
+    var body: some View { EmptyView() }
 }
 private struct TestCentrePopup: CentrePopup {
-    func createContent() -> some View { EmptyView() }
+    var body: some View { EmptyView() }
 }
 private struct TestBottomPopup: BottomPopup {
-    func createContent() -> some View { EmptyView() }
+    var body: some View { EmptyView() }
 }
