@@ -14,13 +14,10 @@ import Foundation
 public struct PopupID {
     let rawValue: String
 
+    // MARK: Initialiser
     init(rawValue: String) { self.rawValue = rawValue + Self.separator + .init(describing: Date()) }
-}
-
-// MARK: - Initialisers
-extension PopupID {
-    init<P: Popup>(_ object: P) { self.init(P.self) }
     init<P: Popup>(_ type: P.Type) { self.rawValue = .init(describing: P.self) + Self.separator + .init(describing: Date()) }
+    init<P: Popup>(_ object: P) { self.init(P.self) }
 }
 
 // MARK: - Equatable
