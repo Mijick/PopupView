@@ -68,7 +68,14 @@ extension PopupIDTests {
         let result = popupID1.isSameType(as: popupID2)
         XCTAssertEqual(result, true)
     }
-    func test_isSameType_4() async {
+    func test_isSameType_4() {
+        let popupID1 = AnyPopup(TestTopPopup().setCustomID("2137"), id: nil).id,
+            popupID2 = AnyPopup(TestTopPopup(), id: nil).id
+
+        let result = popupID1.isSameType(as: popupID2)
+        XCTAssertEqual(result, false)
+    }
+    func test_isSameType_5() async {
         let popupID1 = PopupID.create(from: TestTopPopup.self)
         await Task.sleep(seconds: 1)
         let popupID2 = PopupID.create(from: TestTopPopup.self)
@@ -81,9 +88,20 @@ extension PopupIDTests {
 // MARK: Is Same Instance
 extension PopupIDTests {
     func test_isSameInstance_1() {
+        let popupID1 = PopupID.create(from: TestTopPopup.self),
+            popupID2 = PopupID.create(from: TestCentrePopup.self)
 
+        let result = popupID1.isSameInstance(as: popupID2)
+        XCTAssertEqual(result, false)
     }
-    func test_isSameInstance_2() async {
+    func test_isSameInstance_2() {
+        let popupID1 = PopupID.create(from: TestTopPopup.self),
+            popupID2 = PopupID.create(from: TestTopPopup.self)
+
+        let result = popupID1.isSameInstance(as: popupID2)
+        XCTAssertEqual(result, true)
+    }
+    func test_isSameInstance_3() async {
         let popupID1 = PopupID.create(from: TestTopPopup.self)
         await Task.sleep(seconds: 1)
         let popupID2 = PopupID.create(from: TestTopPopup.self)
@@ -91,12 +109,6 @@ extension PopupIDTests {
         let result = popupID1.isSameInstance(as: popupID2)
         XCTAssertEqual(result, false)
     }
-    func test_isSameInstance_3() {
-
-    }
-
-
-
 }
 
 
