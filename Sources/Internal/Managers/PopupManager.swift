@@ -10,7 +10,7 @@
 
 import SwiftUI
 
-public class PopupManager: ObservableObject {
+@MainActor public class PopupManager: ObservableObject {
     @Published var views: [AnyPopup] = []
 
     let id: PopupManagerID
@@ -29,13 +29,13 @@ extension PopupManager {
 }
 
 fileprivate extension [AnyPopup] {
-    mutating func perform(_ operation: StackOperation) {
+    @MainActor mutating func perform(_ operation: StackOperation) {
         hideKeyboard()
         performOperation(operation)
     }
 }
 private extension [AnyPopup] {
-    func hideKeyboard() { KeyboardManager.hideKeyboard() }
+    @MainActor func hideKeyboard() { KeyboardManager.hideKeyboard() }
     mutating func performOperation(_ operation: StackOperation) {
         switch operation {
             case .insert(let popup): append(popup, if: canBeInserted(popup))
