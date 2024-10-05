@@ -24,32 +24,27 @@ enum StackOperation {
 }
 extension PopupManager {
     func performOperation(_ operation: StackOperation) {
-        views.perform(operation)
-    }
-}
-
-fileprivate extension [AnyPopup] {
-    @MainActor mutating func perform(_ operation: StackOperation) {
         hideKeyboard()
-        performOperation(operation)
+        perform(operation)
     }
 }
-private extension [AnyPopup] {
+private extension PopupManager {
     @MainActor func hideKeyboard() { KeyboardManager.hideKeyboard() }
-    mutating func performOperation(_ operation: StackOperation) {
+    func perform(_ operation: StackOperation) {
         switch operation {
-            case .insert(let popup): append(popup, if: canBeInserted(popup))
-            case .removeLast: safelyRemoveLast()
-            case .removeExact(let id): removeAll(where: { $0.id.isSameInstance(as: id) })
-            case .removeWithPopupType(let popupType): removeAll(where: { $0.id.isSameType(as: popupType) })
-            case .removeWithID(let id): removeAll(where: { $0.id.isSameType(as: id) })
-            case .removeAll: removeAll()
+            case .insert(let popup): views.append(popup, if: canBeInserted(popup))
+            case .removeLast: views.safelyRemoveLast()
+            case .removeExact(let id): views.removeAll(where: { $0.id.isSameInstance(as: id) })
+            case .removeWithPopupType(let popupType): views.removeAll(where: { $0.id.isSameType(as: popupType) })
+            case .removeWithID(let id): views.removeAll(where: { $0.id.isSameType(as: id) })
+            case .removeAll: views.removeAll()
         }
     }
 }
-private extension [AnyPopup] {
-    func canBeInserted(_ popup: AnyPopup) -> Bool { !contains(where: { $0.id.isSameType(as: popup.id) }) }
+private extension PopupManager {
+    func canBeInserted(_ popup: AnyPopup) -> Bool { !views.contains(where: { $0.id.isSameType(as: popup.id) }) }
 }
+
 
 
 
