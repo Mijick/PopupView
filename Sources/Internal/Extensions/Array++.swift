@@ -8,12 +8,10 @@
 //  Copyright ©2023 Mijick. Licensed under MIT License.
 
 
-import Foundation
-
 // MARK: Mutable
 extension Array {
-    @inlinable mutating func append(_ newElement: Element, if prerequisite: Bool) { if prerequisite { append(newElement) } }
-    @inlinable mutating func removeLast() { if !isEmpty { removeLast(1) } }
+    @inlinable mutating func append(_ newElement: Element, if shouldAppend: Bool) { if shouldAppend { append(newElement) }}
+    @inlinable mutating func safelyRemoveLast() { if !isEmpty { removeLast(1) }}
 }
 
 // MARK: Immutable

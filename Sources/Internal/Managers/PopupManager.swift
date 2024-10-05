@@ -39,7 +39,7 @@ private extension [AnyPopup] {
     mutating func performOperation(_ operation: StackOperation) {
         switch operation {
             case .insert(let popup): append(popup, if: canBeInserted(popup))
-            case .removeLast: removeLast()
+            case .removeLast: safelyRemoveLast()
             case .removeExact(let id): removeAll(where: { $0.id == id })
             case .remove(let id): removeAll(where: { $0.id ~= id })
             case .removeAll: removeAll()
