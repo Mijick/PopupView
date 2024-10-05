@@ -11,7 +11,7 @@
 import SwiftUI
 
 struct AnyPopup: Popup, Hashable {
-    func createContent() -> AnyView { _body }
+    var body: some View { _body }
     func onFocus() { _onFocus() }
     func onDismiss() { _onDismiss() }
 
