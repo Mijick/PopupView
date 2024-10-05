@@ -37,10 +37,3 @@ extension Popup {
         return popup
     }
 }
-
-
-
-
-extension Popup {
-    func t_present(id: PopupManagerID) { present(id: id) }
-}
