@@ -185,7 +185,7 @@ extension PopupManagerTests {
         let popupsOnStack = getPopupsForActiveInstance()
         XCTAssertEqual(popupsOnStack.count, 2)
     }
-    func test_dismissPopupWithID_whenPopupOnStack() {
+    func test_dismissPopupWithType_whenPopupOnStack() {
         let popups: [AnyPopup] = [
             .init(TestTopPopup(), id: nil),
             .init(TestCentrePopup(), id: nil),
@@ -201,7 +201,7 @@ extension PopupManagerTests {
         let popupsOnStackAfter = getPopupsForActiveInstance()
         XCTAssertEqual([popups[0], popups[1]], popupsOnStackAfter)
     }
-    func test_dismissPopupWithID_whenPopupNotOnStack() {
+    func test_dismissPopupWithType_whenPopupNotOnStack() {
         let popups: [AnyPopup] = [
             .init(TestTopPopup(), id: nil),
             .init(TestBottomPopup(), id: nil)
@@ -216,7 +216,7 @@ extension PopupManagerTests {
         let popupsOnStackAfter = getPopupsForActiveInstance()
         XCTAssertEqual(popups, popupsOnStackAfter)
     }
-    func test_dismissPopupWithID_whenPopupHasCustomID() {
+    func test_dismissPopupWithType_whenPopupHasCustomID() {
         let popups: [AnyPopup] = [
             .init(TestTopPopup().setCustomID("2137"), id: nil),
             .init(TestBottomPopup(), id: nil)
@@ -231,8 +231,21 @@ extension PopupManagerTests {
         let popupsOnStackAfter = getPopupsForActiveInstance()
         XCTAssertEqual(popups, popupsOnStackAfter)
     }
+    func test_dismissPopupWithString_whenPopupHasCustomID() {
+        let popups: [AnyPopup] = [
+            .init(TestTopPopup().setCustomID("2137"), id: nil),
+            .init(TestBottomPopup(), id: nil)
+        ]
+        registerNewInstanceAndPresentPopups(popups: popups)
 
+        let popupsOnStackBefore = getPopupsForActiveInstance()
+        XCTAssertEqual(popups, popupsOnStackBefore)
 
+        PopupManager.dismissPopup(id: "2137", manID: defaultPopupManagerID)
+
+        let popupsOnStackAfter = getPopupsForActiveInstance()
+        XCTAssertEqual([popups[1]], popupsOnStackAfter)
+    }
     func test_dismissAllPopups() {
         registerNewInstanceAndPresentPopups(popups: [
             AnyPopup(config: .init()),
@@ -243,19 +256,6 @@ extension PopupManagerTests {
 
         let popupsOnStack = getPopupsForActiveInstance()
         XCTAssertEqual(popupsOnStack.count, 0)
-    }
-
-
-
-
-    // dismiss popup id
-    // dismiss popup id ale nie ma takiego
-    // dismiss popup gdzie jest custom id
-    // dismiss popup po typie
-}
-private extension PopupManagerTests {
-    func registerNewInstanceAndPresentPopups() {
-
     }
 }
 
