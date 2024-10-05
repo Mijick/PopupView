@@ -15,6 +15,7 @@ public struct PopupID {
     let rawValue: String
 }
 
+// MARK: Create
 extension PopupID {
     static func create(from id: String) -> Self {
         let firstComponent = id,
@@ -27,7 +28,7 @@ extension PopupID {
     }
 }
 
-// MARK: - Equatable
+// MARK: Comparison
 extension PopupID {
     func isSameType(as id: String) -> Bool { getFirstComponent(of: self) == id }
     func isSameType(as popupType: any Popup.Type) -> Bool { getFirstComponent(of: self) == String(describing: popupType) }
@@ -35,16 +36,18 @@ extension PopupID {
     func isSameInstance(as id: PopupID) -> Bool { rawValue == id.rawValue }
 }
 
-// MARK: - Hashing
-extension PopupID: Hashable {
-    public func hash(into hasher: inout Hasher) { hasher.combine(getFirstComponent(of: self)) }
-}
 
 
 // MARK: - Helpers
+
+
+
+// MARK: Methods
 private extension PopupID {
     func getFirstComponent(of object: Self) -> String { object.rawValue.components(separatedBy: Self.separator).first ?? "" }
 }
+
+// MARK: Variables
 private extension PopupID {
     static var separator: String { "/{}/" }
 }

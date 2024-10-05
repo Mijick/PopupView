@@ -48,7 +48,7 @@ private extension [AnyPopup] {
     }
 }
 private extension [AnyPopup] {
-    func canBeInserted(_ popup: AnyPopup) -> Bool { !contains(where: { $0.id ~= popup.id }) }
+    func canBeInserted(_ popup: AnyPopup) -> Bool { !contains(where: { $0.id.isSameType(as: popup.id) }) }
 }
 
 
