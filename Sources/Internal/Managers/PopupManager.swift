@@ -41,7 +41,7 @@ private extension PopupManager {
     @MainActor func hideKeyboard() { KeyboardManager.hideKeyboard() }
     func perform(_ operation: StackOperation) {
         switch operation {
-            case .insert(let popup): stack.append(.init(popup, id: id), if: canBeInserted(popup))
+            case .insert(let popup): let popup = AnyPopup(popup, id: id); stack.append(popup, if: canBeInserted(popup))
             case .removeLast: stack.safelyRemoveLast()
             case .removeExact(let id): stack.removeAll(where: { $0.id.isSameInstance(as: id) })
             case .removeWithPopupType(let popupType): stack.removeAll(where: { $0.id.isSameType(as: popupType) })
@@ -51,7 +51,7 @@ private extension PopupManager {
     }
 }
 private extension PopupManager {
-    func canBeInserted(_ popup: any Popup) -> Bool { !stack.contains(where: { $0.id.isSameType(as: type(of: popup)) }) }
+    func canBeInserted(_ popup: AnyPopup) -> Bool { !stack.contains(where: { $0.id.isSameType(as: popup.id) }) }
 }
 
 
