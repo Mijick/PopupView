@@ -20,8 +20,3 @@ extension Array {
 extension Array {
     @inlinable func appending(_ newElement: Element) -> Self { self + [newElement] }
 }
-
-// MARK: Others
-extension Array {
-    var nextToLast: Element? { count >= 2 ? self[count - 2] : nil }
-}
