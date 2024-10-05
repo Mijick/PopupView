@@ -11,10 +11,16 @@
 import SwiftUI
 
 @MainActor public class PopupManager: ObservableObject {
-    @Published var views: [AnyPopup] = []
-
     let id: PopupManagerID
+    @Published private(set) var views: [AnyPopup] = []
+
     private init(id: PopupManagerID) { self.id = id }
+}
+
+extension PopupManager {
+    func updateStack(_ popup: AnyPopup) { if let index = views.firstIndex(of: popup) {
+        views[index] = popup
+    }}
 }
 
 // MARK: - Operations

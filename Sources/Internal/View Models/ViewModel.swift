@@ -62,8 +62,7 @@ extension ViewModel {
     func updatePopup(_ popup: AnyPopup, by popupUpdateBuilder: @escaping (inout AnyPopup) -> ()) {
         var popup = popup
         popupUpdateBuilder(&popup)
-
-        Task { @MainActor in updatePopupAction(popup) }
+        updatePopupAction(popup)
     }
 }
 

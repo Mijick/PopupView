@@ -124,9 +124,9 @@ private extension PopupView {
 }
 
 private extension PopupView {
-    func updatePopup(_ popup: AnyPopup) { if let index = popupManager.views.firstIndex(of: popup) {
-        popupManager.views[index] = popup
-    }}
+    func updatePopup(_ popup: AnyPopup) {
+        popupManager.updateStack(popup)
+    }
     func closePopup(_ popup: AnyPopup) {
         popupManager.performOperation(.removeExact(popup.id))
     }
