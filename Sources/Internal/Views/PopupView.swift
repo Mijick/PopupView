@@ -69,31 +69,31 @@ private extension PopupView {
 
 
 
-            .animation(.transition, value: popupManager.views)
+            .animation(.transition, value: popupManager.stack)
             .onTapGesture(perform: onTap)
             .onAppear() {
                 topStackViewModel.setup(updatePopupAction: updatePopup, closePopupAction: closePopup)
                 centreStackViewModel.setup(updatePopupAction: updatePopup, closePopupAction: closePopup)
                 bottomStackViewModel.setup(updatePopupAction: updatePopup, closePopupAction: closePopup)
             }
-            .onChange(of: popupManager.views.map { [$0.height, $0.dragHeight] }) { _ in
-                topStackViewModel.updatePopupsValue(popupManager.views)
-                centreStackViewModel.updatePopupsValue(popupManager.views)
-                bottomStackViewModel.updatePopupsValue(popupManager.views)
+            .onChange(of: popupManager.stack.map { [$0.height, $0.dragHeight] }) { _ in
+                topStackViewModel.updatePopupsValue(popupManager.stack)
+                centreStackViewModel.updatePopupsValue(popupManager.stack)
+                bottomStackViewModel.updatePopupsValue(popupManager.stack)
             }
             .onChange(of: keyboardManager.isActive) { _ in
                 topStackViewModel.updateKeyboardValue(keyboardManager.isActive)
                 centreStackViewModel.updateKeyboardValue(keyboardManager.isActive)
                 bottomStackViewModel.updateKeyboardValue(keyboardManager.isActive)
             }
-            .onChange(of: popupManager.views) { [views = popupManager.views] newValue in
+            .onChange(of: popupManager.stack) { [stack = popupManager.stack] newValue in
                 newValue
-                    .difference(from: views)
+                    .difference(from: stack)
                     .forEach { switch $0 {
                         case .remove(_, let element, _): element.onDismiss()
                         default: return
                     }}
-                popupManager.views.last?.onFocus()
+                popupManager.stack.last?.onFocus()
             }
     }
 }
@@ -136,6 +136,6 @@ private extension PopupView {
 }
 
 private extension PopupView {
-    var tapOutsideClosesPopup: Bool { popupManager.views.last?.config.tapOutsideClosesView ?? false }
-    var overlayColour: Color { popupManager.views.last?.config.overlayColour ?? .clear }
+    var tapOutsideClosesPopup: Bool { popupManager.stack.last?.config.tapOutsideClosesView ?? false }
+    var overlayColour: Color { popupManager.stack.last?.config.overlayColour ?? .clear }
 }
