@@ -11,7 +11,7 @@
 
 import Foundation
 
-public struct PopupManagerID: Equatable {
+@MainActor public struct PopupManagerID: Equatable {
     var rawValue: String
 
     public init(rawValue: String) { self.rawValue = rawValue }
