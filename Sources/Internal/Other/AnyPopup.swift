@@ -29,14 +29,14 @@ struct AnyPopup: Popup, Hashable {
     var _body: AnyView
 
 
-    init(_ popup: some Popup, id: PopupManagerID?) {
+    init<P: Popup>(_ popup: P, id: PopupManagerID?) {
         if let popup = popup as? AnyPopup {
             self = popup
             
         } else {
 
 
-            self.id = .init(popup)
+            self.id = .create(from: P.self)
             self.config = popup.configurePopup(popup: .init())
 
             self._onFocus = popup.onFocus
@@ -66,7 +66,7 @@ extension AnyPopup {
 #if DEBUG
 extension AnyPopup {
     init(id: String = UUID().uuidString, config: LocalConfig) {
-        self.id = .init(rawValue: id)
+        self.id = .create(from: id)
         self.config = config
         self.dismissTimer = nil
         self.height = nil

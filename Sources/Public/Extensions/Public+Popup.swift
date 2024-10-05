@@ -21,7 +21,7 @@ public extension Popup {
     /// Closes popup after n seconds
     func dismissAfter(_ seconds: Double) -> some Popup { eraseObject { $0.dismissTimer = .init(secondsToDismiss: seconds) }}
 
-    func setCustomID(_ id: String) -> some Popup { eraseObject { $0.id = .init(rawValue: id) } }
+    func setCustomID(_ id: String) -> some Popup { eraseObject { $0.id = .create(from: id) } }
 
     /// Supplies an observable object to a view’s hierarchy
     func setEnvironmentObject<T: ObservableObject>(_ object: T) -> some Popup { eraseObject { $0._body = AnyView(environmentObject(object)) }}

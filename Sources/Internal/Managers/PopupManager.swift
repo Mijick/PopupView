@@ -20,7 +20,7 @@ public class PopupManager: ObservableObject {
 // MARK: - Operations
 enum StackOperation {
     case insert(AnyPopup)
-    case removeLast, removeExact(PopupID), remove(PopupID), removeAll
+    case removeLast, removeExact(PopupID), removeWithPopupType(any Popup.Type), removeWithID(String), removeAll
 }
 extension PopupManager {
     func performOperation(_ operation: StackOperation) {
@@ -40,8 +40,9 @@ private extension [AnyPopup] {
         switch operation {
             case .insert(let popup): append(popup, if: canBeInserted(popup))
             case .removeLast: safelyRemoveLast()
-            case .removeExact(let id): removeAll(where: { $0.id == id })
-            case .remove(let id): removeAll(where: { $0.id ~= id })
+            case .removeExact(let id): removeAll(where: { $0.id.isSameInstance(as: id) })
+            case .removeWithPopupType(let popupType): removeAll(where: { $0.id.isSameType(as: popupType) })
+            case .removeWithID(let id): removeAll(where: { $0.id.isSameType(as: id) })
             case .removeAll: removeAll()
         }
     }
