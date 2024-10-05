@@ -11,7 +11,7 @@
 
 import Foundation
 
-class PopupManagerRegistry {
+@MainActor class PopupManagerRegistry {
     static private(set) var instances: [PopupManager] = []
 }
 

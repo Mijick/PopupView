@@ -15,7 +15,7 @@ public extension ConfigContainer {
 
 
 // MARK: - Internal
-public class ConfigContainer {
+@MainActor public class ConfigContainer {
     static var vertical: GlobalConfig.Vertical = .init()
     static var centre: GlobalConfig.Centre = .init()
 }

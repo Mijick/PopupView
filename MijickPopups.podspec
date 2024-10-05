@@ -8,7 +8,7 @@ Pod::Spec.new do |s|
   s.version               = '3.0.0'
   s.ios.deployment_target = '14.0'
   s.osx.deployment_target = '13.0'
-  s.swift_version         = '5.0'
+  s.swift_version         = '6.0'
   
   s.source_files          = 'Sources/**/*'
   s.frameworks            = 'SwiftUI', 'Foundation', 'Combine'
