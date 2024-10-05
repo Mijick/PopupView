@@ -57,7 +57,7 @@ struct AnyPopup: Popup, Hashable {
 
 // MARK: - Hashable
 extension AnyPopup {
-    nonisolated static func == (lhs: AnyPopup, rhs: AnyPopup) -> Bool { lhs.id.isSameInstance(as: rhs.id) }
+    nonisolated static func == (lhs: AnyPopup, rhs: AnyPopup) -> Bool { lhs.id.isSameInstance(as: rhs) }
     nonisolated func hash(into hasher: inout Hasher) { hasher.combine(id.rawValue) }
 }
 

@@ -33,7 +33,7 @@ extension PopupID {
     func isSameType(as id: String) -> Bool { getFirstComponent(of: self) == id }
     func isSameType(as popupType: any Popup.Type) -> Bool { getFirstComponent(of: self) == String(describing: popupType) }
     func isSameType(as popupID: PopupID) -> Bool { getFirstComponent(of: self) == getFirstComponent(of: popupID) }
-    func isSameInstance(as id: PopupID) -> Bool { rawValue == id.rawValue }
+    func isSameInstance(as popup: AnyPopup) -> Bool { rawValue == popup.id.rawValue }
 }
 
 

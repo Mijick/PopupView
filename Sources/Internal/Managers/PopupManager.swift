@@ -27,7 +27,7 @@ extension PopupManager {
 // MARK: - Operations
 extension PopupManager { enum StackOperation {
     case insert(any Popup)
-    case removeLast, removeExact(PopupID), removeWithPopupType(any Popup.Type), removeWithID(String), removeAll
+    case removeLast, removeInstance(AnyPopup), removeWithPopupType(any Popup.Type), removeWithID(String), removeAll
 }}
 
 extension PopupManager {
@@ -43,7 +43,7 @@ private extension PopupManager {
         switch operation {
             case .insert(let popup): let popup = AnyPopup(popup, id: id); stack.append(popup, if: canBeInserted(popup))
             case .removeLast: stack.safelyRemoveLast()
-            case .removeExact(let id): stack.removeAll(where: { $0.id.isSameInstance(as: id) })
+            case .removeInstance(let popup): stack.removeAll(where: { $0.id.isSameInstance(as: popup) })
             case .removeWithPopupType(let popupType): stack.removeAll(where: { $0.id.isSameType(as: popupType) })
             case .removeWithID(let id): stack.removeAll(where: { $0.id.isSameType(as: id) })
             case .removeAll: stack.removeAll()
