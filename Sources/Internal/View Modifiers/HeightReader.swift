@@ -21,7 +21,7 @@ fileprivate struct Modifier: ViewModifier {
     func body(content: Content) -> some View { content
         .background(
             GeometryReader { geo -> Color in
-                onHeightChange(geo.size.height)
+                Task { @MainActor in onHeightChange(geo.size.height) }
                 return Color.clear
             }
         )
