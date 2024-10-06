@@ -22,8 +22,8 @@ struct AnyPopup: Popup {
     var _body: AnyView
 
 
-    private var _onFocus: () -> () = {}
-    private var _onDismiss: () -> () = {}
+    private let _onFocus: () -> ()
+    private let _onDismiss: () -> ()
 
 
     init<P: Popup>(_ popup: P, id: PopupManagerID?) {
@@ -84,6 +84,8 @@ extension AnyPopup {
         self.dismissTimer = nil
         self.height = nil
         self.dragHeight = nil
+        self._onFocus = {}
+        self._onDismiss = {}
         self._body = .init(erasing: EmptyView())
     }
 }
