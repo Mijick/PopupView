@@ -24,29 +24,25 @@ struct AnyPopup: Popup {
 
     private let _onFocus: () -> ()
     private let _onDismiss: () -> ()
+}
 
-
-    init<P: Popup>(_ popup: P, id: PopupManagerID?) {
+extension AnyPopup {
+    init<P: Popup>(from popup: P, popupManager: PopupManager? = nil, customBuilder: (inout AnyPopup) -> () = { _ in }) {
         if let popup = popup as? AnyPopup {
             self = popup
-            
         } else {
-
-
             self.id = .create(from: P.self)
             self.config = popup.configurePopup(popup: .init())
-
+            self._body = AnyView(popup)
             self._onFocus = popup.onFocus
             self._onDismiss = popup.onDismiss
-
-
-            self._body = AnyView(popup)
         }
 
+        customBuilder(&self)
 
-        if let id {
+        if let popupManager {
             dismissTimer?.schedule { [self] in
-                PopupManager.fetchInstance(id: id)?.stack(.removePopupInstance(self))
+                popupManager.stack(.removePopupInstance(self))
             }
         }
     }
