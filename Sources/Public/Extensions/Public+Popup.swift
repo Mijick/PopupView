@@ -36,7 +36,7 @@ public extension Popup {
 // MARK: - Modifiers
 public extension Popup {
     /// Closes popup after n seconds
-    func dismissAfter(_ seconds: Double) -> some Popup { AnyPopup(self).settingTimer(seconds) }
+    func dismissAfter(_ seconds: Double) -> some Popup { AnyPopup(self).settingDismissTimer(seconds) }
 
     func setCustomID(_ id: String) -> some Popup { AnyPopup(self).settingCustomID(id) }
 

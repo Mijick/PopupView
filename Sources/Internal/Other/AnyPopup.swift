@@ -24,7 +24,7 @@ struct AnyPopup: Popup {
 
 // MARK: Initialise
 extension AnyPopup {
-    init<P: Popup>(_ popup: P, popupManager: PopupManager? = nil) {
+    init<P: Popup>(_ popup: P) {
         if let popup = popup as? AnyPopup { self = popup }
         else {
             self.id = .create(from: P.self)
@@ -33,20 +33,14 @@ extension AnyPopup {
             self._onFocus = popup.onFocus
             self._onDismiss = popup.onDismiss
         }
-
-
-        if let popupManager {
-            dismissTimer?.schedule { [self] in
-                popupManager.stack(.removePopupInstance(self))
-            }
-        }
     }
 }
 
 // MARK: Update
 extension AnyPopup {
     func settingCustomID(_ customID: String) -> AnyPopup { updatingPopup { $0.id = .create(from: customID) }}
-    func settingTimer(_ secondsToDismiss: Double) -> AnyPopup { updatingPopup { $0.dismissTimer = .init(secondsToDismiss: secondsToDismiss) }}
+    func settingDismissTimer(_ secondsToDismiss: Double) -> AnyPopup { updatingPopup { $0.dismissTimer = .init(secondsToDismiss: secondsToDismiss) }}
+    func startingDismissTimer(_ popupManager: PopupManager) -> AnyPopup { updatingPopup { $0.dismissTimer?.schedule { popupManager.stack(.removePopupInstance(self)) }}}
     func settingHeight(_ newHeight: CGFloat?) -> AnyPopup { updatingPopup { $0.height = newHeight }}
     func settingDragHeight(_ newDragHeight: CGFloat?) -> AnyPopup { updatingPopup { $0.dragHeight = newDragHeight }}
     func settingEnvironmentObject(_ environmentObject: some ObservableObject) -> AnyPopup { updatingPopup { $0._body = AnyView(_body.environmentObject(environmentObject)) }}
