@@ -105,7 +105,7 @@ private extension PopupManager {
 
 // MARK: Register
 extension PopupManager {
-    static func registerNewInstance(id: PopupManagerID) -> PopupManager {
+    static func registerInstance(for id: PopupManagerID) -> PopupManager {
         let instanceToRegister = PopupManager(id: id)
         let registeredInstance = PopupManagerRegistry.registerNewInstance(instanceToRegister)
         return registeredInstance

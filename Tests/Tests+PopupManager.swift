@@ -63,7 +63,7 @@ extension PopupManagerTests {
 }
 private extension PopupManagerTests {
     func registerNewInstances(popupManagerIds: [PopupManagerID]) {
-        popupManagerIds.forEach { _ = PopupManager.registerNewInstance(id: $0) }
+        popupManagerIds.forEach { _ = PopupManager.registerInstance(id: $0) }
     }
     func getRegisteredInstances() -> [PopupManagerID] {
         PopupManagerRegistry.instances.map(\.id)
