@@ -14,12 +14,3 @@ public extension Popup {
     func onFocus() {}
     func onDismiss() {}
 }
-
-// MARK: Erase Object
-extension Popup {
-    func eraseObject(builder: (inout AnyPopup) -> ()) -> AnyPopup {
-        var popup = AnyPopup(self, id: nil)
-        builder(&popup)
-        return popup
-    }
-}
