@@ -13,17 +13,11 @@ import SwiftUI
 struct AnyPopup: Popup {
     private(set) var id: PopupID
     private(set) var config: LocalConfig
-
-    private var dismissTimer: PopupActionScheduler? = nil
-
-
     private(set) var height: CGFloat? = nil
     private(set) var dragHeight: CGFloat? = nil
 
-
+    private var dismissTimer: PopupActionScheduler? = nil
     private var _body: AnyView
-
-
     private let _onFocus: () -> ()
     private let _onDismiss: () -> ()
 }
