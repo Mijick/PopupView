@@ -26,7 +26,7 @@ extension PopupManager {
 // MARK: - Operations
 extension PopupManager { enum StackOperation {
     case insert(any Popup)
-    case removeLast, removeInstance(AnyPopup), removeWithPopupType(any Popup.Type), removeWithID(String), removeAll
+    case removeLastPopup, removePopupInstance(AnyPopup), removeAllPopupsOfType(any Popup.Type), removeAllPopupsWithID(String), removeAllPopups
 }}
 
 extension PopupManager {
@@ -36,20 +36,40 @@ extension PopupManager {
     }
 }
 private extension PopupManager {
-    @MainActor func hideKeyboard() { KeyboardManager.hideKeyboard() }
-    func perform(_ operation: StackOperation) {
-        switch operation {
-            case .insert(let popup): let popup = AnyPopup(popup, id: id); stack.append(popup, if: canBeInserted(popup))
-            case .removeLast: stack.safelyRemoveLast()
-            case .removeInstance(let popup): stack.removeAll(where: { $0.id.isSameInstance(as: popup) })
-            case .removeWithPopupType(let popupType): stack.removeAll(where: { $0.id.isSameType(as: popupType) })
-            case .removeWithID(let id): stack.removeAll(where: { $0.id.isSameType(as: id) })
-            case .removeAll: stack.removeAll()
-        }
+    func hideKeyboard() {
+        KeyboardManager.hideKeyboard()
     }
+    func perform(_ operation: StackOperation) { switch operation {
+        case .insert(let popup): insertPopup(popup)
+        case .removeLastPopup: removeLastPopup()
+        case .removePopupInstance(let popup): removePopupInstance(popup)
+        case .removeAllPopupsOfType(let popupType): removeAllPopupsOfType(popupType)
+        case .removeAllPopupsWithID(let id): removeAllPopupsWithID(id)
+        case .removeAllPopups: removeAllPopups()
+    }}
 }
 private extension PopupManager {
-    func canBeInserted(_ popup: AnyPopup) -> Bool { !stack.contains(where: { $0.id.isSameType(as: popup.id) }) }
+    func insertPopup(_ popup: any Popup) {
+        let erasedPopup = AnyPopup(popup, id: id)
+        let canPopupBeInserted = !stack.contains(where: { $0.id.isSameType(as: erasedPopup.id) })
+
+        if canPopupBeInserted { stack.append(erasedPopup) }
+    }
+    func removeLastPopup() { if !stack.isEmpty {
+        stack.removeLast(1)
+    }}
+    func removePopupInstance(_ popup: AnyPopup) {
+        stack.removeAll(where: { $0.id.isSameInstance(as: popup) })
+    }
+    func removeAllPopupsOfType(_ popupType: any Popup.Type) {
+        stack.removeAll(where: { $0.id.isSameType(as: popupType) })
+    }
+    func removeAllPopupsWithID(_ id: String) {
+        stack.removeAll(where: { $0.id.isSameType(as: id) })
+    }
+    func removeAllPopups() {
+        stack.removeAll()
+    }
 }
 
 

@@ -49,7 +49,7 @@ struct AnyPopup: Popup, Hashable {
 
         if let id {
             dismissTimer?.schedule { [self] in
-                PopupManager.getInstance(id)?.performOperation(.removeInstance(self))
+                PopupManager.getInstance(id)?.performOperation(.removePopupInstance(self))
             }
         }
     }

@@ -13,14 +13,14 @@ import SwiftUI
 // MARK: - Dismissing
 public extension PopupManager {
     /// Dismisses the last popup on the stack
-    static func dismiss(manID: PopupManagerID = .shared) { getInstance(manID)?.performOperation(.removeLast) }
+    static func dismiss(manID: PopupManagerID = .shared) { getInstance(manID)?.performOperation(.removeLastPopup) }
 
     /// Dismisses all the popups of provided ID on the stack
-    static func dismissPopup(id: String, manID: PopupManagerID = .shared) { getInstance(manID)?.performOperation(.removeWithID(id)) }
+    static func dismissPopup(id: String, manID: PopupManagerID = .shared) { getInstance(manID)?.performOperation(.removeAllPopupsWithID(id)) }
 
     /// Dismisses all the popups of provided type on the stack
-    static func dismissPopup<P: Popup>(_ popup: P.Type, manID: PopupManagerID = .shared) { getInstance(manID)?.performOperation(.removeWithPopupType(popup)) }
+    static func dismissPopup<P: Popup>(_ popup: P.Type, manID: PopupManagerID = .shared) { getInstance(manID)?.performOperation(.removeAllPopupsOfType(popup)) }
 
     /// Dismisses all the popups on the stack
-    static func dismissAll(manID: PopupManagerID = .shared) { getInstance(manID)?.performOperation(.removeAll) }
+    static func dismissAll(manID: PopupManagerID = .shared) { getInstance(manID)?.performOperation(.removeAllPopups) }
 }

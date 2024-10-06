@@ -88,25 +88,25 @@ extension PopupIDTests {
 // MARK: Is Same Instance
 extension PopupIDTests {
     func test_isSameInstance_1() {
-        let popupID1 = PopupID.create(from: TestTopPopup.self),
-            popupID2 = PopupID.create(from: TestCentrePopup.self)
+        let popupID = PopupID.create(from: TestTopPopup.self),
+            popup = AnyPopup(TestCentrePopup(), id: nil)
 
-        let result = popupID1.isSameInstance(as: popupID2)
+        let result = popupID.isSameInstance(as: popup)
         XCTAssertEqual(result, false)
     }
     func test_isSameInstance_2() {
-        let popupID1 = PopupID.create(from: TestTopPopup.self),
-            popupID2 = PopupID.create(from: TestTopPopup.self)
+        let popupID = PopupID.create(from: TestTopPopup.self),
+            popup = AnyPopup(TestTopPopup(), id: nil)
 
-        let result = popupID1.isSameInstance(as: popupID2)
+        let result = popupID.isSameInstance(as: popup)
         XCTAssertEqual(result, true)
     }
     func test_isSameInstance_3() async {
-        let popupID1 = PopupID.create(from: TestTopPopup.self)
+        let popupID = PopupID.create(from: TestTopPopup.self)
         await Task.sleep(seconds: 1)
-        let popupID2 = PopupID.create(from: TestTopPopup.self)
+        let popup = AnyPopup(TestTopPopup(), id: nil)
 
-        let result = popupID1.isSameInstance(as: popupID2)
+        let result = popupID.isSameInstance(as: popup)
         XCTAssertEqual(result, false)
     }
 }
