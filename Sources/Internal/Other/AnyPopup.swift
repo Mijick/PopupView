@@ -16,11 +16,14 @@ struct AnyPopup: Popup {
 
     var dismissTimer: PopupActionScheduler? = nil
 
-    var _onFocus: () -> () = {}
-    var _onDismiss: () -> () = {}
+
     var height: CGFloat? = nil
     var dragHeight: CGFloat? = nil
     var _body: AnyView
+
+
+    private var _onFocus: () -> () = {}
+    private var _onDismiss: () -> () = {}
 
 
     init<P: Popup>(_ popup: P, id: PopupManagerID?) {
