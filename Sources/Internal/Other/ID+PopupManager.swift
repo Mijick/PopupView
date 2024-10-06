@@ -12,12 +12,12 @@
 import Foundation
 
 @MainActor public struct PopupManagerID: Equatable {
-    var rawValue: String
+    let rawValue: String
 
     public init(rawValue: String) { self.rawValue = rawValue }
 }
 
-// MARK: Possible Options
+// MARK: Default IDs
 public extension PopupManagerID {
     static let shared: Self = .init(rawValue: "shared")
 }
