@@ -28,9 +28,8 @@ struct AnyPopup: Popup {
 
 extension AnyPopup {
     init<P: Popup>(from popup: P, popupManager: PopupManager? = nil, customBuilder: (inout AnyPopup) -> () = { _ in }) {
-        if let popup = popup as? AnyPopup {
-            self = popup
-        } else {
+        if let popup = popup as? AnyPopup { self = popup }
+        else {
             self.id = .create(from: P.self)
             self.config = popup.configurePopup(popup: .init())
             self._body = AnyView(popup)
