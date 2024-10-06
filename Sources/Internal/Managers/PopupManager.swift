@@ -17,15 +17,16 @@ import SwiftUI
     private init(id: PopupManagerID) { self.id = id }
 }
 
+// MARK: Update
 extension PopupManager {
     func updateStack(_ popup: AnyPopup) { if let index = stack.firstIndex(of: popup) {
         stack[index] = popup
     }}
 }
 
-// MARK: - Operations
+// MARK: Stack Operations
 extension PopupManager { enum StackOperation {
-    case insert(any Popup)
+    case insertPopup(any Popup)
     case removeLastPopup, removePopupInstance(AnyPopup), removeAllPopupsOfType(any Popup.Type), removeAllPopupsWithID(String), removeAllPopups
 }}
 
@@ -40,7 +41,7 @@ private extension PopupManager {
         KeyboardManager.hideKeyboard()
     }
     func perform(_ operation: StackOperation) { switch operation {
-        case .insert(let popup): insertPopup(popup)
+        case .insertPopup(let popup): insertPopup(popup)
         case .removeLastPopup: removeLastPopup()
         case .removePopupInstance(let popup): removePopupInstance(popup)
         case .removeAllPopupsOfType(let popupType): removeAllPopupsOfType(popupType)
@@ -56,7 +57,7 @@ private extension PopupManager {
         if canPopupBeInserted { stack.append(erasedPopup) }
     }
     func removeLastPopup() { if !stack.isEmpty {
-        stack.removeLast(1)
+        stack.removeLast()
     }}
     func removePopupInstance(_ popup: AnyPopup) {
         stack.removeAll(where: { $0.id.isSameInstance(as: popup) })
