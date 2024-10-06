@@ -1494,7 +1494,7 @@ private extension PopupStackViewModelTests {
     func createPopupInstanceForPopupHeightTests<C: Config>(type: C.Type, heightMode: HeightMode, popupHeight: CGFloat, popupDragHeight: CGFloat? = nil, ignoredSafeAreaEdges: Edge.Set = [], popupPadding: EdgeInsets = .init(), cornerRadius: CGFloat = 0, dragGestureEnabled: Bool = true, dragDetents: [DragDetent] = []) -> AnyPopup {
         let config = getConfigForPopupHeightTests(type: type, heightMode: heightMode, ignoredSafeAreaEdges: ignoredSafeAreaEdges, popupPadding: popupPadding, cornerRadius: cornerRadius, dragGestureEnabled: dragGestureEnabled, dragDetents: dragDetents)
 
-        return AnyPopup(config: config)
+        return AnyPopup.t_createNew(config: config)
             .settingHeight(popupHeight)
             .settingDragHeight(popupDragHeight)
     }

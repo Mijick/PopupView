@@ -104,9 +104,9 @@ extension PopupManagerTests {
 extension PopupManagerTests {
     func test_presentPopup_withThreePopupsToBePresented() {
         registerNewInstanceAndPresentPopups(popups: [
-            AnyPopup(config: .init()),
-            AnyPopup(config: .init()),
-            AnyPopup(config: .init())
+            AnyPopup.t_createNew(config: .init()),
+            AnyPopup.t_createNew(config: .init()),
+            AnyPopup.t_createNew(config: .init())
         ])
 
         let popupsOnStack = getPopupsForActiveInstance()
@@ -114,9 +114,9 @@ extension PopupManagerTests {
     }
     func test_presentPopup_withPopupsWithSameID() {
         registerNewInstanceAndPresentPopups(popups: [
-            AnyPopup(id: "2137", config: .init()),
-            AnyPopup(id: "2137", config: .init()),
-            AnyPopup(id: "2331", config: .init())
+            AnyPopup.t_createNew(id: "2137", config: .init()),
+            AnyPopup.t_createNew(id: "2137", config: .init()),
+            AnyPopup.t_createNew(id: "2331", config: .init())
         ])
 
         let popupsOnStack = getPopupsForActiveInstance()
@@ -124,9 +124,9 @@ extension PopupManagerTests {
     }
     func test_presentPopup_withCustomID() {
         registerNewInstanceAndPresentPopups(popups: [
-            AnyPopup(id: "2137", config: .init()).setCustomID("1"),
-            AnyPopup(id: "2137", config: .init()),
-            AnyPopup(id: "2137", config: .init()).setCustomID("3")
+            AnyPopup.t_createNew(id: "2137", config: .init()).setCustomID("1"),
+            AnyPopup.t_createNew(id: "2137", config: .init()),
+            AnyPopup.t_createNew(id: "2137", config: .init()).setCustomID("3")
         ])
 
         let popupsOnStack = getPopupsForActiveInstance()
@@ -134,9 +134,9 @@ extension PopupManagerTests {
     }
     func test_presentPopup_withDismissAfter() async {
         registerNewInstanceAndPresentPopups(popups: [
-            AnyPopup(config: .init()).dismissAfter(0.7),
-            AnyPopup(config: .init()),
-            AnyPopup(config: .init()).dismissAfter(1.5)
+            AnyPopup.t_createNew(config: .init()).dismissAfter(0.7),
+            AnyPopup.t_createNew(config: .init()),
+            AnyPopup.t_createNew(config: .init()).dismissAfter(1.5)
         ])
 
         let popupsOnStack1 = getPopupsForActiveInstance()
@@ -165,9 +165,9 @@ extension PopupManagerTests {
     }
     func test_dismissLastPopup_withThreePopupsOnStack() {
         registerNewInstanceAndPresentPopups(popups: [
-            AnyPopup(config: .init()),
-            AnyPopup(config: .init()),
-            AnyPopup(config: .init())
+            AnyPopup.t_createNew(config: .init()),
+            AnyPopup.t_createNew(config: .init()),
+            AnyPopup.t_createNew(config: .init())
         ])
         PopupManager.dismiss(manID: defaultPopupManagerID)
 
@@ -237,9 +237,9 @@ extension PopupManagerTests {
     }
     func test_dismissAllPopups() {
         registerNewInstanceAndPresentPopups(popups: [
-            AnyPopup(config: .init()),
-            AnyPopup(config: .init()),
-            AnyPopup(config: .init())
+            AnyPopup.t_createNew(config: .init()),
+            AnyPopup.t_createNew(config: .init()),
+            AnyPopup.t_createNew(config: .init())
         ])
         PopupManager.dismissAll(manID: defaultPopupManagerID)
 
