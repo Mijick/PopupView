@@ -11,12 +11,6 @@
 import SwiftUI
 
 struct AnyPopup: Popup {
-    var body: some View { _body }
-    func onFocus() { _onFocus() }
-    func onDismiss() { _onDismiss() }
-
-    typealias Config = LocalConfig
-    
     var id: PopupID
     let config: LocalConfig
 
@@ -55,11 +49,27 @@ struct AnyPopup: Popup {
     }
 }
 
-// MARK: - Hashable
+// MARK: Popup
+extension AnyPopup {
+    var body: some View { _body }
+    func onFocus() { _onFocus() }
+    func onDismiss() { _onDismiss() }
+
+    typealias Config = LocalConfig
+}
+
+
+
+
+// MARK: Hashable
 extension AnyPopup: Hashable {
     nonisolated static func == (lhs: AnyPopup, rhs: AnyPopup) -> Bool { lhs.id.isSameInstance(as: rhs) }
     nonisolated func hash(into hasher: inout Hasher) { hasher.combine(id.rawValue) }
 }
+
+
+
+
 
 
 // MARK: - Testing
