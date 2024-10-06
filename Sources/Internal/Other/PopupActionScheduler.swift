@@ -12,16 +12,24 @@
 import Foundation
 
 class PopupActionScheduler {
-    private var secondsToDismiss: Double
+    private var time: Double = 0
     private var action: DispatchSourceTimer?
-
-    init(secondsToDismiss: Double) { self.secondsToDismiss = secondsToDismiss }
 }
 
+// MARK: Prepare
+extension PopupActionScheduler {
+    static func prepare(time: Double) -> PopupActionScheduler {
+        let scheduler = PopupActionScheduler()
+        scheduler.time = time
+        return scheduler
+    }
+}
+
+// MARK: Schedule
 extension PopupActionScheduler {
     func schedule(action: @escaping () -> ()) {
         self.action = DispatchSource.makeTimerSource(queue: .main)
-        self.action?.schedule(deadline: .now() + max(0.6, secondsToDismiss))
+        self.action?.schedule(deadline: .now() + max(0.6, time))
         self.action?.setEventHandler(handler: action)
         self.action?.resume()
     }
