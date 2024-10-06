@@ -11,15 +11,17 @@
 import SwiftUI
 
 struct AnyPopup: Popup {
-    var id: PopupID
+    private(set) var id: PopupID
     let config: LocalConfig
 
-    var dismissTimer: PopupActionScheduler? = nil
+    private var dismissTimer: PopupActionScheduler? = nil
 
 
     var height: CGFloat? = nil
     var dragHeight: CGFloat? = nil
-    var _body: AnyView
+
+
+    private var _body: AnyView
 
 
     private let _onFocus: () -> ()
@@ -27,7 +29,7 @@ struct AnyPopup: Popup {
 }
 
 extension AnyPopup {
-    init<P: Popup>(from popup: P, popupManager: PopupManager? = nil, customBuilder: (inout AnyPopup) -> () = { _ in }) {
+    init<P: Popup>(from popup: P, popupManager: PopupManager? = nil) {
         if let popup = popup as? AnyPopup { self = popup }
         else {
             self.id = .create(from: P.self)
@@ -37,13 +39,27 @@ extension AnyPopup {
             self._onDismiss = popup.onDismiss
         }
 
-        customBuilder(&self)
 
         if let popupManager {
             dismissTimer?.schedule { [self] in
                 popupManager.stack(.removePopupInstance(self))
             }
         }
+    }
+}
+
+extension AnyPopup {
+    func settingID(customID: String) -> AnyPopup { updatingPopup { $0.id = .create(from: customID) }}
+    func settingTimer(secondsToDismiss: Double) -> AnyPopup { updatingPopup { $0.dismissTimer = .init(secondsToDismiss: secondsToDismiss) }}
+    func settingHeight(newHeight: CGFloat?) -> AnyPopup { updatingPopup { $0.height = newHeight }}
+    func settingDragHeight(newDragHeight: CGFloat?) -> AnyPopup { updatingPopup { $0.dragHeight = newDragHeight }}
+    func settingEnvironmentObject(environmentObject: some ObservableObject) -> AnyPopup { updatingPopup { $0._body = AnyView(_body.environmentObject(environmentObject)) }}
+}
+private extension AnyPopup {
+    func updatingPopup(_ customBuilder: (inout AnyPopup) -> ()) -> AnyPopup {
+        var popup = self
+        customBuilder(&popup)
+        return popup
     }
 }
 
