@@ -81,21 +81,22 @@ extension AnyPopup: Hashable {
 
 
 
-
-
-
-// MARK: - Testing
+// MARK: - TESTS
 #if DEBUG
+
+
+
+// MARK: New Object
 extension AnyPopup {
-    init(id: String = UUID().uuidString, config: LocalConfig) {
-        self.id = .create(from: id)
-        self.config = config
-        self.dismissTimer = nil
-        self.height = nil
-        self.dragHeight = nil
-        self._onFocus = {}
-        self._onDismiss = {}
-        self._body = .init(erasing: EmptyView())
-    }
+    static func t_createNew(id: String = UUID().uuidString, config: LocalConfig) -> AnyPopup { .init(
+        id: .create(from: id),
+        config: config,
+        height: nil,
+        dragHeight: nil,
+        dismissTimer: nil,
+        _body: .init(EmptyView()),
+        _onFocus: {},
+        _onDismiss: {}
+    )}
 }
 #endif
