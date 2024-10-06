@@ -80,10 +80,19 @@ private extension PopupManager {
 
 
 
-// MARK: INSTACE OPERATIONS
+// MARK: - INSTACE OPERATIONS
 
 
 
+// MARK: Get
+extension PopupManager {
+    static func getInstance(_ id: PopupManagerID) -> PopupManager? {
+        let managerObject = PopupManagerRegistry.instances.first(where: { $0.id == id })
+
+        Logger.log(if: managerObject == nil, level: .fault, message: "PopupManager instance (\(id.rawValue)) must be registered before use. More details can be found in the documentation.")
+        return managerObject
+    }
+}
 
 
 
@@ -104,19 +113,5 @@ extension PopupManager {
 
         let registeredInstance = PopupManagerRegistry.registerNewInstance(instanceToRegister)
         return registeredInstance
-    }
-}
-
-
-
-
-
-// MARK: Get
-extension PopupManager {
-    static func getInstance(_ id: PopupManagerID) -> PopupManager? {
-        let managerObject = PopupManagerRegistry.instances.first(where: { $0.id == id })
-
-        Logger.log(if: managerObject == nil, level: .fault, message: "PopupManager instance (\(id.rawValue)) must be registered before use. More details can be found in the documentation.")
-        return managerObject
     }
 }
