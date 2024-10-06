@@ -24,14 +24,13 @@ extension PopupManager {
     }}
 }
 
-// MARK: Stack Operations
+// MARK: Stack Operation
 extension PopupManager { enum StackOperation {
     case insertPopup(any Popup)
     case removeLastPopup, removePopupInstance(AnyPopup), removeAllPopupsOfType(any Popup.Type), removeAllPopupsWithID(String), removeAllPopups
 }}
-
 extension PopupManager {
-    func performOperation(_ operation: StackOperation) {
+    func stackOperation(_ operation: StackOperation) {
         hideKeyboard()
         perform(operation)
     }
