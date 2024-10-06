@@ -66,12 +66,11 @@ private extension AnyPopup {
 
 
 // MARK: Popup
-extension AnyPopup {
+extension AnyPopup { typealias Config = LocalConfig
     var body: some View { _body }
+    
     func onFocus() { _onFocus() }
     func onDismiss() { _onDismiss() }
-
-    typealias Config = LocalConfig
 }
 
 // MARK: Hashable
