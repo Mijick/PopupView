@@ -14,7 +14,7 @@ import SwiftUI
 public extension View {
     /// Initialises the library. Use directly with the view in your @main structure
     func implementPopupView(id: PopupManagerID = .shared, config: @escaping (ConfigContainer) -> ConfigContainer = { $0 }) -> some View {
-        let popupManager = PopupManager.registerInstance(for: id)
+        let popupManager = PopupManager.registerInstance(id: id)
 
     #if os(iOS) || os(macOS) || os(visionOS) || os(watchOS)
         return self
