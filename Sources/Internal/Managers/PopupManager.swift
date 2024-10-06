@@ -10,11 +10,9 @@
 
 import SwiftUI
 
-@MainActor public class PopupManager: ObservableObject {
+@MainActor public class PopupManager: ObservableObject { private init(id: PopupManagerID) { self.id = id }
     let id: PopupManagerID
     @Published private(set) var stack: [AnyPopup] = []
-
-    private init(id: PopupManagerID) { self.id = id }
 }
 
 // MARK: Update
@@ -24,13 +22,21 @@ extension PopupManager {
     }}
 }
 
-// MARK: Stack Operation
+
+
+// MARK: - STACK OPERATIONS
+
+
+
+// MARK: Possible Operations
 extension PopupManager { enum StackOperation {
     case insertPopup(any Popup)
     case removeLastPopup, removePopupInstance(AnyPopup), removeAllPopupsOfType(any Popup.Type), removeAllPopupsWithID(String), removeAllPopups
 }}
+
+// MARK: Perform Operation
 extension PopupManager {
-    func stackOperation(_ operation: StackOperation) {
+    func stack(_ operation: StackOperation) {
         hideKeyboard()
         perform(operation)
     }
@@ -74,6 +80,7 @@ private extension PopupManager {
 
 
 
+// MARK: INSTACE OPERATIONS
 
 
 
@@ -85,6 +92,12 @@ private extension PopupManager {
 
 
 
+
+
+
+
+
+// MARK: Register
 extension PopupManager {
     static func registerNewInstance(id: PopupManagerID) -> PopupManager {
         let instanceToRegister = PopupManager(id: id)
@@ -98,7 +111,7 @@ extension PopupManager {
 
 
 
-
+// MARK: Get
 extension PopupManager {
     static func getInstance(_ id: PopupManagerID) -> PopupManager? {
         let managerObject = PopupManagerRegistry.instances.first(where: { $0.id == id })
