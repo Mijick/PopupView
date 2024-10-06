@@ -176,9 +176,9 @@ extension PopupManagerTests {
     }
     func test_dismissPopupWithType_whenPopupOnStack() {
         let popups: [AnyPopup] = [
-            .init(TestTopPopup(), id: nil),
-            .init(TestCentrePopup(), id: nil),
-            .init(TestBottomPopup(), id: nil)
+            .init(TestTopPopup()),
+            .init(TestCentrePopup()),
+            .init(TestBottomPopup())
         ]
         registerNewInstanceAndPresentPopups(popups: popups)
 
@@ -192,8 +192,8 @@ extension PopupManagerTests {
     }
     func test_dismissPopupWithType_whenPopupNotOnStack() {
         let popups: [AnyPopup] = [
-            .init(TestTopPopup(), id: nil),
-            .init(TestBottomPopup(), id: nil)
+            .init(TestTopPopup()),
+            .init(TestBottomPopup())
         ]
         registerNewInstanceAndPresentPopups(popups: popups)
 
@@ -207,8 +207,8 @@ extension PopupManagerTests {
     }
     func test_dismissPopupWithType_whenPopupHasCustomID() {
         let popups: [AnyPopup] = [
-            .init(TestTopPopup().setCustomID("2137"), id: nil),
-            .init(TestBottomPopup(), id: nil)
+            .init(TestTopPopup().setCustomID("2137")),
+            .init(TestBottomPopup())
         ]
         registerNewInstanceAndPresentPopups(popups: popups)
 
@@ -222,8 +222,8 @@ extension PopupManagerTests {
     }
     func test_dismissPopupWithID_whenPopupHasCustomID() {
         let popups: [AnyPopup] = [
-            .init(TestTopPopup().setCustomID("2137"), id: nil),
-            .init(TestBottomPopup(), id: nil)
+            .init(TestTopPopup().setCustomID("2137")),
+            .init(TestBottomPopup())
         ]
         registerNewInstanceAndPresentPopups(popups: popups)
 

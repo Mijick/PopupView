@@ -86,12 +86,12 @@ extension PopupStackViewModelTests {
         let popups = [
             createPopupInstanceForPopupHeightTests(type: BottomPopupConfig.self, heightMode: .auto, popupHeight: 0)
         ]
+        let updatedPopup = popups[0].settingHeight(newHeight: 100).settingDragHeight(newDragHeight: 100)
 
         appendPopupsAndCheckPopups(
             viewModel: bottomViewModel,
             popups: popups,
-            updatePopupAt: 0,
-            popupUpdateBuilder: { $0.height = 100; $0.dragHeight = 100 },
+            updatedPopup: updatedPopup,
             expectedValue: (height: 100, dragHeight: 100)
         )
     }
@@ -103,12 +103,12 @@ extension PopupStackViewModelTests {
             createPopupInstanceForPopupHeightTests(type: BottomPopupConfig.self, heightMode: .auto, popupHeight: 15),
             createPopupInstanceForPopupHeightTests(type: BottomPopupConfig.self, heightMode: .auto, popupHeight: 2137)
         ]
+        let updatedPopup = popups[2].settingHeight(newHeight: 1371)
 
         appendPopupsAndCheckPopups(
             viewModel: bottomViewModel,
             popups: popups,
-            updatePopupAt: 2,
-            popupUpdateBuilder: { $0.height = 1371 },
+            updatedPopup: updatedPopup,
             expectedValue: (height: 1371, dragHeight: nil)
         )
     }
@@ -121,30 +121,30 @@ extension PopupStackViewModelTests {
             createPopupInstanceForPopupHeightTests(type: BottomPopupConfig.self, heightMode: .auto, popupHeight: 2137),
             createPopupInstanceForPopupHeightTests(type: BottomPopupConfig.self, heightMode: .auto, popupHeight: 77)
         ]
+        let updatedPopup = popups[4].settingHeight(newHeight: nil)
 
         appendPopupsAndCheckPopups(
             viewModel: bottomViewModel,
             popups: popups,
-            updatePopupAt: 4,
-            popupUpdateBuilder: { $0.height = nil },
+            updatedPopup: updatedPopup,
             expectedValue: (height: nil, dragHeight: nil)
         )
     }
 }
 private extension PopupStackViewModelTests {
-    func appendPopupsAndCheckPopups<C: Config>(viewModel: ViewModel<C>, popups: [AnyPopup], updatePopupAt index: Int, popupUpdateBuilder: @escaping (inout AnyPopup) -> (), expectedValue: (height: CGFloat?, dragHeight: CGFloat?)) {
+    func appendPopupsAndCheckPopups<C: Config>(viewModel: ViewModel<C>, popups: [AnyPopup], updatedPopup: AnyPopup, expectedValue: (height: CGFloat?, dragHeight: CGFloat?)) {
         viewModel.t_updatePopupsValue(popups)
-        viewModel.t_updatePopup(popups[index], by: popupUpdateBuilder)
+        viewModel.t_updatePopup(updatedPopup)
 
         let expect = expectation(description: "results")
         viewModel.objectWillChange
             .receive(on: RunLoop.main)
             .dropFirst(2)
-            .sink { _ in
+            .sink { _ in if let index = viewModel.t_popups.firstIndex(of: updatedPopup) {
                 XCTAssertEqual(viewModel.t_popups[index].height, expectedValue.height)
                 XCTAssertEqual(viewModel.t_popups[index].dragHeight, expectedValue.dragHeight)
                 expect.fulfill()
-            }
+            }}
             .store(in: &cancellables)
         wait(for: [expect], timeout: 3)
     }
@@ -1492,10 +1492,9 @@ private extension PopupStackViewModelTests {
     func createPopupInstanceForPopupHeightTests<C: Config>(type: C.Type, heightMode: HeightMode, popupHeight: CGFloat, popupDragHeight: CGFloat? = nil, ignoredSafeAreaEdges: Edge.Set = [], popupPadding: EdgeInsets = .init(), cornerRadius: CGFloat = 0, dragGestureEnabled: Bool = true, dragDetents: [DragDetent] = []) -> AnyPopup {
         let config = getConfigForPopupHeightTests(type: type, heightMode: heightMode, ignoredSafeAreaEdges: ignoredSafeAreaEdges, popupPadding: popupPadding, cornerRadius: cornerRadius, dragGestureEnabled: dragGestureEnabled, dragDetents: dragDetents)
 
-        var popup = AnyPopup(config: config)
-        popup.height = popupHeight
-        popup.dragHeight = popupDragHeight
-        return popup
+        return AnyPopup(config: config)
+            .settingHeight(newHeight: popupHeight)
+            .settingDragHeight(newDragHeight: popupDragHeight)
     }
     func appendPopupsAndPerformChecks<Value: Equatable, C: Config>(viewModel: ViewModel<C>, popups: [AnyPopup], gestureTranslation: CGFloat, calculatedValue: @escaping (ViewModel<C>) -> (Value), expectedValueBuilder: @escaping (ViewModel<C>) -> Value) {
         viewModel.t_updatePopupsValue(popups)
@@ -1527,9 +1526,7 @@ private extension PopupStackViewModelTests {
         dragDetents: dragDetents
     )}
     func recalculatePopupHeights<C: Config>(_ viewModel: ViewModel<C>) -> [AnyPopup] { viewModel.t_popups.map {
-        var popup = $0
-        popup.height = viewModel.t_calculateHeight(heightCandidate: $0.height!, popupConfig: $0.config as! C)
-        return popup
+        $0.settingHeight(newHeight: viewModel.t_calculateHeight(heightCandidate: $0.height!, popupConfig: $0.config as! C))
     }}
 }
 

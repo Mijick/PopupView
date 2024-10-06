@@ -12,13 +12,13 @@ import SwiftUI
 
 struct AnyPopup: Popup {
     private(set) var id: PopupID
-    let config: LocalConfig
+    private(set) var config: LocalConfig
 
     private var dismissTimer: PopupActionScheduler? = nil
 
 
-    var height: CGFloat? = nil
-    var dragHeight: CGFloat? = nil
+    private(set) var height: CGFloat? = nil
+    private(set) var dragHeight: CGFloat? = nil
 
 
     private var _body: AnyView
@@ -29,7 +29,7 @@ struct AnyPopup: Popup {
 }
 
 extension AnyPopup {
-    init<P: Popup>(from popup: P, popupManager: PopupManager? = nil) {
+    init<P: Popup>(_ popup: P, popupManager: PopupManager? = nil) {
         if let popup = popup as? AnyPopup { self = popup }
         else {
             self.id = .create(from: P.self)

@@ -58,7 +58,7 @@ private extension PopupManager {
 }
 private extension PopupManager {
     func insertPopup(_ popup: any Popup) {
-        let erasedPopup = AnyPopup(from: popup, popupManager: self)
+        let erasedPopup = AnyPopup(popup, popupManager: self)
         let canPopupBeInserted = !stack.contains(where: { $0.id.isSameType(as: erasedPopup.id) })
 
         if canPopupBeInserted { stack.append(erasedPopup) }
