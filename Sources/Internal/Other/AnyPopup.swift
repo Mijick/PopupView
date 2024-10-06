@@ -68,14 +68,14 @@ private extension AnyPopup {
 // MARK: Popup
 extension AnyPopup { typealias Config = LocalConfig
     var body: some View { _body }
-    
+
     func onFocus() { _onFocus() }
     func onDismiss() { _onDismiss() }
 }
 
 // MARK: Hashable
 extension AnyPopup: Hashable {
-    nonisolated static func == (lhs: AnyPopup, rhs: AnyPopup) -> Bool { lhs.id.isSameInstance(as: rhs) }
+    nonisolated static func ==(lhs: AnyPopup, rhs: AnyPopup) -> Bool { lhs.id.isSameInstance(as: rhs) }
     nonisolated func hash(into hasher: inout Hasher) { hasher.combine(id.rawValue) }
 }
 
