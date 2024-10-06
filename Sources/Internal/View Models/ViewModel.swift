@@ -59,11 +59,6 @@ extension ViewModel {
 
         Task { @MainActor in withAnimation(.transition) { objectWillChange.send() }}
     }
-    func updatePopup(_ popup: AnyPopup, by popupUpdateBuilder: @escaping (inout AnyPopup) -> ()) {
-        var popup = popup
-        popupUpdateBuilder(&popup)
-        updatePopupAction(popup)
-    }
 }
 
 // MARK: View Methods
@@ -80,7 +75,7 @@ extension ViewModel {
 // MARK: Helpers
 extension ViewModel {
     func updateHeight(_ newHeight: CGFloat, _ popup: AnyPopup) { if popup.height != newHeight {
-        updatePopup(popup) { $0.height = newHeight }
+        updatePopupAction(popup.settingHeight(newHeight))
     }}
 }
 extension ViewModel {

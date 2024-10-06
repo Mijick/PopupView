@@ -238,7 +238,7 @@ private extension PopupCentreStackViewModelTests {
     func createPopupInstanceForPopupHeightTests(popupHeight: CGFloat, popupPadding: EdgeInsets = .init(), cornerRadius: CGFloat = 0) -> AnyPopup {
         let config = getConfigForPopupHeightTests(cornerRadius: cornerRadius, popupPadding: popupPadding)
 
-        return AnyPopup(config: config).settingHeight(newHeight: popupHeight)
+        return AnyPopup(config: config).settingHeight(popupHeight)
     }
     func appendPopupsAndPerformChecks<Value: Equatable>(popups: [AnyPopup], isKeyboardActive: Bool, calculatedValue: @escaping (ViewModel) -> (Value), expectedValueBuilder: @escaping (ViewModel) -> Value) {
         viewModel.t_updatePopupsValue(popups)
@@ -267,7 +267,7 @@ private extension PopupCentreStackViewModelTests {
         popupPadding: popupPadding
     )}
     func recalculatePopupHeights(_ viewModel: ViewModel) -> [AnyPopup] { viewModel.t_popups.map {
-        $0.settingHeight(newHeight: viewModel.t_calculateHeight(heightCandidate: $0.height!))
+        $0.settingHeight(viewModel.t_calculateHeight(heightCandidate: $0.height!))
     }}
 }
 

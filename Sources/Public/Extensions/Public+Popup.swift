@@ -29,12 +29,12 @@ public extension Popup {
 // MARK: - Modifiers
 public extension Popup {
     /// Closes popup after n seconds
-    func dismissAfter(_ seconds: Double) -> some Popup { AnyPopup(self).settingTimer(secondsToDismiss: seconds) }
+    func dismissAfter(_ seconds: Double) -> some Popup { AnyPopup(self).settingTimer(seconds) }
 
-    func setCustomID(_ id: String) -> some Popup { AnyPopup(self).settingID(customID: id) }
+    func setCustomID(_ id: String) -> some Popup { AnyPopup(self).settingCustomID(id) }
 
     /// Supplies an observable object to a view’s hierarchy
-    func setEnvironmentObject<T: ObservableObject>(_ object: T) -> some Popup { AnyPopup(self).settingEnvironmentObject(environmentObject: object) }
+    func setEnvironmentObject<T: ObservableObject>(_ object: T) -> some Popup { AnyPopup(self).settingEnvironmentObject(object) }
 }
 
 // MARK: - Available Popups

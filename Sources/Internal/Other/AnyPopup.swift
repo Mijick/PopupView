@@ -49,11 +49,11 @@ extension AnyPopup {
 }
 
 extension AnyPopup {
-    func settingID(customID: String) -> AnyPopup { updatingPopup { $0.id = .create(from: customID) }}
-    func settingTimer(secondsToDismiss: Double) -> AnyPopup { updatingPopup { $0.dismissTimer = .init(secondsToDismiss: secondsToDismiss) }}
-    func settingHeight(newHeight: CGFloat?) -> AnyPopup { updatingPopup { $0.height = newHeight }}
-    func settingDragHeight(newDragHeight: CGFloat?) -> AnyPopup { updatingPopup { $0.dragHeight = newDragHeight }}
-    func settingEnvironmentObject(environmentObject: some ObservableObject) -> AnyPopup { updatingPopup { $0._body = AnyView(_body.environmentObject(environmentObject)) }}
+    func settingCustomID(_ customID: String) -> AnyPopup { updatingPopup { $0.id = .create(from: customID) }}
+    func settingTimer(_ secondsToDismiss: Double) -> AnyPopup { updatingPopup { $0.dismissTimer = .init(secondsToDismiss: secondsToDismiss) }}
+    func settingHeight(_ newHeight: CGFloat?) -> AnyPopup { updatingPopup { $0.height = newHeight }}
+    func settingDragHeight(_ newDragHeight: CGFloat?) -> AnyPopup { updatingPopup { $0.dragHeight = newDragHeight }}
+    func settingEnvironmentObject(_ environmentObject: some ObservableObject) -> AnyPopup { updatingPopup { $0._body = AnyView(_body.environmentObject(environmentObject)) }}
 }
 private extension AnyPopup {
     func updatingPopup(_ customBuilder: (inout AnyPopup) -> ()) -> AnyPopup {
