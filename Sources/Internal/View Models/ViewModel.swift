@@ -106,7 +106,7 @@ extension ViewModel {
     @MainActor func t_updatePopupsValue(_ newPopups: [AnyPopup]) { updatePopupsValue(newPopups) }
     @MainActor func t_updateScreenValue(_ newScreen: ScreenProperties) { updateScreenValue(newScreen) }
     @MainActor func t_updateKeyboardValue(_ isActive: Bool) { updateKeyboardValue(isActive) }
-    @MainActor func t_updatePopup(_ popup: AnyPopup, by popupUpdateBuilder: @escaping (inout AnyPopup) -> ()) { updatePopup(popup, by: popupUpdateBuilder) }
+    @MainActor func t_updatePopup(_ popup: AnyPopup) { updatePopupAction(popup) }
     @MainActor func t_calculateAndUpdateActivePopupHeight() { activePopupHeight = calculateHeightForActivePopup() }
 }
 
