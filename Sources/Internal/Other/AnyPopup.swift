@@ -22,6 +22,12 @@ struct AnyPopup: Popup {
     private let _onDismiss: () -> ()
 }
 
+
+
+// MARK: - INITIALISE & UPDATE
+
+
+
 // MARK: Initialise
 extension AnyPopup {
     init<P: Popup>(_ popup: P) {
@@ -40,7 +46,7 @@ extension AnyPopup {
 extension AnyPopup {
     func settingCustomID(_ customID: String) -> AnyPopup { updatingPopup { $0.id = .create(from: customID) }}
     func settingDismissTimer(_ secondsToDismiss: Double) -> AnyPopup { updatingPopup { $0.dismissTimer = .init(secondsToDismiss: secondsToDismiss) }}
-    func startingDismissTimer(_ popupManager: PopupManager) -> AnyPopup { updatingPopup { $0.dismissTimer?.schedule { popupManager.stack(.removePopupInstance(self)) }}}
+    func startingDismissTimerIfNeeded(_ popupManager: PopupManager) -> AnyPopup { updatingPopup { $0.dismissTimer?.schedule { popupManager.stack(.removePopupInstance(self)) }}}
     func settingHeight(_ newHeight: CGFloat?) -> AnyPopup { updatingPopup { $0.height = newHeight }}
     func settingDragHeight(_ newDragHeight: CGFloat?) -> AnyPopup { updatingPopup { $0.dragHeight = newDragHeight }}
     func settingEnvironmentObject(_ environmentObject: some ObservableObject) -> AnyPopup { updatingPopup { $0._body = AnyView(_body.environmentObject(environmentObject)) }}
@@ -55,7 +61,11 @@ private extension AnyPopup {
 
 
 
+// MARK: - PROTOCOLS CONFORMANCE
 
+
+
+// MARK: Popup
 extension AnyPopup {
     var body: some View { _body }
     func onFocus() { _onFocus() }
@@ -63,9 +73,6 @@ extension AnyPopup {
 
     typealias Config = LocalConfig
 }
-
-
-
 
 // MARK: Hashable
 extension AnyPopup: Hashable {

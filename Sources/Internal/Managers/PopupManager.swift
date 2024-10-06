@@ -61,7 +61,7 @@ private extension PopupManager {
         let erasedPopup = AnyPopup(popup)
         let canPopupBeInserted = !stack.contains(where: { $0.id.isSameType(as: erasedPopup.id) })
 
-        if canPopupBeInserted { stack.append(erasedPopup.startingDismissTimer(self)) }
+        if canPopupBeInserted { stack.append(erasedPopup.startingDismissTimerIfNeeded(self)) }
     }
     func removeLastPopup() { if !stack.isEmpty {
         stack.removeLast()
