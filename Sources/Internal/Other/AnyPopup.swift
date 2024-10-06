@@ -22,6 +22,7 @@ struct AnyPopup: Popup {
     private let _onDismiss: () -> ()
 }
 
+// MARK: Initialise
 extension AnyPopup {
     init<P: Popup>(_ popup: P, popupManager: PopupManager? = nil) {
         if let popup = popup as? AnyPopup { self = popup }
@@ -42,6 +43,7 @@ extension AnyPopup {
     }
 }
 
+// MARK: Update
 extension AnyPopup {
     func settingCustomID(_ customID: String) -> AnyPopup { updatingPopup { $0.id = .create(from: customID) }}
     func settingTimer(_ secondsToDismiss: Double) -> AnyPopup { updatingPopup { $0.dismissTimer = .init(secondsToDismiss: secondsToDismiss) }}
@@ -57,7 +59,9 @@ private extension AnyPopup {
     }
 }
 
-// MARK: Popup
+
+
+
 extension AnyPopup {
     var body: some View { _body }
     func onFocus() { _onFocus() }
