@@ -158,7 +158,7 @@ extension PopupManagerTests {
 extension PopupManagerTests {
     func test_dismissLastPopup_withNoPopupsOnStack() {
         registerNewInstanceAndPresentPopups(popups: [])
-        PopupManager.dismiss(manID: defaultPopupManagerID)
+        PopupManager.dismissLastPopup(popupManagerID: defaultPopupManagerID)
 
         let popupsOnStack = getPopupsForActiveInstance()
         XCTAssertEqual(popupsOnStack.count, 0)
@@ -169,7 +169,7 @@ extension PopupManagerTests {
             AnyPopup.t_createNew(config: .init()),
             AnyPopup.t_createNew(config: .init())
         ])
-        PopupManager.dismiss(manID: defaultPopupManagerID)
+        PopupManager.dismissLastPopup(popupManagerID: defaultPopupManagerID)
 
         let popupsOnStack = getPopupsForActiveInstance()
         XCTAssertEqual(popupsOnStack.count, 2)
@@ -185,7 +185,7 @@ extension PopupManagerTests {
         let popupsOnStackBefore = getPopupsForActiveInstance()
         XCTAssertEqual(popups, popupsOnStackBefore)
 
-        PopupManager.dismissPopup(TestBottomPopup.self, manID: defaultPopupManagerID)
+        PopupManager.dismissPopup(TestBottomPopup.self, popupManagerID: defaultPopupManagerID)
 
         let popupsOnStackAfter = getPopupsForActiveInstance()
         XCTAssertEqual([popups[0], popups[1]], popupsOnStackAfter)
@@ -200,7 +200,7 @@ extension PopupManagerTests {
         let popupsOnStackBefore = getPopupsForActiveInstance()
         XCTAssertEqual(popups, popupsOnStackBefore)
 
-        PopupManager.dismissPopup(TestCentrePopup.self, manID: defaultPopupManagerID)
+        PopupManager.dismissPopup(TestCentrePopup.self, popupManagerID: defaultPopupManagerID)
 
         let popupsOnStackAfter = getPopupsForActiveInstance()
         XCTAssertEqual(popups, popupsOnStackAfter)
@@ -215,7 +215,7 @@ extension PopupManagerTests {
         let popupsOnStackBefore = getPopupsForActiveInstance()
         XCTAssertEqual(popups, popupsOnStackBefore)
 
-        PopupManager.dismissPopup(TestTopPopup.self, manID: defaultPopupManagerID)
+        PopupManager.dismissPopup(TestTopPopup.self, popupManagerID: defaultPopupManagerID)
 
         let popupsOnStackAfter = getPopupsForActiveInstance()
         XCTAssertEqual(popups, popupsOnStackAfter)
@@ -241,7 +241,7 @@ extension PopupManagerTests {
             AnyPopup.t_createNew(config: .init()),
             AnyPopup.t_createNew(config: .init())
         ])
-        PopupManager.dismissAll(manID: defaultPopupManagerID)
+        PopupManager.dismissAllPopups(popupManagerID: defaultPopupManagerID)
 
         let popupsOnStack = getPopupsForActiveInstance()
         XCTAssertEqual(popupsOnStack.count, 0)

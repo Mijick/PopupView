@@ -8,19 +8,17 @@
 //  Copyright ©2023 Mijick. Licensed under MIT License.
 
 
-import SwiftUI
-
-// MARK: - Dismissing
+// MARK: Dismiss Popup(s)
 public extension PopupManager {
     /// Dismisses the last popup on the stack
-    static func dismiss(manID: PopupManagerID = .shared) { fetchInstance(id: manID)?.stack(.removeLastPopup) }
+    static func dismissLastPopup(popupManagerID: PopupManagerID = .shared) { fetchInstance(id: popupManagerID)?.stack(.removeLastPopup) }
 
     /// Dismisses all the popups of provided ID on the stack
-    static func dismissPopup(id: String, manID: PopupManagerID = .shared) { fetchInstance(id: manID)?.stack(.removeAllPopupsWithID(id)) }
+    static func dismissPopup(_ id: String, popupManagerID: PopupManagerID = .shared) { fetchInstance(id: popupManagerID)?.stack(.removeAllPopupsWithID(id)) }
 
     /// Dismisses all the popups of provided type on the stack
-    static func dismissPopup<P: Popup>(_ popup: P.Type, manID: PopupManagerID = .shared) { fetchInstance(id: manID)?.stack(.removeAllPopupsOfType(popup)) }
+    static func dismissPopup<P: Popup>(_ type: P.Type, popupManagerID: PopupManagerID = .shared) { fetchInstance(id: popupManagerID)?.stack(.removeAllPopupsOfType(type)) }
 
     /// Dismisses all the popups on the stack
-    static func dismissAll(manID: PopupManagerID = .shared) { fetchInstance(id: manID)?.stack(.removeAllPopups) }
+    static func dismissAllPopups(popupManagerID: PopupManagerID = .shared) { fetchInstance(id: popupManagerID)?.stack(.removeAllPopups) }
 }

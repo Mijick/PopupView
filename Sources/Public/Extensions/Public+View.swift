@@ -30,11 +30,11 @@ public extension View {
 // MARK: - Dismissing Popups
 public extension View {
     /// Dismisses the last popup on the stack
-    func dismiss(id: PopupManagerID = .shared) { PopupManager.dismiss(manID: id) }
+    func dismiss(id: PopupManagerID = .shared) { PopupManager.dismissLastPopup(popupManagerID: id) }
 
     /// Dismisses all the popups of provided type on the stack
-    func dismissPopup<P: Popup>(_ popup: P.Type, id: PopupManagerID = .shared) { PopupManager.dismissPopup(popup, manID: id) }
+    func dismissPopup<P: Popup>(_ popup: P.Type, id: PopupManagerID = .shared) { PopupManager.dismissPopup(popup, popupManagerID: id) }
 
     /// Dismisses all the popups on the stack
-    func dismissAll(id: PopupManagerID = .shared) { PopupManager.dismissAll(manID: id) }
+    func dismissAll(id: PopupManagerID = .shared) { PopupManager.dismissAllPopups(popupManagerID: id) }
 }
