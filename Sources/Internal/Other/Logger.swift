@@ -12,7 +12,7 @@
 import os
 
 class Logger {
-    static func log(if shouldLog: Bool, level: OSLogType, message: String) { if shouldLog {
+    static func log(level: OSLogType, message: String) {
         os.Logger().log(level: level, "ERROR!\n\nFRAMEWORK: MijickPopups\nDESCRIPTION: \(message)")
-    }}
+    }
 }

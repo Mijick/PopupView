@@ -23,7 +23,7 @@ public protocol Popup: View {
 // MARK: - Presenting
 public extension Popup {
     /// Displays the popup. Stacks previous one
-    func present(id: PopupManagerID = .shared) { PopupManager.getInstance(id)?.stack(.insertPopup(self)) }
+    func present(id: PopupManagerID = .shared) { PopupManager.fetchInstance(for: id)?.stack(.insertPopup(self)) }
 }
 
 // MARK: - Modifiers
