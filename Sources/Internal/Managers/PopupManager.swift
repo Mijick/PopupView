@@ -10,9 +10,11 @@
 
 import SwiftUI
 
-@MainActor public class PopupManager: ObservableObject { private init(id: PopupManagerID) { self.id = id }
+@MainActor public class PopupManager: ObservableObject {
     let id: PopupManagerID
     @Published private(set) var stack: [AnyPopup] = []
+
+    private init(id: PopupManagerID) { self.id = id }
 }
 
 // MARK: Update
@@ -101,23 +103,10 @@ private extension PopupManager {
     }}
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
 // MARK: Register
 extension PopupManager {
     static func registerNewInstance(id: PopupManagerID) -> PopupManager {
         let instanceToRegister = PopupManager(id: id)
-
         let registeredInstance = PopupManagerRegistry.registerNewInstance(instanceToRegister)
         return registeredInstance
     }
