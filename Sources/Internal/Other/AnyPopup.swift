@@ -10,7 +10,7 @@
 
 import SwiftUI
 
-struct AnyPopup: Popup, Hashable {
+struct AnyPopup: Popup {
     var body: some View { _body }
     func onFocus() { _onFocus() }
     func onDismiss() { _onDismiss() }
@@ -56,7 +56,7 @@ struct AnyPopup: Popup, Hashable {
 }
 
 // MARK: - Hashable
-extension AnyPopup {
+extension AnyPopup: Hashable {
     nonisolated static func == (lhs: AnyPopup, rhs: AnyPopup) -> Bool { lhs.id.isSameInstance(as: rhs) }
     nonisolated func hash(into hasher: inout Hasher) { hasher.combine(id.rawValue) }
 }
