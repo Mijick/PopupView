@@ -259,12 +259,9 @@ private extension PopupCentreStackViewModelTests {
     }
 }
 private extension PopupCentreStackViewModelTests {
-    func getConfigForPopupHeightTests(cornerRadius: CGFloat, popupPadding: EdgeInsets) -> Config { .init(
-        backgroundColor: .clear,
-        cornerRadius: cornerRadius,
-        tapOutsideClosesView: false,
-        overlayColor: .clear,
-        popupPadding: popupPadding
+    func getConfigForPopupHeightTests(cornerRadius: CGFloat, popupPadding: EdgeInsets) -> Config { .t_createNew(
+        popupPadding: popupPadding,
+        cornerRadius: cornerRadius
     )}
     func recalculatePopupHeights(_ viewModel: ViewModel) -> [AnyPopup] { viewModel.t_popups.map {
         $0.settingHeight(viewModel.t_calculateHeight(heightCandidate: $0.height!))
