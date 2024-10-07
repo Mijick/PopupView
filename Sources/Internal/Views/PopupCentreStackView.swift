@@ -34,7 +34,7 @@ private extension PopupCentreStackView {
             .onHeightChange { viewModel.recalculateAndSave(height: $0, for: popup) }
             .frame(height: viewModel.activePopupHeight)
             .frame(maxWidth: .infinity, maxHeight: viewModel.activePopupHeight)
-            .background(getBackgroundColour(for: popup), overlayColour: .clear, corners: viewModel.calculateCornerRadius(), shadow: popupShadow)
+            .background(getBackgroundColor(for: popup), overlayColor: .clear, corners: viewModel.calculateCornerRadius(), shadow: popupShadow)
             .opacity(viewModel.calculateOpacity(for: popup))
             .focusSectionIfAvailable()
             .padding(viewModel.calculatePopupPadding())
@@ -48,7 +48,7 @@ private extension PopupCentreStackView {
         .scale(scale: transitionScale)
         .combined(with: .opacity)
     }
-    func getBackgroundColour(for popup: AnyPopup) -> Color { popup.config.backgroundColour }
+    func getBackgroundColor(for popup: AnyPopup) -> Color { popup.config.backgroundColor }
 }
 private extension PopupCentreStackView {
     var popupShadow: Shadow { ConfigContainer.centre.shadow }

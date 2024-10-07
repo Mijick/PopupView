@@ -61,8 +61,8 @@ public extension CentrePopupConfig {
 
 public extension LocalConfig {
 
-    /// Background colour of the popup
-    func backgroundColour(_ value: Color) -> Self { self.backgroundColour = value; return self }
+    /// Background color of the popup
+    func backgroundColor(_ value: Color) -> Self { self.backgroundColor = value; return self }
 
     /// Corner radius of the popup at the top of the stack
     func cornerRadius(_ value: CGFloat) -> Self { self.cornerRadius = value; return self }
@@ -71,5 +71,5 @@ public extension LocalConfig {
     func tapOutsideToDismiss(_ value: Bool) -> Self { self.isTapOutsideToDismissEnabled = value; return self }
 
     /// sss
-    func overlayColour(_ value: Color) -> Self { self.overlayColour = value; return self }
+    func overlayColor(_ value: Color) -> Self { self.overlayColor = value; return self }
 }

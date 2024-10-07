@@ -103,7 +103,7 @@ private extension PopupView {
     // PROBLEM: CZASAMI BACKGROUND BOTTOM POPUP STACK NIE PRZYKRYWA CALOSCI
     func createPopupStackView() -> some View {
         ZStack {
-            overlayColour
+            overlayColor
             createTopPopupStackView()
             createCentrePopupStackView()
             createBottomPopupStackView()
@@ -137,5 +137,5 @@ private extension PopupView {
 
 private extension PopupView {
     var tapOutsideClosesPopup: Bool { popupManager.stack.last?.config.isTapOutsideToDismissEnabled ?? false }
-    var overlayColour: Color { popupManager.stack.last?.config.overlayColour ?? .clear }
+    var overlayColor: Color { popupManager.stack.last?.config.overlayColor ?? .clear }
 }

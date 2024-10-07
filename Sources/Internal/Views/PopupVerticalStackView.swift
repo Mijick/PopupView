@@ -34,7 +34,7 @@ private extension PopupVerticalStackView {
             .onHeightChange { viewModel.recalculateAndSave(height: $0, for: popup) }
             .frame(height: viewModel.activePopupHeight, alignment: (!viewModel.alignment).toAlignment())
             .frame(maxWidth: .infinity, maxHeight: viewModel.activePopupHeight, alignment: (!viewModel.alignment).toAlignment())
-            .background(getBackgroundColour(for: popup), overlayColour: getStackOverlayColour(for: popup), corners: viewModel.calculateCornerRadius(), shadow: popupShadow)
+            .background(getBackgroundColor(for: popup), overlayColor: getStackOverlayColor(for: popup), corners: viewModel.calculateCornerRadius(), shadow: popupShadow)
             .offset(y: viewModel.calculateOffsetY(for: popup))
             .scaleEffect(x: viewModel.calculateScaleX(for: popup))
             .focusSectionIfAvailable()
@@ -47,11 +47,11 @@ private extension PopupVerticalStackView {
 
 // MARK: Helpers
 private extension PopupVerticalStackView {
-    func getBackgroundColour(for popup: AnyPopup) -> Color { popup.config.backgroundColour }
-    func getStackOverlayColour(for popup: AnyPopup) -> Color { stackOverlayColour.opacity(viewModel.calculateStackOverlayOpacity(for: popup)) }
+    func getBackgroundColor(for popup: AnyPopup) -> Color { popup.config.backgroundColor }
+    func getStackOverlayColor(for popup: AnyPopup) -> Color { stackOverlayColor.opacity(viewModel.calculateStackOverlayOpacity(for: popup)) }
 }
 private extension PopupVerticalStackView {
     var popupShadow: Shadow { ConfigContainer.vertical.shadow }
-    var stackOverlayColour: Color { .black }
+    var stackOverlayColor: Color { .black }
     var transition: AnyTransition { .move(edge: viewModel.alignment.toEdge()) }
 }

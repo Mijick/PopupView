@@ -11,13 +11,13 @@
 import SwiftUI
 
 extension View {
-    func background(_ backgroundColour: Color, overlayColour: Color, corners: [VerticalEdge: CGFloat], shadow: Shadow) -> some View {
-        overlay(createRoundedCorner(overlayColour, corners))
-            .background(createRoundedCorner(backgroundColour, corners).createShadow(shadow))
+    func background(_ backgroundColor: Color, overlayColor: Color, corners: [VerticalEdge: CGFloat], shadow: Shadow) -> some View {
+        overlay(createRoundedCorner(overlayColor, corners))
+            .background(createRoundedCorner(backgroundColor, corners).createShadow(shadow))
     }
 }
 private extension View {
-    func createRoundedCorner(_ colour: Color, _ corners: [VerticalEdge: CGFloat]) -> some View { RoundedCorner(corners: corners).fill(colour) }
+    func createRoundedCorner(_ color: Color, _ corners: [VerticalEdge: CGFloat]) -> some View { RoundedCorner(corners: corners).fill(color) }
     func createShadow(_ shadowAttributes: Shadow) -> some View { shadow(color: shadowAttributes.color, radius: shadowAttributes.radius, x: shadowAttributes.x, y: shadowAttributes.y) }
 }
 
