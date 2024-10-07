@@ -14,7 +14,6 @@ import SwiftUI
 #if os(iOS) || os(macOS) || os(visionOS) || os(watchOS)
 struct PopupView: View {
     @ObservedObject var popupManager: PopupManager
-    @ObservedObject private var keyboardManager: KeyboardManager = .shared
     @StateObject private var topStackViewModel: VM.VerticalStack<TopPopupConfig> = .init()
     @StateObject private var centreStackViewModel: VM.CentreStack = .init()
     @StateObject private var bottomStackViewModel: VM.VerticalStack<BottomPopupConfig> = .init()
@@ -81,11 +80,6 @@ private extension PopupView {
                 centreStackViewModel.updatePopupsValue(popupManager.stack)
                 bottomStackViewModel.updatePopupsValue(popupManager.stack)
             }
-            .onChange(of: keyboardManager.isActive) { _ in
-                topStackViewModel.updateKeyboardValue(keyboardManager.isActive)
-                centreStackViewModel.updateKeyboardValue(keyboardManager.isActive)
-                bottomStackViewModel.updateKeyboardValue(keyboardManager.isActive)
-            }
             .onChange(of: popupManager.stack) { [stack = popupManager.stack] newValue in
                 newValue
                     .difference(from: stack)
@@ -94,6 +88,11 @@ private extension PopupView {
                         default: return
                     }}
                 popupManager.stack.last?.onFocus()
+            }
+            .onKeyboardStateChange { isActive in
+                topStackViewModel.updateKeyboardValue(isActive)
+                centreStackViewModel.updateKeyboardValue(isActive)
+                bottomStackViewModel.updateKeyboardValue(isActive)
             }
     }
 }
