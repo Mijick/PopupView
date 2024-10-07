@@ -11,7 +11,7 @@
 
 import SwiftUI
 
-public class GlobalConfig {
+@MainActor public class GlobalConfig {
     var backgroundColour: Color = .white
     var shadow: Shadow = .none
     var cornerRadius: CGFloat = 28
