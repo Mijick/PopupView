@@ -13,11 +13,17 @@ import SwiftUI
 
 public class GlobalConfig {
     var backgroundColour: Color = .white
-    var cornerRadius: CGFloat = 28
     var shadow: Shadow = .none
-    var tapOutsideClosesView: Bool = false
+    var cornerRadius: CGFloat = 28
     var overlayColour: Color = .black.opacity(0.44)
+    var tapOutsideClosesView: Bool = false
 }
+
+
+
+// MARK: - AVAILABLE CONFIG TYPES
+
+
 
 // MARK: Vertical
 public extension GlobalConfig { class Vertical: GlobalConfig {

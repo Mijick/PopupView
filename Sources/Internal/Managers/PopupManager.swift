@@ -30,7 +30,7 @@ extension PopupManager {
 
 
 
-// MARK: Possible Operations
+// MARK: Available Operations
 extension PopupManager { enum StackOperation {
     case insertPopup(any Popup)
     case removeLastPopup, removePopupInstance(AnyPopup), removeAllPopupsOfType(any Popup.Type), removeAllPopupsWithID(String), removeAllPopups
