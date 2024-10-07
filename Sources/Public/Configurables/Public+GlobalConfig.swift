@@ -34,7 +34,11 @@ public extension GlobalConfig {
 
 // MARK: Vertical
 public extension GlobalConfig.Vertical {
-    func popupPadding(_ value: EdgeInsets) -> Self { self.popupPadding = value; return self }
+    /// Distance of the entire popup (including its background) from the top edge
+    func popupTopPadding(_ value: CGFloat) -> Self { self.popupPadding = .init(top: value, leading: popupPadding.leading, bottom: popupPadding.bottom, trailing: popupPadding.trailing); return self }
+
+    /// Distance of the entire popup (including its background) from the bottom edge
+    func popupBottomPadding(_ value: CGFloat) -> Self { self.popupPadding = .init(top: popupPadding.top, leading: popupPadding.leading, bottom: value, trailing: popupPadding.trailing); return self }
 
     /// Minimal threshold of a drag gesture to close the active popup
     func minimalDragThresholdToDismissPopup(_ value: CGFloat) -> Self { self.dragGestureProgressToClose = value; return self }
