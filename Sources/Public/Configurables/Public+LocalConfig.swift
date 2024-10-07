@@ -46,5 +46,5 @@ public extension LocalConfig.Vertical {
     func dragDetents(_ value: [DragDetent]) -> Self { self.dragDetents = value; return self }
 
     /// Popup can be closed with drag gesture if enabled
-    func dragGestureEnabled(_ value: Bool) -> Self { self.isDragGestureEnabled = value; return self }
+    func enableDragGesture(_ value: Bool) -> Self { self.isDragGestureEnabled = value; return self }
 }
