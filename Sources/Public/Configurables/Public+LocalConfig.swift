@@ -11,9 +11,30 @@
 
 import SwiftUI
 
-// MARK: - Vertical
+// MARK: All
+public extension LocalConfig {
 
-// MARK: Content Customisation
+    /// Background color of the popup
+    func backgroundColor(_ value: Color) -> Self { self.backgroundColor = value; return self }
+
+    /// Corner radius of the popup at the top of the stack
+    func cornerRadius(_ value: CGFloat) -> Self { self.cornerRadius = value; return self }
+
+    /// Dismisses the active popup when tapped outside its area if enabled
+    func tapOutsideToDismiss(_ value: Bool) -> Self { self.isTapOutsideToDismissEnabled = value; return self }
+
+    /// sss
+    func overlayColor(_ value: Color) -> Self { self.overlayColor = value; return self }
+}
+
+// MARK: Centre
+public extension CentrePopupConfig {
+
+    /// Distance of the entire popup (including its background) from the horizontal edges
+    func horizontalPadding(_ value: CGFloat) -> Self { self.popupPadding = .init(top: 0, leading: value, bottom: 0, trailing: value); return self }
+}
+
+// MARK: Vertical
 public extension LocalConfig.Vertical {
     /// Whether content should ignore safe area
     func ignoresSafeArea(edges: Edge.Set) -> Self { self.ignoredSafeAreaEdges = edges; return self }
@@ -42,34 +63,4 @@ public extension LocalConfig.Vertical {
 
     /// Sets available detents for the popupSets the available detents for the enclosing sheet
     func dragDetents(_ value: [DragDetent]) -> Self { self.dragDetents = value; return self }
-}
-
-
-// MARK: - Centre
-
-// MARK: Popup Customisation
-public extension CentrePopupConfig {
-
-    /// Distance of the entire popup (including its background) from the horizontal edges
-    func horizontalPadding(_ value: CGFloat) -> Self { self.popupPadding = .init(top: 0, leading: value, bottom: 0, trailing: value); return self }
-}
-
-
-
-
-
-
-public extension LocalConfig {
-
-    /// Background color of the popup
-    func backgroundColor(_ value: Color) -> Self { self.backgroundColor = value; return self }
-
-    /// Corner radius of the popup at the top of the stack
-    func cornerRadius(_ value: CGFloat) -> Self { self.cornerRadius = value; return self }
-
-    /// Dismisses the active popup when tapped outside its area if enabled
-    func tapOutsideToDismiss(_ value: Bool) -> Self { self.isTapOutsideToDismissEnabled = value; return self }
-
-    /// sss
-    func overlayColor(_ value: Color) -> Self { self.overlayColor = value; return self }
 }
