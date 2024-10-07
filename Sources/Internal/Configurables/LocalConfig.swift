@@ -16,10 +16,16 @@ import SwiftUI
     var cornerRadius: CGFloat = 0
     var backgroundColour: Color = .clear
     var overlayColour: Color = .clear
-    var tapOutsideClosesView: Bool = false
+    var isTapOutsideToDismissEnabled: Bool = false
 }
 
-// MARK: - Vertical
+
+
+// MARK: - AVAILABLE TYPES
+
+
+
+// MARK: Vertical
 public extension LocalConfig { class Vertical: LocalConfig {
     var ignoredSafeAreaEdges: Edge.Set = []
     var heightMode: HeightMode = .auto
@@ -32,7 +38,7 @@ public extension LocalConfig { class Vertical: LocalConfig {
 
         self.backgroundColour = backgroundColour
         self.cornerRadius = cornerRadius
-        self.tapOutsideClosesView = tapOutsideClosesView
+        self.isTapOutsideToDismissEnabled = tapOutsideClosesView
         self.overlayColour = overlayColour
         self.popupPadding = popupPadding
         self.ignoredSafeAreaEdges = ignoredSafeAreaEdges
@@ -57,14 +63,14 @@ public extension LocalConfig.Vertical {
     class Bottom: LocalConfig.Vertical {}
 }
 
-// MARK: - Centre
+// MARK: Centre
 public extension LocalConfig { class Centre: LocalConfig {
     required init(backgroundColour: Color, cornerRadius: CGFloat, tapOutsideClosesView: Bool, overlayColour: Color, popupPadding: EdgeInsets) {
         super.init()
 
         self.backgroundColour = backgroundColour
         self.cornerRadius = cornerRadius
-        self.tapOutsideClosesView = tapOutsideClosesView
+        self.isTapOutsideToDismissEnabled = tapOutsideClosesView
         self.overlayColour = overlayColour
         self.popupPadding = popupPadding
     }

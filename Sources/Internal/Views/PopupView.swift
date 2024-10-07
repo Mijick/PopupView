@@ -136,6 +136,6 @@ private extension PopupView {
 }
 
 private extension PopupView {
-    var tapOutsideClosesPopup: Bool { popupManager.stack.last?.config.tapOutsideClosesView ?? false }
+    var tapOutsideClosesPopup: Bool { popupManager.stack.last?.config.isTapOutsideToDismissEnabled ?? false }
     var overlayColour: Color { popupManager.stack.last?.config.overlayColour ?? .clear }
 }

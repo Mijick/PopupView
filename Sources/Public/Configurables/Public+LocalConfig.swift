@@ -68,7 +68,7 @@ public extension LocalConfig {
     func cornerRadius(_ value: CGFloat) -> Self { self.cornerRadius = value; return self }
 
     /// Dismisses the active popup when tapped outside its area if enabled
-    func tapOutsideToDismiss(_ value: Bool) -> Self { self.tapOutsideClosesView = value; return self }
+    func tapOutsideToDismiss(_ value: Bool) -> Self { self.isTapOutsideToDismissEnabled = value; return self }
 
     /// sss
     func overlayColour(_ value: Color) -> Self { self.overlayColour = value; return self }

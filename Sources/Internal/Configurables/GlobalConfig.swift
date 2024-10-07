@@ -21,7 +21,7 @@ import SwiftUI
 
 
 
-// MARK: - AVAILABLE CONFIG TYPES
+// MARK: - AVAILABLE TYPES
 
 
 
