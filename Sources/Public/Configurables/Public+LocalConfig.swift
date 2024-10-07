@@ -38,7 +38,7 @@ public extension LocalConfig.Vertical {
 public extension LocalConfig.Vertical {
 
     /// Popup can be closed with drag gesture if enabled
-    func dragGestureEnabled(_ value: Bool) -> Self { self.dragGestureEnabled = value; return self }
+    func dragGestureEnabled(_ value: Bool) -> Self { self.isDragGestureEnabled = value; return self }
 
     /// Sets available detents for the popupSets the available detents for the enclosing sheet
     func dragDetents(_ value: [DragDetent]) -> Self { self.dragDetents = value; return self }

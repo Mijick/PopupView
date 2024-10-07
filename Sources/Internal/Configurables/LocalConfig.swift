@@ -29,8 +29,8 @@ import SwiftUI
 public extension LocalConfig { class Vertical: LocalConfig {
     var ignoredSafeAreaEdges: Edge.Set = []
     var heightMode: HeightMode = .auto
-    var dragGestureEnabled: Bool = false
     var dragDetents: [DragDetent] = []
+    var isDragGestureEnabled: Bool = false
 
 
     required init(backgroundColour: Color, cornerRadius: CGFloat, tapOutsideClosesView: Bool, overlayColour: Color, popupPadding: EdgeInsets, ignoredSafeAreaEdges: Edge.Set, heightMode: HeightMode, dragGestureEnabled: Bool, dragDetents: [DragDetent]) {
@@ -43,7 +43,7 @@ public extension LocalConfig { class Vertical: LocalConfig {
         self.popupPadding = popupPadding
         self.ignoredSafeAreaEdges = ignoredSafeAreaEdges
         self.heightMode = heightMode
-        self.dragGestureEnabled = dragGestureEnabled
+        self.isDragGestureEnabled = dragGestureEnabled
         self.dragDetents = dragDetents
     }
     required convenience init() { self.init(
