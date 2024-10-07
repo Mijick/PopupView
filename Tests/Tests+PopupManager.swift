@@ -230,7 +230,7 @@ extension PopupManagerTests {
         let popupsOnStackBefore = getPopupsForActiveInstance()
         XCTAssertEqual(popups, popupsOnStackBefore)
 
-        PopupManager.dismissPopup(id: "2137", manID: defaultPopupManagerID)
+        PopupManager.dismissPopup("2137", popupManagerID: defaultPopupManagerID)
 
         let popupsOnStackAfter = getPopupsForActiveInstance()
         XCTAssertEqual([popups[1]], popupsOnStackAfter)
