@@ -18,7 +18,6 @@ public protocol Popup: View {
     func onDismiss()
 }
 
-
 // MARK: Default Methods Implementation
 public extension Popup {
     func configurePopup(popup: Config) -> Config { popup }
