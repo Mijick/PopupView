@@ -12,11 +12,11 @@
 import SwiftUI
 
 @MainActor public class LocalConfig { required init() {}
-    var backgroundColour: Color = .clear
-    var cornerRadius: CGFloat = 0
-    var tapOutsideClosesView: Bool = false
-    var overlayColour: Color = .clear
     var popupPadding: EdgeInsets = .init()
+    var cornerRadius: CGFloat = 0
+    var backgroundColour: Color = .clear
+    var overlayColour: Color = .clear
+    var tapOutsideClosesView: Bool = false
 }
 
 // MARK: - Vertical

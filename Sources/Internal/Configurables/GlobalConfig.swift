@@ -12,9 +12,9 @@
 import SwiftUI
 
 @MainActor public class GlobalConfig {
+    var cornerRadius: CGFloat = 28
     var backgroundColour: Color = .white
     var shadow: Shadow = .none
-    var cornerRadius: CGFloat = 28
     var overlayColour: Color = .black.opacity(0.44)
     var isTapOutsideToDismissEnabled: Bool = false
 }
