@@ -64,18 +64,12 @@ fileprivate class Window: UIWindow {
 // Based on philip_trauner solution: https://forums.developer.apple.com/forums/thread/762292?answerId=803885022#803885022
 private extension Window {
     func _hitTest(_ point: CGPoint, with event: UIEvent?, view: UIView, depth: Int = 0) -> HitTestResult? {
-        var deepest: HitTestResult? = nil
-
-        for subview in view.subviews.reversed() {
-            let convertedPoint = view.convert(point, to: subview)
-            
-            guard shouldCheckSubview(subview, convertedPoint: convertedPoint, event: event) else { continue }
+        view.subviews.reversed().reduce(nil) { deepest, subview in let convertedPoint = view.convert(point, to: subview)
+            guard shouldCheckSubview(subview, convertedPoint: convertedPoint, event: event) else { return deepest }
 
             let result = calculateHitTestSubviewResult(convertedPoint, with: event, subview: subview, depth: depth)
-            deepest = getDeepestHitTestResult(candidate: result, current: deepest)
+            return getDeepestHitTestResult(candidate: result, current: deepest)
         }
-
-        return deepest
     }
 }
 private extension Window {
@@ -97,13 +91,8 @@ private extension Window {
             default: candidate
         }
     }
-
-
-
-    typealias HitTestResult = (view: UIView, depth: Int)
-
 }
-
-
-
+private extension Window {
+    typealias HitTestResult = (view: UIView, depth: Int)
+}
 #endif
