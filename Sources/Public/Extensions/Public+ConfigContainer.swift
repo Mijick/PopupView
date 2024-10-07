@@ -9,4 +9,7 @@
 //  Copyright ©2024 Mijick. Licensed under MIT License.
 
 
-import Foundation
+public extension ConfigContainer {
+    func centre(_ builder: (GlobalConfig.Centre) -> GlobalConfig.Centre) -> ConfigContainer { Self.centre = builder(.init()); return self }
+    func vertical(_ builder: (GlobalConfig.Vertical) -> GlobalConfig.Vertical) -> ConfigContainer { Self.vertical = builder(.init()); return self }
+}
