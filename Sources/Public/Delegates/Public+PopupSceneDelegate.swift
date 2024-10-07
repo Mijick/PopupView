@@ -17,7 +17,7 @@ open class PopupSceneDelegate: NSObject, UIWindowSceneDelegate {
     open var configBuilder: (ConfigContainer) -> (ConfigContainer) = { _ in .init() }
 }
 
-// MARK: - Creating Popup Scene
+// MARK: Create Popup Scene
 extension PopupSceneDelegate {
     open func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) { if let windowScene = scene as? UIWindowScene {
         let hostingController = UIHostingController(rootView: Rectangle()
