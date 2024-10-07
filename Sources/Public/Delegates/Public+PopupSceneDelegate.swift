@@ -63,19 +63,15 @@ fileprivate class Window: UIWindow {
 // MARK: Hit Test For iOS 18
 // Based on philip_trauner solution: https://forums.developer.apple.com/forums/thread/762292?answerId=803885022#803885022
 private extension Window {
-    func _hitTest(_ point: CGPoint, with event: UIEvent?, view: UIView, depth: Int = 0) -> (view: UIView, depth: Int)? {
-        var deepest: (view: UIView, depth: Int)? = nil
+    func _hitTest(_ point: CGPoint, with event: UIEvent?, view: UIView, depth: Int = 0) -> HitTestResult? {
+        var deepest: HitTestResult? = nil
 
         for subview in view.subviews.reversed() {
             let convertedPoint = view.convert(point, to: subview)
             
             guard shouldCheckSubview(subview, convertedPoint: convertedPoint, event: event) else { continue }
 
-            let result = if let hit = _hitTest(convertedPoint, with: event, view: subview, depth: depth + 1) {
-                hit
-            } else  {
-                (view: subview, depth: depth)
-            }
+            let result = calculateHitTestSubviewResult(convertedPoint, with: event, subview: subview, depth: depth)
 
             if case .none = deepest {
                 deepest = result
@@ -94,6 +90,16 @@ private extension Window {
         subview.alpha > 0 &&
         subview.point(inside: convertedPoint, with: event)
     }
+    func calculateHitTestSubviewResult(_ point: CGPoint, with event: UIEvent?, subview: UIView, depth: Int) -> HitTestResult {
+        switch _hitTest(point, with: event, view: subview, depth: depth + 1) {
+            case .some(let result): result
+            case nil: (subview, depth)
+        }
+    }
+
+
+
+    typealias HitTestResult = (view: UIView, depth: Int)
 
 }
 
