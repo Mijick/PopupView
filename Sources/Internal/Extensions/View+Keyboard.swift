@@ -13,14 +13,17 @@ import Combine
 
 // MARK: Keyboard Publisher
 extension View {
-    @ViewBuilder func onKeyboardStateChange(_ action: @escaping (Bool) -> ()) -> some View {
-        if let keyboardPublisher { onReceive(keyboardPublisher, perform: action) }
-        else { self }
+    func onKeyboardStateChange(_ action: @escaping (Bool) -> ()) -> some View {
+        #if os(iOS)
+            onReceive(keyboardPublisher, perform: action)
+        #else
+            self
+        #endif
     }
 }
 fileprivate extension View {
-    var keyboardPublisher: AnyPublisher<Bool, Never>? {
-        #if os(iOS)
+    #if os(iOS)
+    var keyboardPublisher: AnyPublisher<Bool, Never> {
         Publishers.Merge(
             NotificationCenter.default
                 .publisher(for: UIResponder.keyboardWillShowNotification)
@@ -31,19 +34,17 @@ fileprivate extension View {
         )
         .debounce(for: .seconds(0.1), scheduler: RunLoop.main)
         .eraseToAnyPublisher()
-        #else
-        nil
-        #endif
     }
+    #endif
 }
 
 // MARK: Hide Keyboard
 extension AnyView {
     static func hideKeyboard() {
         #if os(iOS)
-        UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
+            UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
         #elseif os(macOS)
-        NSApp.keyWindow?.makeFirstResponder(nil)
+            NSApp.keyWindow?.makeFirstResponder(nil)
         #endif
     }
 }
