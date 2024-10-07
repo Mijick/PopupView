@@ -30,38 +30,44 @@ public extension LocalConfig { class Vertical: LocalConfig {
     var ignoredSafeAreaEdges: Edge.Set = []
     var heightMode: HeightMode = .auto
     var dragDetents: [DragDetent] = []
-    var isDragGestureEnabled: Bool = false
+    var isDragGestureEnabled: Bool = ConfigContainer.vertical.isDragGestureEnabled
 
-
-    required init(backgroundColour: Color, cornerRadius: CGFloat, tapOutsideClosesView: Bool, overlayColour: Color, popupPadding: EdgeInsets, ignoredSafeAreaEdges: Edge.Set, heightMode: HeightMode, dragGestureEnabled: Bool, dragDetents: [DragDetent]) {
-        super.init()
-
-        self.backgroundColour = backgroundColour
-        self.cornerRadius = cornerRadius
-        self.isTapOutsideToDismissEnabled = tapOutsideClosesView
-        self.overlayColour = overlayColour
-        self.popupPadding = popupPadding
-        self.ignoredSafeAreaEdges = ignoredSafeAreaEdges
-        self.heightMode = heightMode
-        self.isDragGestureEnabled = dragGestureEnabled
-        self.dragDetents = dragDetents
+    required init() { super.init()
+        self.popupPadding = .init()
+        self.cornerRadius = ConfigContainer.vertical.cornerRadius
+        self.backgroundColour = ConfigContainer.vertical.backgroundColour
+        self.overlayColour = ConfigContainer.vertical.overlayColour
+        self.isTapOutsideToDismissEnabled = ConfigContainer.vertical.isTapOutsideToDismissEnabled
     }
-    required convenience init() { self.init(
-        backgroundColour: ConfigContainer.vertical.backgroundColour,
-        cornerRadius: ConfigContainer.vertical.cornerRadius,
-        tapOutsideClosesView: ConfigContainer.vertical.isTapOutsideToDismissEnabled,
-        overlayColour: ConfigContainer.vertical.overlayColour,
-        popupPadding: .init(),
-        ignoredSafeAreaEdges: [],
-        heightMode: .auto,
-        dragGestureEnabled: ConfigContainer.vertical.isDragGestureEnabled,
-        dragDetents: []
-    )}
 }}
+
+
+
 public extension LocalConfig.Vertical {
     class Top: LocalConfig.Vertical {}
     class Bottom: LocalConfig.Vertical {}
 }
+
+
+extension LocalConfig.Vertical {
+    static func t_createNew<C: LocalConfig.Vertical>(popupPadding: EdgeInsets, cornerRadius: CGFloat, ignoredSafeAreaEdges: Edge.Set, heightMode: HeightMode, dragDetents: [DragDetent], isDragGestureEnabled: Bool) -> C {
+        let config = C()
+        config.popupPadding = popupPadding
+        config.cornerRadius = cornerRadius
+        config.ignoredSafeAreaEdges = ignoredSafeAreaEdges
+        config.heightMode = heightMode
+        config.dragDetents = dragDetents
+        config.isDragGestureEnabled = isDragGestureEnabled
+        return config
+    }
+}
+
+
+
+
+
+
+
 
 // MARK: Centre
 public extension LocalConfig { class Centre: LocalConfig {

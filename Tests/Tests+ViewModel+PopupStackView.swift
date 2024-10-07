@@ -1516,16 +1516,13 @@ private extension PopupStackViewModelTests {
     }
 }
 private extension PopupStackViewModelTests {
-    func getConfigForPopupHeightTests<C: Config>(type: C.Type, heightMode: HeightMode, ignoredSafeAreaEdges: Edge.Set, popupPadding: EdgeInsets, cornerRadius: CGFloat, dragGestureEnabled: Bool, dragDetents: [DragDetent]) -> C { .init(
-        backgroundColour: .clear,
-        cornerRadius: cornerRadius,
-        tapOutsideClosesView: false,
-        overlayColour: .clear,
+    func getConfigForPopupHeightTests<C: Config>(type: C.Type, heightMode: HeightMode, ignoredSafeAreaEdges: Edge.Set, popupPadding: EdgeInsets, cornerRadius: CGFloat, dragGestureEnabled: Bool, dragDetents: [DragDetent]) -> C { .t_createNew(
         popupPadding: popupPadding,
+        cornerRadius: cornerRadius,
         ignoredSafeAreaEdges: ignoredSafeAreaEdges,
         heightMode: heightMode,
-        dragGestureEnabled: dragGestureEnabled,
-        dragDetents: dragDetents
+        dragDetents: dragDetents,
+        isDragGestureEnabled: dragGestureEnabled
     )}
     func recalculatePopupHeights<C: Config>(_ viewModel: ViewModel<C>) -> [AnyPopup] { viewModel.t_popups.map {
         $0.settingHeight(viewModel.t_calculateHeight(heightCandidate: $0.height!, popupConfig: $0.config as! C))
