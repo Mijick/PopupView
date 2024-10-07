@@ -20,8 +20,7 @@ open class PopupSceneDelegate: NSObject, UIWindowSceneDelegate {
 // MARK: Create Popup Scene
 extension PopupSceneDelegate {
     open func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) { if let windowScene = scene as? UIWindowScene {
-        let hostingController = UIHostingController(rootView: Rectangle()
-            .fill(Color.clear)
+        let hostingController = UIHostingController(rootView: Color.clear
             .frame(maxWidth: .infinity, maxHeight: .infinity)
             .registerPopups(configBuilder: configBuilder)
         )
