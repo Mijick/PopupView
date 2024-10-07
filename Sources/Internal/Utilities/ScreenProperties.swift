@@ -11,12 +11,7 @@
 
 import SwiftUI
 
-class ScreenProperties: Equatable {
-    static func == (lhs: ScreenProperties, rhs: ScreenProperties) -> Bool {
-        lhs.height == rhs.height &&
-        lhs.safeArea == rhs.safeArea
-    }
-    
+class ScreenProperties {
     var height: CGFloat = .zero
     var safeArea: EdgeInsets = .init()
 
