@@ -10,7 +10,7 @@
 
 import SwiftUI
 
-// MARK: Setup
+// MARK: Setup Framework
 #if os(iOS) || os(macOS) || os(visionOS) || os(watchOS)
 public extension View {
     /// Initialises the library. Use directly with the view in your @main structure
