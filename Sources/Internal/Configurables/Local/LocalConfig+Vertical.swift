@@ -17,6 +17,7 @@ public extension LocalConfig { class Vertical: LocalConfig {
     var dragDetents: [DragDetent] = []
     var isDragGestureEnabled: Bool = ConfigContainer.vertical.isDragGestureEnabled
 
+
     required init() { super.init()
         self.popupPadding = .init()
         self.cornerRadius = ConfigContainer.vertical.cornerRadius
@@ -37,6 +38,13 @@ public typealias TopPopupConfig = LocalConfig.Vertical.Top
 public typealias BottomPopupConfig = LocalConfig.Vertical.Bottom
 
 
+
+
+// MARK: - TESTS
+#if DEBUG
+
+
+
 extension LocalConfig.Vertical {
     static func t_createNew<C: LocalConfig.Vertical>(popupPadding: EdgeInsets, cornerRadius: CGFloat, ignoredSafeAreaEdges: Edge.Set, heightMode: HeightMode, dragDetents: [DragDetent], isDragGestureEnabled: Bool) -> C {
         let config = C()
@@ -49,3 +57,4 @@ extension LocalConfig.Vertical {
         return config
     }
 }
+#endif
