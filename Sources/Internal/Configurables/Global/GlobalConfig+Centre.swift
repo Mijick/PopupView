@@ -11,4 +11,9 @@
 
 import Foundation
 
-public extension GlobalConfig { class Centre: GlobalConfig {}}
+public extension GlobalConfig { class Centre: GlobalConfig {
+    required init() { super.init()
+        self.popupPadding = .init(top: 0, leading: 16, bottom: 0, trailing: 16)
+        self.cornerRadius = 24
+    }
+}}

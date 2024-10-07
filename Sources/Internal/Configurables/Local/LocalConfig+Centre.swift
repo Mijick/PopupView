@@ -13,7 +13,7 @@ import SwiftUI
 
 public extension LocalConfig { class Centre: LocalConfig {
     required init() { super.init()
-        self.popupPadding = .init(top: 0, leading: 16, bottom: 0, trailing: 16)
+        self.popupPadding = ConfigContainer.centre.popupPadding
         self.cornerRadius = ConfigContainer.centre.cornerRadius
         self.backgroundColour = ConfigContainer.centre.backgroundColour
         self.overlayColour = ConfigContainer.centre.overlayColour

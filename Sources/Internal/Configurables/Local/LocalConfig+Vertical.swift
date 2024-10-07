@@ -19,7 +19,7 @@ public extension LocalConfig { class Vertical: LocalConfig {
 
 
     required init() { super.init()
-        self.popupPadding = .init()
+        self.popupPadding = ConfigContainer.vertical.popupPadding
         self.cornerRadius = ConfigContainer.vertical.cornerRadius
         self.backgroundColour = ConfigContainer.vertical.backgroundColour
         self.overlayColour = ConfigContainer.vertical.overlayColour
