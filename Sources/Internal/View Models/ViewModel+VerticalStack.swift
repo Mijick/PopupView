@@ -24,7 +24,7 @@ extension VM { class VerticalStack<Config: LocalConfig.Vertical>: ViewModel<Conf
     override func calculateCornerRadius() -> [VerticalEdge : CGFloat] { _calculateCornerRadius() }
     override func calculateVerticalFixedSize(for popup: AnyPopup) -> Bool { _calculateVerticalFixedSize(for: popup) }
 
-    // MARK: Initialiser
+    // MARK: Initialise
     override init() { self.alignment = .init(Config.self) }
 }}
 

@@ -14,10 +14,7 @@ import SwiftUI
 enum VerticalEdge {
     case top
     case bottom
-}
 
-// MARK: Initialiser
-extension VerticalEdge {
     init(_ config: LocalConfig.Type) { switch config.self {
         case is TopPopupConfig.Type: self = .top
         case is BottomPopupConfig.Type: self = .bottom
@@ -33,7 +30,7 @@ extension VerticalEdge {
     }}
 }
 
-// MARK: Castings
+// MARK: Type Casting
 extension VerticalEdge {
     func toEdge() -> Edge { switch self {
         case .top: .top
