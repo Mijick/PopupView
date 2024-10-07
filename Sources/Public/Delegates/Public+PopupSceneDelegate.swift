@@ -61,6 +61,7 @@ fileprivate class Window: UIWindow {
 
 // MARK: Hit Test For iOS 18
 // Based on philip_trauner solution: https://forums.developer.apple.com/forums/thread/762292?answerId=803885022#803885022
+@available(iOS 18, *)
 private extension Window {
     func iOS18_hitTest(_ point: CGPoint, with event: UIEvent?, view: UIView, depth: Int = 0) -> HitTestResult? {
         view.subviews.reversed().reduce(nil) { deepest, subview in let convertedPoint = view.convert(point, to: subview)
@@ -71,6 +72,7 @@ private extension Window {
         }
     }
 }
+@available(iOS 18, *)
 private extension Window {
     func shouldCheckSubview(_ subview: UIView, convertedPoint: CGPoint, event: UIEvent?) -> Bool {
         subview.isUserInteractionEnabled &&
@@ -91,6 +93,7 @@ private extension Window {
         }
     }
 }
+@available(iOS 18, *)
 private extension Window {
     typealias HitTestResult = (view: UIView, depth: Int)
 }
