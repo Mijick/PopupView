@@ -13,6 +13,9 @@ import SwiftUI
 
 // MARK: All
 public extension GlobalConfig {
+    /// Distance of the entire popup (including its background) from the horizontal edges
+    func popupHorizontalPadding(_ value: CGFloat) -> Self { self.popupPadding = .init(top: popupPadding.top, leading: value, bottom: popupPadding.bottom, trailing: value); return self }
+
     /// Corner radius of the popup at the top of the stack
     func cornerRadius(_ value: CGFloat) -> Self { self.cornerRadius = value; return self }
 
@@ -27,12 +30,6 @@ public extension GlobalConfig {
 
     /// Dismisses the active popup when tapped outside its area if enabled
     func tapOutsideToDismissPopup(_ value: Bool) -> Self { self.isTapOutsideToDismissEnabled = value; return self }
-}
-
-// MARK: Centre
-public extension GlobalConfig.Centre {
-    /// Distance of the entire popup (including its background) from the horizontal edges
-    func popupHorizontalPadding(_ value: CGFloat) -> Self { self.popupPadding = .init(top: 0, leading: value, bottom: 0, trailing: value); return self }
 }
 
 // MARK: Vertical

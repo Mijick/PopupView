@@ -13,14 +13,14 @@ import SwiftUI
 public protocol Popup: View {
     associatedtype Config: LocalConfig
 
-    func configurePopup(popup: Config) -> Config
+    func configurePopup(config: Config) -> Config
     func onFocus()
     func onDismiss()
 }
 
 // MARK: Default Methods Implementation
 public extension Popup {
-    func configurePopup(popup: Config) -> Config { popup }
+    func configurePopup(config: Config) -> Config { config }
     func onFocus() {}
     func onDismiss() {}
 }

@@ -34,7 +34,7 @@ extension AnyPopup {
         if let popup = popup as? AnyPopup { self = popup }
         else {
             self.id = .create(from: P.self)
-            self.config = popup.configurePopup(popup: .init())
+            self.config = popup.configurePopup(config: .init())
             self._body = AnyView(popup)
             self._onFocus = popup.onFocus
             self._onDismiss = popup.onDismiss
