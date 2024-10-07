@@ -27,7 +27,7 @@ public extension LocalConfig { class Vertical: LocalConfig {
     }
 }}
 
-// MARK: Subclasses
+// MARK: Subclasses & Typealiases
 public typealias TopPopupConfig = LocalConfig.Vertical.Top
 public typealias BottomPopupConfig = LocalConfig.Vertical.Bottom
 public extension LocalConfig.Vertical {

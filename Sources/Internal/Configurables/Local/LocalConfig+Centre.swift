@@ -21,13 +21,8 @@ public extension LocalConfig { class Centre: LocalConfig {
     }
 }}
 
-
-
-
-
+// MARK: Typealias
 public typealias CentrePopupConfig = LocalConfig.Centre
-
-
 
 
 
