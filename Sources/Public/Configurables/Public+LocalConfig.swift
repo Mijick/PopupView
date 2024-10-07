@@ -39,10 +39,7 @@ public extension LocalConfig.Vertical {
     func ignoresSafeArea(edges: Edge.Set) -> Self { self.ignoredSafeAreaEdges = edges; return self }
 
     func changeHeightMode(_ value: HeightMode) -> Self { self.heightMode = value; return self }
-}
 
-// MARK: Popup Customisation
-public extension LocalConfig.Vertical {
 
     /// Distance of the entire popup (including its background) from the bottom edge
     func topPadding(_ value: CGFloat) -> Self { self.popupPadding.top = value; return self }
@@ -52,10 +49,6 @@ public extension LocalConfig.Vertical {
 
     /// Distance of the entire popup (including its background) from the horizontal edges
     func horizontalPadding(_ value: CGFloat) -> Self { self.popupPadding.leading = value; self.popupPadding.trailing = value; return self }
-}
-
-// MARK: Gestures
-public extension LocalConfig.Vertical {
 
     /// Popup can be closed with drag gesture if enabled
     func dragGestureEnabled(_ value: Bool) -> Self { self.isDragGestureEnabled = value; return self }
