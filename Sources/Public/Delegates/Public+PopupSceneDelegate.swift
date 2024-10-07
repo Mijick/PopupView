@@ -67,15 +67,11 @@ private extension Window {
         var deepest: (view: UIView, depth: Int)? = nil
 
         for subview in view.subviews.reversed() {
-            let converted = view.convert(point, to: subview)
+            let convertedPoint = view.convert(point, to: subview)
+            
+            guard shouldCheckSubview(subview, convertedPoint: convertedPoint, event: event) else { continue }
 
-            guard subview.isUserInteractionEnabled,
-                  !subview.isHidden,
-                  subview.alpha > 0,
-                  subview.point(inside: converted, with: event)
-            else { continue }
-
-            let result = if let hit = _hitTest(converted, with: event, view: subview, depth: depth + 1) {
+            let result = if let hit = _hitTest(convertedPoint, with: event, view: subview, depth: depth + 1) {
                 hit
             } else  {
                 (view: subview, depth: depth)
@@ -92,6 +88,12 @@ private extension Window {
     }
 }
 private extension Window {
+    func shouldCheckSubview(_ subview: UIView, convertedPoint: CGPoint, event: UIEvent?) -> Bool {
+        subview.isUserInteractionEnabled &&
+        subview.isHidden == false &&
+        subview.alpha > 0 &&
+        subview.point(inside: convertedPoint, with: event)
+    }
 
 }
 
