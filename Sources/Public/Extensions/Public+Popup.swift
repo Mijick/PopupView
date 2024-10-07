@@ -26,13 +26,18 @@ public extension Popup {
 }
 
 
-// MARK: - Presenting
+
+// MARK: - PUBLIC METHODS
+
+
+
+// MARK: Present
 public extension Popup {
     /// Displays the popup. Stacks previous one
-    func present(id: PopupManagerID = .shared) { PopupManager.fetchInstance(id: id)?.stack(.insertPopup(self)) }
+    func present(popupManagerID: PopupManagerID = .shared) { PopupManager.fetchInstance(id: popupManagerID)?.stack(.insertPopup(self)) }
 }
 
-// MARK: - Modifiers
+// MARK: Configure Popup
 public extension Popup {
     /// Closes popup after n seconds
     func dismissAfter(_ seconds: Double) -> some Popup { AnyPopup(self).settingDismissTimer(seconds) }
@@ -43,7 +48,13 @@ public extension Popup {
     func setEnvironmentObject<T: ObservableObject>(_ object: T) -> some Popup { AnyPopup(self).settingEnvironmentObject(object) }
 }
 
-// MARK: - Available Popups
+
+
+// MARK: - OTHERS
+
+
+
+// MARK: Available Popup Types
 public protocol TopPopup: Popup { associatedtype Config = TopPopupConfig }
 public protocol CentrePopup: Popup { associatedtype Config = CentrePopupConfig }
 public protocol BottomPopup: Popup { associatedtype Config = BottomPopupConfig }

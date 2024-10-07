@@ -258,7 +258,7 @@ extension PopupManagerTests {
 private extension PopupManagerTests {
     func registerNewInstanceAndPresentPopups(popups: [any Popup]) {
         registerNewInstances(popupManagerIds: [defaultPopupManagerID])
-        popups.forEach { $0.present(id: defaultPopupManagerID) }
+        popups.forEach { $0.present(popupManagerID: defaultPopupManagerID) }
     }
     func getPopupsForActiveInstance() -> [AnyPopup] {
         PopupManager
