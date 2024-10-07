@@ -41,7 +41,7 @@ public extension GlobalConfig.Vertical {
     /// Minimal threshold of a drag gesture to close the active popup
     func minimalDragThresholdToDismissPopup(_ value: CGFloat) -> Self { self.dragGestureProgressToClose = value; return self }
 
-    func stackingEnabled(_ value: Bool) -> Self { fatalError() }
+    func stackingEnabled(_ value: Bool) -> Self { self.isStackingEnabled = value; return self }
 
     /// Popup can be closed with drag gesture if enabled
     func dragGestureEnabled(_ value: Bool) -> Self { self.isDragGestureEnabled = value; return self }
