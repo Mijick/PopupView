@@ -46,13 +46,13 @@ private extension PopupView {
             createPopupStackView()
                 .ignoresSafeArea()
                 .onAppear {
-                    let screen = ScreenProperties(reader)
+                    let screen = Screen(reader)
                     topStackViewModel.updateScreenValue(screen)
                     centreStackViewModel.updateScreenValue(screen)
                     bottomStackViewModel.updateScreenValue(screen)
                 }
                 .onChange(of: reader.size) { _ in
-                    let screen = ScreenProperties(reader)
+                    let screen = Screen(reader)
                     topStackViewModel.updateScreenValue(screen)
                     centreStackViewModel.updateScreenValue(screen)
                     bottomStackViewModel.updateScreenValue(screen)

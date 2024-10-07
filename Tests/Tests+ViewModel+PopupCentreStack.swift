@@ -270,11 +270,11 @@ private extension PopupCentreStackViewModelTests {
 
 // MARK: Screen
 private extension PopupCentreStackViewModelTests {
-    var screen: ScreenProperties { .init(
+    var screen: Screen { .init(
         height: 1000,
         safeArea: .init(top: 100, leading: 20, bottom: 50, trailing: 30)
     )}
-    var screenWithKeyboard: ScreenProperties { .init(
+    var screenWithKeyboard: Screen { .init(
         height: 1000,
         safeArea: .init(top: 100, leading: 20, bottom: 200, trailing: 30)
     )}

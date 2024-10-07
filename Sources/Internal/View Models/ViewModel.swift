@@ -21,7 +21,7 @@ enum VM {}
 
     // MARK: Subclass Attributes
     var activePopupHeight: CGFloat? = nil
-    var screen: ScreenProperties = .init()
+    var screen: Screen = .init()
     var isKeyboardActive: Bool = false
 
     // MARK: Methods to Override
@@ -49,7 +49,7 @@ extension ViewModel {
 
         Task { @MainActor in withAnimation(.transition) { objectWillChange.send() }}
     }
-    func updateScreenValue(_ newScreen: ScreenProperties) {
+    func updateScreenValue(_ newScreen: Screen) {
         screen = newScreen
 
         Task { @MainActor in withAnimation(.transition) { objectWillChange.send() }}
@@ -99,7 +99,7 @@ extension ViewModel {
 extension ViewModel {
     @MainActor func t_setup(updatePopupAction: @escaping (AnyPopup) -> (), closePopupAction: @escaping (AnyPopup) -> ()) { setup(updatePopupAction: updatePopupAction, closePopupAction: closePopupAction) }
     @MainActor func t_updatePopupsValue(_ newPopups: [AnyPopup]) { updatePopupsValue(newPopups) }
-    @MainActor func t_updateScreenValue(_ newScreen: ScreenProperties) { updateScreenValue(newScreen) }
+    @MainActor func t_updateScreenValue(_ newScreen: Screen) { updateScreenValue(newScreen) }
     @MainActor func t_updateKeyboardValue(_ isActive: Bool) { updateKeyboardValue(isActive) }
     @MainActor func t_updatePopup(_ popup: AnyPopup) { updatePopupAction(popup) }
     @MainActor func t_calculateAndUpdateActivePopupHeight() { activePopupHeight = calculateHeightForActivePopup() }

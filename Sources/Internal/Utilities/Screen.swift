@@ -1,5 +1,5 @@
 //
-//  ScreenProperties.swift of MijickPopups
+//  Screen.swift of MijickPopups
 //
 //  Created by Tomasz Kurylik
 //    - Twitter: https://twitter.com/tkurylik
@@ -11,7 +11,7 @@
 
 import SwiftUI
 
-struct ScreenProperties {
+struct Screen {
     let height: CGFloat
     let safeArea: EdgeInsets
 

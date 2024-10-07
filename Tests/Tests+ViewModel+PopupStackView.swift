@@ -1531,7 +1531,7 @@ private extension PopupStackViewModelTests {
 
 // MARK: Screen
 private extension PopupStackViewModelTests {
-    var screen: ScreenProperties { .init(
+    var screen: Screen { .init(
         height: 1000,
         safeArea: .init(top: 100, leading: 20, bottom: 50, trailing: 30)
     )}
