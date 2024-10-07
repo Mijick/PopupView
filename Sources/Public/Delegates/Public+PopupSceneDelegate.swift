@@ -38,13 +38,12 @@ extension PopupSceneDelegate {
 
 
 
-// MARK: iOS 18 and above
 fileprivate class Window: UIWindow {
     override func point(inside point: CGPoint, with event: UIEvent?) -> Bool {
         if #available(iOS 18, *) {
             guard let view = rootViewController?.view else { return false }
 
-            let hit = _hitTest(point, with: event, view: subviews.count > 1 ? self : view)
+            let hit = iOS18_hitTest(point, with: event, view: subviews.count > 1 ? self : view)
             return hit != nil
         } else {
             return super.point(inside: point, with: event)
@@ -63,7 +62,7 @@ fileprivate class Window: UIWindow {
 // MARK: Hit Test For iOS 18
 // Based on philip_trauner solution: https://forums.developer.apple.com/forums/thread/762292?answerId=803885022#803885022
 private extension Window {
-    func _hitTest(_ point: CGPoint, with event: UIEvent?, view: UIView, depth: Int = 0) -> HitTestResult? {
+    func iOS18_hitTest(_ point: CGPoint, with event: UIEvent?, view: UIView, depth: Int = 0) -> HitTestResult? {
         view.subviews.reversed().reduce(nil) { deepest, subview in let convertedPoint = view.convert(point, to: subview)
             guard shouldCheckSubview(subview, convertedPoint: convertedPoint, event: event) else { return deepest }
 
@@ -80,7 +79,7 @@ private extension Window {
         subview.point(inside: convertedPoint, with: event)
     }
     func calculateHitTestSubviewResult(_ point: CGPoint, with event: UIEvent?, subview: UIView, depth: Int) -> HitTestResult {
-        switch _hitTest(point, with: event, view: subview, depth: depth + 1) {
+        switch iOS18_hitTest(point, with: event, view: subview, depth: depth + 1) {
             case .some(let result): result
             case nil: (subview, depth)
         }
