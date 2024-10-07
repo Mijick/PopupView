@@ -45,7 +45,7 @@ fileprivate class Window: UIWindow {
         if #available(iOS 18, *) {
             guard let view = rootViewController?.view else { return false }
 
-            let hit = _hitTest(point, with: event, view: subviews.count > 1 ? self : view )
+            let hit = _hitTest(point, with: event, view: subviews.count > 1 ? self : view)
             return hit != nil
         } else {
             return super.point(inside: point, with: event)
@@ -60,9 +60,12 @@ fileprivate class Window: UIWindow {
         }
     }
 }
+
+// MARK: Hit Test For iOS 18
+// Based on philip_trauner solution: https://forums.developer.apple.com/forums/thread/762292?answerId=803885022#803885022
 private extension Window {
-    func _hitTest(_ point: CGPoint, with event: UIEvent?, view: UIView, depth: Int = 0) -> Optional<(view: UIView, depth: Int)> {
-        var deepest: Optional<(view: UIView, depth: Int)> = .none
+    func _hitTest(_ point: CGPoint, with event: UIEvent?, view: UIView, depth: Int = 0) -> (view: UIView, depth: Int)? {
+        var deepest: (view: UIView, depth: Int)? = nil
 
         for subview in view.subviews.reversed() {
             let converted = view.convert(point, to: subview)
@@ -89,4 +92,10 @@ private extension Window {
         return deepest
     }
 }
+private extension Window {
+
+}
+
+
+
 #endif
