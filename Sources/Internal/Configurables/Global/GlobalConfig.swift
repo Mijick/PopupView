@@ -14,8 +14,8 @@ import SwiftUI
 @MainActor public class GlobalConfig { required init() {}
     var popupPadding: EdgeInsets = .init()
     var cornerRadius: CGFloat = 28
-    var backgroundColour: Color = .white
+    var backgroundColor: Color = .white
     var shadow: Shadow = .none
-    var overlayColour: Color = .black.opacity(0.44)
+    var overlayColor: Color = .black.opacity(0.44)
     var isTapOutsideToDismissEnabled: Bool = false
 }

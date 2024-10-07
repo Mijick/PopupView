@@ -21,8 +21,8 @@ public extension LocalConfig { class Vertical: LocalConfig {
     required init() { super.init()
         self.popupPadding = ConfigContainer.vertical.popupPadding
         self.cornerRadius = ConfigContainer.vertical.cornerRadius
-        self.backgroundColour = ConfigContainer.vertical.backgroundColour
-        self.overlayColour = ConfigContainer.vertical.overlayColour
+        self.backgroundColor = ConfigContainer.vertical.backgroundColor
+        self.overlayColor = ConfigContainer.vertical.overlayColor
         self.isTapOutsideToDismissEnabled = ConfigContainer.vertical.isTapOutsideToDismissEnabled
     }
 }}

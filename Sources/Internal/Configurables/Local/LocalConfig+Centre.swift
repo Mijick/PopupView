@@ -15,8 +15,8 @@ public extension LocalConfig { class Centre: LocalConfig {
     required init() { super.init()
         self.popupPadding = ConfigContainer.centre.popupPadding
         self.cornerRadius = ConfigContainer.centre.cornerRadius
-        self.backgroundColour = ConfigContainer.centre.backgroundColour
-        self.overlayColour = ConfigContainer.centre.overlayColour
+        self.backgroundColor = ConfigContainer.centre.backgroundColor
+        self.overlayColor = ConfigContainer.centre.overlayColor
         self.isTapOutsideToDismissEnabled = ConfigContainer.centre.isTapOutsideToDismissEnabled
     }
 }}

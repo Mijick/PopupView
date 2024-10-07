@@ -260,10 +260,10 @@ private extension PopupCentreStackViewModelTests {
 }
 private extension PopupCentreStackViewModelTests {
     func getConfigForPopupHeightTests(cornerRadius: CGFloat, popupPadding: EdgeInsets) -> Config { .init(
-        backgroundColour: .clear,
+        backgroundColor: .clear,
         cornerRadius: cornerRadius,
         tapOutsideClosesView: false,
-        overlayColour: .clear,
+        overlayColor: .clear,
         popupPadding: popupPadding
     )}
     func recalculatePopupHeights(_ viewModel: ViewModel) -> [AnyPopup] { viewModel.t_popups.map {
