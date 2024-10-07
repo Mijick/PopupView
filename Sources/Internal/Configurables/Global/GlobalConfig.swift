@@ -18,19 +18,3 @@ import SwiftUI
     var overlayColour: Color = .black.opacity(0.44)
     var isTapOutsideToDismissEnabled: Bool = false
 }
-
-
-
-// MARK: - AVAILABLE TYPES
-
-
-
-// MARK: Vertical
-public extension GlobalConfig { class Vertical: GlobalConfig {
-    var dragGestureProgressToClose: CGFloat = 1/3
-    var isStackingEnabled: Bool = true
-    var isDragGestureEnabled: Bool = true
-}}
-
-// MARK: Centre
-public extension GlobalConfig { class Centre: GlobalConfig {}}

@@ -95,3 +95,13 @@ public extension LocalConfig { class Centre: LocalConfig {
 public typealias TopPopupConfig = LocalConfig.Vertical.Top
 public typealias CentrePopupConfig = LocalConfig.Centre
 public typealias BottomPopupConfig = LocalConfig.Vertical.Bottom
+
+
+
+// MARK: - TESTS
+#if DEBUG
+
+
+// MARK: Vertical
+
+#endif
