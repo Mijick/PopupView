@@ -11,21 +11,16 @@
 
 import SwiftUI
 
-class ScreenProperties {
-    var height: CGFloat = .zero
-    var safeArea: EdgeInsets = .init()
+struct ScreenProperties {
+    let height: CGFloat
+    let safeArea: EdgeInsets
 
 
     init(height: CGFloat = .zero, safeArea: EdgeInsets = .init()) {
         self.height = height
         self.safeArea = safeArea
     }
-}
-
-
-
-extension ScreenProperties {
-    func update(_ reader: GeometryProxy) {
+    init(_ reader: GeometryProxy) {
         height = reader.size.height + reader.safeAreaInsets.top + reader.safeAreaInsets.bottom
         safeArea = reader.safeAreaInsets
     }
