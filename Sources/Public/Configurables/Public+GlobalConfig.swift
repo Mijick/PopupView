@@ -45,5 +45,4 @@ public extension GlobalConfig.Vertical {
 
     /// Popup can be closed with drag gesture if enabled
     func dragGestureEnabled(_ value: Bool) -> Self { self.isDragGestureEnabled = value; return self }
-
 }
