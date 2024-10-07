@@ -8,14 +8,7 @@
 //  Copyright ©2023 Mijick. Licensed under MIT License.
 
 
-public extension ConfigContainer {
-    func vertical(_ configure: (GlobalConfig.Vertical) -> GlobalConfig.Vertical) -> ConfigContainer { Self.vertical = configure(.init()); return self }
-    func centre(_ configure: (GlobalConfig.Centre) -> GlobalConfig.Centre) -> ConfigContainer { Self.centre = configure(.init()); return self }
-}
-
-
-// MARK: - Internal
 @MainActor public class ConfigContainer {
-    static var vertical: GlobalConfig.Vertical = .init()
     static var centre: GlobalConfig.Centre = .init()
+    static var vertical: GlobalConfig.Vertical = .init()
 }
