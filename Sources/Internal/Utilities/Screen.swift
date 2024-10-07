@@ -21,7 +21,7 @@ struct Screen {
         self.safeArea = safeArea
     }
     init(_ reader: GeometryProxy) {
-        height = reader.size.height + reader.safeAreaInsets.top + reader.safeAreaInsets.bottom
-        safeArea = reader.safeAreaInsets
+        self.height = reader.size.height + reader.safeAreaInsets.top + reader.safeAreaInsets.bottom
+        self.safeArea = reader.safeAreaInsets
     }
 }
