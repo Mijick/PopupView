@@ -14,7 +14,7 @@ import SwiftUI
 #if os(iOS)
 open class PopupSceneDelegate: NSObject, UIWindowSceneDelegate {
     open var window: UIWindow?
-    open var config: (ConfigContainer) -> (ConfigContainer) = { _ in .init() }
+    open var configBuilder: (ConfigContainer) -> (ConfigContainer) = { _ in .init() }
 }
 
 // MARK: - Creating Popup Scene
@@ -23,7 +23,7 @@ extension PopupSceneDelegate {
         let hostingController = UIHostingController(rootView: Rectangle()
             .fill(Color.clear)
             .frame(maxWidth: .infinity, maxHeight: .infinity)
-            .implementPopupView(config: config)
+            .registerPopups(configBuilder: configBuilder)
         )
         hostingController.view.backgroundColor = .clear
 
