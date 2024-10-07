@@ -311,7 +311,7 @@ private extension VM.VerticalStack {
     var stackScaleFactor: CGFloat { 0.025 }
     var stackOverlayFactor: CGFloat { 0.1 }
     var maxStackOverlayFactor: CGFloat { 0.48 }
-    var stackOffset: CGFloat { ConfigContainer.vertical.isStackingPossible ? 8 : 0 }
+    var stackOffset: CGFloat { ConfigContainer.vertical.isStackingEnabled ? 8 : 0 }
     var gestureClosingThresholdFactor: CGFloat { ConfigContainer.vertical.dragGestureProgressToClose }
     var dragGestureEnabled: Bool { getActivePopupConfig().dragGestureEnabled }
 }

@@ -512,7 +512,7 @@ extension PopupStackViewModelTests {
             createPopupInstanceForPopupHeightTests(type: BottomPopupConfig.self, heightMode: .auto, popupHeight: 350, popupDragHeight: 249),
             createPopupInstanceForPopupHeightTests(type: BottomPopupConfig.self, heightMode: .auto, popupHeight: 133, popupDragHeight: 21)
         ])
-        ConfigContainer.vertical.isStackingPossible = false
+        ConfigContainer.vertical.isStackingEnabled = false
 
         XCTAssertEqual(
             bottomViewModel.t_calculateOffsetY(for: bottomViewModel.t_popups[0]),

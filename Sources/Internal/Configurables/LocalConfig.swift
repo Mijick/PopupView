@@ -43,12 +43,12 @@ public extension LocalConfig { class Vertical: LocalConfig {
     required convenience init() { self.init(
         backgroundColour: ConfigContainer.vertical.backgroundColour,
         cornerRadius: ConfigContainer.vertical.cornerRadius,
-        tapOutsideClosesView: ConfigContainer.vertical.tapOutsideClosesView,
+        tapOutsideClosesView: ConfigContainer.vertical.isTapOutsideToDismissEnabled,
         overlayColour: ConfigContainer.vertical.overlayColour,
         popupPadding: .init(),
         ignoredSafeAreaEdges: [],
         heightMode: .auto,
-        dragGestureEnabled: ConfigContainer.vertical.dragGestureEnabled,
+        dragGestureEnabled: ConfigContainer.vertical.isDragGestureEnabled,
         dragDetents: []
     )}
 }}
@@ -71,7 +71,7 @@ public extension LocalConfig { class Centre: LocalConfig {
     required convenience init() { self.init(
         backgroundColour: ConfigContainer.centre.backgroundColour,
         cornerRadius: ConfigContainer.centre.cornerRadius,
-        tapOutsideClosesView: ConfigContainer.centre.tapOutsideClosesView,
+        tapOutsideClosesView: ConfigContainer.centre.isTapOutsideToDismissEnabled,
         overlayColour: ConfigContainer.centre.overlayColour,
         popupPadding: .init(top: 0, leading: 16, bottom: 0, trailing: 16)
     )}

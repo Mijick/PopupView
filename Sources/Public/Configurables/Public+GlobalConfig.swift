@@ -14,7 +14,7 @@ import SwiftUI
 // MARK: - Vertical
 public extension GlobalConfig.Vertical {
     /// Popup can be closed with drag gesture if enabled
-    func dragGestureEnabled(_ value: Bool) -> Self { self.dragGestureEnabled = value; return self }
+    func dragGestureEnabled(_ value: Bool) -> Self { self.isDragGestureEnabled = value; return self }
 
     /// Minimal threshold of a drag gesture to close the active popup
     func minimalDragThresholdToClose(_ value: CGFloat) -> Self { self.dragGestureProgressToClose = value; return self }
@@ -36,7 +36,7 @@ public extension GlobalConfig {
     func applyShadow(color: Color = .black.opacity(0.16), radius: CGFloat = 16, x: CGFloat = 0, y: CGFloat = 0) -> Self { self.shadow = .init(color: color, radius: radius, x: x, y: y); return self }
 
     /// Dismisses the active popup when tapped outside its area if enabled
-    func tapOutsideToDismiss(_ value: Bool) -> Self { self.tapOutsideClosesView = value; return self }
+    func tapOutsideToDismiss(_ value: Bool) -> Self { self.isTapOutsideToDismissEnabled = value; return self }
 
     /// Colour of the overlay covering the view behind the popup. Use .clear to hide the overlay
     func overlayColour(_ value: Color) -> Self { self.overlayColour = value; return self }

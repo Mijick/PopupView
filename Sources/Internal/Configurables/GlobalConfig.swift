@@ -16,7 +16,7 @@ public class GlobalConfig {
     var shadow: Shadow = .none
     var cornerRadius: CGFloat = 28
     var overlayColour: Color = .black.opacity(0.44)
-    var tapOutsideClosesView: Bool = false
+    var isTapOutsideToDismissEnabled: Bool = false
 }
 
 
@@ -27,9 +27,9 @@ public class GlobalConfig {
 
 // MARK: Vertical
 public extension GlobalConfig { class Vertical: GlobalConfig {
-    var isStackingPossible: Bool = true
-    var dragGestureEnabled: Bool = true
     var dragGestureProgressToClose: CGFloat = 1/3
+    var isStackingEnabled: Bool = true
+    var isDragGestureEnabled: Bool = true
 }}
 
 // MARK: Centre
