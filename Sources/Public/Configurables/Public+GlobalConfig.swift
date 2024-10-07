@@ -29,13 +29,21 @@ public extension GlobalConfig {
     func tapOutsideToDismissPopup(_ value: Bool) -> Self { self.isTapOutsideToDismissEnabled = value; return self }
 }
 
+// MARK: Centre
+public extension GlobalConfig.Centre {
+    func popupHorizontalPadding(_ value: CGFloat) -> Self { self.popupPadding = .init(top: 0, leading: value, bottom: 0, trailing: value); return self }
+}
 
-
-// MARK: - Vertical
+// MARK: Vertical
 public extension GlobalConfig.Vertical {
+    func popupPadding(_ value: EdgeInsets) -> Self { self.popupPadding = value; return self }
+
+    /// Minimal threshold of a drag gesture to close the active popup
+    func minimalDragThresholdToDismissPopup(_ value: CGFloat) -> Self { self.dragGestureProgressToClose = value; return self }
+
+    func stackingEnabled(_ value: Bool) -> Self { fatalError() }
+
     /// Popup can be closed with drag gesture if enabled
     func dragGestureEnabled(_ value: Bool) -> Self { self.isDragGestureEnabled = value; return self }
 
-    /// Minimal threshold of a drag gesture to close the active popup
-    func minimalDragThresholdToClose(_ value: CGFloat) -> Self { self.dragGestureProgressToClose = value; return self }
 }
