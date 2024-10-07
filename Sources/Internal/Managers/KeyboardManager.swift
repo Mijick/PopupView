@@ -18,9 +18,6 @@ extension View {
         else { self }
     }
 }
-
-
-
 fileprivate extension View {
     var keyboardPublisher: AnyPublisher<Bool, Never>? {
         #if os(iOS)
