@@ -13,18 +13,17 @@ import SwiftUI
 
 // MARK: All
 public extension LocalConfig {
-
-    /// Background color of the popup
-    func backgroundColor(_ value: Color) -> Self { self.backgroundColor = value; return self }
-
     /// Corner radius of the popup at the top of the stack
     func cornerRadius(_ value: CGFloat) -> Self { self.cornerRadius = value; return self }
 
-    /// Dismisses the active popup when tapped outside its area if enabled
-    func tapOutsideToDismiss(_ value: Bool) -> Self { self.isTapOutsideToDismissEnabled = value; return self }
+    /// Background color of the popup
+    func backgroundColor(_ color: Color) -> Self { self.backgroundColor = color; return self }
 
-    /// sss
-    func overlayColor(_ value: Color) -> Self { self.overlayColor = value; return self }
+    /// Color of the overlay covering the view behind the popup. Use .clear to hide the overlay
+    func overlayColor(_ color: Color) -> Self { self.overlayColor = color; return self }
+
+    /// Dismisses the active popup when tapped outside its area if enabled
+    func tapOutsideToDismissPopup(_ value: Bool) -> Self { self.isTapOutsideToDismissEnabled = value; return self }
 }
 
 // MARK: Centre
