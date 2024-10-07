@@ -11,6 +11,7 @@
 
 import SwiftUI
 
+// MARK: All
 public extension GlobalConfig {
     /// Corner radius of the popup at the top of the stack
     func cornerRadius(_ value: CGFloat) -> Self { self.cornerRadius = value; return self }
