@@ -13,6 +13,9 @@ import SwiftUI
 
 // MARK: All
 public extension LocalConfig {
+    /// Distance of the entire popup (including its background) from the horizontal edges
+    func popupHorizontalPadding(_ value: CGFloat) -> Self { self.popupPadding = .init(top: popupPadding.top, leading: value, bottom: popupPadding.bottom, trailing: value); return self }
+
     /// Corner radius of the popup at the top of the stack
     func cornerRadius(_ value: CGFloat) -> Self { self.cornerRadius = value; return self }
 
@@ -26,15 +29,13 @@ public extension LocalConfig {
     func tapOutsideToDismissPopup(_ value: Bool) -> Self { self.isTapOutsideToDismissEnabled = value; return self }
 }
 
-// MARK: Centre
-public extension LocalConfig.Centre {
-    /// Distance of the entire popup (including its background) from the horizontal edges
-    func popupHorizontalPadding(_ value: CGFloat) -> Self { self.popupPadding = .init(top: 0, leading: value, bottom: 0, trailing: value); return self }
-}
-
 // MARK: Vertical
 public extension LocalConfig.Vertical {
-    
+    /// Distance of the entire popup (including its background) from the top edge
+    func popupTopPadding(_ value: CGFloat) -> Self { self.popupPadding = .init(top: value, leading: popupPadding.leading, bottom: popupPadding.bottom, trailing: popupPadding.trailing); return self }
+
+    /// Distance of the entire popup (including its background) from the bottom edge
+    func popupBottomPadding(_ value: CGFloat) -> Self { self.popupPadding = .init(top: popupPadding.top, leading: popupPadding.leading, bottom: value, trailing: popupPadding.trailing); return self }
 
 
 
@@ -46,14 +47,6 @@ public extension LocalConfig.Vertical {
     func changeHeightMode(_ value: HeightMode) -> Self { self.heightMode = value; return self }
 
 
-    /// Distance of the entire popup (including its background) from the bottom edge
-    func topPadding(_ value: CGFloat) -> Self { self.popupPadding.top = value; return self }
-
-    /// Distance of the entire popup (including its background) from the bottom edge
-    func bottomPadding(_ value: CGFloat) -> Self { self.popupPadding.bottom = value; return self }
-
-    /// Distance of the entire popup (including its background) from the horizontal edges
-    func horizontalPadding(_ value: CGFloat) -> Self { self.popupPadding.leading = value; self.popupPadding.trailing = value; return self }
 
     /// Popup can be closed with drag gesture if enabled
     func dragGestureEnabled(_ value: Bool) -> Self { self.isDragGestureEnabled = value; return self }
