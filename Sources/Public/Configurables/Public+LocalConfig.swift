@@ -27,14 +27,19 @@ public extension LocalConfig {
 }
 
 // MARK: Centre
-public extension CentrePopupConfig {
-
+public extension LocalConfig.Centre {
     /// Distance of the entire popup (including its background) from the horizontal edges
-    func horizontalPadding(_ value: CGFloat) -> Self { self.popupPadding = .init(top: 0, leading: value, bottom: 0, trailing: value); return self }
+    func popupHorizontalPadding(_ value: CGFloat) -> Self { self.popupPadding = .init(top: 0, leading: value, bottom: 0, trailing: value); return self }
 }
 
 // MARK: Vertical
 public extension LocalConfig.Vertical {
+    
+
+
+
+
+
     /// Whether content should ignore safe area
     func ignoresSafeArea(edges: Edge.Set) -> Self { self.ignoredSafeAreaEdges = edges; return self }
 

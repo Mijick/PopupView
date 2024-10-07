@@ -31,6 +31,7 @@ public extension GlobalConfig {
 
 // MARK: Centre
 public extension GlobalConfig.Centre {
+    /// Distance of the entire popup (including its background) from the horizontal edges
     func popupHorizontalPadding(_ value: CGFloat) -> Self { self.popupPadding = .init(top: 0, leading: value, bottom: 0, trailing: value); return self }
 }
 
