@@ -72,12 +72,7 @@ private extension Window {
             guard shouldCheckSubview(subview, convertedPoint: convertedPoint, event: event) else { continue }
 
             let result = calculateHitTestSubviewResult(convertedPoint, with: event, subview: subview, depth: depth)
-
-            if case .none = deepest {
-                deepest = result
-            } else if let current = deepest, result.depth > current.depth {
-                deepest = result
-            }
+            deepest = getDeepestHitTestResult(result: result, currentDeepest: deepest)
         }
 
         return deepest
@@ -94,6 +89,12 @@ private extension Window {
         switch _hitTest(point, with: event, view: subview, depth: depth + 1) {
             case .some(let result): result
             case nil: (subview, depth)
+        }
+    }
+    func getDeepestHitTestResult(result: HitTestResult, currentDeepest: HitTestResult?) -> HitTestResult {
+        switch currentDeepest {
+            case .some(let currentDeepest) where currentDeepest.depth > result.depth: currentDeepest
+            default: result
         }
     }
 
