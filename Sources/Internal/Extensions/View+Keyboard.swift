@@ -1,5 +1,5 @@
 //
-//  KeyboardManager.swift of PopupView
+//  View+Keyboard.swift of PopupView
 //
 //  Created by Tomasz Kurylik
 //    - Twitter: https://twitter.com/tkurylik
@@ -11,7 +11,7 @@
 import SwiftUI
 import Combine
 
-// MARK: Keyboard Publisher
+// MARK: On Keyboard State Change
 extension View {
     func onKeyboardStateChange(_ action: @escaping (Bool) -> ()) -> some View {
         #if os(iOS)
