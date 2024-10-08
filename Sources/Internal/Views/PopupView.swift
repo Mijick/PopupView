@@ -26,7 +26,6 @@ struct PopupView: View {
 #elseif os(tvOS)
 struct PopupView: View {
     let rootView: any View
-    @State private var zIndex: ZIndex = .init()
     @ObservedObject private var popupManager: PopupManager = .shared
 
 
