@@ -54,6 +54,10 @@ private extension PopupView {
 
         .onTapGesture(perform: onTap)
         .onAppear(perform: onAppear)
+
+
+
+        // to mozna jakos polaczyc
         .onChange(of: popupManager.stack.map { [$0.height, $0.dragHeight] }) { _ in
             updateViewModels { $0.updatePopupsValue(popupManager.stack) }
         }
@@ -66,6 +70,10 @@ private extension PopupView {
                 }}
             popupManager.stack.last?.onFocus()
         }
+
+
+
+
         .onKeyboardStateChange { isActive in
             updateViewModels { $0.updateKeyboardValue(isActive) }
         }
