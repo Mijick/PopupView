@@ -54,14 +54,10 @@ private extension PopupView {
 
         .onTapGesture(perform: onTap)
         .onAppear() {
-            updateViewModels { $0
-                .setup(updatePopupAction: updatePopup, closePopupAction: closePopup)
-            }
+            updateViewModels { $0.setup(updatePopupAction: updatePopup, closePopupAction: closePopup) }
         }
         .onChange(of: popupManager.stack.map { [$0.height, $0.dragHeight] }) { _ in
-            updateViewModels { $0
-                .updatePopupsValue(popupManager.stack)
-            }
+            updateViewModels { $0.updatePopupsValue(popupManager.stack) }
         }
         .onChange(of: popupManager.stack) { [stack = popupManager.stack] newValue in
             newValue
@@ -73,9 +69,7 @@ private extension PopupView {
             popupManager.stack.last?.onFocus()
         }
         .onKeyboardStateChange { isActive in
-            updateViewModels { $0
-                .updateKeyboardValue(isActive)
-            }
+            updateViewModels { $0.updateKeyboardValue(isActive) }
         }
     }
 }
