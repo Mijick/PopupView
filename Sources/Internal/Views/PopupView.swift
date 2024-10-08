@@ -46,15 +46,15 @@ private extension PopupView {
                 .ignoresSafeArea()
                 .onAppear {
                     let screen = Screen(reader)
-                    topStackViewModel.updateScreenValue(screen)
-                    centreStackViewModel.updateScreenValue(screen)
-                    bottomStackViewModel.updateScreenValue(screen)
+                    updateViewModels {
+                        $0.updateScreenValue(screen)
+                    }
                 }
                 .onChange(of: reader.size) { _ in
                     let screen = Screen(reader)
-                    topStackViewModel.updateScreenValue(screen)
-                    centreStackViewModel.updateScreenValue(screen)
-                    bottomStackViewModel.updateScreenValue(screen)
+                    updateViewModels {
+                        $0.updateScreenValue(screen)
+                    }
                 }
         }
 
@@ -125,6 +125,11 @@ private extension PopupView {
     func onTap() { if tapOutsideClosesPopup {
         popupManager.stack(.removeLastPopup)
     }}
+}
+private extension PopupView {
+    func updateViewModels(_ updateBuilder: (any SomeViewModel) -> ()) {
+        [topStackViewModel, centreStackViewModel, bottomStackViewModel].forEach(updateBuilder)
+    }
 }
 
 private extension PopupView {
