@@ -53,9 +53,7 @@ private extension PopupView {
 
 
         .onTapGesture(perform: onTap)
-        .onAppear() {
-            updateViewModels { $0.setup(updatePopupAction: updatePopup, closePopupAction: closePopup) }
-        }
+        .onAppear(perform: onAppear)
         .onChange(of: popupManager.stack.map { [$0.height, $0.dragHeight] }) { _ in
             updateViewModels { $0.updatePopupsValue(popupManager.stack) }
         }
@@ -100,6 +98,11 @@ private extension PopupView {
 }
 
 private extension PopupView {
+    func onAppear() {
+        updateViewModels { $0.setup(updatePopupAction: updatePopup, closePopupAction: closePopup) }
+    }
+
+
     func updateScreenValue(_ reader: GeometryProxy) {
         updateViewModels { $0.updateScreenValue(.init(reader)) }
     }
