@@ -51,7 +51,7 @@ private extension PopupView {
 
 
 
-        .animation(.transition, value: popupManager.stack)
+
         .onTapGesture(perform: onTap)
         .onAppear() {
             updateViewModels { $0
@@ -85,7 +85,7 @@ private extension PopupView {
     // PROBLEM: CZASAMI BACKGROUND BOTTOM POPUP STACK NIE PRZYKRYWA CALOSCI
     func createPopupStackView() -> some View {
         ZStack {
-            overlayColor
+            overlayColor.animation(.transition, value: popupManager.stack)
             createTopPopupStackView()
             createCentrePopupStackView()
             createBottomPopupStackView()
