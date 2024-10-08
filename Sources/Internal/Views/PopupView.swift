@@ -51,32 +51,32 @@ private extension PopupView {
 
 
 
-            .animation(.transition, value: popupManager.stack)
-            .onTapGesture(perform: onTap)
-            .onAppear() {
-                updateViewModels { $0
-                    .setup(updatePopupAction: updatePopup, closePopupAction: closePopup)
-                }
+        .animation(.transition, value: popupManager.stack)
+        .onTapGesture(perform: onTap)
+        .onAppear() {
+            updateViewModels { $0
+                .setup(updatePopupAction: updatePopup, closePopupAction: closePopup)
             }
-            .onChange(of: popupManager.stack.map { [$0.height, $0.dragHeight] }) { _ in
-                updateViewModels { $0
-                    .updatePopupsValue(popupManager.stack)
-                }
+        }
+        .onChange(of: popupManager.stack.map { [$0.height, $0.dragHeight] }) { _ in
+            updateViewModels { $0
+                .updatePopupsValue(popupManager.stack)
             }
-            .onChange(of: popupManager.stack) { [stack = popupManager.stack] newValue in
-                newValue
-                    .difference(from: stack)
-                    .forEach { switch $0 {
-                        case .remove(_, let element, _): element.onDismiss()
-                        default: return
-                    }}
-                popupManager.stack.last?.onFocus()
+        }
+        .onChange(of: popupManager.stack) { [stack = popupManager.stack] newValue in
+            newValue
+                .difference(from: stack)
+                .forEach { switch $0 {
+                    case .remove(_, let element, _): element.onDismiss()
+                    default: return
+                }}
+            popupManager.stack.last?.onFocus()
+        }
+        .onKeyboardStateChange { isActive in
+            updateViewModels { $0
+                .updateKeyboardValue(isActive)
             }
-            .onKeyboardStateChange { isActive in
-                updateViewModels { $0
-                    .updateKeyboardValue(isActive)
-                }
-            }
+        }
     }
 }
 
