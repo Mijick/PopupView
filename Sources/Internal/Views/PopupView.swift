@@ -44,18 +44,8 @@ private extension PopupView {
         GeometryReader { reader in
             createPopupStackView()
                 .ignoresSafeArea()
-                .onAppear {
-                    let screen = Screen(reader)
-                    updateViewModels { $0
-                        .updateScreenValue(screen)
-                    }
-                }
-                .onChange(of: reader.size) { _ in
-                    let screen = Screen(reader)
-                    updateViewModels {
-                        $0.updateScreenValue(screen)
-                    }
-                }
+                .onAppear { updateScreenValue(reader) }
+                .onChange(of: reader.size) { _ in updateScreenValue(reader) }
         }
 
 
@@ -116,6 +106,12 @@ private extension PopupView {
 }
 
 private extension PopupView {
+    func updateScreenValue(_ reader: GeometryProxy) {
+        updateViewModels { $0.updateScreenValue(.init(reader)) }
+    }
+
+
+
     func updatePopup(_ popup: AnyPopup) {
         popupManager.updateStack(popup)
     }
