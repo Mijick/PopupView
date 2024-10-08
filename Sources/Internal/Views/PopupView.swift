@@ -46,8 +46,8 @@ private extension PopupView {
                 .ignoresSafeArea()
                 .onAppear {
                     let screen = Screen(reader)
-                    updateViewModels {
-                        $0.updateScreenValue(screen)
+                    updateViewModels { $0
+                        .updateScreenValue(screen)
                     }
                 }
                 .onChange(of: reader.size) { _ in
@@ -64,14 +64,14 @@ private extension PopupView {
             .animation(.transition, value: popupManager.stack)
             .onTapGesture(perform: onTap)
             .onAppear() {
-                topStackViewModel.setup(updatePopupAction: updatePopup, closePopupAction: closePopup)
-                centreStackViewModel.setup(updatePopupAction: updatePopup, closePopupAction: closePopup)
-                bottomStackViewModel.setup(updatePopupAction: updatePopup, closePopupAction: closePopup)
+                updateViewModels { $0
+                    .setup(updatePopupAction: updatePopup, closePopupAction: closePopup)
+                }
             }
             .onChange(of: popupManager.stack.map { [$0.height, $0.dragHeight] }) { _ in
-                topStackViewModel.updatePopupsValue(popupManager.stack)
-                centreStackViewModel.updatePopupsValue(popupManager.stack)
-                bottomStackViewModel.updatePopupsValue(popupManager.stack)
+                updateViewModels { $0
+                    .updatePopupsValue(popupManager.stack)
+                }
             }
             .onChange(of: popupManager.stack) { [stack = popupManager.stack] newValue in
                 newValue
@@ -83,9 +83,9 @@ private extension PopupView {
                 popupManager.stack.last?.onFocus()
             }
             .onKeyboardStateChange { isActive in
-                topStackViewModel.updateKeyboardValue(isActive)
-                centreStackViewModel.updateKeyboardValue(isActive)
-                bottomStackViewModel.updateKeyboardValue(isActive)
+                updateViewModels { $0
+                    .updateKeyboardValue(isActive)
+                }
             }
     }
 }
