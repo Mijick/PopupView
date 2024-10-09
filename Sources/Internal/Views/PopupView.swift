@@ -73,16 +73,11 @@ private extension PopupView {
 
 
 
-
-        .onKeyboardStateChange { isActive in
-            updateViewModels { $0.updateKeyboardValue(isActive) }
-        }
+        .onKeyboardStateChange(perform: onKeyboardStateChange)
     }
 }
 
 private extension PopupView {
-    // PROBLEM: OVERLAY MA PRZYKRYWAĆ RÓWNIEŻ POZOSTAŁE WIDOKI
-    // PROBLEM: CZASAMI BACKGROUND BOTTOM POPUP STACK NIE PRZYKRYWA CALOSCI
     func createPopupStackView() -> some View {
         ZStack {
             overlayColor.animation(.transition, value: popupManager.stack)
@@ -108,6 +103,9 @@ private extension PopupView {
 private extension PopupView {
     func onAppear() {
         updateViewModels { $0.setup(updatePopupAction: updatePopup, closePopupAction: closePopup) }
+    }
+    func onKeyboardStateChange(_ isKeyboardActive: Bool) {
+        updateViewModels { $0.updateKeyboardValue(isKeyboardActive) }
     }
 
 

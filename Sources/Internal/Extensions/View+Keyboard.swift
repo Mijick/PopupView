@@ -13,7 +13,7 @@ import Combine
 
 // MARK: On Keyboard State Change
 extension View {
-    func onKeyboardStateChange(_ action: @escaping (Bool) -> ()) -> some View {
+    func onKeyboardStateChange(perform action: @escaping (Bool) -> ()) -> some View {
         #if os(iOS)
             onReceive(keyboardPublisher, perform: action)
         #else
