@@ -80,7 +80,7 @@ private extension PopupView {
 private extension PopupView {
     func createPopupStackView() -> some View {
         ZStack {
-            overlayColor.animation(.transition, value: popupManager.stack)
+            overlayColor.animation(.linear, value: popupManager.stack.isEmpty)
             createTopPopupStackView()
             createCentrePopupStackView()
             createBottomPopupStackView()
@@ -126,7 +126,7 @@ private extension PopupView {
     }}
 }
 private extension PopupView {
-    func updateViewModels(_ updateBuilder: (any SomeViewModel) -> ()) {
+    func updateViewModels(_ updateBuilder: (any ViewModelObject) -> ()) {
         [topStackViewModel, centreStackViewModel, bottomStackViewModel].forEach(updateBuilder)
     }
 }
