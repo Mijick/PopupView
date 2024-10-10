@@ -11,7 +11,7 @@
 
 import SwiftUI
 
-@MainActor public class GlobalConfig { required init() {}
+public class GlobalConfig { required init() {}
     var popupPadding: EdgeInsets = .init()
     var cornerRadius: CGFloat = 28
     var backgroundColor: Color = .white
