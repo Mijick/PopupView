@@ -47,30 +47,10 @@ private extension PopupView {
                 .onAppear { updateScreenValue(reader) }
                 .onChange(of: reader.size) { _ in updateScreenValue(reader) }
         }
-
-
-
-
-
         .onTapGesture(perform: onTap)
         .onAppear(perform: onAppear)
-
-
-
-        // to mozna jakos polaczyc
         .onChange(of: popupManager.stack.map { [$0.height, $0.dragHeight] }, perform: onPopupsHeightChange)
-        .onChange(of: popupManager.stack) { [stack = popupManager.stack] newValue in
-            newValue
-                .difference(from: stack)
-                .forEach { switch $0 {
-                    case .remove(_, let element, _): element.onDismiss()
-                    default: return
-                }}
-            popupManager.stack.last?.onFocus()
-        }
-
-
-
+        .onChange(of: popupManager.stack) { [oldValue = popupManager.stack] newValue in onStackChange(oldValue, newValue) }
         .onKeyboardStateChange(perform: onKeyboardStateChange)
     }
 }
@@ -108,11 +88,15 @@ private extension PopupView {
     func onPopupsHeightChange(_ p: Any) {
         updateViewModels { $0.updatePopupsValue(popupManager.stack) }
     }
-    func onStackChange(_ newValue: [AnyPopup]) {
-
+    func onStackChange(_ oldStack: [AnyPopup], _ newStack: [AnyPopup]) {
+        newStack
+            .difference(from: oldStack)
+            .forEach { switch $0 {
+                case .remove(_, let element, _): element.onDismiss()
+                default: return
+            }}
+        newStack.last?.onFocus()
     }
-
-
     func updateScreenValue(_ reader: GeometryProxy) {
         updateViewModels { $0.updateScreenValue(.init(reader)) }
     }
