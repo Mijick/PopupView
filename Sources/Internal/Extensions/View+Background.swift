@@ -18,7 +18,7 @@ extension View {
     )}
 }
 
-// MARK: - Implementation
+// MARK: Background Shape
 fileprivate struct RoundedCorner: Shape {
     var corners: [VerticalEdge: CGFloat]
 
