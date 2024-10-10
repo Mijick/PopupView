@@ -64,7 +64,6 @@ private extension PopupView {
         }
     }
 }
-
 private extension PopupView {
     func createOverlayView() -> some View {
         overlayColor.animation(.linear, value: popupManager.stack.isEmpty)
