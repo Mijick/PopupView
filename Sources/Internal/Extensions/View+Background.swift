@@ -1,5 +1,5 @@
 //
-//  RoundedCorner.swift of PopupView
+//  View+Background.swift of PopupView
 //
 //  Created by Tomasz Kurylik
 //    - Twitter: https://twitter.com/tkurylik
