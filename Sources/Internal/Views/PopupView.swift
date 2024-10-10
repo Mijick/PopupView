@@ -54,11 +54,10 @@ private extension PopupView {
         .onKeyboardStateChange(perform: onKeyboardStateChange)
     }
 }
-
 private extension PopupView {
     func createPopupStackView() -> some View {
         ZStack {
-            overlayColor.animation(.linear, value: popupManager.stack.isEmpty)
+            createOverlayView()
             createTopPopupStackView()
             createCentrePopupStackView()
             createBottomPopupStackView()
@@ -67,6 +66,9 @@ private extension PopupView {
 }
 
 private extension PopupView {
+    func createOverlayView() -> some View {
+        overlayColor.animation(.linear, value: popupManager.stack.isEmpty)
+    }
     func createTopPopupStackView() -> some View {
         PopupVerticalStackView(viewModel: topStackViewModel)
     }
