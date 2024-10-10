@@ -23,28 +23,14 @@ extension View {
 
 // MARK: On Drag Gesture
 extension View {
-    
-}
-
-
-
-// MARK: - iOS + macOS Implementation
-#if os(iOS) || os(macOS) || os(visionOS) || os(watchOS)
-extension View {
-    func onDragGesture(onChanged actionOnChanged: @escaping (CGFloat) -> (), onEnded actionOnEnded: @escaping (CGFloat) -> ()) -> some View { highPriorityGesture(createDragGesture(actionOnChanged, actionOnEnded)) }
-}
-private extension View {
-    func createDragGesture(_ actionOnChanged: @escaping (CGFloat) -> (), _ actionOnEnded: @escaping (CGFloat) -> ()) -> some Gesture {
-        DragGesture()
-            .onChanged { actionOnChanged($0.translation.height) }
-            .onEnded { actionOnEnded($0.translation.height) }
+    func onDragGesture(onChanged actionOnChanged: @escaping (CGFloat) -> (), onEnded actionOnEnded: @escaping (CGFloat) -> ()) -> some View {
+        #if os(iOS) || os(macOS) || os(visionOS) || os(watchOS)
+            highPriorityGesture(DragGesture()
+                .onChanged { actionOnChanged($0.translation.height) }
+                .onEnded { actionOnEnded($0.translation.height) }
+            )
+        #elseif os(tvOS)
+            self
+        #endif
     }
 }
-
-
-// MARK: - tvOS Implementation
-#elseif os(tvOS)
-extension View {
-    func onDragGesture(_ state: GestureState<Bool>, onChanged actionOnChanged: @escaping (CGFloat) -> (), onEnded actionOnEnded: @escaping (CGFloat) -> ()) -> some View { self }
-}
-#endif
