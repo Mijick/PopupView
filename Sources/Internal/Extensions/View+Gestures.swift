@@ -1,5 +1,5 @@
 //
-//  View.Gestures++.swift of PopupView
+//  View+Gestures.swift of PopupView
 //
 //  Created by Tomasz Kurylik
 //    - Twitter: https://twitter.com/tkurylik
@@ -10,10 +10,27 @@
 
 import SwiftUI
 
+// MARK: On Tap Gesture
+extension View {
+    func onTapGesture(perform action: @escaping () -> ()) -> some View {
+        #if os(iOS) || os(macOS) || os(visionOS) || os(watchOS)
+            onTapGesture(count: 1, perform: action)
+        #elseif os(tvOS)
+            self
+        #endif
+    }
+}
+
+// MARK: On Drag Gesture
+extension View {
+    
+}
+
+
+
 // MARK: - iOS + macOS Implementation
 #if os(iOS) || os(macOS) || os(visionOS) || os(watchOS)
 extension View {
-    func onTapGesture(perform action: @escaping () -> ()) -> some View { onTapGesture(count: 1, perform: action) }
     func onDragGesture(onChanged actionOnChanged: @escaping (CGFloat) -> (), onEnded actionOnEnded: @escaping (CGFloat) -> ()) -> some View { highPriorityGesture(createDragGesture(actionOnChanged, actionOnEnded)) }
 }
 private extension View {
@@ -28,7 +45,6 @@ private extension View {
 // MARK: - tvOS Implementation
 #elseif os(tvOS)
 extension View {
-    func onTapGesture(perform action: () -> ()) -> some View { self }
     func onDragGesture(_ state: GestureState<Bool>, onChanged actionOnChanged: @escaping (CGFloat) -> (), onEnded actionOnEnded: @escaping (CGFloat) -> ()) -> some View { self }
 }
 #endif
