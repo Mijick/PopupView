@@ -20,21 +20,3 @@ extension View {
     #endif
     }
 }
-
-// MARK: - Others
-extension View {
-    func onChange<T: Equatable>(_ value: T, completion: @escaping (T) -> Void) -> some View {
-    #if os(visionOS)
-        onChange(of: value) { completion(value) }
-    #else
-        onChange(of: value) { _ in completion(value) }
-    #endif
-    }
-    func overlay<V: View>(view: V) -> some View {
-    #if os(visionOS)
-        overlay { view }
-    #else
-        overlay(view)
-    #endif
-    }
-}
