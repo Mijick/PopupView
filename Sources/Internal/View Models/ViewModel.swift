@@ -97,17 +97,17 @@ extension ViewModel {
 
 // MARK: Methods
 extension ViewModel {
-    @MainActor func t_setup(updatePopupAction: @escaping (AnyPopup) -> (), closePopupAction: @escaping (AnyPopup) -> ()) { setup(updatePopupAction: updatePopupAction, closePopupAction: closePopupAction) }
-    @MainActor func t_updatePopupsValue(_ newPopups: [AnyPopup]) { updatePopupsValue(newPopups) }
-    @MainActor func t_updateScreenValue(_ newScreen: Screen) { updateScreenValue(newScreen) }
-    @MainActor func t_updateKeyboardValue(_ isActive: Bool) { updateKeyboardValue(isActive) }
-    @MainActor func t_updatePopup(_ popup: AnyPopup) { updatePopupAction(popup) }
-    @MainActor func t_calculateAndUpdateActivePopupHeight() { activePopupHeight = calculateHeightForActivePopup() }
+    func t_setup(updatePopupAction: @escaping (AnyPopup) -> (), closePopupAction: @escaping (AnyPopup) -> ()) { setup(updatePopupAction: updatePopupAction, closePopupAction: closePopupAction) }
+    func t_updatePopupsValue(_ newPopups: [AnyPopup]) { updatePopupsValue(newPopups) }
+    func t_updateScreenValue(_ newScreen: Screen) { updateScreenValue(newScreen) }
+    func t_updateKeyboardValue(_ isActive: Bool) { updateKeyboardValue(isActive) }
+    func t_updatePopup(_ popup: AnyPopup) { updatePopupAction(popup) }
+    func t_calculateAndUpdateActivePopupHeight() { activePopupHeight = calculateHeightForActivePopup() }
 }
 
 // MARK: Variables
 extension ViewModel {
-    @MainActor var t_popups: [AnyPopup] { popups }
-    @MainActor var t_activePopupHeight: CGFloat? { activePopupHeight }
+    var t_popups: [AnyPopup] { popups }
+    var t_activePopupHeight: CGFloat? { activePopupHeight }
 }
 #endif

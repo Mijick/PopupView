@@ -117,10 +117,10 @@ private extension VM.CentreStack {
 
 // MARK: Methods
 extension VM.CentreStack {
-    @MainActor func t_calculateHeight(heightCandidate: CGFloat) -> CGFloat { calculateHeight(heightCandidate) }
-    @MainActor func t_calculatePopupPadding() -> EdgeInsets { calculatePopupPadding() }
-    @MainActor func t_calculateCornerRadius() -> [VerticalEdge: CGFloat] { calculateCornerRadius() }
-    @MainActor func t_calculateOpacity(for popup: AnyPopup) -> CGFloat { calculateOpacity(for: popup) }
-    @MainActor func t_calculateVerticalFixedSize(for popup: AnyPopup) -> Bool { calculateVerticalFixedSize(for: popup) }
+    func t_calculateHeight(heightCandidate: CGFloat) -> CGFloat { calculateHeight(heightCandidate) }
+    func t_calculatePopupPadding() -> EdgeInsets { calculatePopupPadding() }
+    func t_calculateCornerRadius() -> [VerticalEdge: CGFloat] { calculateCornerRadius() }
+    func t_calculateOpacity(for popup: AnyPopup) -> CGFloat { calculateOpacity(for: popup) }
+    func t_calculateVerticalFixedSize(for popup: AnyPopup) -> Bool { calculateVerticalFixedSize(for: popup) }
 }
 #endif

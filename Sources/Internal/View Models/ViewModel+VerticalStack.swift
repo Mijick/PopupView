@@ -445,33 +445,33 @@ private extension VM.VerticalStack {
 
 // MARK: Methods
 extension VM.VerticalStack {
-    @MainActor func t_calculatePopupPadding() -> EdgeInsets { calculatePopupPadding() }
-    @MainActor func t_calculateBodyPadding(for popup: AnyPopup) -> EdgeInsets { calculateBodyPadding(for: popup) }
-    @MainActor func t_calculateHeight(heightCandidate: CGFloat, popupConfig: Config) -> CGFloat { calculateHeight(heightCandidate, popupConfig) }
-    @MainActor func t_calculateOffsetY(for popup: AnyPopup) -> CGFloat { calculateOffsetY(for: popup) }
-    @MainActor func t_calculateScaleX(for popup: AnyPopup) -> CGFloat { calculateScaleX(for: popup) }
-    @MainActor func t_calculateVerticalFixedSize(for popup: AnyPopup) -> Bool { calculateVerticalFixedSize(for: popup) }
-    @MainActor func t_calculateStackOverlayOpacity(for popup: AnyPopup) -> CGFloat { calculateStackOverlayOpacity(for: popup) }
-    @MainActor func t_calculateCornerRadius() -> [VerticalEdge: CGFloat] { calculateCornerRadius() }
-    @MainActor func t_calculateTranslationProgress() -> CGFloat { calculateTranslationProgress() }
-    @MainActor func t_getInvertedIndex(of popup: AnyPopup) -> Int { getInvertedIndex(of: popup) }
+    func t_calculatePopupPadding() -> EdgeInsets { calculatePopupPadding() }
+    func t_calculateBodyPadding(for popup: AnyPopup) -> EdgeInsets { calculateBodyPadding(for: popup) }
+    func t_calculateHeight(heightCandidate: CGFloat, popupConfig: Config) -> CGFloat { calculateHeight(heightCandidate, popupConfig) }
+    func t_calculateOffsetY(for popup: AnyPopup) -> CGFloat { calculateOffsetY(for: popup) }
+    func t_calculateScaleX(for popup: AnyPopup) -> CGFloat { calculateScaleX(for: popup) }
+    func t_calculateVerticalFixedSize(for popup: AnyPopup) -> Bool { calculateVerticalFixedSize(for: popup) }
+    func t_calculateStackOverlayOpacity(for popup: AnyPopup) -> CGFloat { calculateStackOverlayOpacity(for: popup) }
+    func t_calculateCornerRadius() -> [VerticalEdge: CGFloat] { calculateCornerRadius() }
+    func t_calculateTranslationProgress() -> CGFloat { calculateTranslationProgress() }
+    func t_getInvertedIndex(of popup: AnyPopup) -> Int { getInvertedIndex(of: popup) }
 
-    @MainActor func t_calculateAndUpdateTranslationProgress() { translationProgress = calculateTranslationProgress() }
-    @MainActor func t_updateGestureTranslation(_ newGestureTranslation: CGFloat) { updateGestureTranslation(newGestureTranslation) }
+    func t_calculateAndUpdateTranslationProgress() { translationProgress = calculateTranslationProgress() }
+    func t_updateGestureTranslation(_ newGestureTranslation: CGFloat) { updateGestureTranslation(newGestureTranslation) }
 
-    @MainActor func t_onPopupDragGestureChanged(_ value: CGFloat) { onPopupDragGestureChanged(value) }
-    @MainActor func t_onPopupDragGestureEnded(_ value: CGFloat) { onPopupDragGestureEnded(value) }
+    func t_onPopupDragGestureChanged(_ value: CGFloat) { onPopupDragGestureChanged(value) }
+    func t_onPopupDragGestureEnded(_ value: CGFloat) { onPopupDragGestureEnded(value) }
 }
 
 // MARK: Variables
 extension VM.VerticalStack {
-    @MainActor var t_stackOffset: CGFloat { stackOffset }
-    @MainActor var t_stackScaleFactor: CGFloat { stackScaleFactor }
-    @MainActor var t_stackOverlayFactor: CGFloat { stackOverlayFactor }
-    @MainActor var t_minScaleProgressMultiplier: CGFloat { minScaleProgressMultiplier }
-    @MainActor var t_minStackOverlayProgressMultiplier: CGFloat { minStackOverlayProgressMultiplier }
-    @MainActor var t_maxStackOverlayFactor: CGFloat { maxStackOverlayFactor }
-    @MainActor var t_dragTranslationThreshold: CGFloat { dragTranslationThreshold }
-    @MainActor var t_gestureTranslation: CGFloat { gestureTranslation }
+    var t_stackOffset: CGFloat { stackOffset }
+    var t_stackScaleFactor: CGFloat { stackScaleFactor }
+    var t_stackOverlayFactor: CGFloat { stackOverlayFactor }
+    var t_minScaleProgressMultiplier: CGFloat { minScaleProgressMultiplier }
+    var t_minStackOverlayProgressMultiplier: CGFloat { minStackOverlayProgressMultiplier }
+    var t_maxStackOverlayFactor: CGFloat { maxStackOverlayFactor }
+    var t_dragTranslationThreshold: CGFloat { dragTranslationThreshold }
+    var t_gestureTranslation: CGFloat { gestureTranslation }
 }
 #endif
