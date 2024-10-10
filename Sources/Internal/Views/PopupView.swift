@@ -58,10 +58,11 @@ private extension PopupView {
 
 
         // to mozna jakos polaczyc
-        .onChange(of: popupManager.stack.map { [$0.height, $0.dragHeight] }) { _ in
-            updateViewModels { $0.updatePopupsValue(popupManager.stack) }
-        }
+        .onChange(of: popupManager.stack.map { [$0.height, $0.dragHeight] }, perform: updatePopupsValue)
         .onChange(of: popupManager.stack) { [stack = popupManager.stack] newValue in
+            print("AAA")
+
+
             newValue
                 .difference(from: stack)
                 .forEach { switch $0 {
@@ -106,6 +107,9 @@ private extension PopupView {
     }
     func onKeyboardStateChange(_ isKeyboardActive: Bool) {
         updateViewModels { $0.updateKeyboardValue(isKeyboardActive) }
+    }
+    func updatePopupsValue(_ p: Any) {
+        updateViewModels { $0.updatePopupsValue(popupManager.stack) }
     }
 
 

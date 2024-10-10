@@ -12,5 +12,5 @@
 import SwiftUI
 
 extension Animation {
-    static var transition: Animation { .spring(duration: 0.34, bounce: 0, blendDuration: 0) }
+    static var transition: Animation { .spring(duration: 0.3, bounce: 0, blendDuration: 0) }
 }
