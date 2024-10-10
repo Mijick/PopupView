@@ -17,7 +17,7 @@ struct PopupCentreStackView: View {
     var body: some View {
         ZStack(content: createPopupStack)
             .id(viewModel.popups.isEmpty)
-            .transition(getTransition())
+            .transition(transition)
             .frame(maxWidth: .infinity, maxHeight: viewModel.screen.height)
             .zIndex(viewModel.calculateZIndex(for: viewModel.popups.last))
     }
@@ -44,13 +44,9 @@ private extension PopupCentreStackView {
 
 // MARK: Helpers
 private extension PopupCentreStackView {
-    func getTransition() -> AnyTransition {
-        .scale(scale: transitionScale)
-        .combined(with: .opacity)
-    }
     func getBackgroundColor(for popup: AnyPopup) -> Color { popup.config.backgroundColor }
 }
 private extension PopupCentreStackView {
+    var transition: AnyTransition { .scale(scale: 1.1).combined(with: .opacity) }
     var popupShadow: Shadow { ConfigContainer.centre.shadow }
-    var transitionScale: CGFloat { 1.12 }
 }
