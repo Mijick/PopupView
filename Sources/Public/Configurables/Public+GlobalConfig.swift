@@ -22,9 +22,6 @@ public extension GlobalConfig {
     /// Background color of the popup
     func backgroundColor(_ color: Color) -> Self { self.backgroundColor = color; return self }
 
-    /// Applies shadows to the popup
-    func shadow(color: Color = .black.opacity(0.16), radius: CGFloat = 16, x: CGFloat = 0, y: CGFloat = 0) -> Self { self.shadow = .init(color: color, radius: radius, x: x, y: y); return self }
-
     /// Color of the overlay covering the view behind the popup. Use .clear to hide the overlay
     func overlayColor(_ color: Color) -> Self { self.overlayColor = color; return self }
 
