@@ -1,5 +1,5 @@
 //
-//  Animation++.swift of PopupView
+//  Logger.swift of MijickPopups
 //
 //  Created by Tomasz Kurylik
 //    - Twitter: https://twitter.com/tkurylik
@@ -9,8 +9,10 @@
 //  Copyright ©2024 Mijick. Licensed under MIT License.
 
 
-import SwiftUI
+import os
 
-extension Animation {
-    static var transition: Animation { .spring(duration: 0.3, bounce: 0, blendDuration: 0) }
+class Logger {
+    static func log(level: OSLogType, message: String) {
+        os.Logger().log(level: level, "ERROR!\n\nFRAMEWORK: MijickPopups\nDESCRIPTION: \(message)")
+    }
 }

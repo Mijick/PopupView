@@ -1,5 +1,5 @@
 //
-//  Animation++.swift of PopupView
+//  Task++.swift of MijickPopups
 //
 //  Created by Tomasz Kurylik
 //    - Twitter: https://twitter.com/tkurylik
@@ -11,6 +11,8 @@
 
 import SwiftUI
 
-extension Animation {
-    static var transition: Animation { .spring(duration: 0.3, bounce: 0, blendDuration: 0) }
+extension Task where Success == Never, Failure == Never {
+    static func sleep(seconds: Double) async {
+        try! await Task.sleep(nanoseconds: UInt64(seconds * 1_000_000_000))
+    }
 }

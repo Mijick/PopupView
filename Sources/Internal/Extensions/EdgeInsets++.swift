@@ -1,5 +1,5 @@
 //
-//  Animation++.swift of PopupView
+//  EdgeInsets++.swift of MijickPopups
 //
 //  Created by Tomasz Kurylik
 //    - Twitter: https://twitter.com/tkurylik
@@ -11,6 +11,9 @@
 
 import SwiftUI
 
-extension Animation {
-    static var transition: Animation { .spring(duration: 0.3, bounce: 0, blendDuration: 0) }
+extension EdgeInsets {
+    subscript(_ edge: VerticalEdge) -> CGFloat { switch edge {
+        case .top: top
+        case .bottom: bottom
+    }}
 }

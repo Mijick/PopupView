@@ -10,41 +10,36 @@
 
 import SwiftUI
 
-// MARK: - Initialising
+// MARK: Setup Framework
+#if os(iOS) || os(macOS) || os(visionOS) || os(watchOS)
 public extension View {
     /// Initialises the library. Use directly with the view in your @main structure
-    func implementPopupView(config: (GlobalConfig) -> GlobalConfig = { $0 }) -> some View {
-    #if os(iOS) || os(macOS) || os(visionOS) || os(watchOS)
-        updateScreenSize()
-            .frame(maxWidth: .infinity)
-            .overlay(view: PopupView(globalConfig: config(.init())))
-    #elseif os(tvOS)
-        PopupView(rootView: updateScreenSize(), globalConfig: config(.init()))
-    #endif
+    func registerPopups(id: PopupManagerID = .shared, configBuilder: @escaping (ConfigContainer) -> ConfigContainer = { $0 }) -> some View { self
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
+        .overlay(PopupView(popupManager: .registerInstance(id: id)), alignment: .top)
+        .onAppear { _ = configBuilder(.init()) }
     }
 }
-
-// MARK: - Dismissing Popups
+#elseif os(tvOS)
 public extension View {
-    /// Dismisses last popup on the stack
-    func dismiss() { PopupManager.dismiss() }
-
-    /// Dismisses all popups of provided type on the stack.
-    func dismiss<P: Popup>(_ popup: P.Type) { PopupManager.dismiss(popup) }
-
-    /// Dismisses all popups on the stack up to the popup with the selected type
-    func dismissAll<P: Popup>(upTo popup: P.Type) { PopupManager.dismissAll(upTo: popup) }
-
-    /// Dismisses all the popups on the stack.
-    func dismissAll() { PopupManager.dismissAll() }
-}
-
-// MARK: - Actions
-public extension View {
-    /// Triggers every time the popup is at the top of the stack
-    func onFocus(_ popup: some Popup, perform action: @escaping () -> ()) -> some View {
-        onReceive(PopupManager.shared.$views) { views in
-            if views.last?.id == popup.id { action() }
-        }
+    /// Initialises the library. Use directly with the view in your @main structure
+    func registerPopups(id: PopupManagerID = .shared, configBuilder: @escaping (ConfigContainer) -> ConfigContainer = { $0 }) -> some View {
+        return PopupView(rootView: updateScreenSize()).onAppear { _ = config(.init()) }
     }
+}
+#endif
+
+// MARK: Dismiss Popup(s)
+public extension View {
+    /// Dismisses the last popup on the stack
+    func dismissLastPopup(popupManagerID: PopupManagerID = .shared) { PopupManager.dismissLastPopup(popupManagerID: popupManagerID) }
+
+    /// Dismisses all the popups of provided ID on the stack
+    func dismissPopup(_ id: String, popupManagerID: PopupManagerID = .shared) { PopupManager.dismissPopup(id, popupManagerID: popupManagerID) }
+
+    /// Dismisses all the popups of provided type on the stack
+    func dismissPopup<P: Popup>(_ type: P.Type, popupManagerID: PopupManagerID = .shared) { PopupManager.dismissPopup(type, popupManagerID: popupManagerID) }
+
+    /// Dismisses all the popups on the stack
+    func dismissAllPopups(popupManagerID: PopupManagerID = .shared) { PopupManager.dismissAllPopups(popupManagerID: popupManagerID) }
 }

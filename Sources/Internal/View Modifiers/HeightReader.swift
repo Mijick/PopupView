@@ -11,7 +11,7 @@
 import SwiftUI
 
 extension View {
-    func readHeight(onChange action: @escaping (CGFloat) -> ()) -> some View { modifier(Modifier(onHeightChange: action)) }
+    func onHeightChange(perform action: @escaping (CGFloat) -> ()) -> some View { modifier(Modifier(onHeightChange: action)) }
 }
 
 // MARK: - Implementation
@@ -21,7 +21,7 @@ fileprivate struct Modifier: ViewModifier {
     func body(content: Content) -> some View { content
         .background(
             GeometryReader { geo -> Color in
-                DispatchQueue.main.async { onHeightChange(geo.size.height) }
+                Task { @MainActor in onHeightChange(geo.size.height) }
                 return Color.clear
             }
         )

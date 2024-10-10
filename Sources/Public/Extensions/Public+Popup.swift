@@ -10,31 +10,51 @@
 
 import SwiftUI
 
-// MARK: - Presenting
+public protocol Popup: View {
+    associatedtype Config: LocalConfig
+
+    func configurePopup(config: Config) -> Config
+    func onFocus()
+    func onDismiss()
+}
+
+// MARK: Default Methods Implementation
+public extension Popup {
+    func configurePopup(config: Config) -> Config { config }
+    func onFocus() {}
+    func onDismiss() {}
+}
+
+
+
+// MARK: - PUBLIC METHODS
+
+
+
+// MARK: Present
 public extension Popup {
     /// Displays the popup. Stacks previous one
-    @discardableResult func showAndStack() -> some Popup { PopupManager.showAndStack(AnyPopup<Config>(self)); return self }
-
-    /// Displays the popup. Closes previous one
-    @discardableResult func showAndReplace() -> some Popup { PopupManager.showAndReplace(AnyPopup<Config>(self)); return self }
+    func present(popupManagerID: PopupManagerID = .shared) { PopupManager.fetchInstance(id: popupManagerID)?.stack(.insertPopup(self)) }
 }
 
-// MARK: - Modifiers
+// MARK: Configure Popup
 public extension Popup {
     /// Closes popup after n seconds
-    @discardableResult func dismissAfter(_ seconds: Double) -> some Popup { PopupManager.dismissPopupAfter(self, seconds); return self }
+    func dismissAfter(_ seconds: Double) -> some Popup { AnyPopup(self).settingDismissTimer(seconds) }
 
-    /// Hides the overlay for the selected popup
-    @discardableResult func hideOverlay() -> some Popup { PopupManager.hideOverlay(self); return self }
+    func setCustomID(_ id: String) -> some Popup { AnyPopup(self).settingCustomID(id) }
 
     /// Supplies an observable object to a view’s hierarchy
-    @discardableResult func environmentObject<T: ObservableObject>(_ object: T) -> any Popup { AnyPopup<Config>(self, object) }
-
-    /// Action to be executed after popups is dismissed
-    @discardableResult func onDismiss(_ action: @escaping () -> ()) -> any Popup { PopupManager.onPopupDismiss(self, action); return self }
+    func setEnvironmentObject<T: ObservableObject>(_ object: T) -> some Popup { AnyPopup(self).settingEnvironmentObject(object) }
 }
 
-// MARK: - Available Popups
+
+
+// MARK: - OTHERS
+
+
+
+// MARK: Available Popup Types
 public protocol TopPopup: Popup { associatedtype Config = TopPopupConfig }
 public protocol CentrePopup: Popup { associatedtype Config = CentrePopupConfig }
 public protocol BottomPopup: Popup { associatedtype Config = BottomPopupConfig }

@@ -1,5 +1,5 @@
 //
-//  Animation++.swift of PopupView
+//  Public+HeightMode.swift of MijickPopups
 //
 //  Created by Tomasz Kurylik
 //    - Twitter: https://twitter.com/tkurylik
@@ -9,8 +9,8 @@
 //  Copyright ©2024 Mijick. Licensed under MIT License.
 
 
-import SwiftUI
-
-extension Animation {
-    static var transition: Animation { .spring(duration: 0.3, bounce: 0, blendDuration: 0) }
+public enum HeightMode {
+    case auto
+    case large
+    case fullscreen
 }

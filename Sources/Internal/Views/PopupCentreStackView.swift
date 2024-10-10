@@ -10,101 +10,42 @@
 
 import SwiftUI
 
-struct PopupCentreStackView: PopupStack {
-    let items: [AnyPopup<CentrePopupConfig>]
-    let globalConfig: GlobalConfig
-    @ObservedObject private var screen: ScreenManager = .shared
-    @ObservedObject private var keyboardManager: KeyboardManager = .shared
-    @State private var activeView: AnyView?
-    @State private var configTemp: CentrePopupConfig?
-    @State private var height: CGFloat?
-    @State private var contentIsAnimated: Bool = false
+struct PopupCentreStackView: View {
+    @ObservedObject var viewModel: VM.CentreStack
 
     
     var body: some View {
-        createPopup()
-            .align(to: .bottom, keyboardManager.height == 0 ? nil : keyboardManager.height)
-            .frame(height: screen.size.height)
-            .background(createTapArea())
-            .animation(transitionEntryAnimation, value: lastPopupConfig.horizontalPadding)
-            .animation(height == nil ? transitionRemovalAnimation : transitionEntryAnimation, value: height)
-            .animation(transitionEntryAnimation, value: contentIsAnimated)
-            .animation(.keyboard, value: keyboardManager.height)
-            .transition(getTransition())
-            .onChange(of: items, perform: onItemsChange)
+        ZStack(content: createPopupStack)
+            .id(viewModel.popups.isEmpty)
+            .transition(transition)
+            .frame(maxWidth: .infinity, maxHeight: viewModel.screen.height)
+            .zIndex(viewModel.calculateZIndex(for: viewModel.popups.last))
     }
 }
-
 private extension PopupCentreStackView {
-    @ViewBuilder func createPopup() -> some View {
-        if #available(iOS 15, *) { createPopupForNewPlatforms() }
-        else { createPopupForOlderPlatforms() }
+    func createPopupStack() -> some View {
+        ForEach(viewModel.popups, id: \.self, content: createPopup)
     }
 }
-
 private extension PopupCentreStackView {
-    func createPopupForNewPlatforms() -> some View {
-        activeView?
-            .readHeight(onChange: saveHeight)
-            .frame(height: height).frame(maxWidth: .infinity)
-            .opacity(contentOpacity)
-            .background(backgroundColour, overlayColour: .clear, radius: cornerRadius, corners: .allCorners, shadow: popupShadow)
-            .padding(.horizontal, lastPopupConfig.horizontalPadding)
-            .compositingGroup()
+    func createPopup(_ popup: AnyPopup) -> some View {
+        popup.body
+            .fixedSize(horizontal: false, vertical: viewModel.calculateVerticalFixedSize(for: popup))
+            .onHeightChange { viewModel.recalculateAndSave(height: $0, for: popup) }
+            .frame(height: viewModel.activePopupHeight)
+            .frame(maxWidth: .infinity, maxHeight: viewModel.activePopupHeight)
+            .background(backgroundColor: getBackgroundColor(for: popup), overlayColor: .clear, corners: viewModel.calculateCornerRadius())
+            .opacity(viewModel.calculateOpacity(for: popup))
             .focusSectionIfAvailable()
-    }
-    func createPopupForOlderPlatforms() -> some View {
-        items.last?.body
-            .readHeight(onChange: saveHeight)
-            .frame(height: height).frame(maxWidth: .infinity)
-            .background(backgroundColour, overlayColour: .clear, radius: cornerRadius, corners: .allCorners, shadow: popupShadow)
-            .padding(.horizontal, lastPopupConfig.horizontalPadding)
+            .padding(viewModel.calculatePopupPadding())
             .compositingGroup()
-            .focusSectionIfAvailable()
     }
 }
 
-// MARK: - Logic Modifiers
+// MARK: Helpers
 private extension PopupCentreStackView {
-    func onItemsChange(_ items: [AnyPopup<CentrePopupConfig>]) {
-        guard let popup = items.last else { return handleClosingPopup() }
-
-        showNewPopup(popup)
-        animateContentIfNeeded()
-    }
+    func getBackgroundColor(for popup: AnyPopup) -> Color { popup.config.backgroundColor }
 }
 private extension PopupCentreStackView {
-    func showNewPopup(_ popup: AnyPopup<CentrePopupConfig>) { DispatchQueue.main.async {
-        activeView = AnyView(popup.body)
-        configTemp = popup.configurePopup(popup: .init())
-    }}
-    func animateContentIfNeeded() { if height != nil {
-        contentIsAnimated = true
-        DispatchQueue.main.asyncAfter(deadline: .now() + contentOpacityAnimationTime) { contentIsAnimated = false }
-    }}
-    func handleClosingPopup() { DispatchQueue.main.async {
-        height = nil
-        activeView = nil
-    }}
-}
-
-// MARK: - View Modifiers
-private extension PopupCentreStackView {
-    func saveHeight(_ value: CGFloat) { height = items.isEmpty ? nil : value }
-    func getTransition() -> AnyTransition {
-        .scale(scale: items.isEmpty ? globalConfig.centre.transitionExitScale : globalConfig.centre.transitionEntryScale)
-        .combined(with: .opacity)
-        .animation(height == nil || items.isEmpty ? transitionRemovalAnimation : nil)
-    }
-}
-
-// MARK: - Flags & Values
-extension PopupCentreStackView {
-    var cornerRadius: CGFloat { lastPopupConfig.cornerRadius ?? globalConfig.centre.cornerRadius }
-    var contentOpacity: CGFloat { contentIsAnimated ? 0 : 1 }
-    var popupShadow: Shadow { globalConfig.centre.shadow }
-    var contentOpacityAnimationTime: CGFloat { globalConfig.centre.contentAnimationTime }
-    var backgroundColour: Color { lastPopupConfig.backgroundColour ?? globalConfig.centre.backgroundColour }
-
-    var tapOutsideClosesPopup: Bool { lastPopupConfig.tapOutsideClosesView ?? globalConfig.bottom.tapOutsideClosesView }
+    var transition: AnyTransition { .scale(scale: 1.1).combined(with: .opacity) }
 }

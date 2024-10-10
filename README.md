@@ -98,7 +98,7 @@ Installation steps:
 ```
 - Add CocoaPods dependency into your `Podfile`   
 ```Swift
-    pod 'MijickPopupView'
+    pod 'MijickPopups'
 ```
 - Install dependency and generate `.xcworkspace` file
 ```Swift
