@@ -12,11 +12,8 @@
 import SwiftUI
 
 struct Shadow {
-    let color: Color
-    let radius: CGFloat
-    let x: CGFloat
-    let y: CGFloat
-}
-extension Shadow {
-    static var none: Self { .init(color: .clear, radius: 0, x: 0, y: 0) }
+    var color: Color = .clear
+    var radius: CGFloat = 0
+    var x: CGFloat = 0
+    var y: CGFloat = 0
 }

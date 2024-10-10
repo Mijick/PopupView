@@ -15,7 +15,7 @@ import SwiftUI
     var popupPadding: EdgeInsets = .init()
     var cornerRadius: CGFloat = 28
     var backgroundColor: Color = .white
-    var shadow: Shadow = .none
+    var shadow: Shadow = .init()
     var overlayColor: Color = .black.opacity(0.44)
     var isTapOutsideToDismissEnabled: Bool = false
 }
