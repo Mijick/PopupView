@@ -1,5 +1,5 @@
 //
-//  HeightReader.swift of PopupView
+//  View+ReadHeight.swift of PopupView
 //
 //  Created by Tomasz Kurylik
 //    - Twitter: https://twitter.com/tkurylik
