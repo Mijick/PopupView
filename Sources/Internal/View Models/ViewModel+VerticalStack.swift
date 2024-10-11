@@ -53,7 +53,7 @@ private extension VM.VerticalStack {
 
 // MARK: Recalculate & Update Popup Height
 private extension VM.VerticalStack {
-    func _recalculateAndSave(height: CGFloat, for popup: AnyPopup) { if gestureTranslation.isZero {
+    func _recalculateAndSave(height: CGFloat, for popup: AnyPopup) { if gestureTranslation.isZero, height != popup.height {
         let popupConfig = getConfig(popup)
         let newHeight = calculateHeight(height, popupConfig)
         updateHeight(newHeight, popup)
