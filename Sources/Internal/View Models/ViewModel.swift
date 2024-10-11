@@ -47,17 +47,17 @@ extension ViewModel {
         popups = newPopups.filter { $0.config is Config }
         activePopupHeight = calculateHeightForActivePopup()
 
-        Task { @MainActor in withAnimation(.transition) { objectWillChange.send() }}
+        withAnimation(.transition) { objectWillChange.send() }
     }}
     func updateScreenValue(_ newScreen: Screen) {
         screen = newScreen
 
-        Task { @MainActor in withAnimation(.transition) { objectWillChange.send() }}
+        withAnimation(.transition) { objectWillChange.send() }
     }
     func updateKeyboardValue(_ isActive: Bool) {
         isKeyboardActive = isActive
 
-        Task { @MainActor in withAnimation(.transition) { objectWillChange.send() }}
+        withAnimation(.transition) { objectWillChange.send() }
     }
 }
 

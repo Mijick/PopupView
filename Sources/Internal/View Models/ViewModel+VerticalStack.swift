@@ -41,7 +41,7 @@ private extension VM.VerticalStack {
         translationProgress = calculateTranslationProgress()
         activePopupHeight = calculateHeightForActivePopup()
 
-        Task { @MainActor in withAnimation(gestureTranslation == 0 ? .transition : nil) { objectWillChange.send() }}
+        withAnimation(gestureTranslation == 0 ? .transition : nil) { objectWillChange.send() }
     }
 }
 
