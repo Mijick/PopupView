@@ -59,7 +59,7 @@ private extension PopupView {
     func createOverlayView() -> some View {
         getOverlayColor()
             .zIndex(popupManager.stackPriority.overlay)
-            .animation(.linear, value: popupManager.stack.isEmpty)
+            .animation(.linear, value: popupManager.stack)
             .onTapGesture(perform: onTap)
     }
     func createTopPopupStackView() -> some View {
