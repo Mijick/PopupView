@@ -14,7 +14,6 @@ import SwiftUI
 enum VM {}
 class ViewModel<Config: LocalConfig>: ViewModelObject {
     // MARK: Attributes
-    private(set) var allPopups: [AnyPopup] = []
     private(set) var popups: [AnyPopup] = []
     private(set) var updatePopupAction: ((AnyPopup) -> ())!
     private(set) var closePopupAction: ((AnyPopup) -> ())!
@@ -63,12 +62,8 @@ extension ViewModel {
 
 // MARK: View Methods
 extension ViewModel {
-    func calculateZIndex(for popup: AnyPopup?) -> CGFloat {
-        guard let popup,
-              let index = allPopups.firstIndex(of: popup)
-        else { return 2137 }
-
-        return .init(index + 2)
+    func calculateZIndex() -> CGFloat {
+        popups.last == nil ? 2137 : .init(popups.count)
     }
 }
 

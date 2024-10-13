@@ -19,7 +19,7 @@ struct PopupCentreStackView: View {
             .id(viewModel.popups.isEmpty)
             .transition(transition)
             .frame(maxWidth: .infinity, maxHeight: viewModel.screen.height)
-            .zIndex(viewModel.calculateZIndex(for: viewModel.popups.last))
+            .zIndex(viewModel.calculateZIndex())
     }
 }
 private extension PopupCentreStackView {
