@@ -42,7 +42,6 @@ private extension PopupCentreStackView {
     }
 }
 
-// MARK: Helpers
 private extension PopupCentreStackView {
     func getBackgroundColor(for popup: AnyPopup) -> Color { popup.config.backgroundColor }
 }

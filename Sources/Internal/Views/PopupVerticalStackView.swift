@@ -45,7 +45,6 @@ private extension PopupVerticalStackView {
     }
 }
 
-// MARK: Helpers
 private extension PopupVerticalStackView {
     func getBackgroundColor(for popup: AnyPopup) -> Color { popup.config.backgroundColor }
     func getStackOverlayColor(for popup: AnyPopup) -> Color { stackOverlayColor.opacity(viewModel.calculateStackOverlayOpacity(for: popup)) }
