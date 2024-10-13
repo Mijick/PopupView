@@ -1,5 +1,5 @@
 //
-//  View+FocusSection.swift of PopupView
+//  View+tvOS.swift of PopupView
 //
 //  Created by Tomasz Kurylik
 //    - Twitter: https://twitter.com/tkurylik
@@ -10,8 +10,9 @@
 
 import SwiftUI
 
+// MARK: Focus Section
 extension View {
-    func focusSectionIfAvailable() -> some View {
+    func focusSection_tvOS() -> some View {
         #if os(tvOS)
             focusSection()
         #else

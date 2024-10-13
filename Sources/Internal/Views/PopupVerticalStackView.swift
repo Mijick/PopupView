@@ -37,7 +37,7 @@ private extension PopupVerticalStackView {
             .background(backgroundColor: getBackgroundColor(for: popup), overlayColor: getStackOverlayColor(for: popup), corners: viewModel.calculateCornerRadius())
             .offset(y: viewModel.calculateOffsetY(for: popup))
             .scaleEffect(x: viewModel.calculateScaleX(for: popup))
-            .focusSectionIfAvailable()
+            .focusSection_tvOS()
             .padding(viewModel.calculatePopupPadding())
             .transition(transition)
             .zIndex(viewModel.calculateZIndex())

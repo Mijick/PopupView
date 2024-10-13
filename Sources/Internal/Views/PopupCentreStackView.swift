@@ -35,7 +35,7 @@ private extension PopupCentreStackView {
             .frame(maxWidth: .infinity, maxHeight: viewModel.activePopupHeight)
             .background(backgroundColor: getBackgroundColor(for: popup), overlayColor: .clear, corners: viewModel.calculateCornerRadius())
             .opacity(viewModel.calculateOpacity(for: popup))
-            .focusSectionIfAvailable()
+            .focusSection_tvOS()
             .padding(viewModel.calculatePopupPadding())
             .compositingGroup()
     }
