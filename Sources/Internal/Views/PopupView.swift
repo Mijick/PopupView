@@ -117,7 +117,6 @@ private extension PopupView {
         [topStackViewModel, centreStackViewModel, bottomStackViewModel].forEach(updateBuilder)
     }
 }
-
 private extension PopupView {
     var tapOutsideClosesPopup: Bool { popupManager.stack.last?.config.isTapOutsideToDismissEnabled ?? false }
 }
