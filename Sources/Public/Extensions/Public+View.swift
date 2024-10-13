@@ -11,23 +11,19 @@
 import SwiftUI
 
 // MARK: Setup Framework
-#if os(iOS) || os(macOS) || os(visionOS) || os(watchOS)
-public extension View {
-    /// Initialises the library. Use directly with the view in your @main structure
-    func registerPopups(id: PopupManagerID = .shared, configBuilder: @escaping (ConfigContainer) -> ConfigContainer = { $0 }) -> some View { self
-        .frame(maxWidth: .infinity, maxHeight: .infinity)
-        .overlay(PopupView(popupManager: .registerInstance(id: id)), alignment: .top)
-        .onAppear { _ = configBuilder(.init()) }
-    }
-}
-#elseif os(tvOS)
 public extension View {
     /// Initialises the library. Use directly with the view in your @main structure
     func registerPopups(id: PopupManagerID = .shared, configBuilder: @escaping (ConfigContainer) -> ConfigContainer = { $0 }) -> some View {
+        #if os(tvOS)
         PopupView(rootView: self, popupManager: .registerInstance(id: id)).onAppear { _ = configBuilder(.init()) }
+        #else
+        self
+            .frame(maxWidth: .infinity, maxHeight: .infinity)
+            .overlay(PopupView(popupManager: .registerInstance(id: id)), alignment: .top)
+            .onAppear { _ = configBuilder(.init()) }
+        #endif
     }
 }
-#endif
 
 // MARK: Dismiss Popup(s)
 public extension View {
