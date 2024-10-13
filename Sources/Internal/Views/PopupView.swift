@@ -26,12 +26,15 @@ struct PopupView: View {
 #elseif os(tvOS)
 struct PopupView: View {
     let rootView: any View
-    @ObservedObject private var popupManager: PopupManager = .shared
+    @ObservedObject var popupManager: PopupManager
+    private let topStackViewModel: VM.VerticalStack<TopPopupConfig> = .init()
+    private let centreStackViewModel: VM.CentreStack = .init()
+    private let bottomStackViewModel: VM.VerticalStack<BottomPopupConfig> = .init()
 
 
     var body: some View {
         AnyView(rootView)
-            .disabled(!popupManager.views.isEmpty)
+            .disabled(!popupManager.stack.isEmpty)
             .overlay(createBody())
     }
 }

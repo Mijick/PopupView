@@ -24,7 +24,7 @@ public extension View {
 public extension View {
     /// Initialises the library. Use directly with the view in your @main structure
     func registerPopups(id: PopupManagerID = .shared, configBuilder: @escaping (ConfigContainer) -> ConfigContainer = { $0 }) -> some View {
-        return PopupView(rootView: updateScreenSize()).onAppear { _ = config(.init()) }
+        PopupView(rootView: self, popupManager: .registerInstance(id: id)).onAppear { _ = configBuilder(.init()) }
     }
 }
 #endif
