@@ -66,16 +66,16 @@ private extension PopupView {
 }
 private extension PopupView {
     func createOverlayView() -> some View {
-        overlayColor.animation(.linear, value: popupManager.stack.isEmpty)
+        overlayColor.animation(.linear, value: popupManager.stack.isEmpty).zIndex(popupManager.stackPriority.overlay)
     }
     func createTopPopupStackView() -> some View {
-        PopupVerticalStackView(viewModel: topStackViewModel)
+        PopupVerticalStackView(viewModel: topStackViewModel).zIndex(popupManager.stackPriority.top)
     }
     func createCentrePopupStackView() -> some View {
-        PopupCentreStackView(viewModel: centreStackViewModel)
+        PopupCentreStackView(viewModel: centreStackViewModel).zIndex(popupManager.stackPriority.centre)
     }
     func createBottomPopupStackView() -> some View {
-        PopupVerticalStackView(viewModel: bottomStackViewModel)
+        PopupVerticalStackView(viewModel: bottomStackViewModel).zIndex(popupManager.stackPriority.bottom)
     }
 }
 
