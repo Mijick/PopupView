@@ -11,7 +11,7 @@
 
 import Foundation
 
-class StackPriority {
+struct StackPriority: Equatable {
     var top: CGFloat { values[0] }
     var centre: CGFloat { values[1] }
     var bottom: CGFloat { values[2] }
@@ -22,7 +22,7 @@ class StackPriority {
 
 // MARK: Reshuffle
 extension StackPriority {
-    @MainActor func reshuffle(_ newPopups: [AnyPopup]) { switch newPopups.last {
+    @MainActor mutating func reshuffle(newPopups: [AnyPopup]) { switch newPopups.last {
         case .some(let popup) where popup.config is TopPopupConfig: reshuffle(0)
         case .some(let popup) where popup.config is CentrePopupConfig: reshuffle(1)
         case .some(let popup) where popup.config is BottomPopupConfig: reshuffle(2)
@@ -30,11 +30,12 @@ extension StackPriority {
     }}
 }
 private extension StackPriority {
-    func reshuffle(_ index: Int) { if values[index] != maxPriority {
-        values.enumerated().forEach {
-            values[$0.offset] = $0.offset == index ? maxPriority : $0.element - 2
-        }
-    }}
+    mutating func reshuffle(_ index: Int) {
+        guard values[index] != maxPriority else { return }
+
+        let newValues = values.enumerated().map { $0.offset == index ? maxPriority : $0.element - 2 }
+        values = newValues
+    }
 }
 private extension StackPriority {
     var maxPriority: CGFloat { 2 }

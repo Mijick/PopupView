@@ -12,8 +12,8 @@ import SwiftUI
 
 @MainActor public class PopupManager: ObservableObject {
     let id: PopupManagerID
-    private(set) var stack: [AnyPopup] = []
-    private(set) var stackPriority: StackPriority = .init()
+    @Published private(set) var stack: [AnyPopup] = []
+    @Published private(set) var stackPriority: StackPriority = .init()
 
     private init(id: PopupManagerID) { self.id = id }
 }
@@ -22,7 +22,6 @@ import SwiftUI
 extension PopupManager {
     func updateStack(_ popup: AnyPopup) { if let index = stack.firstIndex(of: popup) {
         stack[index] = popup
-        objectWillChange.send()
     }}
 }
 
@@ -40,11 +39,10 @@ extension PopupManager { enum StackOperation {
 
 // MARK: Perform Operation
 extension PopupManager {
-    func stack(_ operation: StackOperation) {
+    func stack(_ operation: StackOperation) { let oldStackCount = stack.count
         hideKeyboard()
         perform(operation)
-        reshuffleStackPriority()
-        objectWillChange.send()
+        reshuffleStackPriority(oldStackCount)
     }
 }
 private extension PopupManager {
@@ -59,6 +57,13 @@ private extension PopupManager {
         case .removeAllPopupsWithID(let id): removeAllPopupsWithID(id)
         case .removeAllPopups: removeAllPopups()
     }}
+    func reshuffleStackPriority(_ oldStackCount: Int) {
+        let delayDuration = oldStackCount > stack.count ? Animation.duration : 0
+
+        DispatchQueue.main.asyncAfter(deadline: .now() + delayDuration) { [self] in
+            stackPriority.reshuffle(newPopups: stack)
+        }
+    }
 }
 private extension PopupManager {
     func insertPopup(_ popup: any Popup) {
