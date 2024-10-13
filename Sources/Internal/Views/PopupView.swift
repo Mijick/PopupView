@@ -47,7 +47,6 @@ private extension PopupView {
                 .onAppear { onScreenChange(reader) }
                 .onChange(of: reader.size) { _ in onScreenChange(reader) }
         }
-        .onTapGesture(perform: onTap)
         .onAppear(perform: onAppear)
         .onChange(of: popupManager.stack.map { [$0.height, $0.dragHeight] }, perform: onPopupsHeightChange)
         .onChange(of: popupManager.stack) { [oldValue = popupManager.stack] newValue in onStackChange(oldValue, newValue) }
@@ -66,7 +65,10 @@ private extension PopupView {
 }
 private extension PopupView {
     func createOverlayView() -> some View {
-        overlayColor.animation(.linear, value: popupManager.stack.isEmpty).zIndex(popupManager.stackPriority.overlay)
+        overlayColor
+            .zIndex(popupManager.stackPriority.overlay)
+            .animation(.linear, value: popupManager.stack.isEmpty)
+            .onTapGesture(perform: onTap)
     }
     func createTopPopupStackView() -> some View {
         PopupVerticalStackView(viewModel: topStackViewModel).zIndex(popupManager.stackPriority.top)
