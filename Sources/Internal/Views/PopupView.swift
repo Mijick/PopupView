@@ -65,7 +65,7 @@ private extension PopupView {
 }
 private extension PopupView {
     func createOverlayView() -> some View {
-        overlayColor
+        getOverlayColor()
             .zIndex(popupManager.stackPriority.overlay)
             .animation(.linear, value: popupManager.stack.isEmpty)
             .onTapGesture(perform: onTap)
@@ -79,6 +79,13 @@ private extension PopupView {
     func createBottomPopupStackView() -> some View {
         PopupVerticalStackView(viewModel: bottomStackViewModel).zIndex(popupManager.stackPriority.bottom)
     }
+}
+private extension PopupView {
+    func getOverlayColor() -> Color { switch popupManager.stack.last?.config.overlayColor {
+        case .some(let color) where color == .clear: .black.opacity(0.0000000000001)
+        case .some(let color): color
+        case nil: .clear
+    }}
 }
 
 private extension PopupView {
@@ -121,5 +128,4 @@ private extension PopupView {
 
 private extension PopupView {
     var tapOutsideClosesPopup: Bool { popupManager.stack.last?.config.isTapOutsideToDismissEnabled ?? false }
-    var overlayColor: Color { popupManager.stack.last?.config.overlayColor ?? .clear }
 }
