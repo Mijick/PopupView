@@ -15,9 +15,9 @@ import Combine
 extension View {
     func onKeyboardStateChange(perform action: @escaping (Bool) -> ()) -> some View {
         #if os(iOS)
-            onReceive(keyboardPublisher, perform: action)
+        onReceive(keyboardPublisher, perform: action)
         #else
-            self
+        self
         #endif
     }
 }
@@ -42,9 +42,9 @@ fileprivate extension View {
 extension AnyView {
     static func hideKeyboard() {
         #if os(iOS)
-            UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
+        UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
         #elseif os(macOS)
-            NSApp.keyWindow?.makeFirstResponder(nil)
+        NSApp.keyWindow?.makeFirstResponder(nil)
         #endif
     }
 }

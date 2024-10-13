@@ -14,9 +14,9 @@ import SwiftUI
 extension View {
     func focusSection_tvOS() -> some View {
         #if os(tvOS)
-            focusSection()
+        focusSection()
         #else
-            self
+        self
         #endif
     }
 }
