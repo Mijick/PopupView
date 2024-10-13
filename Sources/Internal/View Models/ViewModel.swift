@@ -41,13 +41,12 @@ extension ViewModel {
 
 // MARK: Update
 extension ViewModel {
-    func updatePopupsValue(_ newPopups: [AnyPopup]) { if newPopups.last?.config is Config || newPopups.isEmpty {
-        allPopups = newPopups
+    func updatePopupsValue(_ newPopups: [AnyPopup]) {
         popups = newPopups.filter { $0.config is Config }
         activePopupHeight = calculateHeightForActivePopup()
 
         withAnimation(.transition) { objectWillChange.send() }
-    }}
+    }
     func updateScreenValue(_ newScreen: Screen) {
         screen = newScreen
 
