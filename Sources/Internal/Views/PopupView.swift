@@ -10,22 +10,11 @@
 
 import SwiftUI
 
-// MARK: - iOS / macOS Implementation
-#if os(iOS) || os(macOS) || os(visionOS) || os(watchOS)
 struct PopupView: View {
-    @ObservedObject var popupManager: PopupManager
-    private let topStackViewModel: VM.VerticalStack<TopPopupConfig> = .init()
-    private let centreStackViewModel: VM.CentreStack = .init()
-    private let bottomStackViewModel: VM.VerticalStack<BottomPopupConfig> = .init()
-
-
-    var body: some View { createBody() }
-}
-
-// MARK: - tvOS Implementation
-#elseif os(tvOS)
-struct PopupView: View {
+    #if os(tvOS)
     let rootView: any View
+    #endif
+
     @ObservedObject var popupManager: PopupManager
     private let topStackViewModel: VM.VerticalStack<TopPopupConfig> = .init()
     private let centreStackViewModel: VM.CentreStack = .init()
@@ -33,15 +22,15 @@ struct PopupView: View {
 
 
     var body: some View {
+        #if os(tvOS)
         AnyView(rootView)
             .disabled(!popupManager.stack.isEmpty)
             .overlay(createBody())
+        #else
+        createBody()
+        #endif
     }
 }
-#endif
-
-
-// MARK: - Common Part
 private extension PopupView {
     func createBody() -> some View {
         GeometryReader { reader in
