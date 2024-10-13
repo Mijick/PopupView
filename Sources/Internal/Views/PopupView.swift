@@ -44,8 +44,8 @@ private extension PopupView {
         GeometryReader { reader in
             createPopupStackView()
                 .ignoresSafeArea()
-                .onAppear { updateScreenValue(reader) }
-                .onChange(of: reader.size) { _ in updateScreenValue(reader) }
+                .onAppear { onScreenChange(reader) }
+                .onChange(of: reader.size) { _ in onScreenChange(reader) }
         }
         .onTapGesture(perform: onTap)
         .onAppear(perform: onAppear)
@@ -83,8 +83,8 @@ private extension PopupView {
     func onAppear() {
         updateViewModels { $0.setup(updatePopupAction: updatePopup, closePopupAction: closePopup) }
     }
-    func onKeyboardStateChange(_ isKeyboardActive: Bool) {
-        updateViewModels { $0.updateKeyboardValue(isKeyboardActive) }
+    func onScreenChange(_ reader: GeometryProxy) {
+        updateViewModels { $0.updateScreenValue(.init(reader)) }
     }
     func onPopupsHeightChange(_ p: Any) {
         updateViewModels { $0.updatePopupsValue(popupManager.stack) }
@@ -98,23 +98,20 @@ private extension PopupView {
             }}
         newStack.last?.onFocus()
     }
-    func updateScreenValue(_ reader: GeometryProxy) {
-        updateViewModels { $0.updateScreenValue(.init(reader)) }
-    }
-
-
-
-    func updatePopup(_ popup: AnyPopup) {
-        popupManager.updateStack(popup)
-    }
-    func closePopup(_ popup: AnyPopup) {
-        popupManager.stack(.removePopupInstance(popup))
+    func onKeyboardStateChange(_ isKeyboardActive: Bool) {
+        updateViewModels { $0.updateKeyboardValue(isKeyboardActive) }
     }
     func onTap() { if tapOutsideClosesPopup {
         popupManager.stack(.removeLastPopup)
     }}
 }
 private extension PopupView {
+    func updatePopup(_ popup: AnyPopup) {
+        popupManager.updateStack(popup)
+    }
+    func closePopup(_ popup: AnyPopup) {
+        popupManager.stack(.removePopupInstance(popup))
+    }
     func updateViewModels(_ updateBuilder: (any ViewModelObject) -> ()) {
         [topStackViewModel, centreStackViewModel, bottomStackViewModel].forEach(updateBuilder)
     }
