@@ -32,7 +32,7 @@ extension StackPriority {
 private extension StackPriority {
     func reshuffle(_ index: Int) { if values[index] != maxPriority {
         values.enumerated().forEach {
-            values[$0.offset] = $0.offset == index ? maxPriority : $0.element - 3
+            values[$0.offset] = $0.offset == index ? maxPriority : $0.element - 2
         }
     }}
 }
