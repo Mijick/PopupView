@@ -14,13 +14,13 @@ import SwiftUI
 public extension View {
 
     /**
-     Registers the library within your app.
+     Registers the library in your app.
 
      - Parameters:
         - id: Text...
         - configBuilder: Text...
 
-     - Important:
+     ## Implementation Example
 
      ```swift
      import SwiftUI
@@ -44,11 +44,8 @@ public extension View {
      }
      ```
 
-
+    - seealso: Text!
      */
-
-
-
     func registerPopups(id: PopupManagerID = .shared, configBuilder: @escaping (GlobalConfigContainer) -> GlobalConfigContainer = { $0 }) -> some View {
         #if os(tvOS)
         PopupView(rootView: self, popupManager: .registerInstance(id: id)).onAppear { _ = configBuilder(.init()) }
