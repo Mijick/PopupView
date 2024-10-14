@@ -14,7 +14,7 @@ import SwiftUI
 // MARK: Setup Framework
 public extension View {
     /// Initialises the library. Use directly with the view in your @main structure
-    func registerPopups(id: PopupManagerID = .shared, configBuilder: @escaping (ConfigContainer) -> ConfigContainer = { $0 }) -> some View {
+    func registerPopups(id: PopupManagerID = .shared, configBuilder: @escaping (GlobalConfigContainer) -> GlobalConfigContainer = { $0 }) -> some View {
         #if os(tvOS)
         PopupView(rootView: self, popupManager: .registerInstance(id: id)).onAppear { _ = configBuilder(.init()) }
         #else

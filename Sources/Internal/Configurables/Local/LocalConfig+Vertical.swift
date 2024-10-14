@@ -15,15 +15,15 @@ public extension LocalConfig { class Vertical: LocalConfig {
     var ignoredSafeAreaEdges: Edge.Set = []
     var heightMode: HeightMode = .auto
     var dragDetents: [DragDetent] = []
-    var isDragGestureEnabled: Bool = ConfigContainer.vertical.isDragGestureEnabled
+    var isDragGestureEnabled: Bool = GlobalConfigContainer.vertical.isDragGestureEnabled
 
 
     required init() { super.init()
-        self.popupPadding = ConfigContainer.vertical.popupPadding
-        self.cornerRadius = ConfigContainer.vertical.cornerRadius
-        self.backgroundColor = ConfigContainer.vertical.backgroundColor
-        self.overlayColor = ConfigContainer.vertical.overlayColor
-        self.isTapOutsideToDismissEnabled = ConfigContainer.vertical.isTapOutsideToDismissEnabled
+        self.popupPadding = GlobalConfigContainer.vertical.popupPadding
+        self.cornerRadius = GlobalConfigContainer.vertical.cornerRadius
+        self.backgroundColor = GlobalConfigContainer.vertical.backgroundColor
+        self.overlayColor = GlobalConfigContainer.vertical.overlayColor
+        self.isTapOutsideToDismissEnabled = GlobalConfigContainer.vertical.isTapOutsideToDismissEnabled
     }
 }}
 

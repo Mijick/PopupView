@@ -14,7 +14,7 @@ import SwiftUI
 #if os(iOS)
 open class PopupSceneDelegate: NSObject, UIWindowSceneDelegate {
     open var window: UIWindow?
-    open var configBuilder: (ConfigContainer) -> (ConfigContainer) = { _ in .init() }
+    open var configBuilder: (GlobalConfigContainer) -> (GlobalConfigContainer) = { _ in .init() }
 }
 
 // MARK: Create Popup Scene

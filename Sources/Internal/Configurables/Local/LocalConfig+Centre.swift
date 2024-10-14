@@ -13,11 +13,11 @@ import SwiftUI
 
 public extension LocalConfig { class Centre: LocalConfig {
     required init() { super.init()
-        self.popupPadding = ConfigContainer.centre.popupPadding
-        self.cornerRadius = ConfigContainer.centre.cornerRadius
-        self.backgroundColor = ConfigContainer.centre.backgroundColor
-        self.overlayColor = ConfigContainer.centre.overlayColor
-        self.isTapOutsideToDismissEnabled = ConfigContainer.centre.isTapOutsideToDismissEnabled
+        self.popupPadding = GlobalConfigContainer.centre.popupPadding
+        self.cornerRadius = GlobalConfigContainer.centre.cornerRadius
+        self.backgroundColor = GlobalConfigContainer.centre.backgroundColor
+        self.overlayColor = GlobalConfigContainer.centre.overlayColor
+        self.isTapOutsideToDismissEnabled = GlobalConfigContainer.centre.isTapOutsideToDismissEnabled
     }
 }}
 
