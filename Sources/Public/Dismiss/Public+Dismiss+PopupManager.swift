@@ -1,15 +1,16 @@
 //
-//  Public+PopupManager.swift of MijickPopups
+//  Public+Dismiss+PopupManager.swift of MijickPopups
 //
 //  Created by Tomasz Kurylik. Sending ❤️ from Kraków!
 //    - Mail: tomasz.kurylik@mijick.com
 //    - GitHub: https://github.com/FulcrumOne
 //    - Medium: https://medium.com/@mijick
 //
-//  Copyright ©2023 Mijick. All rights reserved.
+//  Copyright ©2024 Mijick. All rights reserved.
 
 
-// MARK: Dismiss Popup(s)
+import Foundation
+
 public extension PopupManager {
     /// Dismisses the last popup on the stack
     static func dismissLastPopup(popupManagerID: PopupManagerID = .shared) { fetchInstance(id: popupManagerID)?.stack(.removeLastPopup) }
