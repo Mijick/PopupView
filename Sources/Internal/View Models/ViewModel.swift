@@ -59,13 +59,6 @@ extension ViewModel {
     }
 }
 
-// MARK: View Methods
-extension ViewModel {
-    func calculateZIndex() -> CGFloat {
-        popups.last == nil ? 2137 : .init(popups.count)
-    }
-}
-
 // MARK: Helpers
 extension ViewModel {
     func updateHeight(_ newHeight: CGFloat, _ popup: AnyPopup) { if popup.height != newHeight {

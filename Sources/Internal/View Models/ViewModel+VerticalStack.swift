@@ -244,6 +244,13 @@ private extension VM.VerticalStack {
     }}
 }
 
+// MARK: Z Index
+extension VM.VerticalStack {
+    func calculateZIndex() -> CGFloat {
+        popups.last == nil ? 2137 : .init(popups.count)
+    }
+}
+
 // MARK: - Stack Overlay Opacity
 extension VM.VerticalStack {
     func calculateStackOverlayOpacity(for popup: AnyPopup) -> Double {
