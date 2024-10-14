@@ -11,12 +11,10 @@
 
 import XCTest
 import SwiftUI
-import Combine
 @testable import MijickPopups
 
 @MainActor final class PopupCentreStackViewModelTests: XCTestCase {
     @ObservedObject private var viewModel: ViewModel = .init()
-    private var cancellables: Set<AnyCancellable> = .init()
 
     override func setUp() async throws {
         viewModel.t_updateScreenValue(screen)
@@ -237,7 +235,6 @@ private extension PopupCentreStackViewModelTests {
 private extension PopupCentreStackViewModelTests {
     func createPopupInstanceForPopupHeightTests(popupHeight: CGFloat, popupPadding: EdgeInsets = .init(), cornerRadius: CGFloat = 0) -> AnyPopup {
         let config = getConfigForPopupHeightTests(cornerRadius: cornerRadius, popupPadding: popupPadding)
-
         return AnyPopup.t_createNew(config: config).settingHeight(popupHeight)
     }
     func appendPopupsAndPerformChecks<Value: Equatable>(popups: [AnyPopup], isKeyboardActive: Bool, calculatedValue: @escaping (ViewModel) -> (Value), expectedValueBuilder: @escaping (ViewModel) -> Value) {
@@ -246,16 +243,7 @@ private extension PopupCentreStackViewModelTests {
         viewModel.t_updateKeyboardValue(isKeyboardActive)
         viewModel.t_updateScreenValue(isKeyboardActive ? screenWithKeyboard : screen)
 
-        let expect = expectation(description: "results")
-        viewModel.objectWillChange
-            .receive(on: RunLoop.main)
-            .dropFirst(4)
-            .sink { [self] in
-                XCTAssertEqual(calculatedValue(viewModel), expectedValueBuilder(viewModel))
-                expect.fulfill()
-            }
-            .store(in: &cancellables)
-        wait(for: [expect], timeout: 3)
+        XCTAssertEqual(calculatedValue(viewModel), expectedValueBuilder(viewModel))
     }
 }
 private extension PopupCentreStackViewModelTests {
