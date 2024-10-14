@@ -12,7 +12,42 @@
 import SwiftUI
 
 public extension View {
-    /// Initialises the library. Use directly with the view in your @main structure
+    /**
+     Registers the library within your app.
+
+     - Parameters:
+        - id: Text...
+        - configBuilder: Text...
+
+     - Important:
+
+     ```swift
+     import SwiftUI
+     import MijickPopups
+
+     @main struct App_Main: App {
+        var body: some Scene { WindowGroup {
+            ContentView()
+                .registerPopups { config in config
+                    .vertical { $0
+                        .enableDragGesture(true)
+                        .tapOutsideToDismissPopup(true)
+                        .cornerRadius(32)
+                    }
+                    .centre { $0
+                        .tapOutsideToDismissPopup(false)
+                        .backgroundColor(.red)
+                    }
+                }
+        }}
+     }
+     ```
+
+
+     */
+
+
+
     func registerPopups(id: PopupManagerID = .shared, configBuilder: @escaping (GlobalConfigContainer) -> GlobalConfigContainer = { $0 }) -> some View {
         #if os(tvOS)
         PopupView(rootView: self, popupManager: .registerInstance(id: id)).onAppear { _ = configBuilder(.init()) }
