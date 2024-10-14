@@ -13,7 +13,7 @@ import SwiftUI
 
 public extension View {
     /**
-     Registers the library in your app.
+     Register the framework to work in your application.
 
      - Parameters:
         - id: Text...
