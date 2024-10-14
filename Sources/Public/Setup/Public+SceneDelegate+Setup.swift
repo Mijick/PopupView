@@ -14,7 +14,8 @@ import SwiftUI
 #if os(iOS)
 /**
 
-```swift
+ ## Implementation Example
+ ```swift
  import SwiftUI
  import MijickPopups
 
