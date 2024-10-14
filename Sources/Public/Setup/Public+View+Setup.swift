@@ -16,8 +16,8 @@ public extension View {
      Register the framework to work in your application.
 
      - Parameters:
-        - id: Text...
-        - configBuilder: Text...
+        - id: It is possible to register multiple managers (for different screens); especially useful in a MacOS or iPad implementation. Read more in ``PopupManagerID``.
+        - configBuilder: Zamienia domyślną globalną inicjalizację; wszystkie popupy będą domyślnie wyglądać jak zadeklarowano tutaj (jeśli nie wywołano metody config w Popup). Zobacz domyślne opcje w ``GlobalConfig``
 
 
      ## Implementation Example
