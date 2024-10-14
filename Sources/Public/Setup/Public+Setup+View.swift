@@ -11,6 +11,7 @@
 
 import SwiftUI
 
+// MARK: Setup Library
 public extension View {
     /// Initialises the library. Use directly with the view in your @main structure
     func registerPopups(id: PopupManagerID = .shared, configBuilder: @escaping (GlobalConfigContainer) -> GlobalConfigContainer = { $0 }) -> some View {
@@ -23,4 +24,9 @@ public extension View {
             .onAppear { _ = configBuilder(.init()) }
         #endif
     }
+}
+
+// MARK: Popup Identifiers (Extendable)
+public extension PopupManagerID {
+    static let shared: Self = .init(rawValue: "shared")
 }
