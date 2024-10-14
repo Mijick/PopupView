@@ -36,7 +36,7 @@ public extension View {
                     }
                     .centre { $0
                         .tapOutsideToDismissPopup(false)
-                        .backgroundColor(.red)
+                        .backgroundColor(.white)
                     }
                 }
         }}

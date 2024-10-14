@@ -12,6 +12,43 @@
 import SwiftUI
 
 #if os(iOS)
+/**
+
+```swift
+ import SwiftUI
+ import MijickPopups
+
+ @main struct App_Main: App {
+    @UIApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
+
+    var body: some Scene { WindowGroup(content: ContentView.init) }
+ }
+
+ class AppDelegate: NSObject, UIApplicationDelegate {
+    func application(_ application: UIApplication, configurationForConnecting connectingSceneSession: UISceneSession, options: UIScene.ConnectionOptions) -> UISceneConfiguration {
+        let sceneConfig = UISceneConfiguration(name: nil, sessionRole: connectingSceneSession.role)
+        sceneConfig.delegateClass = CustomPopupSceneDelegate.self
+        return sceneConfig
+    }
+ }
+
+ class CustomPopupSceneDelegate: PopupSceneDelegate {
+    override init() { super.init()
+        configBuilder = { $0
+            .vertical { $0
+                .enableDragGesture(true)
+                .tapOutsideToDismissPopup(true)
+                .cornerRadius(32)
+            }
+            .centre { $0
+                .tapOutsideToDismissPopup(false)
+                .backgroundColor(.white)
+            }
+        }
+    }
+ }
+ ```
+ */
 open class PopupSceneDelegate: NSObject, UIWindowSceneDelegate {
     open var window: UIWindow?
     open var configBuilder: (GlobalConfigContainer) -> (GlobalConfigContainer) = { _ in .init() }
