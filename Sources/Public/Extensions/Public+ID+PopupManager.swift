@@ -9,8 +9,6 @@
 //  Copyright ©2024 Mijick. All rights reserved.
 
 
-import Foundation
-
 // MARK: Default IDs
 public extension PopupManagerID {
     static let shared: Self = .init(rawValue: "shared")
