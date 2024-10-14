@@ -11,7 +11,6 @@
 
 import SwiftUI
 
-// MARK: Present
 public extension Popup {
     /// Displays the popup. Stacks previous one
     func present(popupManagerID: PopupManagerID = .shared) { PopupManager.fetchInstance(id: popupManagerID)?.stack(.insertPopup(self)) }
