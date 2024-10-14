@@ -11,13 +11,11 @@
 
 import XCTest
 import SwiftUI
-import Combine
 @testable import MijickPopups
 
 @MainActor final class PopupStackViewModelTests: XCTestCase {
     @ObservedObject private var topViewModel: ViewModel<TopPopupConfig> = .init()
     @ObservedObject private var bottomViewModel: ViewModel<BottomPopupConfig> = .init()
-    private var cancellables: Set<AnyCancellable> = .init()
 
     override func setUp() async throws {
         setup(topViewModel)
@@ -138,17 +136,10 @@ private extension PopupStackViewModelTests {
         viewModel.t_updatePopupsValue(popups)
         viewModel.t_updatePopup(updatedPopup)
 
-        let expect = expectation(description: "results")
-        viewModel.objectWillChange
-            .receive(on: RunLoop.main)
-            .dropFirst(2)
-            .sink { _ in if let index = viewModel.t_popups.firstIndex(of: updatedPopup) {
-                XCTAssertEqual(viewModel.t_popups[index].height, expectedValue.height)
-                XCTAssertEqual(viewModel.t_popups[index].dragHeight, expectedValue.dragHeight)
-                expect.fulfill()
-            }}
-            .store(in: &cancellables)
-        wait(for: [expect], timeout: 3)
+        if let index = viewModel.t_popups.firstIndex(of: updatedPopup) {
+            XCTAssertEqual(viewModel.t_popups[index].height, expectedValue.height)
+            XCTAssertEqual(viewModel.t_popups[index].dragHeight, expectedValue.dragHeight)
+        }
     }
 }
 
@@ -1200,7 +1191,6 @@ extension PopupStackViewModelTests {
             viewModel: bottomViewModel,
             popups: popups,
             gestureValue: 11,
-            dragGestureEnabled: false,
             expectedValues: (popupHeight: 344, gestureTranslation: 0)
         )
     }
@@ -1213,7 +1203,6 @@ extension PopupStackViewModelTests {
             viewModel: bottomViewModel,
             popups: popups,
             gestureValue: 11,
-            dragGestureEnabled: true,
             expectedValues: (popupHeight: 344, gestureTranslation: 11)
         )
     }
@@ -1226,7 +1215,6 @@ extension PopupStackViewModelTests {
             viewModel: topViewModel,
             popups: popups,
             gestureValue: 11,
-            dragGestureEnabled: true,
             expectedValues: (popupHeight: 344, gestureTranslation: 0)
         )
     }
@@ -1239,7 +1227,6 @@ extension PopupStackViewModelTests {
             viewModel: bottomViewModel,
             popups: popups,
             gestureValue: -133,
-            dragGestureEnabled: true,
             expectedValues: (popupHeight: 344, gestureTranslation: 0)
         )
     }
@@ -1252,7 +1239,6 @@ extension PopupStackViewModelTests {
             viewModel: bottomViewModel,
             popups: popups,
             gestureValue: -40,
-            dragGestureEnabled: true,
             expectedValues: (popupHeight: 384, gestureTranslation: -40)
         )
     }
@@ -1265,7 +1251,6 @@ extension PopupStackViewModelTests {
             viewModel: bottomViewModel,
             popups: popups,
             gestureValue: -133,
-            dragGestureEnabled: true,
             expectedValues: (popupHeight: 370 + bottomViewModel.t_dragTranslationThreshold, gestureTranslation: 344 - 370 - bottomViewModel.t_dragTranslationThreshold)
         )
     }
@@ -1278,28 +1263,18 @@ extension PopupStackViewModelTests {
             viewModel: topViewModel,
             popups: popups,
             gestureValue: -133,
-            dragGestureEnabled: true,
             expectedValues: (popupHeight: 344, gestureTranslation: -133)
         )
     }
 }
 private extension PopupStackViewModelTests {
-    func appendPopupsAndCheckGestureTranslationOnChange<C: Config>(viewModel: ViewModel<C>, popups: [AnyPopup], gestureValue: CGFloat, dragGestureEnabled: Bool, expectedValues: (popupHeight: CGFloat, gestureTranslation: CGFloat)) {
+    func appendPopupsAndCheckGestureTranslationOnChange<C: Config>(viewModel: ViewModel<C>, popups: [AnyPopup], gestureValue: CGFloat, expectedValues: (popupHeight: CGFloat, gestureTranslation: CGFloat)) {
         viewModel.t_updatePopupsValue(popups)
         viewModel.t_updatePopupsValue(recalculatePopupHeights(viewModel))
         viewModel.t_onPopupDragGestureChanged(gestureValue)
 
-        let expect = expectation(description: "results")
-        viewModel.objectWillChange
-            .receive(on: RunLoop.main)
-            .dropFirst(dragGestureEnabled ? 3 : 2)
-            .sink { _ in
-                XCTAssertEqual(viewModel.t_activePopupHeight, expectedValues.popupHeight)
-                XCTAssertEqual(viewModel.t_gestureTranslation, expectedValues.gestureTranslation)
-                expect.fulfill()
-            }
-            .store(in: &cancellables)
-        wait(for: [expect], timeout: 3)
+        XCTAssertEqual(viewModel.t_activePopupHeight, expectedValues.popupHeight)
+        XCTAssertEqual(viewModel.t_gestureTranslation, expectedValues.gestureTranslation)
     }
 }
 
@@ -1470,16 +1445,8 @@ private extension PopupStackViewModelTests {
         viewModel.t_calculateAndUpdateTranslationProgress()
         viewModel.t_onPopupDragGestureEnded(gestureValue)
 
-        let expect = expectation(description: "results")
-        viewModel.objectWillChange
-            .dropFirst(expectedValues.shouldPopupBeDismissed ? 4 : 5)
-            .sink { _ in
-                XCTAssertEqual(viewModel.t_popups.count, expectedValues.shouldPopupBeDismissed ? 0 : 1)
-                XCTAssertEqual(viewModel.t_activePopupHeight, expectedValues.popupHeight)
-                expect.fulfill()
-            }
-            .store(in: &cancellables)
-        wait(for: [expect], timeout: 3)
+        XCTAssertEqual(viewModel.t_popups.count, expectedValues.shouldPopupBeDismissed ? 0 : 1)
+        XCTAssertEqual(viewModel.t_activePopupHeight, expectedValues.popupHeight)
     }
 }
 
@@ -1503,16 +1470,7 @@ private extension PopupStackViewModelTests {
         viewModel.t_updatePopupsValue(recalculatePopupHeights(viewModel))
         viewModel.t_updateGestureTranslation(gestureTranslation)
 
-        let expect = expectation(description: "results")
-        viewModel.objectWillChange
-            .receive(on: RunLoop.main)
-            .dropFirst(3)
-            .sink { _ in
-                XCTAssertEqual(calculatedValue(viewModel), expectedValueBuilder(viewModel))
-                expect.fulfill()
-            }
-            .store(in: &cancellables)
-        wait(for: [expect], timeout: 3)
+        XCTAssertEqual(calculatedValue(viewModel), expectedValueBuilder(viewModel))
     }
 }
 private extension PopupStackViewModelTests {
