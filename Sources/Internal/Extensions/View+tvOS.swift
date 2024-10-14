@@ -11,7 +11,6 @@
 
 import SwiftUI
 
-// MARK: Focus Section
 extension View {
     func focusSection_tvOS() -> some View {
         #if os(tvOS)
