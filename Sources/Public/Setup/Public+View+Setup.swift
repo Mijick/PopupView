@@ -17,7 +17,7 @@ public extension View {
 
      - Parameters:
         - id: It is possible to register multiple managers (for different screens); especially useful in a MacOS or iPad implementation. Read more in ``PopupManagerID``.
-        - configBuilder: Zamienia domyślną globalną inicjalizację; wszystkie popupy będą domyślnie wyglądać jak zadeklarowano tutaj (jeśli nie wywołano metody config w Popup). Zobacz domyślne opcje w ``GlobalConfig``
+        - configBuilder: Sets the default config for all popups. To change the configuration for a single popup, use ``Popup/configurePopup(config:)-3ze4`` method. See list of available methods in ``GlobalConfig``.
 
 
      ## Implementation Example
