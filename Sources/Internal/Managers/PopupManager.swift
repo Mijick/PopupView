@@ -99,7 +99,7 @@ private extension PopupManager {
 // MARK: Fetch
 extension PopupManager {
     static func fetchInstance(id: PopupManagerID) -> PopupManager? {
-        let managerObject = PopupManagerRegistry.instances.first(where: { $0.id == id })
+        let managerObject = PopupManagerContainer.instances.first(where: { $0.id == id })
         logNoInstanceErrorIfNeeded(managerObject: managerObject, popupManagerID: id)
         return managerObject
     }
@@ -117,7 +117,7 @@ private extension PopupManager {
 extension PopupManager {
     static func registerInstance(id: PopupManagerID) -> PopupManager {
         let instanceToRegister = PopupManager(id: id)
-        let registeredInstance = PopupManagerRegistry.register(popupManager: instanceToRegister)
+        let registeredInstance = PopupManagerContainer.register(popupManager: instanceToRegister)
         return registeredInstance
     }
 }

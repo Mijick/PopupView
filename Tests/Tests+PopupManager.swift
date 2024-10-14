@@ -15,7 +15,7 @@ import SwiftUI
 
 @MainActor final class PopupManagerTests: XCTestCase {
     override func setUp() async throws {
-        PopupManagerRegistry.clean()
+        PopupManagerContainer.clean()
     }
 }
 
@@ -66,7 +66,7 @@ private extension PopupManagerTests {
         popupManagerIds.forEach { _ = PopupManager.registerInstance(id: $0) }
     }
     func getRegisteredInstances() -> [PopupManagerID] {
-        PopupManagerRegistry.instances.map(\.id)
+        PopupManagerContainer.instances.map(\.id)
     }
 }
 
