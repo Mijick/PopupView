@@ -12,7 +12,7 @@
 import SwiftUI
 
 enum VM {}
-class ViewModel<Config: LocalConfig>: ViewModelObject {
+class ViewModel<Config: LocalConfig>: ViewModelRepository {
     // MARK: Attributes
     private(set) var popups: [AnyPopup] = []
     private(set) var updatePopupAction: ((AnyPopup) -> ())!

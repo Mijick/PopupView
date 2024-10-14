@@ -1,5 +1,5 @@
 //
-//  ViewModelObject.swift of MijickPopups
+//  ViewModelRepository.swift of MijickPopups
 //
 //  Created by Tomasz Kurylik. Sending ❤️ from Kraków!
 //    - Mail: tomasz.kurylik@mijick.com
@@ -11,7 +11,7 @@
 
 import SwiftUI
 
-@MainActor protocol ViewModelObject: ObservableObject {
+@MainActor protocol ViewModelRepository: ObservableObject {
     associatedtype Config = LocalConfig
 
     func setup(updatePopupAction: @escaping (AnyPopup) -> (), closePopupAction: @escaping (AnyPopup) -> ())
