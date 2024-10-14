@@ -12,6 +12,7 @@
 import SwiftUI
 
 public extension View {
+
     /**
      Registers the library within your app.
 
