@@ -15,11 +15,8 @@ import SwiftUI
 /**
  Register the framework to work in your application. Works only on iOS.
 
- ## Implementation Example
+ ## Usage Example
  ```swift
- import SwiftUI
- import MijickPopups
-
  @main struct App_Main: App {
     @UIApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
 

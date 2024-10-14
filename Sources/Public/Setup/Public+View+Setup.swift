@@ -20,11 +20,8 @@ public extension View {
         - configBuilder: Default configuration for all popups. Use the ``Popup/configurePopup(config:)-98ha0`` method to change the configuration for a specific popup. See the list of available methods in ``GlobalConfig``.
 
 
-     ## Implementation Example
+     ## Usage Example
      ```swift
-     import SwiftUI
-     import MijickPopups
-
      @main struct App_Main: App {
         var body: some Scene { WindowGroup {
             ContentView()
