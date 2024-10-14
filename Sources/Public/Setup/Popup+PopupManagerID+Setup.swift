@@ -10,7 +10,7 @@
 
 
 /**
- Extending this structure allows popups to be registered on multiple screens.
+ A set of identifiers to be registered.
 
  # Usage Example
  ```swift
@@ -31,7 +31,7 @@
  }
  ```
 
- - important: Text
+ - important: Use methods like ``SwiftUICore/View/dismissLastPopup(popupManagerID:)`` or ``Popup/present(popupManagerID:)`` only with a registered PopupManagerID.
  */
 public struct PopupManagerID: Equatable, Sendable {
     let rawValue: String
