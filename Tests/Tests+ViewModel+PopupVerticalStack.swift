@@ -1,5 +1,5 @@
 //
-//  Tests+ViewModel+PopupStackView.swift of MijickPopups
+//  Tests+ViewModel+PopupVerticalStack.swift of MijickPopups
 //
 //  Created by Tomasz Kurylik. Sending ❤️ from Kraków!
 //    - Mail: tomasz.kurylik@mijick.com
@@ -13,7 +13,7 @@ import XCTest
 import SwiftUI
 @testable import MijickPopups
 
-@MainActor final class PopupStackViewModelTests: XCTestCase {
+@MainActor final class PopupVerticalStackViewModelTests: XCTestCase {
     @ObservedObject private var topViewModel: ViewModel<TopPopupConfig> = .init()
     @ObservedObject private var bottomViewModel: ViewModel<BottomPopupConfig> = .init()
 
@@ -22,13 +22,13 @@ import SwiftUI
         setup(bottomViewModel)
     }
 }
-private extension PopupStackViewModelTests {
+private extension PopupVerticalStackViewModelTests {
     func setup<C: Config>(_ viewModel: ViewModel<C>) {
         viewModel.t_updateScreenValue(screen)
         viewModel.t_setup(updatePopupAction: { self.updatePopupAction(viewModel, $0) }, closePopupAction: { self.closePopupAction(viewModel, $0) })
     }
 }
-private extension PopupStackViewModelTests {
+private extension PopupVerticalStackViewModelTests {
     func updatePopupAction<C: Config>(_ viewModel: ViewModel<C>, _ popup: AnyPopup) { if let index = viewModel.t_popups.firstIndex(of: popup) {
         var popups = viewModel.t_popups
         popups[index] = popup
@@ -51,7 +51,7 @@ private extension PopupStackViewModelTests {
 
 
 // MARK: Inverted Index
-extension PopupStackViewModelTests {
+extension PopupVerticalStackViewModelTests {
     func test_getInvertedIndex_1() {
         bottomViewModel.t_updatePopupsValue([
             createPopupInstanceForPopupHeightTests(type: BottomPopupConfig.self, heightMode: .auto, popupHeight: 150)
@@ -79,7 +79,7 @@ extension PopupStackViewModelTests {
 }
 
 // MARK: Update Popup
-extension PopupStackViewModelTests {
+extension PopupVerticalStackViewModelTests {
     func test_updatePopup_1() {
         let popups = [
             createPopupInstanceForPopupHeightTests(type: BottomPopupConfig.self, heightMode: .auto, popupHeight: 0)
@@ -131,7 +131,7 @@ extension PopupStackViewModelTests {
         )
     }
 }
-private extension PopupStackViewModelTests {
+private extension PopupVerticalStackViewModelTests {
     func appendPopupsAndCheckPopups<C: Config>(viewModel: ViewModel<C>, popups: [AnyPopup], updatedPopup: AnyPopup, expectedValue: (height: CGFloat?, dragHeight: CGFloat?)) {
         viewModel.t_updatePopupsValue(popups)
         viewModel.t_updatePopup(updatedPopup)
@@ -144,7 +144,7 @@ private extension PopupStackViewModelTests {
 }
 
 // MARK: Popup Height
-extension PopupStackViewModelTests {
+extension PopupVerticalStackViewModelTests {
     func test_calculatePopupHeight_withAutoHeightMode_whenLessThanScreen_onePopupStacked() {
         bottomViewModel.t_updatePopupsValue([
             createPopupInstanceForPopupHeightTests(type: BottomPopupConfig.self, heightMode: .auto, popupHeight: 150)
@@ -271,14 +271,14 @@ extension PopupStackViewModelTests {
         )
     }
 }
-private extension PopupStackViewModelTests {
+private extension PopupVerticalStackViewModelTests {
     func calculateLastPopupHeight<C: Config>(_ viewModel: ViewModel<C>) -> CGFloat {
         viewModel.t_calculateHeight(heightCandidate: viewModel.t_popups.last!.height!, popupConfig: viewModel.t_popups.last!.config as! C)
     }
 }
 
 // MARK: Active Popup Height
-extension PopupStackViewModelTests {
+extension PopupVerticalStackViewModelTests {
     func test_calculateActivePopupHeight_withAutoHeightMode_whenLessThanScreen_onePopupStacked() {
         let popups = [
             createPopupInstanceForPopupHeightTests(type: BottomPopupConfig.self, heightMode: .auto, popupHeight: 100)
@@ -421,7 +421,7 @@ extension PopupStackViewModelTests {
         )
     }
 }
-private extension PopupStackViewModelTests {
+private extension PopupVerticalStackViewModelTests {
     func appendPopupsAndCheckActivePopupHeight<C: Config>(viewModel: ViewModel<C>, popups: [AnyPopup], gestureTranslation: CGFloat, expectedValue: CGFloat) {
         appendPopupsAndPerformChecks(
             viewModel: viewModel,
@@ -434,7 +434,7 @@ private extension PopupStackViewModelTests {
 }
 
 // MARK: Offset
-extension PopupStackViewModelTests {
+extension PopupVerticalStackViewModelTests {
     func test_calculateOffsetY_withZeroGestureTranslation_fivePopupsStacked_thirdElement() {
         bottomViewModel.t_updatePopupsValue([
             createPopupInstanceForPopupHeightTests(type: BottomPopupConfig.self, heightMode: .auto, popupHeight: 350),
@@ -536,7 +536,7 @@ extension PopupStackViewModelTests {
 }
 
 // MARK: Popup Padding
-extension PopupStackViewModelTests {
+extension PopupVerticalStackViewModelTests {
     func test_calculatePopupPadding_withAutoHeightMode_whenLessThanScreen() {
         let popups = [
             createPopupInstanceForPopupHeightTests(type: BottomPopupConfig.self, heightMode: .auto, popupHeight: 344, popupPadding: .init(top: 12, leading: 17, bottom: 33, trailing: 17))
@@ -622,7 +622,7 @@ extension PopupStackViewModelTests {
         )
     }
 }
-private extension PopupStackViewModelTests {
+private extension PopupVerticalStackViewModelTests {
     func appendPopupsAndCheckPopupPadding<C: Config>(viewModel: ViewModel<C>, popups: [AnyPopup], gestureTranslation: CGFloat, expectedValue: EdgeInsets) {
         appendPopupsAndPerformChecks(
             viewModel: viewModel,
@@ -635,7 +635,7 @@ private extension PopupStackViewModelTests {
 }
 
 // MARK: Body Padding
-extension PopupStackViewModelTests {
+extension PopupVerticalStackViewModelTests {
     func test_calculateBodyPadding_withDefaultSettings() {
         let popups = [
             createPopupInstanceForPopupHeightTests(type: BottomPopupConfig.self, heightMode: .fullscreen, popupHeight: 350)
@@ -733,7 +733,7 @@ extension PopupStackViewModelTests {
         )
     }
 }
-private extension PopupStackViewModelTests {
+private extension PopupVerticalStackViewModelTests {
     func appendPopupsAndCheckBodyPadding<C: Config>(viewModel: ViewModel<C>, popups: [AnyPopup], gestureTranslation: CGFloat, expectedValue: EdgeInsets) {
         appendPopupsAndPerformChecks(
             viewModel: viewModel,
@@ -746,7 +746,7 @@ private extension PopupStackViewModelTests {
 }
 
 // MARK: Translation Progress
-extension PopupStackViewModelTests {
+extension PopupVerticalStackViewModelTests {
     func test_calculateTranslationProgress_withNoGestureTranslation() {
         let popups = [
             createPopupInstanceForPopupHeightTests(type: BottomPopupConfig.self, heightMode: .auto, popupHeight: 300)
@@ -808,7 +808,7 @@ extension PopupStackViewModelTests {
         )
     }
 }
-private extension PopupStackViewModelTests {
+private extension PopupVerticalStackViewModelTests {
     func appendPopupsAndCheckTranslationProgress<C: Config>(viewModel: ViewModel<C>, popups: [AnyPopup], gestureTranslation: CGFloat, expectedValue: CGFloat) {
         appendPopupsAndPerformChecks(
             viewModel: viewModel,
@@ -821,7 +821,7 @@ private extension PopupStackViewModelTests {
 }
 
 // MARK: Corner Radius
-extension PopupStackViewModelTests {
+extension PopupVerticalStackViewModelTests {
     func test_calculateCornerRadius_withTwoPopupsStacked() {
         let popups = [
             createPopupInstanceForPopupHeightTests(type: BottomPopupConfig.self, heightMode: .auto, popupHeight: 300, cornerRadius: 1),
@@ -899,7 +899,7 @@ extension PopupStackViewModelTests {
         )
     }
 }
-private extension PopupStackViewModelTests {
+private extension PopupVerticalStackViewModelTests {
     func appendPopupsAndCheckCornerRadius<C: Config>(viewModel: ViewModel<C>, popups: [AnyPopup], gestureTranslation: CGFloat, expectedValue: [MijickPopups.VerticalEdge: CGFloat]) {
         appendPopupsAndPerformChecks(
             viewModel: viewModel,
@@ -912,7 +912,7 @@ private extension PopupStackViewModelTests {
 }
 
 // MARK: Scale X
-extension PopupStackViewModelTests {
+extension PopupVerticalStackViewModelTests {
     func test_calculateScaleX_withNoGestureTranslation_threePopupsStacked_last() {
         let popups = [
             createPopupInstanceForPopupHeightTests(type: BottomPopupConfig.self, heightMode: .auto, popupHeight: 300),
@@ -978,7 +978,7 @@ extension PopupStackViewModelTests {
         )
     }
 }
-private extension PopupStackViewModelTests {
+private extension PopupVerticalStackViewModelTests {
     func appendPopupsAndCheckScaleX<C: Config>(viewModel: ViewModel<C>, popups: [AnyPopup], gestureTranslation: CGFloat, calculateForIndex index: Int, expectedValueBuilder: @escaping (ViewModel<C>) -> CGFloat) {
         appendPopupsAndPerformChecks(
             viewModel: viewModel,
@@ -991,7 +991,7 @@ private extension PopupStackViewModelTests {
 }
 
 // MARK: Fixed Size
-extension PopupStackViewModelTests {
+extension PopupVerticalStackViewModelTests {
     func test_calculateFixedSize_withAutoHeightMode_whenLessThanScreen_twoPopupsStacked() {
         let popups = [
             createPopupInstanceForPopupHeightTests(type: BottomPopupConfig.self, heightMode: .auto, popupHeight: 1360),
@@ -1053,7 +1053,7 @@ extension PopupStackViewModelTests {
         )
     }
 }
-private extension PopupStackViewModelTests {
+private extension PopupVerticalStackViewModelTests {
     func appendPopupsAndCheckVerticalFixedSize<C: Config>(viewModel: ViewModel<C>, popups: [AnyPopup], gestureTranslation: CGFloat, calculateForIndex index: Int, expectedValue: Bool) {
         appendPopupsAndPerformChecks(
             viewModel: viewModel,
@@ -1066,7 +1066,7 @@ private extension PopupStackViewModelTests {
 }
 
 // MARK: Stack Overlay Opacity
-extension PopupStackViewModelTests {
+extension PopupVerticalStackViewModelTests {
     func test_calculateStackOverlayOpacity_withThreePopupsStacked_whenNoGestureTranslation_last() {
         let popups = [
             createPopupInstanceForPopupHeightTests(type: BottomPopupConfig.self, heightMode: .fullscreen, popupHeight: 1360),
@@ -1168,7 +1168,7 @@ extension PopupStackViewModelTests {
         )
     }
 }
-private extension PopupStackViewModelTests {
+private extension PopupVerticalStackViewModelTests {
     func appendPopupsAndCheckStackOverlayOpacity<C: Config>(viewModel: ViewModel<C>, popups: [AnyPopup], gestureTranslation: CGFloat, calculateForIndex index: Int, expectedValueBuilder: @escaping (ViewModel<C>) -> CGFloat) {
         appendPopupsAndPerformChecks(
             viewModel: viewModel,
@@ -1181,7 +1181,7 @@ private extension PopupStackViewModelTests {
 }
 
 // MARK: On Drag Gesture Changed
-extension PopupStackViewModelTests {
+extension PopupVerticalStackViewModelTests {
     func test_calculateValuesOnDragGestureChanged_withPositiveDragValue_whenDragGestureDisabled() {
         let popups = [
             createPopupInstanceForPopupHeightTests(type: BottomPopupConfig.self, heightMode: .auto, popupHeight: 344, dragGestureEnabled: false)
@@ -1267,7 +1267,7 @@ extension PopupStackViewModelTests {
         )
     }
 }
-private extension PopupStackViewModelTests {
+private extension PopupVerticalStackViewModelTests {
     func appendPopupsAndCheckGestureTranslationOnChange<C: Config>(viewModel: ViewModel<C>, popups: [AnyPopup], gestureValue: CGFloat, expectedValues: (popupHeight: CGFloat, gestureTranslation: CGFloat)) {
         viewModel.t_updatePopupsValue(popups)
         viewModel.t_updatePopupsValue(recalculatePopupHeights(viewModel))
@@ -1279,7 +1279,7 @@ private extension PopupStackViewModelTests {
 }
 
 // MARK: On Drag Gesture Ended
-extension PopupStackViewModelTests {
+extension PopupVerticalStackViewModelTests {
     func test_calculateValuesOnDragGestureEnded_withNegativeDragValue_whenNoDragDetents() {
         let popups = [
             createPopupInstanceForPopupHeightTests(type: BottomPopupConfig.self, heightMode: .auto, popupHeight: 344)
@@ -1437,7 +1437,7 @@ extension PopupStackViewModelTests {
         )
     }
 }
-private extension PopupStackViewModelTests {
+private extension PopupVerticalStackViewModelTests {
     func appendPopupsAndCheckGestureTranslationOnEnd<C: Config>(viewModel: ViewModel<C>, popups: [AnyPopup], gestureValue: CGFloat, expectedValues: (popupHeight: CGFloat?, shouldPopupBeDismissed: Bool)) {
         viewModel.t_updatePopupsValue(popups)
         viewModel.t_updatePopupsValue(recalculatePopupHeights(viewModel))
@@ -1457,7 +1457,7 @@ private extension PopupStackViewModelTests {
 
 
 // MARK: Methods
-private extension PopupStackViewModelTests {
+private extension PopupVerticalStackViewModelTests {
     func createPopupInstanceForPopupHeightTests<C: Config>(type: C.Type, heightMode: HeightMode, popupHeight: CGFloat, popupDragHeight: CGFloat? = nil, ignoredSafeAreaEdges: Edge.Set = [], popupPadding: EdgeInsets = .init(), cornerRadius: CGFloat = 0, dragGestureEnabled: Bool = true, dragDetents: [DragDetent] = []) -> AnyPopup {
         let config = getConfigForPopupHeightTests(type: type, heightMode: heightMode, ignoredSafeAreaEdges: ignoredSafeAreaEdges, popupPadding: popupPadding, cornerRadius: cornerRadius, dragGestureEnabled: dragGestureEnabled, dragDetents: dragDetents)
 
@@ -1473,7 +1473,7 @@ private extension PopupStackViewModelTests {
         XCTAssertEqual(calculatedValue(viewModel), expectedValueBuilder(viewModel))
     }
 }
-private extension PopupStackViewModelTests {
+private extension PopupVerticalStackViewModelTests {
     func getConfigForPopupHeightTests<C: Config>(type: C.Type, heightMode: HeightMode, ignoredSafeAreaEdges: Edge.Set, popupPadding: EdgeInsets, cornerRadius: CGFloat, dragGestureEnabled: Bool, dragDetents: [DragDetent]) -> C { .t_createNew(
         popupPadding: popupPadding,
         cornerRadius: cornerRadius,
@@ -1488,7 +1488,7 @@ private extension PopupStackViewModelTests {
 }
 
 // MARK: Screen
-private extension PopupStackViewModelTests {
+private extension PopupVerticalStackViewModelTests {
     var screen: Screen { .init(
         height: 1000,
         safeArea: .init(top: 100, leading: 20, bottom: 50, trailing: 30)
@@ -1496,7 +1496,7 @@ private extension PopupStackViewModelTests {
 }
 
 // MARK: Typealiases
-private extension PopupStackViewModelTests {
+private extension PopupVerticalStackViewModelTests {
     typealias Config = LocalConfig.Vertical
     typealias ViewModel = VM.VerticalStack
 }
