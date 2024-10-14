@@ -11,7 +11,10 @@
 
 import os
 
-class Logger {
+class Logger {}
+
+// MARK: Log
+extension Logger {
     static func log(level: OSLogType, message: String) {
         os.Logger().log(level: level, "ERROR!\n\nFRAMEWORK: MijickPopups\nDESCRIPTION: \(message)")
     }
