@@ -13,6 +13,7 @@ import SwiftUI
 
 #if os(iOS)
 /**
+ Register the framework to work in your application. Works only on iOS.
 
  ## Implementation Example
  ```swift
@@ -49,6 +50,8 @@ import SwiftUI
     }
  }
  ```
+
+ - seealso: It's also possible to register the framework with ``MijickPopups/SwiftUICore/View/registerPopups(id:configBuilder:)``.
  */
 open class PopupSceneDelegate: NSObject, UIWindowSceneDelegate {
     open var window: UIWindow?
