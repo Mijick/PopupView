@@ -1,5 +1,5 @@
 //
-//  Public+Popup.swift of MijickPopups
+//  Public+Present+Popup.swift of MijickPopups
 //
 //  Created by Tomasz Kurylik. Sending ❤️ from Kraków!
 //    - Mail: tomasz.kurylik@mijick.com
@@ -10,27 +10,6 @@
 
 
 import SwiftUI
-
-public protocol Popup: View {
-    associatedtype Config: LocalConfig
-
-    func configurePopup(config: Config) -> Config
-    func onFocus()
-    func onDismiss()
-}
-
-// MARK: Default Methods Implementation
-public extension Popup {
-    func configurePopup(config: Config) -> Config { config }
-    func onFocus() {}
-    func onDismiss() {}
-}
-
-
-
-// MARK: - PUBLIC METHODS
-
-
 
 // MARK: Present
 public extension Popup {
@@ -48,14 +27,3 @@ public extension Popup {
     /// Supplies an observable object to a view’s hierarchy
     func setEnvironmentObject<T: ObservableObject>(_ object: T) -> some Popup { AnyPopup(self).settingEnvironmentObject(object) }
 }
-
-
-
-// MARK: - OTHERS
-
-
-
-// MARK: Available Popup Types
-public protocol TopPopup: Popup { associatedtype Config = TopPopupConfig }
-public protocol CentrePopup: Popup { associatedtype Config = CentrePopupConfig }
-public protocol BottomPopup: Popup { associatedtype Config = BottomPopupConfig }
