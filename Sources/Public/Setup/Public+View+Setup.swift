@@ -12,7 +12,6 @@
 import SwiftUI
 
 public extension View {
-
     /**
      Registers the library in your app.
 
@@ -20,8 +19,8 @@ public extension View {
         - id: Text...
         - configBuilder: Text...
 
-     ## Implementation Example
 
+     ## Implementation Example
      ```swift
      import SwiftUI
      import MijickPopups
