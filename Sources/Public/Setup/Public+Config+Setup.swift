@@ -29,7 +29,12 @@ public extension GlobalConfig {
      */
     func cornerRadius(_ value: CGFloat) -> Self { self.cornerRadius = value; return self }
 
-    /// Background color of the popup
+    /**
+     Background color of the popup.
+
+     # Visualisation
+     ![image](https://github.com/Mijick/Assets/blob/main/Framework%20Docs/Popups/background-color.png?raw=true)
+     */
     func backgroundColor(_ color: Color) -> Self { self.backgroundColor = color; return self }
 
     /// Color of the overlay covering the view behind the popup. Use .clear to hide the overlay
