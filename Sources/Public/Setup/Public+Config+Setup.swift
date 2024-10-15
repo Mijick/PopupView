@@ -21,7 +21,12 @@ public extension GlobalConfig {
      */
     func popupHorizontalPadding(_ value: CGFloat) -> Self { self.popupPadding = .init(top: popupPadding.top, leading: value, bottom: popupPadding.bottom, trailing: value); return self }
 
-    /// Corner radius of the popup at the top of the stack
+    /**
+     Corner radius of the background of the active popup.
+
+     # Visualisation
+     ![image](https://github.com/Mijick/Assets/blob/main/Framework%20Docs/Popups/corner-radius.png?raw=true)
+     */
     func cornerRadius(_ value: CGFloat) -> Self { self.cornerRadius = value; return self }
 
     /// Background color of the popup
