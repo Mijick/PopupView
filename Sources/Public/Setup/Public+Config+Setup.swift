@@ -37,7 +37,14 @@ public extension GlobalConfig {
      */
     func backgroundColor(_ color: Color) -> Self { self.backgroundColor = color; return self }
 
-    /// Color of the overlay covering the view behind the popup. Use .clear to hide the overlay
+    /**
+     The colour of the overlay covering the view behind the pop-up.
+
+     # Visualisation
+     ![image](https://github.com/Mijick/Assets/blob/main/Framework%20Docs/Popups/overlay-color.png?raw=true)
+
+     - tip: Use .clear to hide the overlay.
+     */
     func overlayColor(_ color: Color) -> Self { self.overlayColor = color; return self }
 
     /// Dismisses the active popup when tapped outside its area if enabled
