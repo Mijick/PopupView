@@ -31,6 +31,11 @@ public extension Popup {
      */
     func setEnvironmentObject<T: ObservableObject>(_ object: T) -> some Popup { AnyPopup(self).settingEnvironmentObject(object) }
 
-    /// Closes popup after n seconds
+    /**
+     Dismisses the popup after a specified period of time.
+
+     - Parameters:
+        - seconds: Time in seconds after which the popup will be closed.
+     */
     func dismissAfter(_ seconds: Double) -> some Popup { AnyPopup(self).settingDismissTimer(seconds) }
 }
