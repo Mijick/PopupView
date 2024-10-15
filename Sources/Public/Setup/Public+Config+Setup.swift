@@ -11,7 +11,7 @@
 
 import SwiftUI
 
-// MARK: All
+// MARK: Vertical & Centre
 public extension GlobalConfig {
     /**
      Distance of the entire popup (including its background) from the horizontal edges of the screen.
@@ -56,7 +56,7 @@ public extension GlobalConfig {
     func tapOutsideToDismissPopup(_ value: Bool) -> Self { self.isTapOutsideToDismissEnabled = value; return self }
 }
 
-// MARK: Vertical
+// MARK: Only Vertical
 public extension GlobalConfig.Vertical {
     /**
      Distance of the entire popup (including its background) from the top edge of the screen.
