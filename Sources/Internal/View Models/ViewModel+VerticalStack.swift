@@ -319,7 +319,7 @@ private extension VM.VerticalStack {
     var stackOverlayFactor: CGFloat { 0.1 }
     var maxStackOverlayFactor: CGFloat { 0.48 }
     var stackOffset: CGFloat { GlobalConfigContainer.vertical.isStackingEnabled ? 8 : 0 }
-    var gestureClosingThresholdFactor: CGFloat { GlobalConfigContainer.vertical.dragGestureProgressToClose }
+    var dragThreshold: CGFloat { GlobalConfigContainer.vertical.dragThreshold }
     var dragGestureEnabled: Bool { getActivePopupConfig().isDragGestureEnabled }
 }
 
@@ -423,7 +423,7 @@ private extension VM.VerticalStack {
             deltaHeight = abs(previousPopupHeight - popupTargetHeight)
         let progress = abs(currentPopupHeight - previousPopupHeight) / deltaHeight
 
-        if progress < gestureClosingThresholdFactor {
+        if progress < dragThreshold {
             let index = gestureTranslation * getDragTranslationMultiplier() > 0 ? max(0, initialIndex - 1) : initialIndex
             return popupTargetHeights[index]
         }
@@ -439,7 +439,7 @@ private extension VM.VerticalStack {
         updateGestureTranslation(0)
     }
     func shouldDismissPopup() -> Bool {
-        translationProgress >= gestureClosingThresholdFactor
+        translationProgress >= dragThreshold
     }
 }
 

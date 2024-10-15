@@ -75,7 +75,7 @@ public extension GlobalConfig.Vertical {
     func popupBottomPadding(_ value: CGFloat) -> Self { self.popupPadding = .init(top: popupPadding.top, leading: popupPadding.leading, bottom: value, trailing: popupPadding.trailing); return self }
 
     /// Minimal threshold of a drag gesture to close the active popup
-    func minimalDragThresholdToDismissPopup(_ value: CGFloat) -> Self { self.dragGestureProgressToClose = value; return self }
+    func dragThreshold(_ value: CGFloat) -> Self { self.dragThreshold = value; return self }
 
     func enableStacking(_ value: Bool) -> Self { self.isStackingEnabled = value; return self }
 

@@ -12,7 +12,7 @@
 import Foundation
 
 public extension GlobalConfig { class Vertical: GlobalConfig {
-    var dragGestureProgressToClose: CGFloat = 1/3
+    var dragThreshold: CGFloat = 1/3
     var isStackingEnabled: Bool = true
     var isDragGestureEnabled: Bool = true
 
