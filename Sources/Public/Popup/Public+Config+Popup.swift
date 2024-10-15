@@ -11,7 +11,7 @@
 
 import SwiftUI
 
-// MARK: All
+// MARK: Vertical & Centre
 public extension LocalConfig {
     /// Distance of the entire popup (including its background) from the horizontal edges
     func popupHorizontalPadding(_ value: CGFloat) -> Self { self.popupPadding = .init(top: popupPadding.top, leading: value, bottom: popupPadding.bottom, trailing: value); return self }
@@ -29,7 +29,7 @@ public extension LocalConfig {
     func tapOutsideToDismissPopup(_ value: Bool) -> Self { self.isTapOutsideToDismissEnabled = value; return self }
 }
 
-// MARK: Vertical
+// MARK: Only Vertical
 public extension LocalConfig.Vertical {
     /// Distance of the entire popup (including its background) from the top edge
     func popupTopPadding(_ value: CGFloat) -> Self { self.popupPadding = .init(top: value, leading: popupPadding.leading, bottom: popupPadding.bottom, trailing: popupPadding.trailing); return self }
