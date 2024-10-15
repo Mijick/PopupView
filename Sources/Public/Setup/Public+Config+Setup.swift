@@ -84,6 +84,12 @@ public extension GlobalConfig.Vertical {
      */
     func dragThreshold(_ value: CGFloat) -> Self { self.dragThreshold = value; return self }
 
+    /**
+     Indicates whether stacked popups should be visible in the view.
+
+     # Visualisation
+     ![image](https://github.com/Mijick/Assets/blob/main/Framework%20Docs/Popups/enable-stacking.png?raw=true)
+     */
     func enableStacking(_ value: Bool) -> Self { self.isStackingEnabled = value; return self }
 
     /// Popup can be closed with drag gesture if enabled
