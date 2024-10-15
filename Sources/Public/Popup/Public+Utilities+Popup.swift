@@ -18,6 +18,8 @@ public enum HeightMode {
 
      ## Visualisation
      ![image](https://github.com/Mijick/Assets/blob/main/Framework%20Docs/Popups/height-mode-auto.png?raw=true)
+
+     - note: If the calculated height is greater than the screen height, the height mode will automatically be switched to ``large``.
      */
     case auto
 
