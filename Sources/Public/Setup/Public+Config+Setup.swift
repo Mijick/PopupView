@@ -48,7 +48,7 @@ public extension GlobalConfig {
     func overlayColor(_ color: Color) -> Self { self.overlayColor = color; return self }
 
     /**
-     If enabled, closes the active popup when touched outside its area.
+     If enabled, dismisses the active popup when touched outside its area.
 
      # Visualisation
      ![image](https://github.com/Mijick/Assets/blob/main/Framework%20Docs/Popups/tap-to-close.png?raw=true)
