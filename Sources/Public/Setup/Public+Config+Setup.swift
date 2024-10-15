@@ -24,7 +24,7 @@ public extension GlobalConfig {
     /**
      Corner radius of the background of the active popup.
 
-     # Visualisation
+     ## Visualisation
      ![image](https://github.com/Mijick/Assets/blob/main/Framework%20Docs/Popups/corner-radius.png?raw=true)
      */
     func cornerRadius(_ value: CGFloat) -> Self { self.cornerRadius = value; return self }
@@ -32,7 +32,7 @@ public extension GlobalConfig {
     /**
      Background color of the popup.
 
-     # Visualisation
+     ## Visualisation
      ![image](https://github.com/Mijick/Assets/blob/main/Framework%20Docs/Popups/background-color.png?raw=true)
      */
     func backgroundColor(_ color: Color) -> Self { self.backgroundColor = color; return self }
@@ -40,7 +40,7 @@ public extension GlobalConfig {
     /**
      The color of the overlay covering the view behind the pop-up.
 
-     # Visualisation
+     ## Visualisation
      ![image](https://github.com/Mijick/Assets/blob/main/Framework%20Docs/Popups/overlay-color.png?raw=true)
 
      - tip: Use .clear to hide the overlay.
@@ -50,7 +50,7 @@ public extension GlobalConfig {
     /**
      If enabled, dismisses the active popup when touched outside its area.
 
-     # Visualisation
+     ## Visualisation
      ![image](https://github.com/Mijick/Assets/blob/main/Framework%20Docs/Popups/tap-to-close.png?raw=true)
      */
     func tapOutsideToDismissPopup(_ value: Bool) -> Self { self.isTapOutsideToDismissEnabled = value; return self }
@@ -61,7 +61,7 @@ public extension GlobalConfig.Vertical {
     /**
      Distance of the entire popup (including its background) from the top edge of the screen.
 
-     # Visualisation
+     ## Visualisation
      ![image](https://github.com/Mijick/Assets/blob/main/Framework%20Docs/Popups/top-padding.png?raw=true)
      */
     func popupTopPadding(_ value: CGFloat) -> Self { self.popupPadding = .init(top: value, leading: popupPadding.leading, bottom: popupPadding.bottom, trailing: popupPadding.trailing); return self }
@@ -69,7 +69,7 @@ public extension GlobalConfig.Vertical {
     /**
      Distance of the entire popup (including its background) from the bottom edge of the screen.
 
-     # Visualisation
+     ## Visualisation
      ![image](https://github.com/Mijick/Assets/blob/main/Framework%20Docs/Popups/bottom-padding.png?raw=true)
      */
     func popupBottomPadding(_ value: CGFloat) -> Self { self.popupPadding = .init(top: popupPadding.top, leading: popupPadding.leading, bottom: value, trailing: popupPadding.trailing); return self }
@@ -77,7 +77,7 @@ public extension GlobalConfig.Vertical {
     /**
      The drag progress value above which the popup will either be dismissed or move to the next drag detent value.
 
-     # Visualisation
+     ## Visualisation
      ![image](https://github.com/Mijick/Assets/blob/main/Framework%20Docs/Popups/drag-threshold.png?raw=true)
 
      - important: Drag progress is calculated as **dragTranslation** / **popupHeight**, therefore drag threshold value is expected to be between 0 and 1.
@@ -87,7 +87,7 @@ public extension GlobalConfig.Vertical {
     /**
      Indicates whether stacked popups should be visible in the view.
 
-     # Visualisation
+     ## Visualisation
      ![image](https://github.com/Mijick/Assets/blob/main/Framework%20Docs/Popups/enable-stacking.png?raw=true)
      */
     func enableStacking(_ value: Bool) -> Self { self.isStackingEnabled = value; return self }
@@ -95,7 +95,7 @@ public extension GlobalConfig.Vertical {
     /**
      Determines whether it's possible to interact with popups using a drag gesture.
 
-     # Visualisation
+     ## Visualisation
      ![image](https://github.com/Mijick/Assets/blob/main/Framework%20Docs/Popups/enable-drag-gesture.png?raw=true)
      */
     func enableDragGesture(_ value: Bool) -> Self { self.isDragGestureEnabled = value; return self }
