@@ -12,10 +12,7 @@
 import SwiftUI
 
 /**
-Blablabla
-
-
-
+ The view to be displayed as a popup. It may appear in one of three positions (see **Usage Examples** section).
 
  # Usage Examples
 
