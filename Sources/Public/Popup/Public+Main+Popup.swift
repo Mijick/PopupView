@@ -53,6 +53,20 @@ Blablabla
  ![CentrePopup](https://github.com/Mijick/Assets/blob/main/Framework%20Docs/Popups/centre-popup.png?raw=true)
 
  ## BottomPopup
+ ```swift
+ struct BottomPopupExample: BottomPopup {
+    func onFocus() { print("Popup is now active") }
+    func onDismiss() { print("Popup was dismissed") }
+    func configurePopup(config: BottomPopupConfig) -> BottomPopupConfig { config
+        .heightMode(.auto)
+        .cornerRadius(44)
+        .dragDetents([.fraction(1.2), .fraction(1.4), .large])
+    }
+    var body: some View {
+        Text("Hello Kitty")
+    }
+ }
+ ```
  ![BottomPopup](https://github.com/Mijick/Assets/blob/main/Framework%20Docs/Popups/bottom-popup.png?raw=true)
  */
 public protocol Popup: View {
