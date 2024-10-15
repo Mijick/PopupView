@@ -13,6 +13,10 @@ import SwiftUI
 
 /**
  The view to be displayed as a popup. It may appear in one of three positions (see **Usage Examples** section).
+ # Optional Methods
+ - ``configurePopup(config:)-3ze4``
+ - ``onFocus()-6krqs``
+ - ``onDismiss()-254h8``
 
  # Usage Examples
 
