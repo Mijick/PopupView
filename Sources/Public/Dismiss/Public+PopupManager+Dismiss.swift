@@ -42,7 +42,7 @@ public extension PopupManager {
         - popupManagerID: The identifier for which the popup was presented. For more information, see ``Popup/present(popupManagerID:)``.
 
      - Important: Make sure you use the correct **popupManagerID** from which you want to remove the popup.
-     - Important: Jeśli ustawiono customID dla popupu, to użyj metody instead.
+     - Important: If a customID (``Popup/setCustomID(_:)``) is set for the popup, use the ``dismissPopup(_:popupManagerID:)-1atvy`` method instead.
      */
     static func dismissPopup<P: Popup>(_ type: P.Type, popupManagerID: PopupManagerID = .shared) { fetchInstance(id: popupManagerID)?.stack(.removeAllPopupsOfType(type)) }
 
