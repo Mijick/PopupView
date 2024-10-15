@@ -50,7 +50,7 @@ import SwiftUI
  }
  ```
 
- - seealso: It's also possible to register the framework with ``MijickPopups/SwiftUICore/View/registerPopups(id:configBuilder:)``.
+ - seealso: It's also possible to register the framework with ``SwiftUICore/View/registerPopups(id:configBuilder:)``.
  */
 open class PopupSceneDelegate: NSObject, UIWindowSceneDelegate {
     open var window: UIWindow?
