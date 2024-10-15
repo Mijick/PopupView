@@ -12,7 +12,10 @@
 import Foundation
 
 public extension PopupManager {
-    /// Dismisses the last popup on the stack
+    /**
+     Dismisses the currently active popup.
+     Makes the next popup in the stack the new active popup.
+     */
     static func dismissLastPopup(popupManagerID: PopupManagerID = .shared) { fetchInstance(id: popupManagerID)?.stack(.removeLastPopup) }
 
     /// Dismisses all the popups of provided ID on the stack
