@@ -74,7 +74,10 @@ public protocol Popup: View {
     associatedtype Config: LocalConfig
 
     /**
-     Text
+     Configure the popup.
+     See the list of available methods in ``LocalConfig`` and ``LocalConfig/Vertical``.
+
+    - important: Jeśli nie skonfigurowano jakiegoś ele
      */
     func configurePopup(config: Config) -> Config
 
