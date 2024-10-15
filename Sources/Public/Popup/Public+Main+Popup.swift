@@ -11,6 +11,21 @@
 
 import SwiftUI
 
+/**
+Blablabla
+
+ # Available
+
+
+ ### TopPopup
+ ![TopPopup](https://github.com/Mijick/Assets/blob/main/Framework%20Docs/Popups/enable-drag-gesture.png?raw=true)
+
+ ### CentrePopup
+ ![CentrePopup](https://github.com/Mijick/Assets/blob/main/Framework%20Docs/Popups/enable-drag-gesture.png?raw=true)
+
+ ### BottomPopup
+ ![BottomPopup](https://github.com/Mijick/Assets/blob/main/Framework%20Docs/Popups/enable-drag-gesture.png?raw=true)
+ */
 public protocol Popup: View {
     associatedtype Config: LocalConfig
 
