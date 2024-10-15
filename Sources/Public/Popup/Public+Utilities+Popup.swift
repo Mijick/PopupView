@@ -43,7 +43,7 @@ public enum HeightMode {
 // MARK: Drag Detent
 public enum DragDetent {
     /**
-     A custom detent with the specified height.
+     A detent with the specified height.
 
      ## Visualisation
      ![image](https://github.com/Mijick/Assets/blob/main/Framework%20Docs/Popups/drag-detent-height.png?raw=true)
@@ -51,7 +51,7 @@ public enum DragDetent {
     case height(CGFloat)
 
     /**
-     A custom detent with the specified fractional height.
+     A detent with the specified fractional height.
 
      ## Visualisation
      ![image](https://github.com/Mijick/Assets/blob/main/Framework%20Docs/Popups/drag-detent-fraction.png?raw=true)
@@ -60,12 +60,15 @@ public enum DragDetent {
 
     /**
 
+
      */
     case large
 
     /**
-     
+     A detent for a popup at full height.
 
+     ## Visualisation
+     ![image](https://github.com/Mijick/Assets/blob/main/Framework%20Docs/Popups/drag-detent-fullscreen.png?raw=true)
      */
     case fullscreen
 }
