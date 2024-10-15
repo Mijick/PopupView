@@ -74,7 +74,15 @@ public extension LocalConfig.Vertical {
      */
     func popupBottomPadding(_ value: CGFloat) -> Self { self.popupPadding = .init(top: popupPadding.top, leading: popupPadding.leading, bottom: value, trailing: popupPadding.trailing); return self }
 
-    /// Whether content should ignore safe area
+    /**
+     Expands the safe area of a popup.
+
+     - Parameters:
+        - edges: The regions to expand the popup’s safe area into.
+
+     ## Visualisation
+     ![image](https://github.com/Mijick/Assets/blob/main/Framework%20Docs/Popups/ignore-safe-area.png?raw=true)
+     */
     func ignoreSafeArea(edges: Edge.Set) -> Self { self.ignoredSafeAreaEdges = edges; return self }
 
     func heightMode(_ value: HeightMode) -> Self { self.heightMode = value; return self }
