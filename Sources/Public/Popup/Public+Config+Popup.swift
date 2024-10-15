@@ -86,7 +86,7 @@ public extension LocalConfig.Vertical {
     func ignoreSafeArea(edges: Edge.Set) -> Self { self.ignoredSafeAreaEdges = edges; return self }
 
     /**
-     fffff
+     Sets the height for the popup. By default, the height of the popup is calculated based on its content.
 
      ## Visualisation
      ![image](https://github.com/Mijick/Assets/blob/main/Framework%20Docs/Popups/height-mode.png?raw=true)
