@@ -13,19 +13,46 @@ import SwiftUI
 
 // MARK: Vertical & Centre
 public extension LocalConfig {
-    /// Distance of the entire popup (including its background) from the horizontal edges
+    /**
+     Distance of the entire popup (including its background) from the horizontal edges of the screen.
+
+     ## Visualisation
+     ![image](https://github.com/Mijick/Assets/blob/main/Framework%20Docs/Popups/horizontal-padding.png?raw=true)
+     */
     func popupHorizontalPadding(_ value: CGFloat) -> Self { self.popupPadding = .init(top: popupPadding.top, leading: value, bottom: popupPadding.bottom, trailing: value); return self }
 
-    /// Corner radius of the popup at the top of the stack
+    /**
+     Corner radius of the background of the active popup.
+
+     # Visualisation
+     ![image](https://github.com/Mijick/Assets/blob/main/Framework%20Docs/Popups/corner-radius.png?raw=true)
+     */
     func cornerRadius(_ value: CGFloat) -> Self { self.cornerRadius = value; return self }
 
-    /// Background color of the popup
+    /**
+     Background color of the popup.
+
+     # Visualisation
+     ![image](https://github.com/Mijick/Assets/blob/main/Framework%20Docs/Popups/background-color.png?raw=true)
+     */
     func backgroundColor(_ color: Color) -> Self { self.backgroundColor = color; return self }
 
-    /// Color of the overlay covering the view behind the popup. Use .clear to hide the overlay
+    /**
+     The colour of the overlay covering the view behind the pop-up.
+
+     # Visualisation
+     ![image](https://github.com/Mijick/Assets/blob/main/Framework%20Docs/Popups/overlay-color.png?raw=true)
+
+     - tip: Use .clear to hide the overlay.
+     */
     func overlayColor(_ color: Color) -> Self { self.overlayColor = color; return self }
 
-    /// Dismisses the active popup when tapped outside its area if enabled
+    /**
+     If enabled, dismisses the active popup when touched outside its area.
+
+     # Visualisation
+     ![image](https://github.com/Mijick/Assets/blob/main/Framework%20Docs/Popups/tap-to-close.png?raw=true)
+     */
     func tapOutsideToDismissPopup(_ value: Bool) -> Self { self.isTapOutsideToDismissEnabled = value; return self }
 }
 
