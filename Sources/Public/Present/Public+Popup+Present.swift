@@ -24,7 +24,7 @@ public extension Popup {
     /**
      Sets the custom ID for the selected popup.
 
-     - important: Aby dismiss the popup o danym ID, użyj opcji dismissPOpupID a nie type, bo nie będzie działać
+     - important: To dismiss a popup with a custom ID set, use methods ``PopupManager/dismissPopup(_:popupManagerID:)-1atvy`` or ``SwiftUICore/View/dismissPopup(_:popupManagerID:)-55ubm``
      - tip: Useful if you want to display several different popups of the same type.
      */
     func setCustomID(_ id: String) -> some Popup { AnyPopup(self).settingCustomID(id) }
