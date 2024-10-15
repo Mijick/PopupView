@@ -79,12 +79,12 @@ public protocol Popup: View {
     func configurePopup(config: Config) -> Config
 
     /**
-     Actions triggered every time a popup is at the top of the stack.
+     Method triggered **every time** a popup is at the top of the stack.
      */
     func onFocus()
 
     /**
-     Actions triggered when a popup is dismissed.
+     Method triggered when a popup is dismissed.
      */
     func onDismiss()
 }
