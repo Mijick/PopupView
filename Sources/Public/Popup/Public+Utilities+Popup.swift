@@ -24,6 +24,7 @@ public enum HeightMode {
     case auto
 
     /**
+     The popup has a fixed height, which is equal to the height of the screen minus the safe area and the height of the popups stack (if ``GlobalConfig/Vertical/enableStacking(_:)`` is enabled).
 
      ## Visualisation
      ![image](https://github.com/Mijick/Assets/blob/main/Framework%20Docs/Popups/height-mode-large.png?raw=true)
