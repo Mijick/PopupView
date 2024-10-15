@@ -12,7 +12,10 @@
 import SwiftUI
 
 public extension View {
-    /// Dismisses the last popup on the stack
+    /**
+     Dismisses the currently active popup.
+     Makes the next popup in the stack the new active popup.
+     */
     func dismissLastPopup(popupManagerID: PopupManagerID = .shared) { PopupManager.dismissLastPopup(popupManagerID: popupManagerID) }
 
     /// Dismisses all the popups of provided ID on the stack
