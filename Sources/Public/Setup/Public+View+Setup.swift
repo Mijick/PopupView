@@ -13,7 +13,7 @@ import SwiftUI
 
 public extension View {
     /**
-     Register the framework to work in your application.
+     Registers the framework to work in your application.
 
      - Parameters:
         - id: It is possible to register multiple managers (for different windows); especially useful in a macOS or iPad implementation. Read more in ``PopupManagerID``.

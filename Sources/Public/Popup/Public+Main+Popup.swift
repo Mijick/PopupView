@@ -74,7 +74,7 @@ public protocol Popup: View {
     associatedtype Config: LocalConfig
 
     /**
-     Configure the popup.
+     Configures the popup.
      See the list of available methods in ``LocalConfig`` and ``LocalConfig/Vertical``.
 
     - important: If a certain method is not called here, the popup inherits the configuration from ``GlobalConfigContainer``.

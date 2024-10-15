@@ -38,7 +38,7 @@ public extension LocalConfig {
     func backgroundColor(_ color: Color) -> Self { self.backgroundColor = color; return self }
 
     /**
-     The colour of the overlay covering the view behind the pop-up.
+     The color of the overlay covering the view behind the pop-up.
 
      # Visualisation
      ![image](https://github.com/Mijick/Assets/blob/main/Framework%20Docs/Popups/overlay-color.png?raw=true)
@@ -80,7 +80,7 @@ public extension LocalConfig.Vertical {
     func heightMode(_ value: HeightMode) -> Self { self.heightMode = value; return self }
 
     /**
-     Set the available detents for the popup.
+     Sets the available detents for the popup.
 
      # Visualisation
      ![image](https://github.com/Mijick/Assets/blob/main/Framework%20Docs/Popups/drag-detent.png?raw=true)

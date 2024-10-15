@@ -38,7 +38,7 @@ public extension GlobalConfig {
     func backgroundColor(_ color: Color) -> Self { self.backgroundColor = color; return self }
 
     /**
-     The colour of the overlay covering the view behind the pop-up.
+     The color of the overlay covering the view behind the pop-up.
 
      # Visualisation
      ![image](https://github.com/Mijick/Assets/blob/main/Framework%20Docs/Popups/overlay-color.png?raw=true)
