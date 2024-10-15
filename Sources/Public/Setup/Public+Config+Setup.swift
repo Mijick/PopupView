@@ -58,10 +58,20 @@ public extension GlobalConfig {
 
 // MARK: Vertical
 public extension GlobalConfig.Vertical {
-    /// Distance of the entire popup (including its background) from the top edge
+    /**
+     Distance of the entire popup (including its background) from the top edge of the screen.
+
+     # Visualisation
+     ![image](https://github.com/Mijick/Assets/blob/main/Framework%20Docs/Popups/top-padding.png?raw=true)
+     */
     func popupTopPadding(_ value: CGFloat) -> Self { self.popupPadding = .init(top: value, leading: popupPadding.leading, bottom: popupPadding.bottom, trailing: popupPadding.trailing); return self }
 
-    /// Distance of the entire popup (including its background) from the bottom edge
+    /**
+     Distance of the entire popup (including its background) from the bottom edge of the screen.
+
+     # Visualisation
+     ![image](https://github.com/Mijick/Assets/blob/main/Framework%20Docs/Popups/bottom-padding.png?raw=true)
+     */
     func popupBottomPadding(_ value: CGFloat) -> Self { self.popupPadding = .init(top: popupPadding.top, leading: popupPadding.leading, bottom: value, trailing: popupPadding.trailing); return self }
 
     /// Minimal threshold of a drag gesture to close the active popup
