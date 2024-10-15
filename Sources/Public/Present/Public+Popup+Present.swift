@@ -21,11 +21,11 @@ public extension Popup {
 
 // MARK: Configure Popup
 public extension Popup {
-    /// Closes popup after n seconds
-    func dismissAfter(_ seconds: Double) -> some Popup { AnyPopup(self).settingDismissTimer(seconds) }
-
     func setCustomID(_ id: String) -> some Popup { AnyPopup(self).settingCustomID(id) }
 
     /// Supplies an observable object to a view’s hierarchy
     func setEnvironmentObject<T: ObservableObject>(_ object: T) -> some Popup { AnyPopup(self).settingEnvironmentObject(object) }
+
+    /// Closes popup after n seconds
+    func dismissAfter(_ seconds: Double) -> some Popup { AnyPopup(self).settingDismissTimer(seconds) }
 }
