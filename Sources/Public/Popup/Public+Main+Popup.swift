@@ -84,7 +84,7 @@ public protocol Popup: View {
     func onFocus()
 
     /**
-     Text
+     Actions triggered when a popup is dismissed.
      */
     func onDismiss()
 }
