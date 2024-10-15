@@ -59,7 +59,8 @@ public enum DragDetent {
     case fraction(CGFloat)
 
     /**
-     A detent for a popup at large height. See more details in ``HeightMode/large``.
+     A detent for a popup at large height.
+     See ``HeightMode/large`` for more details.
 
      ## Visualisation
      ![image](https://github.com/Mijick/Assets/blob/main/Framework%20Docs/Popups/drag-detent-large.png?raw=true)
@@ -67,7 +68,8 @@ public enum DragDetent {
     case large
 
     /**
-     A detent for a popup at fullscreen height. See more details in ``HeightMode/fullscreen``.
+     A detent for a popup at fullscreen height.
+     See ``HeightMode/fullscreen`` for more details.
 
      ## Visualisation
      ![image](https://github.com/Mijick/Assets/blob/main/Framework%20Docs/Popups/drag-detent-fullscreen.png?raw=true)
