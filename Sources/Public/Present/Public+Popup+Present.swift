@@ -15,6 +15,21 @@ public extension Popup {
     /**
      Presents the popup.
      The currently active popup (if any) will be stacked.
+
+     - Parameters:
+        - popupManagerID: The identifier registered in one of the application windows in which the popup is to be displayed.
+
+     - Important: The **popupManagerID** must be registered prior to use. For more information see ``SwiftUICore/View/registerPopups(id:configBuilder:)``.
+     - Important: The methods
+     ``PopupManager/dismissLastPopup(popupManagerID:)``,
+     ``PopupManager/dismissPopup(_:popupManagerID:)-1atvy``,
+     ``PopupManager/dismissPopup(_:popupManagerID:)-6l2c2``,
+     ``PopupManager/dismissAllPopups(popupManagerID:)``,
+     ``SwiftUICore/View/dismissLastPopup(popupManagerID:)``,
+     ``SwiftUICore/View/dismissPopup(_:popupManagerID:)-55ubm``,
+     ``SwiftUICore/View/dismissPopup(_:popupManagerID:)-9mkd5``,
+     ``SwiftUICore/View/dismissAllPopups(popupManagerID:)``
+     should be called with the same **popupManagerID** as the one used here.
      */
     func present(popupManagerID: PopupManagerID = .shared) { PopupManager.fetchInstance(id: popupManagerID)?.stack(.insertPopup(self)) }
 }
