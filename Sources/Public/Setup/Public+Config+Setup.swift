@@ -75,15 +75,13 @@ public extension GlobalConfig.Vertical {
     func popupBottomPadding(_ value: CGFloat) -> Self { self.popupPadding = .init(top: popupPadding.top, leading: popupPadding.leading, bottom: value, trailing: popupPadding.trailing); return self }
     
     /**
-     The value above which the popup will either be dismissed or move to the next drag detent value.
+     The drag progress value above which the popup will either be dismissed or move to the next drag detent value.
 
      # Visualisation
      ![image](https://github.com/Mijick/Assets/blob/main/Framework%20Docs/Popups/drag-threshold.png?raw=true)
 
-     - note: It's
-     - important: The value should be between 0 and 1.
+     - important: Drag progress is calculated as **dragTranslation** / **popupHeight**, therefore drag threshold value is expected to be between 0 and 1.
      */
-
     func dragThreshold(_ value: CGFloat) -> Self { self.dragThreshold = value; return self }
 
     func enableStacking(_ value: Bool) -> Self { self.isStackingEnabled = value; return self }
