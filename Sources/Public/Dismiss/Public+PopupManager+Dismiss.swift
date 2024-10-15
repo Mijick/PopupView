@@ -34,7 +34,16 @@ public extension PopupManager {
      */
     static func dismissPopup(_ id: String, popupManagerID: PopupManagerID = .shared) { fetchInstance(id: popupManagerID)?.stack(.removeAllPopupsWithID(id)) }
 
-    /// Dismisses all the popups of provided type on the stack
+    /**
+     Removes all popups of the provided type from the stack.
+
+     - Parameters:
+        - type: Type of the popup located on the stack.
+        - popupManagerID: The identifier for which the popup was presented. For more information, see ``Popup/present(popupManagerID:)``.
+
+     - Important: Make sure you use the correct **popupManagerID** from which you want to remove the popup.
+     - Important: Jeśli ustawiono customID dla popupu, to użyj metody instead.
+     */
     static func dismissPopup<P: Popup>(_ type: P.Type, popupManagerID: PopupManagerID = .shared) { fetchInstance(id: popupManagerID)?.stack(.removeAllPopupsOfType(type)) }
 
     /**
