@@ -77,7 +77,7 @@ public protocol Popup: View {
      Configure the popup.
      See the list of available methods in ``LocalConfig`` and ``LocalConfig/Vertical``.
 
-    - important: Jeśli nie skonfigurowano jakiegoś ele
+    - important: If a certain method is not called here, the popup inherits the configuration from ``GlobalConfigContainer``.
      */
     func configurePopup(config: Config) -> Config
 
