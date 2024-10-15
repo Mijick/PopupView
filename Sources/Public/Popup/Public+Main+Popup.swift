@@ -19,8 +19,21 @@ Blablabla
 
  # Usage Examples
 
-
  ## TopPopup
+ ```swift
+ struct TopPopupExample: TopPopup {
+    func onFocus() { print("Popup is now active") }
+    func onDismiss() { print("Popup was dismissed") }
+    func configurePopup(config: TopPopupConfig) -> TopPopupConfig { config
+        .heightMode(.auto)
+        .cornerRadius(44)
+        .dragDetents([.fraction(1.2), .fraction(1.4), .large])
+    }
+    var body: some View {
+        Text("Hello Kitty")
+    }
+ }
+ ```
  ![TopPopup](https://github.com/Mijick/Assets/blob/main/Framework%20Docs/Popups/top-popup.png?raw=true)
 
  ## CentrePopup
