@@ -42,8 +42,28 @@ public enum HeightMode {
 
 // MARK: Drag Detent
 public enum DragDetent {
-    case fixed(CGFloat)
+    /**
+     A custom detent with the specified height.
+
+
+     */
+    case height(CGFloat)
+
+    /**
+     A custom detent with the specified fractional height.
+
+
+     */
     case fraction(CGFloat)
+
+    /**
+
+     */
     case large
+
+    /**
+     
+
+     */
     case fullscreen
 }
