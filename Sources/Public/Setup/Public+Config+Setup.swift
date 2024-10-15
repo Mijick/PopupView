@@ -92,6 +92,11 @@ public extension GlobalConfig.Vertical {
      */
     func enableStacking(_ value: Bool) -> Self { self.isStackingEnabled = value; return self }
 
-    /// Popup can be closed with drag gesture if enabled
+    /**
+     Determines whether it's possible to interact with popups using a drag gesture.
+
+     # Visualisation
+     ![image](https://github.com/Mijick/Assets/blob/main/Framework%20Docs/Popups/enable-drag-gesture.png?raw=true)
+     */
     func enableDragGesture(_ value: Bool) -> Self { self.isDragGestureEnabled = value; return self }
 }
