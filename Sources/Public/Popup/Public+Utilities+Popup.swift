@@ -45,14 +45,16 @@ public enum DragDetent {
     /**
      A custom detent with the specified height.
 
-
+     ## Visualisation
+     ![image](https://github.com/Mijick/Assets/blob/main/Framework%20Docs/Popups/drag-detent-height.png?raw=true)
      */
     case height(CGFloat)
 
     /**
      A custom detent with the specified fractional height.
 
-
+     ## Visualisation
+     ![image](https://github.com/Mijick/Assets/blob/main/Framework%20Docs/Popups/drag-detent-fraction.png?raw=true)
      */
     case fraction(CGFloat)
 
