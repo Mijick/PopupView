@@ -22,7 +22,10 @@ public extension Popup {
 // MARK: Configure Popup
 public extension Popup {
     /**
+     Sets the custom ID for the selected popup.
 
+     - note: Przydatny, gdy chcesz zaprezentować kilka różnych popupów tego samego typu
+     - important: Aby dismiss the popup o danym ID, użyj opcji dismissPOpupID a nie type, bo nie będzie działać
      */
     func setCustomID(_ id: String) -> some Popup { AnyPopup(self).settingCustomID(id) }
 
