@@ -73,8 +73,19 @@ import SwiftUI
 public protocol Popup: View {
     associatedtype Config: LocalConfig
 
+    /**
+     Text
+     */
     func configurePopup(config: Config) -> Config
+
+    /**
+     Text
+     */
     func onFocus()
+
+    /**
+     Text
+     */
     func onDismiss()
 }
 
