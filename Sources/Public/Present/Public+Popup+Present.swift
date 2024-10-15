@@ -12,7 +12,10 @@
 import SwiftUI
 
 public extension Popup {
-    /// Displays the popup. Stacks previous one
+    /**
+     Presents the popup.
+     The currently active popup (if any) will be stacked.
+     */
     func present(popupManagerID: PopupManagerID = .shared) { PopupManager.fetchInstance(id: popupManagerID)?.stack(.insertPopup(self)) }
 }
 
