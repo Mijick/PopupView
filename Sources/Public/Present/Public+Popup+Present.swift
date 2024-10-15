@@ -21,9 +21,14 @@ public extension Popup {
 
 // MARK: Configure Popup
 public extension Popup {
+    /**
+
+     */
     func setCustomID(_ id: String) -> some Popup { AnyPopup(self).settingCustomID(id) }
 
-    /// Supplies an observable object to a view’s hierarchy
+    /**
+     Supplies an observable object to a popup's hierarchy.
+     */
     func setEnvironmentObject<T: ObservableObject>(_ object: T) -> some Popup { AnyPopup(self).settingEnvironmentObject(object) }
 
     /// Closes popup after n seconds
