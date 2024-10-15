@@ -79,7 +79,12 @@ public extension LocalConfig.Vertical {
 
     func heightMode(_ value: HeightMode) -> Self { self.heightMode = value; return self }
 
-    /// Sets available detents for the popupSets the available detents for the enclosing sheet
+    /**
+     Set the available detents for the popup.
+
+     # Visualisation
+     ![image](https://github.com/Mijick/Assets/blob/main/Framework%20Docs/Popups/drag-detent.png?raw=true)
+     */
     func dragDetents(_ value: [DragDetent]) -> Self { self.dragDetents = value; return self }
 
     /**
