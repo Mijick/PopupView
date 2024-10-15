@@ -13,7 +13,12 @@ import SwiftUI
 
 // MARK: All
 public extension GlobalConfig {
-    /// Distance of the entire popup (including its background) from the horizontal edges
+    /**
+     Distance of the entire popup (including its background) from the horizontal edges of the screen.
+
+     ## Visualisation
+     ![image](https://github.com/Mijick/Assets/blob/main/Framework%20Docs/Popups/horizontal-padding.png?raw=true)
+     */
     func popupHorizontalPadding(_ value: CGFloat) -> Self { self.popupPadding = .init(top: popupPadding.top, leading: value, bottom: popupPadding.bottom, trailing: value); return self }
 
     /// Corner radius of the popup at the top of the stack
