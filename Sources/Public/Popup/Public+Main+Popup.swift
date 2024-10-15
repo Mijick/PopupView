@@ -79,7 +79,7 @@ public protocol Popup: View {
     func configurePopup(config: Config) -> Config
 
     /**
-     Text
+     Actions triggered every time a popup is at the top of the stack.
      */
     func onFocus()
 
