@@ -1,5 +1,5 @@
 //
-//  Public+Config+Popup.swift of MijickPopups
+//  Public+Popup+Config.swift of MijickPopups
 //
 //  Created by Tomasz Kurylik. Sending ❤️ from Kraków!
 //    - Mail: tomasz.kurylik@mijick.com
