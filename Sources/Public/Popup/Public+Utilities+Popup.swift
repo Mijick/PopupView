@@ -31,7 +31,8 @@ public enum HeightMode {
     case large
 
     /**
-     
+     Fills the entire height of the screen, regardless of the height of the popup content.
+
      ## Visualisation
      ![image](https://github.com/Mijick/Assets/blob/main/Framework%20Docs/Popups/height-mode-fullscreen.png?raw=true)
      */
