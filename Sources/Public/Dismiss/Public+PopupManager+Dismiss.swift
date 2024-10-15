@@ -13,7 +13,7 @@ import Foundation
 
 public extension PopupManager {
     /**
-     Dismisses the currently active popup.
+     Removes the currently active popup from the stack.
      Makes the next popup in the stack the new active popup.
 
      - Parameters:
@@ -23,7 +23,15 @@ public extension PopupManager {
      */
     static func dismissLastPopup(popupManagerID: PopupManagerID = .shared) { fetchInstance(id: popupManagerID)?.stack(.removeLastPopup) }
 
-    /// Dismisses all the popups of provided ID on the stack
+    /**
+     Removes all popups with the specified identifier from the stack.
+
+     - Parameters:
+        - id: Identifier of the popup located on the stack.
+        - popupManagerID: The identifier for which the popup was presented. For more information, see ``Popup/present(popupManagerID:)``.
+
+     - Important: Make sure you use the correct **popupManagerID** from which you want to remove the popup.
+     */
     static func dismissPopup(_ id: String, popupManagerID: PopupManagerID = .shared) { fetchInstance(id: popupManagerID)?.stack(.removeAllPopupsWithID(id)) }
 
     /// Dismisses all the popups of provided type on the stack
@@ -35,7 +43,7 @@ public extension PopupManager {
      - Parameters:
         - popupManagerID: The identifier for which the popup was presented. For more information, see ``Popup/present(popupManagerID:)``.
 
-     - Important: Make sure you use the correct **popupManagerID** from which you want to remove the popup.
+     - Important: Make sure you use the correct **popupManagerID** from which you want to remove the popups.
      */
     static func dismissAllPopups(popupManagerID: PopupManagerID = .shared) { fetchInstance(id: popupManagerID)?.stack(.removeAllPopups) }
 }
