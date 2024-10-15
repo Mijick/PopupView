@@ -85,6 +85,12 @@ public extension LocalConfig.Vertical {
      */
     func ignoreSafeArea(edges: Edge.Set) -> Self { self.ignoredSafeAreaEdges = edges; return self }
 
+    /**
+     fffff
+
+     ## Visualisation
+     ![image](https://github.com/Mijick/Assets/blob/main/Framework%20Docs/Popups/height-mode.png?raw=true)
+     */
     func heightMode(_ value: HeightMode) -> Self { self.heightMode = value; return self }
 
     /**
