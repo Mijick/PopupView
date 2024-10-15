@@ -73,8 +73,17 @@ public extension GlobalConfig.Vertical {
      ![image](https://github.com/Mijick/Assets/blob/main/Framework%20Docs/Popups/bottom-padding.png?raw=true)
      */
     func popupBottomPadding(_ value: CGFloat) -> Self { self.popupPadding = .init(top: popupPadding.top, leading: popupPadding.leading, bottom: value, trailing: popupPadding.trailing); return self }
+    
+    /**
+     The value above which the popup will either be dismissed or move to the next drag detent value.
 
-    /// Minimal threshold of a drag gesture to close the active popup
+     # Visualisation
+     ![image](https://github.com/Mijick/Assets/blob/main/Framework%20Docs/Popups/drag-threshold.png?raw=true)
+
+     - note: It's
+     - important: The value should be between 0 and 1.
+     */
+
     func dragThreshold(_ value: CGFloat) -> Self { self.dragThreshold = value; return self }
 
     func enableStacking(_ value: Bool) -> Self { self.isStackingEnabled = value; return self }
