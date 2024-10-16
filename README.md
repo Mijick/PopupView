@@ -79,7 +79,7 @@ MijickPopups is a free and open-source library dedicated for SwiftUI that makes 
 #### [Swift Package Manager][spm]
 Swift Package Manager is a tool for automating the distribution of Swift code and is integrated into the Swift compiler.
 
-Once you have your Swift package set up, adding PopupView as a dependency is as easy as adding it to the `dependencies` value of your `Package.swift`.
+Once you have your Swift package set up, adding MijickPopups as a dependency is as easy as adding it to the `dependencies` value of your `Package.swift`.
 
 ```Swift
 dependencies: [
@@ -112,45 +112,57 @@ Installation steps:
 The library can be initialised in either of two ways:
 1. **DOES NOT WORK with SwiftUI sheets**<br>Inside your @main structure call the `registerPopups()` method. It takes the optional argument - `configBuilder`, that can be used to configure some modifiers for all popups in the application.
 ```Swift
-@main struct PopupView_Main: App {
-    var body: some Scene {
-        WindowGroup(content: ContentView().registerPopups)
-    }
+@main struct App_Main: App {
+   var body: some Scene { WindowGroup {
+       ContentView()
+           .registerPopups { config in config
+               .vertical { $0
+                   .enableDragGesture(true)
+                   .tapOutsideToDismissPopup(true)
+                   .cornerRadius(32)
+               }
+               .centre { $0
+                   .tapOutsideToDismissPopup(false)
+                   .backgroundColor(.white)
+               }
+           }
+   }}
 }
 ```
 2. **WORKS with SwiftUI sheets. Only for iOS**<br>
 Declare an AppDelegate class conforming to UIApplicationDelegate and add it to the @main structure. 
 ```Swift
-@main struct PopupView_Main: App {
-    @UIApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
+@main struct App_Main: App {
+   @UIApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
 
-    var body: some Scene { WindowGroup(content: ContentView.init) }
+
+   var body: some Scene { WindowGroup(content: ContentView.init) }
 }
+
 
 class AppDelegate: NSObject, UIApplicationDelegate {
-    func application(_ application: UIApplication, configurationForConnecting connectingSceneSession: UISceneSession, options: UIScene.ConnectionOptions) -> UISceneConfiguration {
-        let sceneConfig = UISceneConfiguration(name: nil, sessionRole: connectingSceneSession.role)
-        sceneConfig.delegateClass = CustomPopupSceneDelegate.self
-        return sceneConfig
-    }
+   func application(_ application: UIApplication, configurationForConnecting connectingSceneSession: UISceneSession, options: UIScene.ConnectionOptions) -> UISceneConfiguration {
+       let sceneConfig = UISceneConfiguration(name: nil, sessionRole: connectingSceneSession.role)
+       sceneConfig.delegateClass = CustomPopupSceneDelegate.self
+       return sceneConfig
+   }
 }
 
+
 class CustomPopupSceneDelegate: PopupSceneDelegate {
-    override init() {
-        super.init()
-        config = { $0
-            .top { $0
-                .cornerRadius(24)
-                .dragGestureEnabled(true)
-            }
-            .centre { $0
-                .tapOutsideToDismiss(false)
-            }
-            .bottom { $0
-                .stackLimit(5)
-            }
-        }
-    }
+   override init() { super.init()
+       configBuilder = { $0
+           .vertical { $0
+               .enableDragGesture(true)
+               .tapOutsideToDismissPopup(true)
+               .cornerRadius(32)
+           }
+           .centre { $0
+               .tapOutsideToDismissPopup(false)
+               .backgroundColor(.white)
+           }
+       }
+   }
 }
 ```
 
