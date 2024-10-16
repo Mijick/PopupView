@@ -198,12 +198,12 @@ struct BottomCustomPopup: BottomPopup {
 }
 ```
 
-### 4. Implement `configurePopup(popup: Config) -> Config` method
+### 4. Implement `configurePopup(config: Config) -> Config` method
 *Declaring this step is optional - if you wish, you can skip this step and leave the UI configuration to us.*<br/>
 Each protocol has its own set of methods that can be used to create a unique appearance for every popup.
 ```Swift
 struct BottomCustomPopup: BottomPopup {    
-    func createContent() -> some View {
+    var body: some View {
         HStack(spacing: 0) {
             Text("Witaj okrutny świecie")
             Spacer()
@@ -213,8 +213,8 @@ struct BottomCustomPopup: BottomPopup {
         .padding(.leading, 24)
         .padding(.trailing, 16)
     }
-    func configurePopup(popup: BottomPopupConfig) -> BottomPopupConfig {
-        popup
+    func configurePopup(config: BottomPopupConfig) -> BottomPopupConfig {
+        config
             .horizontalPadding(20)
             .bottomPadding(42)
             .cornerRadius(16)
