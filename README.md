@@ -241,21 +241,21 @@ struct SettingsViewModel {
 
 ### 6. Closing popups
 There are two methods to do so:
-- By calling one of the methods `dismiss`, `dismiss(_ popup: Popup.Type)`, `dismissAll(upTo: Popup.Type)`, `dismissAll` inside the popup you created
+- By calling one of the methods `dismissLastPopup`, `dismissPopup(_ type: Popup.Type)`, `dismissPopup(_ id: String)`, `dismissAllPopups` inside the popup you created
 ```Swift
 struct BottomCustomPopup: BottomPopup {
     ...
     func createButton() -> some View {
-        Button(action: dismiss) { Text("Tap to close") } 
+        Button(action: dismissLastPopup) { Text("Tap to close") } 
     }
     ...
 }
 ```
 - By calling one of three static methods of PopupManager:
-    - `PopupManager.dismiss()`
-    - `PopupManager.dismiss(_ popup: Popup.Type)` where popup is the popup you want to close
-    - `PopupManager.dismissAll(upTo popup: Popup.Type)` where popup is the popup up to which you want to close the popups on the stack
-    - `PopupManager.dismissAll()`
+    - `PopupManager.dismissLastPopup()`
+    - `PopupManager.dismissPopup(_ type: Popup.Type)` where popup is the popup you want to close
+    - `PopupManager.dismissPopup(_ id: String)` where ID is the ID of the popup you want to close
+    - `PopupManager.dismissAllPopups()`
     
 <br>
 
