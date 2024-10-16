@@ -14,7 +14,6 @@ import SwiftUI
 public extension Popup {
     /**
      Presents the popup.
-     The currently active popup (if any) will be stacked.
 
      - Parameters:
         - popupManagerID: The identifier registered in one of the application windows in which the popup is to be displayed.
