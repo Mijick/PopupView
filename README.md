@@ -17,7 +17,7 @@
 </p>
 
 <p align="center">
-    <a href="https://github.com/Mijick/PopupView-Demo" rel="nofollow">Try demo we prepared</a>
+    <a href="https://github.com/Mijick/Popups-Demo" rel="nofollow">Try demo we prepared</a>
     |
     <a href="https://mijick.notion.site/c95fe641ff684561a4523b9570113516?v=46960f9a652147d4a12fc9dd36cbd4fc" rel="nofollow">Roadmap</a>
     |
@@ -54,7 +54,7 @@
 
 <br>
 
-PopupView is a free and open-source library dedicated for SwiftUI that makes the process of presenting popups easier and much cleaner.
+MijickPopups is a free and open-source library dedicated for SwiftUI that makes the process of presenting popups easier and much cleaner.
 * **Improves code quality.** Show your popup using the `showAndStack()` or `showAndReplace()` method.<br/>
     Hide the selected one with `dismiss()`. Simple as never.
 * **Create any popup.** We know how important customisation is; that's why we give you the opportunity to design your popup in any way you like.
@@ -83,7 +83,7 @@ Once you have your Swift package set up, adding PopupView as a dependency is as 
 
 ```Swift
 dependencies: [
-    .package(url: "https://github.com/Mijick/PopupView.git", branch(“main”))
+    .package(url: "https://github.com/Mijick/Popups.git", branch(“main”))
 ]
 ```
 
@@ -270,8 +270,8 @@ PopupView is released under the MIT license. See [LICENSE][License] for details.
 [MIT]: https://en.wikipedia.org/wiki/MIT_License
 [SPM]: https://www.swift.org/package-manager
 
-[Demo]: https://github.com/Mijick/PopupView-Demo
-[License]: https://github.com/Mijick/PopupView/blob/main/LICENSE
+[Demo]: https://github.com/Mijick/Popups-Demo
+[License]: https://github.com/Mijick/Popups/blob/main/LICENSE
 
 [spm]: https://www.swift.org/package-manager/
 [cocoapods]: https://cocoapods.org/
