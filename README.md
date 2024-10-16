@@ -35,7 +35,7 @@
 
 <p align="center">
     <img alt="Made in Kraków" src="https://github.com/Mijick/Assets/blob/main/PopupView/Labels/Origin.svg"/>
-    <a href="https://twitter.com/MijickTeam">
+    <a href="https://twitter.com/_Mijick">
         <img alt="Follow us on X" src="https://github.com/Mijick/Assets/blob/main/PopupView/Labels/X.svg"/>
     </a>
     <a href=mailto:team@mijick.com?subject=Hello>
