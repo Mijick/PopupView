@@ -30,7 +30,7 @@
     <img alt="SwiftUI logo" src="https://github.com/Mijick/Assets/blob/main/PopupView/Labels/Language.svg"/>
     <img alt="Platforms: iOS, iPadOS, macOS, tvOS" src="https://github.com/Mijick/Assets/blob/main/PopupView/Labels/Platforms.svg"/>
     <img alt="Current Version" src="https://github.com/Mijick/Assets/blob/main/PopupView/Labels/Version.svg"/>
-    <img alt="License: MIT" src="https://github.com/Mijick/Assets/blob/main/PopupView/Labels/License.svg"/>
+    <img alt="License: Apache 2.0" src="https://github.com/Mijick/Assets/blob/main/PopupView/Labels/License.svg"/>
 </p>
 
 <p align="center">
@@ -266,7 +266,7 @@ The framework has extensive documentation built in, so in case of any problems, 
 See for yourself how does it work by cloning [project][Demo] we created
 
 # License
-PopupView is released under the MIT license. See [LICENSE][License] for details.
+MijickPopups is released under the Apache License 2.0. See [LICENSE][License] for details.
 
 <br><br>
 
@@ -282,7 +282,6 @@ PopupView is released under the MIT license. See [LICENSE][License] for details.
 [Timer] - Modern API for Timer
 
 
-[MIT]: https://en.wikipedia.org/wiki/MIT_License
 [SPM]: https://www.swift.org/package-manager
 
 [Demo]: https://github.com/Mijick/Popups-Demo
