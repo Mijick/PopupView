@@ -1,21 +1,23 @@
-// swift-tools-version: 5.7
+// swift-tools-version: 6.0
 // The swift-tools-version declares the minimum version of Swift required to build this package.
 
 import PackageDescription
 
 let package = Package(
-    name: "MijickPopupView",
+    name: "MijickPopups",
     platforms: [
         .iOS(.v14),
         .macOS(.v12),
         .tvOS(.v15),
-        .watchOS(.v4)
+        .watchOS(.v4),
+        .visionOS(.v1)
     ],
     products: [
-        .library(name: "MijickPopupView", targets: ["MijickPopupView"])
+        .library(name: "MijickPopups", targets: ["MijickPopups"])
     ],
     targets: [
-        .target(name: "MijickPopupView", dependencies: [], path: "Sources")
+        .target(name: "MijickPopups", dependencies: [], path: "Sources"),
+        .testTarget(name: "MijickPopupsTests", dependencies: ["MijickPopups"], path: "Tests")
     ],
-    swiftLanguageVersions: [.v5]
+    swiftLanguageModes: [.v6]
 )

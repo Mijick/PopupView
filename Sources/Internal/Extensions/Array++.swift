@@ -1,34 +1,14 @@
 //
-//  Array++.swift of PopupView
+//  Array++.swift of MijickPopups
 //
-//  Created by Tomasz Kurylik
-//    - Twitter: https://twitter.com/tkurylik
+//  Created by Tomasz Kurylik. Sending ❤️ from Kraków!
 //    - Mail: tomasz.kurylik@mijick.com
+//    - GitHub: https://github.com/FulcrumOne
+//    - Medium: https://medium.com/@mijick
 //
-//  Copyright ©2023 Mijick. Licensed under MIT License.
+//  Copyright ©2024 Mijick. All rights reserved.
 
 
-import Foundation
-
-// MARK: Mutable
-extension Array {
-    @inlinable mutating func append(_ newElement: Element, if prerequisite: Bool) { if prerequisite { append(newElement) } }
-    @inlinable mutating func removeAllUpToElement(where predicate: (Element) -> Bool) { if let index = lastIndex(where: predicate) { removeLast(count - index - 1) } }
-    @inlinable mutating func removeLast() { if !isEmpty { removeLast(1) } }
-    @inlinable mutating func replaceLast(_ newElement: Element, if prerequisite: Bool) { if prerequisite {
-        switch isEmpty {
-            case true: append(newElement)
-            case false: self[count - 1] = newElement
-        }
-    }}
-}
-
-// MARK: Immutable
 extension Array {
     @inlinable func appending(_ newElement: Element) -> Self { self + [newElement] }
-}
-
-// MARK: Others
-extension Array {
-    var nextToLast: Element? { count >= 2 ? self[count - 2] : nil }
 }

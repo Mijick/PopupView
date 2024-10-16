@@ -17,11 +17,11 @@
 </p>
 
 <p align="center">
-    <a href="https://github.com/Mijick/PopupView-Demo" rel="nofollow">Try demo we prepared</a>
+    <a href="https://github.com/Mijick/Popups-Demo" rel="nofollow">Try demo we prepared</a>
     |
     <a href="https://mijick.notion.site/c95fe641ff684561a4523b9570113516?v=46960f9a652147d4a12fc9dd36cbd4fc" rel="nofollow">Roadmap</a>
     |
-    <a href="https://github.com/Mijick/PopupView/issues/new" rel="nofollow">Propose a new feature</a>
+    <a href="https://github.com/Mijick/Popups/issues/new" rel="nofollow">Propose a new feature</a>
 </p>
 
 <br>
@@ -30,16 +30,16 @@
     <img alt="SwiftUI logo" src="https://github.com/Mijick/Assets/blob/main/PopupView/Labels/Language.svg"/>
     <img alt="Platforms: iOS, iPadOS, macOS, tvOS" src="https://github.com/Mijick/Assets/blob/main/PopupView/Labels/Platforms.svg"/>
     <img alt="Current Version" src="https://github.com/Mijick/Assets/blob/main/PopupView/Labels/Version.svg"/>
-    <img alt="License: MIT" src="https://github.com/Mijick/Assets/blob/main/PopupView/Labels/License.svg"/>
+    <img alt="License: Apache 2.0" src="https://github.com/Mijick/Assets/blob/main/PopupView/Labels/License.svg"/>
 </p>
 
 <p align="center">
     <img alt="Made in Kraków" src="https://github.com/Mijick/Assets/blob/main/PopupView/Labels/Origin.svg"/>
-    <a href="https://twitter.com/MijickTeam">
+    <a href="https://twitter.com/_Mijick">
         <img alt="Follow us on X" src="https://github.com/Mijick/Assets/blob/main/PopupView/Labels/X.svg"/>
     </a>
-    <a href=mailto:team@mijick.com?subject=Hello>
-        <img alt="Let's work together" src="https://github.com/Mijick/Assets/blob/main/PopupView/Labels/Work%20with%20us.svg"/>
+    <a href="https://discord.com/invite/dT5V7nm5SC">
+        <img alt="Join our community" src="https://github.com/Mijick/Assets/blob/main/PopupView/Labels/Discord.svg"/>
     </a>  
     <a href="https://github.com/Mijick/PopupView/stargazers">
         <img alt="Stargazers" src="https://github.com/Mijick/Assets/blob/main/PopupView/Labels/Stars.svg"/>
@@ -54,9 +54,9 @@
 
 <br>
 
-PopupView is a free and open-source library dedicated for SwiftUI that makes the process of presenting popups easier and much cleaner.
-* **Improves code quality.** Show your popup using the `showAndStack()` or `showAndReplace()` method.<br/>
-    Hide the selected one with `dismiss()`. Simple as never.
+MijickPopups is a free and open-source library dedicated for SwiftUI that makes the process of presenting popups easier and much cleaner.
+* **Improves code quality.** Show your popup using the `present()` method.<br/>
+    Hide with `dismissLastPopup()`. Simple as never.
 * **Create any popup.** We know how important customisation is; that's why we give you the opportunity to design your popup in any way you like.
 * **Designed for SwiftUI.** While developing the library, we have used the power of SwiftUI to give you powerful tool to speed up your implementation process.
 
@@ -67,23 +67,23 @@ PopupView is a free and open-source library dedicated for SwiftUI that makes the
 
 | **Platforms** | **Minimum Swift Version** |
 |:----------|:----------|
-| iOS 14+ | 5.0 |
-| iPadOS 14+ | 5.0 |
-| macOS 12+ | 5.0 |
-| tvOS 15+ | 5.0 |
-| watchOS 4+ | 5.0 |
-| visionOS 1+ | 5.0 |
+| iOS 14+ | 6.0 |
+| iPadOS 14+ | 6.0 |
+| macOS 12+ | 6.0 |
+| tvOS 15+ | 6.0 |
+| watchOS 4+ | 6.0 |
+| visionOS 1+ | 6.0 |
 
 ### ⏳ Installation
     
 #### [Swift Package Manager][spm]
 Swift Package Manager is a tool for automating the distribution of Swift code and is integrated into the Swift compiler.
 
-Once you have your Swift package set up, adding PopupView as a dependency is as easy as adding it to the `dependencies` value of your `Package.swift`.
+Once you have your Swift package set up, adding MijickPopups as a dependency is as easy as adding it to the `dependencies` value of your `Package.swift`.
 
 ```Swift
 dependencies: [
-    .package(url: "https://github.com/Mijick/PopupView.git", branch(“main”))
+    .package(url: "https://github.com/Mijick/Popups.git", branch(“main”))
 ]
 ```
 
@@ -98,59 +98,71 @@ Installation steps:
 ```
 - Add CocoaPods dependency into your `Podfile`   
 ```Swift
-    pod 'MijickPopupView'
+    pod 'MijickPopups'
 ```
 - Install dependency and generate `.xcworkspace` file
 ```Swift
     pod install
 ```
-- Use new XCode project file `.xcworkspace`
+- Use new Xcode project file `.xcworkspace`
 <br>
     
 # Usage
 ### 1. Setup library
 The library can be initialised in either of two ways:
-1. **DOES NOT WORK with SwiftUI sheets**<br>Inside your @main structure call the implementPopupView method. It takes the optional argument - config, that can be used to configure some modifiers for all popups in the application.
+1. **DOES NOT WORK with SwiftUI sheets**<br>Inside your @main structure call the `registerPopups()` method. It takes the optional argument - `configBuilder`, that can be used to configure some modifiers for all popups in the application.
 ```Swift
-@main struct PopupView_Main: App {
-    var body: some Scene {
-        WindowGroup(content: ContentView().implementPopupView)
-    }
+@main struct App_Main: App {
+   var body: some Scene { WindowGroup {
+       ContentView()
+           .registerPopups { config in config
+               .vertical { $0
+                   .enableDragGesture(true)
+                   .tapOutsideToDismissPopup(true)
+                   .cornerRadius(32)
+               }
+               .centre { $0
+                   .tapOutsideToDismissPopup(false)
+                   .backgroundColor(.white)
+               }
+           }
+   }}
 }
 ```
 2. **WORKS with SwiftUI sheets. Only for iOS**<br>
 Declare an AppDelegate class conforming to UIApplicationDelegate and add it to the @main structure. 
 ```Swift
-@main struct PopupView_Main: App {
-    @UIApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
+@main struct App_Main: App {
+   @UIApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
 
-    var body: some Scene { WindowGroup(content: ContentView.init) }
+
+   var body: some Scene { WindowGroup(content: ContentView.init) }
 }
+
 
 class AppDelegate: NSObject, UIApplicationDelegate {
-    func application(_ application: UIApplication, configurationForConnecting connectingSceneSession: UISceneSession, options: UIScene.ConnectionOptions) -> UISceneConfiguration {
-        let sceneConfig = UISceneConfiguration(name: nil, sessionRole: connectingSceneSession.role)
-        sceneConfig.delegateClass = CustomPopupSceneDelegate.self
-        return sceneConfig
-    }
+   func application(_ application: UIApplication, configurationForConnecting connectingSceneSession: UISceneSession, options: UIScene.ConnectionOptions) -> UISceneConfiguration {
+       let sceneConfig = UISceneConfiguration(name: nil, sessionRole: connectingSceneSession.role)
+       sceneConfig.delegateClass = CustomPopupSceneDelegate.self
+       return sceneConfig
+   }
 }
 
+
 class CustomPopupSceneDelegate: PopupSceneDelegate {
-    override init() {
-        super.init()
-        config = { $0
-            .top { $0
-                .cornerRadius(24)
-                .dragGestureEnabled(true)
-            }
-            .centre { $0
-                .tapOutsideToDismiss(false)
-            }
-            .bottom { $0
-                .stackLimit(5)
-            }
-        }
-    }
+   override init() { super.init()
+       configBuilder = { $0
+           .vertical { $0
+               .enableDragGesture(true)
+               .tapOutsideToDismissPopup(true)
+               .cornerRadius(32)
+           }
+           .centre { $0
+               .tapOutsideToDismissPopup(false)
+               .backgroundColor(.white)
+           }
+       }
+   }
 }
 ```
 
@@ -168,11 +180,11 @@ struct BottomCustomPopup: BottomPopup {
 }
 ```
 
-### 3. Implement `createContent()` method 
-The function above is used instead of the body property, and declares the design of the popup view.
+### 3. Declare `body` variable 
+The variable above declares the design of the popup.
 ```Swift
 struct BottomCustomPopup: BottomPopup {    
-    func createContent() -> some View {
+    var body: some View {
         HStack(spacing: 0) {
             Text("Witaj okrutny świecie")
             Spacer()
@@ -186,12 +198,12 @@ struct BottomCustomPopup: BottomPopup {
 }
 ```
 
-### 4. Implement `configurePopup(popup: Config) -> Config` method
+### 4. Implement `configurePopup(config: Config) -> Config` method
 *Declaring this step is optional - if you wish, you can skip this step and leave the UI configuration to us.*<br/>
 Each protocol has its own set of methods that can be used to create a unique appearance for every popup.
 ```Swift
 struct BottomCustomPopup: BottomPopup {    
-    func createContent() -> some View {
+    var body: some View {
         HStack(spacing: 0) {
             Text("Witaj okrutny świecie")
             Spacer()
@@ -201,8 +213,8 @@ struct BottomCustomPopup: BottomPopup {
         .padding(.leading, 24)
         .padding(.trailing, 16)
     }
-    func configurePopup(popup: BottomPopupConfig) -> BottomPopupConfig {
-        popup
+    func configurePopup(config: BottomPopupConfig) -> BottomPopupConfig {
+        config
             .horizontalPadding(20)
             .bottomPadding(42)
             .cornerRadius(16)
@@ -212,15 +224,15 @@ struct BottomCustomPopup: BottomPopup {
 ```
 
 ### 5. Present your popup from any place you want!
-Just call `BottomCustomPopup().showAndStack()` from the selected place. Popup can be closed automatically by adding the dismissAfter modifier.
+Just call `BottomCustomPopup().present()` from the selected place. Popup can be closed automatically by adding the `dismissAfter()` modifier.
 ```Swift
 struct SettingsViewModel {
     ...
     func saveSettings() {
         ...
         BottomCustomPopup()
-            .showAndStack()
             .dismissAfter(5)
+            .present()
         ...
     }
     ...
@@ -229,29 +241,32 @@ struct SettingsViewModel {
 
 ### 6. Closing popups
 There are two methods to do so:
-- By calling one of the methods `dismiss`, `dismiss(_ popup: Popup.Type)`, `dismissAll(upTo: Popup.Type)`, `dismissAll` inside the popup you created
+- By calling one of the methods `dismissLastPopup`, `dismissPopup(_ type: Popup.Type)`, `dismissPopup(_ id: String)`, `dismissAllPopups` inside the popup you created
 ```Swift
 struct BottomCustomPopup: BottomPopup {
     ...
     func createButton() -> some View {
-        Button(action: dismiss) { Text("Tap to close") } 
+        Button(action: dismissLastPopup) { Text("Tap to close") } 
     }
     ...
 }
 ```
 - By calling one of three static methods of PopupManager:
-    - `PopupManager.dismiss()`
-    - `PopupManager.dismiss(_ popup: Popup.Type)` where popup is the popup you want to close
-    - `PopupManager.dismissAll(upTo popup: Popup.Type)` where popup is the popup up to which you want to close the popups on the stack
-    - `PopupManager.dismissAll()`
+    - `PopupManager.dismissLastPopup()`
+    - `PopupManager.dismissPopup(_ type: Popup.Type)` where popup is the popup you want to close
+    - `PopupManager.dismissPopup(_ id: String)` where ID is the ID of the popup you want to close
+    - `PopupManager.dismissAllPopups()`
     
 <br>
+
+### Postscript
+The framework has extensive documentation built in, so in case of any problems, please use the Xcode Quick Help 😉 
 
 # Try our demo
 See for yourself how does it work by cloning [project][Demo] we created
 
 # License
-PopupView is released under the MIT license. See [LICENSE][License] for details.
+MijickPopups is released under the Apache License 2.0. See [LICENSE][License] for details.
 
 <br><br>
 
@@ -267,11 +282,10 @@ PopupView is released under the MIT license. See [LICENSE][License] for details.
 [Timer] - Modern API for Timer
 
 
-[MIT]: https://en.wikipedia.org/wiki/MIT_License
 [SPM]: https://www.swift.org/package-manager
 
-[Demo]: https://github.com/Mijick/PopupView-Demo
-[License]: https://github.com/Mijick/PopupView/blob/main/LICENSE
+[Demo]: https://github.com/Mijick/Popups-Demo
+[License]: https://github.com/Mijick/Popups/blob/main/LICENSE
 
 [spm]: https://www.swift.org/package-manager/
 [cocoapods]: https://cocoapods.org/

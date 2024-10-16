@@ -1,5 +1,5 @@
 //
-//  Animation++.swift of MijickPopups
+//  Task++.swift of MijickPopups
 //
 //  Created by Tomasz Kurylik. Sending ❤️ from Kraków!
 //    - Mail: tomasz.kurylik@mijick.com
@@ -11,9 +11,8 @@
 
 import SwiftUI
 
-extension Animation {
-    static var transition: Animation { .spring(duration: Animation.duration, bounce: 0, blendDuration: 0) }
-}
-extension Animation {
-    static var duration: CGFloat { 0.27 }
+extension Task where Success == Never, Failure == Never {
+    static func sleep(seconds: Double) async {
+        try! await Task.sleep(nanoseconds: UInt64(seconds * 1_000_000_000))
+    }
 }

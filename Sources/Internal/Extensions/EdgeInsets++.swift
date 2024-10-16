@@ -1,5 +1,5 @@
 //
-//  Animation++.swift of MijickPopups
+//  EdgeInsets++.swift of MijickPopups
 //
 //  Created by Tomasz Kurylik. Sending ❤️ from Kraków!
 //    - Mail: tomasz.kurylik@mijick.com
@@ -11,9 +11,9 @@
 
 import SwiftUI
 
-extension Animation {
-    static var transition: Animation { .spring(duration: Animation.duration, bounce: 0, blendDuration: 0) }
-}
-extension Animation {
-    static var duration: CGFloat { 0.27 }
+extension EdgeInsets {
+    subscript(_ edge: VerticalEdge) -> CGFloat { switch edge {
+        case .top: top
+        case .bottom: bottom
+    }}
 }
