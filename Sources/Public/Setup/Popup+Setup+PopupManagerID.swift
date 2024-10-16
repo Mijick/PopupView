@@ -32,6 +32,7 @@
  ```
 
  - important: Use methods like ``SwiftUICore/View/dismissLastPopup(popupManagerID:)`` or ``Popup/present(popupManagerID:)`` only with a registered PopupManagerID.
+ - tip: The main use case where you might need to register a different PopupManagerID is when your application has multiple windows - for example, on macOS, iPad or visionOS.
  */
 public struct PopupManagerID: Equatable, Sendable {
     let rawValue: String
