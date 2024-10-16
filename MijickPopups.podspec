@@ -1,8 +1,8 @@
 Pod::Spec.new do |s|
   s.name                  = 'MijickPopups'
-  s.summary               = 'Popups presentation made simple'
+  s.summary               = 'Popups, popovers, sheets, alerts, toasts, banners, (...) presentation made simple. Written with and for SwiftUI.'
   s.description           = <<-DESC
-  PopupView is a free and open-source library dedicated for SwiftUI that makes the process of presenting popups easier and much cleaner.
+  Popups is a free and open-source library dedicated for SwiftUI that makes the process of presenting popups easier and much cleaner.
                                DESC
   
   s.version               = '3.0.0'
