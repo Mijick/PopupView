@@ -21,7 +21,7 @@
     |
     <a href="https://mijick.notion.site/c95fe641ff684561a4523b9570113516?v=46960f9a652147d4a12fc9dd36cbd4fc" rel="nofollow">Roadmap</a>
     |
-    <a href="https://github.com/Mijick/PopupView/issues/new" rel="nofollow">Propose a new feature</a>
+    <a href="https://github.com/Mijick/Popups/issues/new" rel="nofollow">Propose a new feature</a>
 </p>
 
 <br>
@@ -55,8 +55,8 @@
 <br>
 
 MijickPopups is a free and open-source library dedicated for SwiftUI that makes the process of presenting popups easier and much cleaner.
-* **Improves code quality.** Show your popup using the `showAndStack()` or `showAndReplace()` method.<br/>
-    Hide the selected one with `dismiss()`. Simple as never.
+* **Improves code quality.** Show your popup using the `present()` method.<br/>
+    Hide with `dismissLastPopup()`. Simple as never.
 * **Create any popup.** We know how important customisation is; that's why we give you the opportunity to design your popup in any way you like.
 * **Designed for SwiftUI.** While developing the library, we have used the power of SwiftUI to give you powerful tool to speed up your implementation process.
 
@@ -67,12 +67,12 @@ MijickPopups is a free and open-source library dedicated for SwiftUI that makes 
 
 | **Platforms** | **Minimum Swift Version** |
 |:----------|:----------|
-| iOS 14+ | 5.0 |
-| iPadOS 14+ | 5.0 |
-| macOS 12+ | 5.0 |
-| tvOS 15+ | 5.0 |
-| watchOS 4+ | 5.0 |
-| visionOS 1+ | 5.0 |
+| iOS 14+ | 6.0 |
+| iPadOS 14+ | 6.0 |
+| macOS 12+ | 6.0 |
+| tvOS 15+ | 6.0 |
+| watchOS 4+ | 6.0 |
+| visionOS 1+ | 6.0 |
 
 ### ⏳ Installation
     
