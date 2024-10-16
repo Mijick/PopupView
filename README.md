@@ -224,15 +224,15 @@ struct BottomCustomPopup: BottomPopup {
 ```
 
 ### 5. Present your popup from any place you want!
-Just call `BottomCustomPopup().showAndStack()` from the selected place. Popup can be closed automatically by adding the dismissAfter modifier.
+Just call `BottomCustomPopup().present()` from the selected place. Popup can be closed automatically by adding the `dismissAfter()` modifier.
 ```Swift
 struct SettingsViewModel {
     ...
     func saveSettings() {
         ...
         BottomCustomPopup()
-            .showAndStack()
             .dismissAfter(5)
+            .present()
         ...
     }
     ...
