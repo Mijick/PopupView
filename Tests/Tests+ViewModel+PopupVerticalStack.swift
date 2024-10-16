@@ -503,7 +503,7 @@ extension PopupVerticalStackViewModelTests {
             createPopupInstanceForPopupHeightTests(type: BottomPopupConfig.self, heightMode: .auto, popupHeight: 350, popupDragHeight: 249),
             createPopupInstanceForPopupHeightTests(type: BottomPopupConfig.self, heightMode: .auto, popupHeight: 133, popupDragHeight: 21)
         ])
-        ConfigContainer.vertical.isStackingEnabled = false
+        GlobalConfigContainer.vertical.isStackingEnabled = false
 
         XCTAssertEqual(
             bottomViewModel.t_calculateOffsetY(for: bottomViewModel.t_popups[0]),
@@ -1232,7 +1232,7 @@ extension PopupVerticalStackViewModelTests {
     }
     func test_calculateValuesOnDragGestureChanged_withNegativeDragValue_whenDragDetents() {
         let popups = [
-            createPopupInstanceForPopupHeightTests(type: BottomPopupConfig.self, heightMode: .auto, popupHeight: 344, dragDetents: [.fixed(450)])
+            createPopupInstanceForPopupHeightTests(type: BottomPopupConfig.self, heightMode: .auto, popupHeight: 344, dragDetents: [.height(450)])
         ]
 
         appendPopupsAndCheckGestureTranslationOnChange(
@@ -1244,7 +1244,7 @@ extension PopupVerticalStackViewModelTests {
     }
     func test_calculateValuesOnDragGestureChanged_withNegativeDragValue_whenDragDetentsLessThanDragValue_bottomPopupsAlignment() {
         let popups = [
-            createPopupInstanceForPopupHeightTests(type: BottomPopupConfig.self, heightMode: .auto, popupHeight: 344, dragDetents: [.fixed(370)])
+            createPopupInstanceForPopupHeightTests(type: BottomPopupConfig.self, heightMode: .auto, popupHeight: 344, dragDetents: [.height(370)])
         ]
 
         appendPopupsAndCheckGestureTranslationOnChange(
@@ -1256,7 +1256,7 @@ extension PopupVerticalStackViewModelTests {
     }
     func test_calculateValuesOnDragGestureChanged_withNegativeDragValue_whenDragDetentsLessThanDragValue_topPopupsAlignment() {
         let popups = [
-            createPopupInstanceForPopupHeightTests(type: TopPopupConfig.self, heightMode: .auto, popupHeight: 344, dragDetents: [.fixed(370)])
+            createPopupInstanceForPopupHeightTests(type: TopPopupConfig.self, heightMode: .auto, popupHeight: 344, dragDetents: [.height(370)])
         ]
 
         appendPopupsAndCheckGestureTranslationOnChange(
@@ -1294,7 +1294,7 @@ extension PopupVerticalStackViewModelTests {
     }
     func test_calculateValuesOnDragGestureEnded_withNegativeDragValue_whenDragDetentsSet_bottomPopupsAlignment_1() {
         let popups = [
-            createPopupInstanceForPopupHeightTests(type: BottomPopupConfig.self, heightMode: .auto, popupHeight: 344, dragDetents: [.fixed(440)])
+            createPopupInstanceForPopupHeightTests(type: BottomPopupConfig.self, heightMode: .auto, popupHeight: 344, dragDetents: [.height(440)])
         ]
 
         appendPopupsAndCheckGestureTranslationOnEnd(
@@ -1306,7 +1306,7 @@ extension PopupVerticalStackViewModelTests {
     }
     func test_calculateValuesOnDragGestureEnded_withNegativeDragValue_whenDragDetentsSet_bottomPopupsAlignment_2() {
         let popups = [
-            createPopupInstanceForPopupHeightTests(type: BottomPopupConfig.self, heightMode: .auto, popupHeight: 344, dragDetents: [.fixed(440), .fixed(520)])
+            createPopupInstanceForPopupHeightTests(type: BottomPopupConfig.self, heightMode: .auto, popupHeight: 344, dragDetents: [.height(440), .height(520)])
         ]
 
         appendPopupsAndCheckGestureTranslationOnEnd(
@@ -1318,7 +1318,7 @@ extension PopupVerticalStackViewModelTests {
     }
     func test_calculateValuesOnDragGestureEnded_withNegativeDragValue_whenDragDetentsSet_bottomPopupsAlignment_3() {
         let popups = [
-            createPopupInstanceForPopupHeightTests(type: BottomPopupConfig.self, heightMode: .auto, popupHeight: 344, dragDetents: [.fixed(440), .fixed(520)])
+            createPopupInstanceForPopupHeightTests(type: BottomPopupConfig.self, heightMode: .auto, popupHeight: 344, dragDetents: [.height(440), .height(520)])
         ]
 
         appendPopupsAndCheckGestureTranslationOnEnd(
@@ -1330,7 +1330,7 @@ extension PopupVerticalStackViewModelTests {
     }
     func test_calculateValuesOnDragGestureEnded_withNegativeDragValue_whenDragDetentsSet_bottomPopupsAlignment_4() {
         let popups = [
-            createPopupInstanceForPopupHeightTests(type: BottomPopupConfig.self, heightMode: .auto, popupHeight: 344, dragDetents: [.fixed(440), .fixed(520), .large, .fullscreen])
+            createPopupInstanceForPopupHeightTests(type: BottomPopupConfig.self, heightMode: .auto, popupHeight: 344, dragDetents: [.height(440), .height(520), .large, .fullscreen])
         ]
 
         appendPopupsAndCheckGestureTranslationOnEnd(
@@ -1342,7 +1342,7 @@ extension PopupVerticalStackViewModelTests {
     }
     func test_calculateValuesOnDragGestureEnded_withNegativeDragValue_whenDragDetentsSet_bottomPopupsAlignment_5() {
         let popups = [
-            createPopupInstanceForPopupHeightTests(type: BottomPopupConfig.self, heightMode: .auto, popupHeight: 344, dragDetents: [.fixed(440), .fixed(520), .large, .fullscreen])
+            createPopupInstanceForPopupHeightTests(type: BottomPopupConfig.self, heightMode: .auto, popupHeight: 344, dragDetents: [.height(440), .height(520), .large, .fullscreen])
         ]
 
         appendPopupsAndCheckGestureTranslationOnEnd(
@@ -1354,7 +1354,7 @@ extension PopupVerticalStackViewModelTests {
     }
     func test_calculateValuesOnDragGestureEnded_withNegativeDragValue_whenDragDetentsSet_topPopupsAlignment_1() {
         let popups = [
-            createPopupInstanceForPopupHeightTests(type: TopPopupConfig.self, heightMode: .auto, popupHeight: 344, dragDetents: [.fixed(440), .fixed(520), .large, .fullscreen])
+            createPopupInstanceForPopupHeightTests(type: TopPopupConfig.self, heightMode: .auto, popupHeight: 344, dragDetents: [.height(440), .height(520), .large, .fullscreen])
         ]
 
         appendPopupsAndCheckGestureTranslationOnEnd(
@@ -1366,7 +1366,7 @@ extension PopupVerticalStackViewModelTests {
     }
     func test_calculateValuesOnDragGestureEnded_withNegativeDragValue_whenDragDetentsSet_topPopupsAlignment_2() {
         let popups = [
-            createPopupInstanceForPopupHeightTests(type: TopPopupConfig.self, heightMode: .auto, popupHeight: 344, dragDetents: [.fixed(440), .fixed(520), .large, .fullscreen])
+            createPopupInstanceForPopupHeightTests(type: TopPopupConfig.self, heightMode: .auto, popupHeight: 344, dragDetents: [.height(440), .height(520), .large, .fullscreen])
         ]
 
         appendPopupsAndCheckGestureTranslationOnEnd(
