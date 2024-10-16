@@ -41,7 +41,7 @@ public extension View {
         - type: Type of the popup located on the stack.
         - popupManagerID: The identifier for which the popup was presented. For more information, see ``Popup/present(popupManagerID:)``.
 
-     - Important: If a custom ID (``Popup/setCustomID(_:)``) is set for the popup, use the ``dismissPopup(_:popupManagerID:)-1atvy`` method instead.
+     - Important: If a custom ID (see ``Popup/setCustomID(_:)`` method for reference) is set for the popup, use the ``dismissPopup(_:popupManagerID:)-1atvy`` method instead.
      - Important: Make sure you use the correct **popupManagerID** from which you want to remove the popup.
      */
     func dismissPopup<P: Popup>(_ type: P.Type, popupManagerID: PopupManagerID = .shared) { PopupManager.dismissPopup(type, popupManagerID: popupManagerID) }
