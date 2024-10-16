@@ -104,7 +104,7 @@ Installation steps:
 ```Swift
     pod install
 ```
-- Use new XCode project file `.xcworkspace`
+- Use new Xcode project file `.xcworkspace`
 <br>
     
 # Usage
@@ -180,11 +180,11 @@ struct BottomCustomPopup: BottomPopup {
 }
 ```
 
-### 3. Implement `createContent()` method 
-The function above is used instead of the body property, and declares the design of the popup view.
+### 3. Declare `body` variable 
+The variable above declares the design of the popup.
 ```Swift
 struct BottomCustomPopup: BottomPopup {    
-    func createContent() -> some View {
+    var body: some View {
         HStack(spacing: 0) {
             Text("Witaj okrutny świecie")
             Spacer()
