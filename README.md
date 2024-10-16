@@ -38,8 +38,8 @@
     <a href="https://twitter.com/_Mijick">
         <img alt="Follow us on X" src="https://github.com/Mijick/Assets/blob/main/PopupView/Labels/X.svg"/>
     </a>
-    <a href=mailto:team@mijick.com?subject=Hello>
-        <img alt="Let's work together" src="https://github.com/Mijick/Assets/blob/main/PopupView/Labels/Work%20with%20us.svg"/>
+    <a href="https://discord.com/invite/dT5V7nm5SC">
+        <img alt="Join our community" src="https://github.com/Mijick/Assets/blob/main/PopupView/Labels/Discord.svg"/>
     </a>  
     <a href="https://github.com/Mijick/PopupView/stargazers">
         <img alt="Stargazers" src="https://github.com/Mijick/Assets/blob/main/PopupView/Labels/Stars.svg"/>
