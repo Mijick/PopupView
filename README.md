@@ -110,11 +110,11 @@ Installation steps:
 # Usage
 ### 1. Setup library
 The library can be initialised in either of two ways:
-1. **DOES NOT WORK with SwiftUI sheets**<br>Inside your @main structure call the implementPopupView method. It takes the optional argument - config, that can be used to configure some modifiers for all popups in the application.
+1. **DOES NOT WORK with SwiftUI sheets**<br>Inside your @main structure call the `registerPopups()` method. It takes the optional argument - `configBuilder`, that can be used to configure some modifiers for all popups in the application.
 ```Swift
 @main struct PopupView_Main: App {
     var body: some Scene {
-        WindowGroup(content: ContentView().implementPopupView)
+        WindowGroup(content: ContentView().registerPopups)
     }
 }
 ```
