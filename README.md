@@ -247,6 +247,9 @@ struct BottomCustomPopup: BottomPopup {
     
 <br>
 
+### Postscript
+The framework has extensive documentation built in, so in case of any problems, please use the Xcode Quick Help 😉 
+
 # Try our demo
 See for yourself how does it work by cloning [project][Demo] we created
 
