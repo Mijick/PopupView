@@ -14,7 +14,7 @@ Pod::Spec.new do |s|
   s.frameworks            = 'SwiftUI', 'Foundation', 'Combine'
   
   s.homepage              = 'https://github.com/Mijick/Popups.git'
-  s.license               = { :type => 'MIT', :file => 'LICENSE' }
-  s.author                = { 'Tomasz Kurylik' => 'tomasz.kurylik@mijick.com' }
+  s.license               = { :type => 'Apache License 2.0', :file => 'LICENSE' }
+  s.author                = { 'Tomasz Kurylik from Mijick' => 'tomasz.kurylik@mijick.com' }
   s.source                = { :git => 'https://github.com/Mijick/Popups.git', :tag => s.version.to_s }
 end
